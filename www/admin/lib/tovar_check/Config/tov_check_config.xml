@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <cell coord="A2">
+		<text>Продавец</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="left" />
+		</style>
+	</cell>
+    <cell coord="A12">
+		<text>Покупатель</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="left" />
+		</style>
+	</cell>    
+    <cell coord="A18">
+		<text>№:</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    <cell coord="B18">
+		<text>Товар:</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    <cell coord="C18" wrap="1">
+		<text>Ед. изм.</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    <cell coord="D18">
+		<text>Количество</text>:
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    <cell coord="E18">
+		<text>Цена:</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    <cell coord="F18">
+		<text>Сума:</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+			<fill type="solid" rotation="50">
+				<startcolor argb="FFA0A0A0"/>
+				<endcolor argb="FFFFFFFF"/>
+			</fill>
+		</style>
+	</cell>
+    
+	<cell coord="B2" placeholder="1">
+		<text>saler_data</text>
+	</cell>    
+    <cell coord="B12" placeholder="1">
+		<text>buyer_name</text>
+	</cell>
+    <cell coord="C15" placeholder="1">
+		<text>title_row</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+    <cell coord="D31" placeholder="1">
+		<text>check_phone</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+    <cell coord="D32" placeholder="1">
+		<text>check_site_address</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+    <cell coord="D33" placeholder="1">
+		<text>check_site_name</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+    <cell coord="D34" placeholder="1">
+		<text>check_site_slogan</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+    <cell coord="D35" placeholder="1">
+		<text>check_address</text>
+		<style>
+			<font name="Arial Cyr" size="8" bold="true" />
+			<alignment horizontal="center" />
+		</style>
+	</cell>    
+	<cell coord="A31" image="1">
+		<text>i/excel_logo.png</text>
+	</cell>
+	<cell coord="A" width="12">
+		<text/>
+	</cell>
+	<cell coord="B" width="27">
+		<text/>
+	</cell>
+	<cell coord="C" width="4">
+		<text/>
+	</cell>
+	<cell coord="D" width="13">
+		<text/>
+	</cell>
+	<cell coord="E" width="16">
+		<text/>
+	</cell>
+	<cell coord="F" width="9">
+		<text/>
+	</cell>
+    <custom>
+        <table_body>19</table_body>
+    </custom>
+</config>

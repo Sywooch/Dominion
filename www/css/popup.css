@@ -1,0 +1,155 @@
+.by_popup {
+    width: 200px;
+}
+
+.popupchik {
+  -moz-border-radius: 10px 10px 10px 10px;
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 3px solid #009933;
+  padding: 15px 20px 15px 15px;
+  position: absolute;
+  top: 0;
+  width: 200px;
+  z-index: 99;
+}
+
+.popupchik a{
+  color:#6B6B6B;
+}
+
+.popupchik a:hover{
+  color:#cc0000;
+}
+
+.close-popup {
+  background: url("../i/close.png") no-repeat scroll 0 -12px transparent;
+  height: 12px;
+  overflow: hidden;
+  position: absolute;
+  right: 5px;
+  text-indent: -9999px;
+  top: 5px;
+  width: 13px;
+}
+
+.errhold {
+  text-align: center;
+}
+
+.errhold label.error {
+  color: #FF3700;
+  display: block;
+  width: 100%;
+  float: none;
+}
+
+.errhold label.success {
+  color: blue;
+  display: block;
+  
+}
+
+.errholdauth {
+  text-align: center;
+}
+
+.errholdauth label.error {
+  color: #fff;
+  /*display: block;*/
+  margin-right: 5px;
+}
+
+.errholdauth label.success {
+  color: blue;
+  display: block;
+}
+
+input.error{
+  border:1px solid #FF3700;
+}
+
+.success_message{
+  color: green;
+  font-weight: bold;
+}
+
+.dialog_box_forgot {
+  background: url(../i/login_form_box.png) no-repeat center top;
+  display:none;
+  padding: 4px 0 0;
+  position: absolute;
+  right:0;
+  z-index: 50;
+}
+
+#forgot_form_box {
+  display:none;
+  height: 156px;
+  position: absolute;
+  right: 0px;
+  top: 32px;
+  width: 245px;
+}
+
+.modal_dialog_box {
+  background: url(../i/login_form_box.png) no-repeat center top;
+  padding: 4px 0 0;
+  width: 220px;
+}
+
+.sale {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  height: 80px;
+}
+
+.applay_filters{
+  /*display: none;*/
+}
+
+.price_from_to{
+  text-align: left;
+}
+
+.price_from_to ul{
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
+
+.price_from_to ul li{
+  float: left;
+  margin: 0 5px;
+  font-size: 7pt;
+}
+
+.podbor_popup {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 2px solid #009933;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  width: 200px;
+  z-index: 99;
+  font-size: 8pt;
+}
+
+.podbor_popup a{
+  color:#6B6B6B;
+}
+
+.podbor_popup a:hover{
+  color:#cc0000;
+}
+
+#cart_text_block{
+  display: none;
+}
+
+
+.social_block{
+  clear: both;
+}

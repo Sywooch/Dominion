@@ -1,0 +1,151 @@
+/*
+    Document   : redit-renesans.css
+    Created on : 10.09.2012, 13:30:23
+    Author     : Ruslan Bocharov <helcy1@ya.ru>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.calculator{
+    width:480px;
+    height:100%;
+    margin:0 auto;
+    border:1px solid #999999;
+    padding: 10px;
+    background:#fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+p{
+    font-size:10px;
+    color:#333333;
+    margin:0;
+}
+h1{
+    font-size:21px;
+    color:#de006c;
+    margin:0;
+    display:block;
+    width:230px;
+    font-weight:400;
+    float:left;
+}
+h4{
+    color:#398a13;
+    font-size:12px;
+    font-weight:600;
+    float:left;
+}
+body.ie7 h4{
+    margin-top:14px;
+}
+div.calculator a img{
+    float:right;
+    border: 0 none;
+}
+div.column{
+    width:190px;
+    float:left;
+    margin-top:7px;
+}
+div.w90{
+    float:right;
+    width:90px;
+}
+div.w175{
+    width:175px;
+}
+div.column label{
+    font-size:13px;
+    font-weight:600;
+}
+div.column input,
+div.column select{
+    width:120px;
+    padding:0px;
+    margin:10px 0;
+    font-size:13px;
+}
+div.column label.italic{
+    font-weight:500;
+    font-size:12px;
+    font-style: italic;
+    display:block;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+label.price,
+span{
+    font-size:16px;
+    color:#cc0066;
+    font-weight:bold;
+    margin-left: 10px;
+    margin-top: 12px;
+    display:block;
+    float:left;
+}
+span{
+    font-size:14px;
+    margin-left: 8px;
+    margin-top: 14px;
+}
+form.form1 input.button,
+form.form2 input.button{
+    width:130px;
+    height:20px;
+    background:	#398a13;
+    color:#fff;
+    text-decoration: underline;
+    border:0 none;
+    margin-top:13px;
+    float:right;
+    margin-right:5px;
+    padding-bottom: 4px;
+    cursor:pointer;
+}
+form.form2 input.button{
+    background: #df0771;
+}
+form.form1 input.button:hover,
+form.form2 input.button:hover{
+    text-decoration:none;
+}
+div.info{
+    width:470px;
+    height:30px;
+    background:#e3e3e3;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+form.form2 input{
+    width:273px;
+    font-size:13px;
+    padding:0px;
+    margin-top:10px;
+    margin-right:5px;
+    float:right;
+}
+form.form2 select{
+    font-size:13px;
+    padding:0 10px;
+    margin-left: 9px;
+    margin-right: 5px;
+    margin-top: 10px;
+    padding: 0;
+    float:right;
+}
+form.form2 label{
+    display:block;
+    width:185px;
+    text-align:right;
+    float:left;
+    margin-top:11px;
+    font-size:12.5px;
+    font-weight:600;
+}
+body.ie7 form.form2 label{
+    margin-top:0;
+}
+body.ie7 form.form2 input{
+    margin-top:0;
+}
+.f12 { font-size: 12px !important; }

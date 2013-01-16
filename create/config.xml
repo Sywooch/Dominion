@@ -1,0 +1,4274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<basename>electroh_db</basename>
+	<coltypes>
+		<option value="0">Ключевое поле (автоинкремент)</option>
+		<option value="1">Короткий текст</option>
+		<option value="2">Длинный текст</option>
+		<option value="3">Целое число</option>
+		<option value="4">Дробь</option>
+		<option value="5">Е-майл</option>
+		<option value="6">Справочник</option>
+		<option value="7">Картинка</option>
+		<option value="8">Check box</option>
+		<option value="9">Радио кнопка</option>
+		<option value="10">Список</option>
+		<option value="11">Порядок сортировки</option>
+		<option value="12">Дата-время</option>
+		<option value="13">Справочник-дерево</option>
+		<option value="14">Файл</option>
+		<option value="15">Картинка-превью с возможностью генерации из большой</option>
+		<option value="16">Картинка-превью</option>
+		<option value="17">Список с подкрашиванием опций</option>
+	</coltypes>
+	<coltypes_indirect>
+		<option value="0">int(12) unsigned auto_increment</option>
+		<option value="1">varchar(255)</option>
+		<option value="2">text</option>
+		<option value="3">int(12) unsigned</option>
+		<option value="4">double</option>
+		<option value="5">varchar(128)</option>
+		<option value="6">int(12) unsigned</option>
+		<option value="7">varchar(50)</option>
+		<option value="8">int(1) unsigned</option>
+		<option value="9">int(3) unsigned</option>
+		<option value="10">int(12) unsigned</option>
+		<option value="11">int(12) unsigned</option>
+		<option value="12">datetime</option>
+		<option value="13">int(12)</option>
+		<option value="14">varchar(50)</option>
+		<option value="15">varchar(50)</option>
+		<option value="16">varchar(50)</option>
+		<option value="17">varchar(12)</option>
+	</coltypes_indirect>
+	<table name="PRICE_EXPORT">
+		<name>Экспорт прайсов</name>
+		<col type="0" name="PRICE_EXPORT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="INDENT" visuality="y" size="90">
+			<name>Идентификатор</name>
+			<comment>Идентификатор</comment>
+		</col>
+	</table>
+	<table name="WARRANTY">
+		<name>Гарантия</name>
+		<col type="0" name="WARRANTY_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="3" name="ID_FROM_VBD">
+			<name>ID внешей БД</name>
+			<comment>ID внешей БД</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="2" name="LONG_TEXT" rows="20" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+	</table>
+	<table name="DELIVERY">
+		<name>Доставка</name>
+		<col type="0" name="DELIVERY_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="ID_FROM_VBD">
+			<name>ID внешей БД</name>
+			<comment>ID внешей БД</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="2" name="LONG_TEXT" rows="20" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+	</table>
+	<table name="CREDIT">
+		<name>Кредит</name>
+		<col type="0" name="CREDIT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="2" name="LONG_TEXT" rows="20" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+	</table>
+	<table name="SOCIALS" pagesize="120" ordering="ORDERING" imagepath="/social/">
+		<name>Социальные ссылки</name>
+		<col type="0" name="SOCIALS_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="INDENT" size="90" visuality="y">
+			<name>Идентификатор</name>
+			<comment>Идентификатор</comment>
+		</col>
+		<col type="1" name="URL" size="90" visuality="y">
+			<name>Адрес</name>
+			<comment>Адрес</comment>
+		</col>
+		<col type="7" name="IMAGE" visuality="y" isflash="y">
+			<name>Иконка</name>
+			<comment>Иконка</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Статус</name>
+			<comment>Статус</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+	</table>
+	<table name="DICTS_GROUP">
+		<name>Группы категорий словаря</name>
+		<col type="0" name="DICTS_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" child="DICTS">
+			<name>Название группы</name>
+			<comment>Название группы</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+	</table>
+	<table name="DICTS" type="7" parentscript="DICTS_GROUP" article="DICTS_GROUP" pagesize="50" letter="NAME" ordering=" DICTS_GROUP_ID">
+		<name>Словарь</name>
+		<col type="0" name="DICTS_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="DICTS_GROUP_ID" parent="y">
+			<index>1</index>
+			<name>Группа</name>
+			<comment>Уникальный идентификатор группы</comment>
+			<ref>
+				<table>DICTS_GROUP</table>
+				<field>DICTS_GROUP_ID</field>
+				<visual>NAME</visual>
+			</ref>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Термин</name>
+			<comment>Термин</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткий текст</name>
+			<comment>Краткий текст</comment>
+		</col>
+		<panel/>
+		<col type="8" name="STATUS" isstate="y" selectible="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<previsible>
+    if(!isset($_REQUEST['pid'])) $_REQUEST['pid'] = 0;
+  </previsible>
+	</table>
+	<!-- Banners -->
+	<table name="ALIGN" pagesize="120" ordering="NAME">
+		<name>Баннерные Места</name>
+		<col type="0" name="ALIGN_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Имя</name>
+			<comment>Имя</comment>
+		</col>
+	</table>
+	<table name="BANN_SECTION" pagesize="120" ordering="NAME" imagepath="/bn/">
+		<name>Баннерные разделы</name>
+		<col type="3" name="BANN_SECTION_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>    
+		<joined name="SECTION_ALIGN" ordering="ORDERING">
+			<name>Баннеры</name>
+			<col type="0" name="SECTION_ALIGN_ID" primary="y" visuality="y">
+				<name>N</name>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="6" name="ALIGN_ID" visuality="y">
+				<index>1</index>
+				<name>место</name>
+				<ref>
+					<table>ALIGN</table>
+					<field>ALIGN_ID</field>
+					<visual>NAME</visual>
+				</ref>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="7" name="IMAGE1" visuality="y" isflash="y">
+				<name>Картинка.</name>
+				<comment>Картинка.</comment>
+			</col>
+			<col type="1" name="ALT" size="90" visuality="y">
+				<name>Альт текст</name>
+				<comment>Альт текст</comment>
+			</col>
+			<col type="2" name="DESCRIPTION" rows="7" cols="90" panelize="y" econfig="light_config.js">
+				<name>Краткий текст</name>
+				<comment>Краткий текст</comment>
+			</col>
+			<col type="2" name="BANNER_CODE" rows="7" cols="90">
+				<name>Код банера</name>
+				<comment>Код банера</comment>
+			</col>
+			<col type="10" name="TYPE" size="90" visuality="y">
+				<name>Тип</name>
+				<comment>Тип</comment>
+				<enum>
+					<option value="0"> картинка </option>
+					<option value="1"> флеш баннер</option>
+					<option value="2"> текст</option>
+				</enum>
+			</col>
+			<col type="1" name="URL" size="90" visuality="y">
+				<name>URL</name>
+				<comment>URL</comment>
+			</col>
+			<col type="8" name="NEWWIN" default="1">
+				<name>В новом окне</name>
+				<comment>Флаг (1-вкл 0-выкл)</comment>
+			</col>
+      <col type="8" name="IS_ADV" default="0">
+        <name>Рекламный</name>
+        <comment>Флаг (1-вкл 0-выкл)</comment>
+      </col>
+			<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+				<name>Вкл</name>
+				<comment>Флаг (1-вкл 0-выкл)</comment>
+			</col>
+			<col type="11" name="ORDERING">
+				<name>Порядок сортировки</name>
+				<comment>Порядок сортировки</comment>
+			</col>
+			<joined name="CATALOGUE_SECTION_ALIGN" position="2">
+				<name>Связь "Категория товаров - Банер"</name>
+				<col type="0" name="CATALOGUE_SECTION_ALIGN_ID" primary="y" visuality="y">
+					<name>N</name>
+					<comment>Уникальный идентификатор</comment>
+				</col>
+				<col type="6" name="CATALOGUE_ID" visuality="y">
+					<name>Рубрика каталога</name>
+					<ref>
+						<table>CATALOGUE</table>
+						<field>CATALOGUE_ID</field>
+						<visual>NAME</visual>
+					</ref>
+					<comment>Рубрика каталога</comment>
+					<index>1</index>
+				</col>
+			</joined>
+		</joined>
+	</table>
+	<!-- Banners -->
+	<!-- Articles -->
+	<table name="ARTICLE_GROUP" pagesize="20">
+		<name>Группы новостей</name>
+		<col type="0" name="ARTICLE_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор </comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Заголовок группы</name>
+			<comment>Заголовок группы</comment>
+		</col>
+	</table>
+	<table name="ARTICLE" imagepath="/article/" type="8" pagesize="20">
+		<name>Статьи</name>
+		<col type="0" name="ARTICLE_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор новости</comment>
+		</col>
+		<col type="6" name="ARTICLE_GROUP_ID" visuality="y">
+			<name>Группа </name>
+			<ref>
+				<table>ARTICLE_GROUP</table>
+				<field>ARTICLE_GROUP_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Уникальный идентификатор группы</comment>
+			<index>2</index>
+		</col>
+		<col type="12" name="DATA" visuality="y" calendar="y">
+			<name>Дата</name>
+			<comment>Дата опубликования</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Заголовок новости</name>
+			<comment>Заголовок новости</comment>
+		</col>
+    <col type="1" name="CATNAME" size="90">
+      <name>Путь до каталога</name>
+      <comment>Путь до каталога</comment>
+    </col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткий текст</name>
+			<comment>Краткий текст</comment>
+		</col>
+		<col type="1" name="URL" size="90">
+			<name>URL</name>
+			<comment>URL если ссылка</comment>
+		</col>
+		<col type="7" name="IMAGE1">
+			<name>Картинка мал.</name>
+			<comment>Картинка маленькая</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+    <postinsertevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ARTICLE set CATNAME=? where ARTICLE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }      
+    ]]></postinsertevent>
+    <postupdateevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ARTICLE set CATNAME=? where ARTICLE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+    ]]></postupdateevent>
+	</table>
+	<!-- Новости -->
+	<table name="NEWS_GROUP" pagesize="20">
+		<name>Группы новостей</name>
+		<col type="0" name="NEWS_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор новости</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Заголовок новости</name>
+			<comment>Заголовок новости</comment>
+		</col>
+	</table>
+	<table name="NEWS" imagepath="/news/" type="1" pagesize="20" ordering="DATA desc">
+		<name>Новости</name>
+		<col type="0" name="NEWS_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор новости</comment>
+		</col>
+		<col type="6" name="NEWS_GROUP_ID" visuality="y">
+			<name>Группа новостей</name>
+			<ref>
+				<table>NEWS_GROUP</table>
+				<field>NEWS_GROUP_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>2</index>
+		</col>
+		<col type="12" name="DATA" visuality="y" calendar="y">
+			<name>Дата</name>
+			<comment>Дата опубликования новости</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Заголовок новости</name>
+			<comment>Заголовок новости</comment>
+		</col>
+    <col type="1" name="CATNAME" size="90">
+      <name>Путь до каталога</name>
+      <comment>Путь до каталога</comment>
+    </col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткий текст</name>
+			<comment>Краткий текст</comment>
+		</col>
+		<col type="1" name="URL" size="90">
+			<name>URL</name>
+			<comment>URL если ссылка</comment>
+		</col>
+		<col type="7" name="IMAGE1">
+			<name>Картинка мал.</name>
+			<comment>Картинка маленькая</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+    <postinsertevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update NEWS set CATNAME=? where NEWS_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }      
+    ]]></postinsertevent>
+    <postupdateevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update NEWS set CATNAME=? where NEWS_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+    ]]></postupdateevent>
+	</table>
+	<!-- Группы -->
+	<table name="GOODS_GROUP" imagepath="/it_link/" ordering="ORDERING">
+		<name>Группы товаров</name>
+		<link name="GOODS_GROUP_ITEM_LINK"/>
+		<col type="0" name="GOODS_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<!--
+    <col type="7" name="IMAGE1" postfix="_img1">
+       <name>Картинка для заголовка</name>
+       <comment>Картинка для заголовка</comment>
+    </col>
+    <col type="7" name="IMAGE2" postfix="_img2">
+       <name>Картинка для товара</name>
+       <comment>Маленькая картинка, которую выводим на фотке товара</comment>
+    </col>
+    -->
+		<col type="1" name="TITLE" size="90" visuality="y">
+			<name>Тайтл</name>
+			<comment>Тайтл</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="1" name="IMPORT_IDENT" size="10" visuality="y">
+			<name>Идентификатор</name>
+			<comment>Идентификатор</comment>
+		</col>
+    <col type="1" name="IMPORT_IDENT_XML" size="10" visuality="y">
+      <name>Идентификатор в XML</name>
+      <comment>Идентификатор в XML</comment>
+    </col>
+		<col type="8" name="IN_FRONT" selectible="y">
+			<name>Отображать на главной</name>
+			<comment>Отображать на главной</comment>
+		</col>
+		<col type="8" name="IN_CATALOG" selectible="y">
+			<name>Отображать в каталоге</name>
+			<comment>Отображатьв каталоге</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<extrasubs><![CDATA[
+         function getParents($id)
+         {
+          global $cmf;
+          $path = array();
+          $sth=$cmf->execute('select PARENT_ID,NAME,CATALOGUE_ID from CATALOGUE where CATALOGUE_ID='.$id.' and STATUS=1 order by NAME');
+          if(mysql_num_rows($sth))
+          {
+             while(list($V_ID,$V_VAL,$V_CID)=mysql_fetch_array($sth))
+             {
+                if($V_ID>0)
+                {
+                   $path[] = $V_ID;
+                   $path = array_merge($path,getParents($V_ID));
+                }
+             }
+          }
+          return $path;
+         }
+        ]]></extrasubs>
+	</table>
+  
+	<table name="GOODS_GROUP_ITEM_LINK" multilink="y" nogen="y" imagepath="/it_link/" from=" left join BRAND B on (A.BRAND_ID=B.BRAND_ID)">
+		<name>Связь "Группа - Товар"</name>
+		<col type="6" name="GOODS_GROUP_ID" parent="y" link="y">
+			<ref>
+				<table>GOODS_GROUP</table>
+				<field>GOODS_GROUP_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<name>Коллекция</name>
+			<comment>Уникальный идентификатор</comment>
+			<index order="1">1</index>
+		</col>
+		<col type="6" name="CATALOGUE_ID" internal="y">
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+				<where><![CDATA[ ]]></where>
+				<where2><![CDATA[ and COUNT_ > 0]]></where2>
+			</ref>
+			<name>ИД рубрики</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="ITEM_ID" link="y" href="1">
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>CONCAT(A.TYPENAME,\' \',B.NAME,\' \',A.NAME)</visual>
+				<where><![CDATA[ left join BRAND B on (A.BRAND_ID=B.BRAND_ID)]]></where>
+				<where2><![CDATA[ and A.STATUS=1 ]]></where2>
+				<multi>1</multi>
+				<cond><![CDATA[ and A.CATALOGUE_ID='.$V_CATALOGUE_ID.' ]]></cond>
+				<link><![CDATA[ITEM.php?e=ED&id=$V_ITEM_ID]]></link>
+			</ref>
+			<name>товар</name>
+			<comment>Уникальный идентификатор</comment>
+			<index order="2">2</index>
+		</col>
+		<col type="6" name="PARENT_ID" internal="y">
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+				<where><![CDATA[ where PARENT_ID=0 and STATUS=1]]></where>
+			</ref>
+			<name>ИД корневой рубрики</name>
+			<comment>Идентификатор</comment>
+		</col>
+		<col type="7" name="IMAGE" is_child="1">
+			<name>Альтернативная картинка</name>
+			<comment>Альтернативная картинка</comment>
+		</col>
+		<!--
+        <col type="15" name="IMAGE" is_child="1" set_width="item_group_icon_x" set_height="item_group_icon_y">
+                <name>Альтернативная картинка</name>
+                <comment>Альтернативная картинка</comment>
+        </col>
+        
+        <col type="2" name="DESCRIPTION" rows="7" cols="90">
+          <name>Описание</name>
+          <comment>Описание</comment>
+        </col>
+        -->
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<postupdateevent><![CDATA[
+        $parents = getParents($_REQUEST['CATALOGUE_ID']);
+        $pid = 0; 
+        if($parents) $pid = $parents[sizeof($parents)-1];
+        $cmf->execute('update GOODS_GROUP_ITEM_LINK set PARENT_ID=?, CATALOGUE_ID=? where GOODS_GROUP_ID=? and ITEM_ID=?',$pid,$_REQUEST['CATALOGUE_ID'],$_REQUEST['id'],$_REQUEST['ITEM_ID']);
+
+        ]]></postupdateevent>
+		<postinsertevent><![CDATA[
+        $parents = getParents($_REQUEST['CATALOGUE_ID']);
+        $pid = 0; 
+        if($parents) $pid = $parents[sizeof($parents)-1];
+        $cmf->execute('update GOODS_GROUP_ITEM_LINK set PARENT_ID=?, CATALOGUE_ID=? where GOODS_GROUP_ID=? and ITEM_ID=?',$pid,$_REQUEST['CATALOGUE_ID'],$_REQUEST['id'],$id);
+
+        ]]></postinsertevent>
+	</table>
+	<!-- /Группы -->
+	<!-- Заказ -->
+	<table name="SHOPUSER" pagesize="120" defsort="1" type="5">
+		<name>Пользователи</name>
+		<col type="0" name="USER_ID" primary="y" visuality="y">
+			<name>ID</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<pseudocol>
+			<name> ID </name>
+			<data><![CDATA[$V_USER_ID]]></data>
+		</pseudocol>
+    <col type="6" name="SHOPUSER_DISCOUNTS_ID" visuality="y">
+      <name>Скидка покупателя</name>
+      <ref>
+        <table>SHOPUSER_DISCOUNTS</table>
+        <field>SHOPUSER_DISCOUNTS_ID</field>
+        <visual>NAME</visual>
+      </ref>
+      <comment>Уникальный идентификатор товара</comment>
+      <index>2</index>
+    </col>
+		<col type="8" name="IS_NEW" internal="y" selectible="y" default="1">
+			<name>Пометка о просмотре анкеты менеджером</name>
+			<comment>Пометка о просмотре анкеты менеджером</comment>
+		</col>
+		<previsible><![CDATA[
+        if ( $V_IS_NEW ) {
+          $V_NAME         = '<b>'.$V_NAME.'</b>';
+          $V_SURNAME      = '<b>'.$V_SURNAME.'</b>'; 
+          $V_EMAIL        = '<b>'.$V_EMAIL.'</b>';
+        }
+        ]]></previsible>
+		<postviewevent><![CDATA[$cmf->execute( 'update SHOPUSER set IS_NEW=0 where USER_ID=?', $_REQUEST['id'] );]]></postviewevent>
+		<col type="1" name="PASSWORD" size="90">
+			<name>Пароль</name>
+			<comment>Пароль</comment>
+		</col>
+<!--		<col type="1" name="SURNAME" size="90" visuality="y">
+			<name>Фамилия</name>
+			<comment>Фамилия</comment>
+		</col>-->
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Ф.И.О.</name>
+			<comment>Ф.И.О.</comment>
+		</col>
+		<col type="2" name="BONUS" rows="5" cols="90">
+			<name>Бонусы</name>
+			<comment>Бонусы</comment>
+		</col>
+		<col type="12" name="REGDATA" calendar="y">
+			<name>Дата регистрации</name>
+			<comment>Дата регистрации</comment>
+		</col>
+		<col type="2" name="PRIVATEINFO" rows="5" cols="90">
+			<name>Доп. инфо (личное)</name>
+			<comment>Доп. инфо (личное)</comment>
+		</col>
+		<col type="1" name="TELMOB" size="90">
+			<name>Телефон</name>
+			<comment>Телефон</comment>
+		</col>
+		<col type="1" name="TELMOBT1" size="90">
+			<name>Время звонка на моб. тел.</name>
+			<comment>Время звонка на моб. тел.</comment>
+		</col>
+		<col type="1" name="EMAIL" size="90" visuality="y">
+			<name>E-mail</name>
+			<comment>E-mail</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<joined name="ZAKAZ" nosql="y" noedit="y" nodelete="y" nonew="y">
+			<name>Заказы этого пользователя</name>
+			<col type="3" name="ZAKAZ_ID" primary="y" visuality="y" editable="y">
+				<name>ID Заказа</name>
+				<comment>Уникальный идентификатор заказа</comment>
+			</col>
+			<col type="12" name="DATA" visuality="y" calendar="y">
+				<index>2</index>
+				<name>Информация о заказе</name>
+				<comment>Информация о заказе</comment>
+			</col>
+			<previsible><![CDATA[
+                                list ($Z_I_COUNT, $Z_SUM) = $cmf->selectrow_array('select count(*), sum(PRICE*QUANTITY) from ZAKAZ_ITEM ZI, ZAKAZ Z where Z.ZAKAZ_ID=ZI.ZAKAZ_ID and Z.USER_ID=? and Z.ZAKAZ_ID=?', $_REQUEST['id'], $V_ZAKAZ_ID);
+                                $Z_I_COUNT      += 0;
+                                $Z_SUM          += 0;
+                                $V_DATA         = '<a href="ZAKAZ.php?e=ED&id='.$V_ZAKAZ_ID.'" target="_blank">Дата: '.$V_DATA.'  Количество товаров: '.$Z_I_COUNT.'  Сумма: '.$Z_SUM.' руб.</a>';
+
+                ]]></previsible>
+		</joined>
+	</table>
+	<table name="ZAKAZSTATUS">
+		<name>Статусы заказов</name>
+		<col type="0" name="ZAKAZSTATUS_ID" primary="y" visuality="y">
+			<index>1</index>
+			<name>N</name>
+			<comment>N</comment>
+		</col>
+		<col type="1" name="NAME" rows="5" cols="90" visuality="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="COLOR" size="90">
+			<name>Цвет шрифта или бекграунда</name>
+			<comment>Цвет шрифта или бекграунда</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+	</table>
+  
+  <table name="SUPPLIER">
+    <name>Поставщики</name>
+    <col type="0" name="SUPPLIER_ID" primary="y" visuality="y">
+      <index>1</index>
+      <name>N</name>
+      <comment>N</comment>
+    </col>
+    <col type="1" name="NAME" rows="5" cols="90" visuality="y">
+      <name>Название</name>
+      <comment>Название</comment>
+    </col>
+  </table>
+  
+	<table name="ZAKAZ" pagesize="20" ordering="DATA desc" type="7">
+		<link name="ZAKAZ_ITEM"/>
+		<name>Заказы</name>
+		<col type="0" name="ZAKAZ_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор единицы измерения</comment>
+		</col>
+		<col type="12" name="DATA" visuality="y" calendar="y">
+			<index>2</index>
+			<name>Дата заказа</name>
+			<comment>Дата заказа</comment>
+		</col>
+		<col type="12" name="DELIVERYDATA" calendar="y">
+			<index>3</index>
+			<name>Дата доставки</name>
+			<comment>Дата доставки</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Ф.И.О.</name>
+			<comment>Ф.И.О.</comment>
+		</col>
+    <col type="6" name="CMF_USER_ID" visuality="y">
+      <index>1</index>
+      <name>Менеджер</name>
+      <comment>Уникальный идентификатор</comment>
+      <ref>
+        <table>CMF_USER</table>
+        <field>CMF_USER_ID</field>
+        <visual>NAME</visual>
+      </ref>
+    </col>
+    <col type="6" name="SUPPLIER_ID" visuality="y">
+      <index>1</index>
+      <name>Поставщики</name>
+      <comment>Уникальный идентификатор</comment>
+      <ref>
+        <table>SUPPLIER</table>
+        <field>SUPPLIER_ID</field>
+        <visual>NAME</visual>
+      </ref>
+    </col>
+<!--		<col type="1" name="SURNAME" size="90" visuality="y">
+			<name>Фамилия</name>
+			<comment>Фамилия</comment>
+		</col>-->
+		<col type="1" name="EMAIL" size="90" visuality="y">
+			<name>E-mail</name>
+			<comment>E-mail</comment>
+		</col>
+		<col type="1" name="TELMOB" size="90" visuality="y">
+			<name>Телефон</name>
+			<comment>Телефон</comment>
+		</col>
+		<col type="1" name="ADDRESS" size="90">
+			<name>Адрес</name>
+			<comment>Адрес</comment>
+		</col>
+		<col type="2" name="INFO" rows="5" cols="90" visuality="y">
+			<name>Заметки</name>
+			<comment>Заметки</comment>
+		</col>
+		<col type="3" name="USER_ID" internal="y">
+			<index order="1">1</index>
+			<name>Пользователь</name>
+		</col>
+		<col type="6" name="PAYMENT" size="90" visuality="y">
+			<name>Способ оплаты</name>
+			<ref>
+				<table>PAYMENT</table>
+				<field>PAYMENT_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Способ оплаты</comment>
+		</col>
+		<col type="6" name="STATUS" default="1" visuality="y">
+			<name>Статус</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+			<ref>
+				<table>ZAKAZSTATUS</table>
+				<field>ZAKAZSTATUS_ID</field>
+				<visual>NAME</visual>
+				<none>- не задан -</none>
+			</ref>
+		</col>
+		<postvisible><![CDATA[
+    $V_COLOR = $cmf->selectrow_arrayQ("select COLOR from ZAKAZSTATUS where NAME='".$V_STATUS."'");
+    if(empty($V_COLOR) && $_REQUEST['f'] == 0) $V_COLOR = '#FF00FF';
+
+    $V_STATUS = '<table width="100%" cellspacing="0"><tr><td style="background-color: '.$V_COLOR.'">&nbsp;</td></tr></table>';
+    ]]></postvisible>
+		<calccol>
+			<name>Купленный товар</name>
+			<comment>Товар купленный клиентом</comment>
+			<data><![CDATA[
+EOF;
+ $sth5=$cmf->execute(' select I.NAME
+                            , I.ITEM_ID
+                            , I.TYPENAME
+                            , I.ARTICLE
+                            , C.CATALOGUE_ID                            
+                            , B.NAME
+                            , CR.SNAME
+                            , if(I.PRICE1>0,I.PRICE1,I.PRICE)
+                     from ZAKAZ_ITEM  Z
+                     join ITEM I using (ITEM_ID)
+                     join CATALOGUE C on  (C.CATALOGUE_ID = I.CATALOGUE_ID)
+                     join BRAND B on  (B.BRAND_ID = I.BRAND_ID)
+                     join CURRENCY CR on  (CR.CURRENCY_ID = I.CURRENCY_ID)
+                     where Z.ZAKAZ_ID = ?',$V_ZAKAZ_ID);
+ while(list($VV_NAME, $VV_ITEM_ID, $VV_TYPENAME, $VV_ARTICLE, $VV_CATALOGUE_ID, $VV_BRAND_NAME, $VV_SNAME, $VV_PRICE)=mysql_fetch_array($sth5, MYSQL_NUM))
+ {
+   echo "<a href = '/admin/ITEM.php?e=ED&id=$VV_ITEM_ID&pid=$VV_CATALOGUE_ID' target='_brank'>$VV_TYPENAME $VV_BRAND_NAME $VV_NAME</a>";
+   echo "<br/><b>Артикул:</b> $VV_ARTICLE<br/><b>Цена:</b> $VV_PRICE $VV_SNAME<hr />";  
+ }
+print <<<EOF
+]]></data>
+		</calccol>
+		<addpager>&amp;f=$_REQUEST['f']</addpager>
+		<where><![CDATA[
+(($_REQUEST['f'] != '') ? ' STATUS='.$_REQUEST['f'] : ' 1=1 ').
+(($_REQUEST['DATE_FROM'] != '')? " and DATE(A.DATA) >= DATE(STR_TO_DATE('{$_REQUEST['DATE_FROM']}', '%Y-%m-%d %H:%i'))":'').
+(($_REQUEST['DATE_TO'] != '')? " and DATE(A.DATA) <= DATE(STR_TO_DATE('{$_REQUEST['DATE_TO']}', '%Y-%m-%d %H:%i'))":'')]]></where>
+		<filter cols="7"><![CDATA[
+                        <td colspan="7" class="main_tbl_title">
+EOF;
+                        
+                        $COUNT = $cmf->selectrow_array('select count(*) from ZAKAZ ');
+                        $countNotViewed = $cmf->selectrow_array("select count(*) from ZAKAZ where STATUS = 0 or STATUS is NULL");
+                        
+                        if ( $_REQUEST['f'] > 0 || $_REQUEST['f'] == '0') 
+                        {
+                                print '<a href="ZAKAZ.php?s='.$_REQUEST['s'].'">Все ('.$COUNT.')</a>&#160;&#160;&#160;';
+                        }
+                        else 
+                        {
+                                print '<a href="ZAKAZ.php?s='.$_REQUEST['s'].'" class="red">Все ('.$COUNT.')</a>&#160;&#160;&#160;';
+                        }
+                        
+                        if ( $_REQUEST['f'] == '0' ) 
+                        {
+                                print '<a href="ZAKAZ.php?f=0&amp;s='.$_REQUEST['s'].'" class="red">Необработанные ('.$countNotViewed.')</a>&#160;&#160;&#160;';
+                        }
+                        else 
+                        {
+                                print '<a href="ZAKAZ.php?f=0&amp;s='.$_REQUEST['s'].'" style="color:FF00FF;">Необработанные ('.$countNotViewed.')</a>&#160;&#160;&#160;';
+                        }
+                        
+                        $vopr = $cmf->select('select ZAKAZSTATUS_ID,NAME,COLOR from ZAKAZSTATUS order by ORDERING');
+                        $index = sizeof($vopr);
+                        for($i=0; $i<$index; $i++)
+                        {
+                                $V_ZAKAZSTATUS_ID       = $vopr[$i]['ZAKAZSTATUS_ID'];
+                                $V_NAME                         = $vopr[$i]['NAME'];
+                                $V_COLOR                         = $vopr[$i]['COLOR'];
+                                
+                                $COUNT = $cmf->selectrow_array('select count(*) from ZAKAZ where STATUS=?',$V_ZAKAZSTATUS_ID);
+                                
+                                if($_REQUEST['f'] == $V_ZAKAZSTATUS_ID)
+                                {
+                                        print '<a href="ZAKAZ.php?f='.$V_ZAKAZSTATUS_ID.'&amp;s='.$_REQUEST['s'].'" class="red">'.$V_NAME.' ('.$COUNT.')</a>&#160;&#160;&#160;';
+                                }
+                                else 
+                                {
+                  if($V_COLOR!='') print '<a href="ZAKAZ.php?f='.$V_ZAKAZSTATUS_ID.'&amp;s='.$_REQUEST['s'].'" style="color:'.$V_COLOR.'">'.$V_NAME.' ('.$COUNT.')</a>&#160;&#160;&#160;';
+                                     else print '<a href="ZAKAZ.php?f='.$V_ZAKAZSTATUS_ID.'&amp;s='.$_REQUEST['s'].'">'.$V_NAME.' ('.$COUNT.')</a>&#160;&#160;&#160;';
+                                }
+                        }
+print <<<EOF
+<br/><b>C даты:</b><input type="hidden" id="DATE_FROM" name="DATE_FROM" value="{$_REQUEST['DATE_FROM']}" />
+EOF;
+
+if($_REQUEST['DATE_FROM']) $V_DAT_FROM = substr($_REQUEST['DATE_FROM'],8,2).".".substr($_REQUEST['DATE_FROM'],5,2).".".substr($_REQUEST['DATE_FROM'],0,4);//." ".substr($_REQUEST['DATE_FROM'],11,2).":".substr($_REQUEST['DATE_FROM'],14,2);
+else $V_DAT_FROM = '';
+
+
+        
+        @print <<<EOF
+        <div id="DATE_DATE_FROM">$V_DAT_FROM</div>
+        <img src="img/img.gif" id="f_trigger_DATE_FROM" style="cursor: pointer; border: 1px solid red;" title="Show calendar" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" />
+        
+
+        
+        
+        <script type="text/javascript">
+        Calendar.setup({
+                       inputField     :    "DATE_FROM",
+                       displayArea    :    "DATE_DATE_FROM",
+                       ifFormat       :    "%Y-%m-%d %H:%M",
+                       daFormat       :    "%d.%m.%Y",
+                       showsTime      :    "true",
+                       timeFormat     :    "24",
+                       button         :    "f_trigger_DATE_FROM",
+                       align          :    "Tl",
+                       singleClick    :    false
+                       });
+        </script>
+<b>По дату:</b><input type="hidden" id="DATE_TO" name="DATE_TO" value="{$_REQUEST['DATE_TO']}" />
+EOF;
+
+if($_REQUEST['DATE_TO']) $V_DAT_TO = substr($_REQUEST['DATE_TO'],8,2).".".substr($_REQUEST['DATE_TO'],5,2).".".substr($_REQUEST['DATE_TO'],0,4);//." ".substr($V_DELIVERYDATA,11,2).":".substr($V_DELIVERYDATA,14,2);
+else $V_DAT_TO = '';
+
+
+        
+        @print <<<EOF
+        <div id="DATE_DATE_TO">$V_DAT_TO</div>
+        <img src="img/img.gif" id="f_trigger_DATE_TO" style="cursor: pointer; border: 1px solid red;" title="Show calendar" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" />
+        
+            
+        
+        <script type="text/javascript">
+        Calendar.setup({
+                       inputField     :    "DATE_TO",
+                       displayArea    :    "DATE_DATE_TO",
+                       ifFormat       :    "%Y-%m-%d %H:%M",
+                       daFormat       :    "%d.%m.%Y",
+                       showsTime      :    "true",
+                       timeFormat     :    "24",
+                       button         :    "f_trigger_DATE_TO",
+                       align          :    "Tl",
+                       singleClick    :    false
+                       });
+        </script>
+
+<button type="submit" name="show" title="Показать">Показать</button>                        
+                        </td>
+        ]]></filter>
+		<extraevents><![CDATA[
+    if(empty($_REQUEST['DATE_FROM'])) $_REQUEST['DATE_FROM']='';
+    if(empty($_REQUEST['DATE_TO'])) $_REQUEST['DATE_TO']='';
+    $filtpath = "&amp;f={$_REQUEST['f']}&amp;DATE_FROM={$_REQUEST['DATE_FROM']}&amp;DATE_TO={$_REQUEST['DATE_TO']}";
+    $sumPrice = 0;  
+     $cur = $cmf->selectrow_array("select SNAME
+                          from CURRENCY
+                          where PRICE = 1
+                          and STATUS = 1");  
+    ]]></extraevents>
+		<lastrow><![CDATA[
+$sql = "select sum(IF(ZI.PRICE_SALE>0, ZI.PRICE_SALE,IF(I.PRICE2>0,I.PRICE2,I.PRICE1)))
+        from ITEM I join ZAKAZ_ITEM ZI USING (ITEM_ID)
+        join ZAKAZ Z USING (ZAKAZ_ID)
+        where 1";
+if($_REQUEST['f'] != '') 
+  $sql .= " and Z.STATUS = {$_REQUEST['f']}";
+$sql .=($_REQUEST['DATE_FROM'] != '')? " and DATE(Z.DATA) >= DATE(STR_TO_DATE('{$_REQUEST['DATE_FROM']}', '%Y-%m-%d %H:%i'))":'';
+$sql .=($_REQUEST['DATE_TO'] != '')? " and DATE(Z.DATA) <= DATE(STR_TO_DATE('{$_REQUEST['DATE_TO']}', '%Y-%m-%d %H:%i'))":'';
+$sumPrice = $cmf->selectrow_array($sql);
+@print <<<EOF
+<tr bgcolor="#f0f0f0"><th colspan="12"> 
+EOF;
+echo "Общая сумма: ".round($sumPrice,2)." $cur";
+@print <<<EOF
+</th></tr>
+EOF;
+    ]]></lastrow>
+		<previsible><![CDATA[
+print <<<EOF
+<input type="hidden" name="f" value="{$_REQUEST['f']}"/>
+EOF;
+    ]]></previsible>
+	</table>
+	<table name="ZAKAZ_ITEM" multilink="y" nogen="y" related="1">
+		<name>Товары</name>
+		<col type="6" name="CATALOGUE_ID" parent="y" link="y" internal="y">
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+				<where><![CDATA[ ]]></where>
+				<where2><![CDATA[ and COUNT_ > 0]]></where2>
+			</ref>
+			<name>ИД рубрики</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="ITEM_ID" link="y" has_related="1" href="1">
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>A.NAME</visual>
+				<where><![CDATA[ left join BRAND B on (A.BRAND_ID=B.BRAND_ID)]]></where>
+				<where2><![CDATA[ and A.STATUS=1 ]]></where2>
+				<multi>1</multi>
+				<cond><![CDATA[ and A.CATALOGUE_ID='.$V_CATALOGUE_ID.' ]]></cond>
+				<link><![CDATA[ITEM.php?e=ED&id=$V_ITEM_ID]]></link>
+			</ref>
+			<name>товар</name>
+			<comment>Уникальный идентификатор</comment>
+			<index order="2">2</index>
+		</col>
+		<col type="0" name="ZAKAZ_ITEM_ID" primary="y" visuality="y" href="1">
+			<!--primary="y"-->
+			<ref>
+				<table>ZAKAZ</table>
+				<field>ZAKAZ_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<name>ID сопутствующего товара</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Наименование</name>
+			<comment>Наименование товара</comment>
+		</col>
+		<col type="4" name="PRICE" visuality="y" size="90" internal="y">
+			<name>Цена</name>
+			<comment>Цена</comment>
+		</col>
+		<col type="4" name="QUANTITY" visuality="y" size="90" internal="y">
+			<name>Кол-во</name>
+			<comment>Кол-во</comment>
+		</col>
+		<col type="4" name="COST" visuality="y" size="90" internal="y">
+			<name>Сумма</name>
+			<comment>Сумма</comment>
+		</col>
+		<!--  <col type="6" name="CURRENCY_ID" visuality="y" internal="y">
+    <name>Валюта</name>
+    <ref><table>CURRENCY</table><field>CURRENCY_ID</field><visual>NAME</visual></ref>
+    <comment>Идентификатор валюты</comment>
+  </col>-->
+		<postvisible><![CDATA[
+    $CATALOGUE_ID = $cmf->selectrow_array("select CATALOGUE_ID FROM ITEM WHERE ITEM_ID=?",$V_ITEM_ID);
+    $CATALOGUE_NAME = $cmf->selectrow_array("select NAME FROM CATALOGUE WHERE CATALOGUE_ID=?",$CATALOGUE_ID);
+    $V_NAME = '<a href="ITEM.php?e=ED&id='.$V_ITEM_ID.'&pid='.$CATALOGUE_ID.'" target="_blank">'.$V_NAME.'</a>';
+    $V_NAME .= '<br/>Рубрика: <a href="ITEM.php?pid='.$CATALOGUE_ID.'" target="_blank">'.$CATALOGUE_NAME.'</a>';
+  ]]></postvisible>
+	</table>
+	<table name="PAYMENT">
+		<name>Типы оплаты</name>
+		<col type="0" name="PAYMENT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Тип оплаты</name>
+			<comment>Тип оплаты</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+	</table>
+	<!-- !!! Каталог !!! -->
+	<table name="CURRENCY">
+		<name>Валюта</name>
+		<col type="0" name="CURRENCY_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" filt="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="SNAME" visuality="y" size="90">
+			<name>Краткое название</name>
+			<comment>Краткое название</comment>
+		</col>
+		<col type="10" name="SNAME_TYPE">
+			<name>Краткое название - префикс/постфикс</name>
+			<comment>Краткое название - префикс/постфикс</comment>
+			<enum>
+				<option value="0">--</option>
+				<option value="1"> постфикс </option>
+				<option value="1"> префикс</option>
+			</enum>
+		</col>
+		<col type="1" name="SYSTEM_NAME" visuality="y">
+			<name>Уникальный id валюты</name>
+			<comment>Уникальный идентификатор валюты</comment>
+		</col>
+		<col type="4" name="PRICE" size="90" visuality="y">
+			<name>Курс к вирт. единице</name>
+			<comment>Курс к виртуальной единице</comment>
+		</col>
+		<!--
+        <col type="4" name="PRICEBN" size="90" visuality="y">
+                <name>Курс к рублю(безнал)</name>
+                <comment>Курс к рублю(безнал)</comment>
+        </col>
+        -->
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1" visuality="y" input="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+	</table>
+	<table name="UNIT">
+		<name>Единица измерения</name>
+		<col type="0" name="UNIT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор единицы измерения</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Единица измерения</name>
+			<comment>Название единицы измерения</comment>
+		</col>
+	</table>
+	<table name="VIEW_ATTRIBUT_GROUP">
+		<name>Группировка атрибутов</name>
+		<col type="0" name="VIEW_ATTRIBUT_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название группы</name>
+			<comment>Название группы</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+	</table>
+	<table name="ATTRIBUT_GROUP">
+		<name>Группы атрибутов товара</name>
+		<col type="0" name="ATTRIBUT_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" child="ATTRIBUT">
+			<name>Название группы</name>
+			<comment>Название группы</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<predeletesevent><![CDATA[
+      foreach ($_REQUEST['id'] as $id){
+        $cmf->execute('delete from ATTRIBUT where ATTRIBUT_GROUP_ID=?',$id);
+      }
+    ]]></predeletesevent>
+	</table>
+	<table name="ATTRIBUT" type="4" parentscript="ATTRIBUT_GROUP" article="ATTRIBUT_GROUP" pagesize="20" imagepath="/attr/">
+		<name>Аттрибуты товара</name>
+		<col type="0" name="ATTRIBUT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор атрибута</comment>
+		</col>
+		<col type="6" name="ATTRIBUT_GROUP_ID" parent="y" filt="y" filttype="select" visuality="y" input="y">
+			<index>1</index>
+			<name>Группа</name>
+			<comment>Уникальный идентификатор группы</comment>
+			<ref>
+				<table>ATTRIBUT_GROUP</table>
+				<field>ATTRIBUT_GROUP_ID</field>
+				<visual>NAME</visual>
+				<none/>
+			</ref>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" child="ATTRIBUT_LIST">
+			<name>Название атрибута</name>
+			<comment>Название атрибута</comment>
+		</col>
+		<col type="3" name="ID_FROM_VBD">
+			<name>ID внешей БД</name>
+			<comment>ID внешей БД</comment>
+		</col>
+		<col type="2" name="TITLE" rows="2" cols="90">
+			<name>TITLE</name>
+			<comment>TITLE</comment>
+		</col>
+		<col type="7" name="ICON_IMAGE" postfix="_icon">
+			<name>Иконка</name>
+			<comment>Иконка</comment>
+		</col>
+		<col type="10" name="TYPE" visuality="y">
+			<name>Тип поля</name>
+			<enum>
+				<option value="0">Целое число</option>
+				<option value="1">Дробь</option>
+				<option value="2">Строка</option>
+				<option value="3">Список</option>
+				<option value="4">Список. с карт.</option>
+				<option value="5">чекбокс</option>
+				<option value="6">чекбокс с тремя состояниями (да,нет,не знаю)</option>
+				<option value="7">краткое описание(64 к)</option>
+			</enum>
+			<comment>Тип поля 0-Int 1-double 2-varchar 3-список 4-список с картинкой и текстом 5-чекбокс 6-чекбокс с тремя состояниями (да,нет,не знаю)</comment>
+		</col>
+		<col type="6" name="UNIT_ID" visuality="y">
+			<name>Единица измерения</name>
+			<ref>
+				<table>UNIT</table>
+				<field>UNIT_ID</field>
+				<visual>NAME</visual>
+				<none>-- не задана --</none>
+			</ref>
+			<comment>идентификатор единицы измерения</comment>
+		</col>
+		<col type="6" name="VIEW_ATTRIBUT_GROUP_ID" visuality="y">
+			<name>Название группировки</name>
+			<ref>
+				<table>VIEW_ATTRIBUT_GROUP</table>
+				<field>VIEW_ATTRIBUT_GROUP_ID</field>
+				<visual>NAME</visual>
+				<none>-- не задана --</none>
+			</ref>
+			<comment>идентификатор названия группировки</comment>
+		</col>
+		<col type="1" name="ALTER_VALUE" visuality="y" size="90">
+			<name>Альтернативное значение для вывода</name>
+			<comment>Альтернативное значение для вывода</comment>
+		</col>
+		<col type="8" name="IS_RANGEABLE" default="0" selectible="y">
+			<name>Явл-ся диапазоном?</name>
+			<comment>Диапазон (1-вкл 0-выкл)</comment>
+		</col>		
+    <col type="8" name="IS_RANGE_VIEW" default="0" selectible="y">
+      <name>Выводить как диапозон</name>
+      <comment>Выводить как диапозон</comment>
+    </col>    
+		<col type="8" name="NOT_CARD" default="0" selectible="y">
+			<name>Не выводить в карточке товара</name>
+			<comment>Не выводить в карточке товара</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="8" name="MULTIPLE_" visuality="y">
+			<name>Множественный выбор(для списков) </name>
+			<comment>Множественный выбор(для списков)</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<joined name="RANGE_LIST" ordering="MIN,MAX">
+			<name>Список возможных диапазонов</name>
+			<col type="3" name="RANGE_LIST_ID" primary="y" visuality="y">
+				<name>N</name>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="1" name="NAME" visuality="y" size="90">
+				<name>Название атрибута</name>
+				<comment>Название атрибута</comment>
+			</col>
+			<col type="4" name="MIN" visuality="y">
+				<name>Min значение</name>
+				<comment>Min значение</comment>
+			</col>
+			<col type="4" name="MAX" visuality="y">
+				<name>Max значение</name>
+				<comment>Max значение</comment>
+			</col>
+			<col type="2" name="COMMENT_" rows="5" cols="90">
+				<name>Комментарий</name>
+				<comment>Комментарий</comment>
+			</col>
+			<!--
+            <col type="7" name="ICON" postfix="_ico">
+                <name>Картинка</name>
+                <comment>Картинка</comment>
+            </col>
+            <col type="7" name="ICON2" postfix="_ico2">
+                <name>Картинка для карточки товара </name>
+                <comment>Картинка для карточки товара</comment>
+            </col>
+            <col type="8" name="SHOW_" visuality="y">
+                <name>Выводить вверху</name>
+                <comment>Выводить вверху</comment>
+            </col>
+            -->
+			<col type="11" name="ORDERING">
+				<name>Порядок сортировки</name>
+				<comment>Порядок сортировки</comment>
+			</col>
+			<postdeleteevent><![CDATA[$cmf->UpdateAllRanges();]]></postdeleteevent>
+			<postinsertevent><![CDATA[$cmf->UpdateAllRanges();]]></postinsertevent>
+			<postupdateevent><![CDATA[$cmf->UpdateAllRanges();]]></postupdateevent>
+		</joined>
+	</table>
+	<table name="ATTRIBUT_LIST" parentscript="ATTRIBUT" imagepath="/attr/" article="ATTRIBUT_GROUP">
+		<name>Список возможных значений</name>
+		<col type="0" name="ATTRIBUT_LIST_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+			<index order="2">1</index>
+		</col>
+		<col type="6" name="ATTRIBUT_ID" parent="y">
+			<name>Атрибут</name>
+			<comment>Уникальный идентификатор атрибута</comment>
+			<ref>
+				<table>ATTRIBUT</table>
+				<field>ATTRIBUT_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<index order="1">1</index>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Значение</name>
+			<comment>Значение</comment>
+		</col>
+		<!--
+        <col type="7" name="IMAGE">
+            <name>Картинка.</name>
+            <comment>Картика в каталог</comment>
+        </col>
+        -->
+		<col type="2" name="COMMENT_" rows="5" cols="90">
+			<name>Комментарий</name>
+			<comment>Комментарий</comment>
+		</col>
+	</table>
+	<table name="ATTR_CATALOG_LINK" nogen="y" multilink="y">
+		<name>Связь атрибута с рубрикой</name>
+		<col type="6" name="CATALOGUE_ID" primary="y">
+			<name>N</name>
+			<comment>идентификатор рубрики</comment>
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+			</ref>
+		</col>
+		<col type="6" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+			<ref>
+				<table>ATTRIBUT</table>
+				<field>ATTRIBUT_ID</field>
+				<visual>NAME</visual>
+			</ref>
+		</col>
+	</table>
+	<table name="ATTR_CATALOG_VIS" nogen="y" multilink="y">
+		<name>Связь атрибута с рубрикой ( укороченный набор )</name>
+		<col type="6" name="CATALOGUE_ID" primary="y">
+			<name>N</name>
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>идентификатор рубрики</comment>
+		</col>
+		<col type="6" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<ref>
+				<table>ATTRIBUT</table>
+				<field>ATTRIBUT_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>идентификатор атрибута</comment>
+		</col>
+	</table>
+	<table name="CATALOGUE" parentscript="CATALOGUE" treechild="ITEM" type="2" imagepath="/cat/">
+		<link name="CAT_CAT"/>
+		<name>Каталог</name>
+		<col type="0" name="CATALOGUE_ID" primary="y" visuality="y" parent="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="13" name="PARENT_ID" link="y" is_parent="y">
+			<index>1</index>
+			<name>Родительский каталог</name>
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+				<none>Корневой</none>
+			</ref>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" isfold="y">
+			<name>Название пункта меню</name>
+			<comment>Название пункта меню</comment>
+		</col>
+		<col type="3" name="ID_FROM_VBD">
+			<name>ID внешей БД</name>
+			<comment>ID внешей БД</comment>
+		</col>
+		<nameadd>($V_COUNT_)</nameadd>
+		<!--
+        <col type="1" name="NAME_ALTER" visuality="y" size="90" isfold="y">
+          <name>Название пункта меню внизу страницы</name>
+          <comment>Название пункта меню</comment>
+        </col>
+        -->
+		<col type="1" name="TYPENAME" size="90">
+			<name>Префикс для типа товара</name>
+			<comment>Префикс для типа товара</comment>
+		</col>
+		<col type="1" name="CATNAME" size="90">
+			<name>Путь до каталога</name>
+			<comment>Путь до каталога</comment>
+		</col>
+		<col type="1" name="REALCATNAME" visuality="y" size="90" internal="y">
+			<name>Путь</name>
+			<comment>Полный путь до каталога</comment>
+		</col>
+		<col type="1" name="URL" size="90">
+			<name>URL</name>
+			<comment>URL</comment>
+		</col>
+		<col type="1" name="SUB_ITEM_TITLE" size="90">
+			<name>Добавка к тайтлу продукции</name>
+			<comment>Добавка к тайтлу продукции</comment>
+		</col>
+		<col type="1" name="TITLE" size="90">
+			<name>Тайтл</name>
+			<comment>Тайтл</comment>
+		</col>
+		<col type="1" name="SUB_TITLE" size="90">
+			<name>Добавка к тайтлу</name>
+			<comment>Добавка к тайтлу</comment>
+		</col>
+		<col type="2" name="DESC_META" rows="7" cols="90">
+			<name>Description</name>
+			<comment>Описание</comment>
+		</col>
+		<col type="2" name="KEYWORD_META" rows="7" cols="90">
+			<name>Ключевые слова</name>
+			<comment>Ключевые слова</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткий текст</name>
+			<comment>Краткий текст</comment>
+		</col>
+		<col type="7" name="IMAGE1" postfix="_img1">
+			<name>Картинка</name>
+			<comment>Картинка</comment>
+		</col>
+		<!--
+        <col type="7" name="IMAGE2" postfix="_img2">
+                <name>Картинка бол.</name>
+                <comment>Картинка большая</comment>
+        </col>
+        
+        <col type="1" name="YANDEX" size="90">
+                <name>Категория Яндекса</name>
+                <comment>Категория Яндекса</comment>
+        </col>
+        -->
+		<col type="3" name="COUNT_" selectible="y" internal="y">
+			<name>количество товаров.</name>
+			<comment>количество товаров.</comment>
+		</col>
+		<col type="8" name="IN_ADV" default="0" selectible="y">
+			<name>Участвует в рекламе</name>
+			<comment>Диапазон (1-вкл 0-выкл)</comment>
+		</col>
+    <col type="8" name="IS_INDEX" default="0" selectible="y">
+      <name>Выводить на главной</name>
+      <comment>Диапазон (1-вкл 0-выкл)</comment>
+    </col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<!--
+        <col type="8" name="STATUS_MAIN" visuality="y">
+                <name>Выводить на главной?</name>
+                <comment>Флаг (1-вкл 0-выкл)</comment>
+        </col>
+        <col type="8" name="STATUS_BOTTOM" visuality="y">
+                <name>Выводить в нижнем меню?</name>
+                <comment>Флаг (1-вкл 0-выкл)</comment>
+        </col>
+        -->
+		<col type="8" name="REALSTATUS" selectible="y" isrealstate="y">
+			<name>auto Статус - Вкл/Выкл</name>
+			<comment>auto Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<joined name="CATALOGUE_PRICE_EXPORT">
+			<name>Связь Каталог-Экспортная группа</name>
+			<col type="0" name="CATALOGUE_PRICE_EXPORT_ID" primary="y" visuality="y">
+				<name>N</name>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="6" name="PRICE_EXPORT_ID" visuality="y">
+				<index>1</index>
+				<name>Преобразование в</name>
+				<ref>
+					<table>PRICE_EXPORT</table>
+					<field>PRICE_EXPORT_ID</field>
+					<visual>NAME</visual>
+				</ref>
+				<comment>Преобразования</comment>
+			</col>
+		</joined>
+    <joined name="CATALOGUE_BRAND_VIEW">
+      <name>Связь "Категория товаров - Бренды"</name>
+      <col type="0" name="CATALOGUE_BRAND_VIEW_ID" primary="y" visuality="y">
+        <name>N</name>
+        <comment>Уникальный идентификатор</comment>
+      </col>
+      <col type="6" name="BRAND_ID" visuality="y">
+        <name>Рубрика каталога</name>
+        <ref>
+          <table>BRAND A</table>
+          <field>A.BRAND_ID</field>
+          <visual>A.NAME</visual>
+          <where><![CDATA[ join CAT_BRAND CB on (CB.BRAND_ID = A.BRAND_ID) where CB.COUNT_ > 0 and CB.CATALOGUE_ID = '.$_REQUEST['id'].']]></where>
+        </ref>
+        <comment>Бренды</comment>
+        <index>1</index>
+      </col>
+    </joined>
+		<pseudorow><![CDATA[<tr bgcolor="#F0F0F0"><td>-</td><td colspan="7"><a href="ALIASES.php?pid=0" class="red">Нерубрицированные</a></td></tr>
+        <tr bgcolor="#F0F0F0"><td>-</td><td colspan="7"><a href="?e=Перестроить" class="red">Перестроить</a></td></tr>
+        
+        ]]></pseudorow>
+		<rowicon><![CDATA[<a href="CATALOGUE.php?id=$V_CATALOGUE_ID&amp;e=FT&amp;r=$root"><img src="i/flt.gif" border="0" title="Фильтры" hspace="5"/></a>]]></rowicon>
+		<rowicon><![CDATA[<a href="CATALOGUE.php?id=$V_CATALOGUE_ID&amp;e=FV&amp;r=$root"><img src="i/flt.gif" border="0" title="Кор. фильт." hspace="5"/></a>]]></rowicon>
+		<rowicon><![CDATA[<a href="CATALOGUE.php?id=$V_CATALOGUE_ID&amp;e=Excel&amp;r=$root"><img src="i/xls_file.gif" border="0" title="Загрузить товары каталога" hspace="5"/></a>]]></rowicon>
+    <postinsertevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update CATALOGUE set CATNAME=? where CATALOGUE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+  
+      $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
+      $cmf->CheckCount(0);
+      
+      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
+      $sefu = new CreateSEFU();
+      $sefu->_applySEFUCatalogue($_REQUEST['id']);
+      $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
+    ]]></postinsertevent>
+    <postupdateevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update CATALOGUE set CATNAME=? where CATALOGUE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);              
+      }
+      
+      $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
+      
+      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
+      $sefu = new CreateSEFU();      
+      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
+      
+      $sefu->_applySEFUCatalogue($_REQUEST['id']);
+      $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
+    ]]></postupdateevent>
+		<extraevents><![CDATA[
+		
+if($_REQUEST['e'] == 'Excel'){
+  define("TMP_DIR", dirname(__FILE__) . "/tmp");
+  require_once 'exelExportImport/excelExportData.php';
+  $export = excelExportData::export($_REQUEST['id']);
+  $export->getFile('ExportItems');
+}		
+
+if(!isset($V_PARENT_ID)) $V_PARENT_ID=0;
+
+if($_REQUEST['e'] == 'Перестроить')
+{
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+
+$cmf->CheckCount(0);
+$cmf->execute('drop table if exists ttt');
+$cmf->execute('create temporary table ttt select BRAND_ID,count(*) as c from ITEM where STATUS=1 group by BRAND_ID');
+$cmf->execute('update BRAND set COUNT_=0');
+$cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
+
+$cmf->execute('delete from CAT_BRAND');
+$sth = $cmf->execute('select  distinct CATALOGUE_ID,BRAND_ID,COUNT(*) as cnt from ITEM group by CATALOGUE_ID,BRAND_ID');
+while($rw = mysql_fetch_array($sth))
+{
+  $cmf->execute('insert into CAT_BRAND set BRAND_ID=?, CATALOGUE_ID =?, COUNT_=?',$rw['BRAND_ID'],$rw['CATALOGUE_ID'],$rw['cnt']);
+
+}
+
+$sth2 = $cmf->execute("select distinct ITEM_ID from ALIASES where ITEM_ID>0");
+while($rw2 = mysql_fetch_array($sth2))
+{
+   $count = $cmf->selectrow_array("select COUNT(*) from ITEM where ITEM_ID=?",$rw2['ITEM_ID']);
+   if($count == 0) $cmf->execute('delete from ALIASES where ITEM_ID=?',$rw2['ITEM_ID']);
+}
+
+}
+
+if($_REQUEST['e'] == 'Установить')
+{
+        $cmf->execute('delete from ATTR_CATALOG_LINK where CATALOGUE_ID=?',$cmf->Param('id'));
+        if(isset($_REQUEST['ATR']))
+        foreach ($_REQUEST['ATR'] as $id)
+        {
+            $inPodbor = isset($_REQUEST["n{$id}"])? $_REQUEST["n{$id}"]:0;
+            $cmf->execute('insert into ATTR_CATALOG_LINK(CATALOGUE_ID,ATTRIBUT_ID,IN_PODBOR) values(?,?,?)',$_REQUEST['id'],$id,$inPodbor);
+        }
+}
+
+if($_REQUEST['e'] == 'Применить')
+{
+$cmf->execute('delete from ATTR_CATALOG_VIS where CATALOGUE_ID=?',$_REQUEST['id']);
+if(isset($_REQUEST['ATR']))
+foreach ($_REQUEST['ATR'] as $id)
+{
+$cmf->execute('insert into ATTR_CATALOG_VIS(CATALOGUE_ID,ATTRIBUT_ID) values(?,?)',$_REQUEST['id'],$id);
+}
+}
+
+if($_REQUEST['e'] == 'DL')
+{
+DelTree($cmf,$_REQUEST['id']);
+$cmf->execute('delete from CATALOGUE where CATALOGUE_ID=?',$_REQUEST['id']);
+updateOrdering($cmf,0);
+}
+
+
+if($_REQUEST['e'] == 'FT')
+{
+?><h2 class="h2">Полный набор атрибутов</h2>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="admin_attr.js"></script>
+<table class="attr_table" bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1">
+<form action=CATALOGUE.php method=POST>
+<input type="hidden" name="id" value="<?=$_REQUEST['id']?>">
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Установить" class="gbt bsave"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+<tr bgcolor="#FFFFFF"><td>
+        <div id="all_attr">
+
+<?
+  $sth=$cmf->execute('select ATTRIBUT_GROUP_ID,NAME from ATTRIBUT_GROUP order by ORDERING');
+  while(list($V_ATTRIBUT_GROUP_ID,$V_NAME)=mysql_fetch_array($sth, MYSQL_NUM))
+  {
+      
+   $i=0;
+        list($ATTRS,$FLAG)=array('','');
+        $sth1=$cmf->execute('select A.ATTRIBUT_ID,A.NAME,U.NAME from ATTRIBUT A left join UNIT U on (A.UNIT_ID=U.UNIT_ID) where ATTRIBUT_GROUP_ID=? order by A.ORDERING',$V_ATTRIBUT_GROUP_ID);
+        while(list($VV_ATTRIBUT_ID,$VV_NAME,$VV_UNIT)=mysql_fetch_array($sth1, MYSQL_NUM))
+        {
+                if($i==0){$ATTRS.='<tr>';}
+                list($VV_STATE,$IN_PODBOR)=$cmf->selectrow_array("select 'checked',IN_PODBOR from ATTR_CATALOG_LINK where CATALOGUE_ID=? and ATTRIBUT_ID=?",$_REQUEST['id'],$VV_ATTRIBUT_ID);
+
+                if($VV_STATE)$FLAG='active';
+                $active1 = $IN_PODBOR == '3'? 'class="active"':'';    // Название + значение
+                $active1 = $IN_PODBOR == '2'? 'class="active"':'';    // Значени атрибута
+                $active2 = $IN_PODBOR == '1'? 'class="active"':'';    // Название атрибута
+                $active3 = ($IN_PODBOR == '0')? 'class="active"':'';    // для 'не участвует'
+
+                $checked1 = $IN_PODBOR == '3'? 'checked="checked"':'';    // Название + значение
+                $checked1 = $IN_PODBOR == '2'? 'checked="checked"':'';    // Значени атрибута
+                $checked2 = $IN_PODBOR == '1'? 'checked="checked"':'';    // Название атрибута
+                $checked3 = ($IN_PODBOR == '0' || (empty($checked1) && empty($checked2)))? 'checked="checked"':'';    // для 'не участвует'
+
+                $activeOne = $active1=='' && $active2=='' && $active3==''? '':'class="active"';
+                $disable = $active1=='' && $active2=='' && $active3==''? 'disabled="disabled"':'';
+                $ATTRS.="<td><input type=checkbox name='ATR[]' id='id_chk$VV_ATTRIBUT_ID' value='$VV_ATTRIBUT_ID' $VV_STATE/>
+                        <label for='id_chk$VV_ATTRIBUT_ID'>$VV_NAME, $VV_UNIT</label>
+                        <fieldset title='Параметры активности атрибута' $activeOne>
+                            <p class='d3'>
+                              <input type='radio' $disable id='n{$VV_ATTRIBUT_ID}_3' value='0' $checked3 name='n$VV_ATTRIBUT_ID'>
+                              <label for='n{$VV_ATTRIBUT_ID}_3' $active3>Не участвует</label>
+                            </p>
+                            <p class='d1'>
+                              <input type='radio' $disable id='n{$VV_ATTRIBUT_ID}_1' $checked1 value='1' name='n$VV_ATTRIBUT_ID'>
+                              <label for='n{$VV_ATTRIBUT_ID}_1' $active1>Название атрибута</label>
+                            </p>
+                            <p class='d2'>
+                              <input type='radio' $disable id='n{$VV_ATTRIBUT_ID}_2' $checked2 value='2' name='n$VV_ATTRIBUT_ID'>
+                              <label for='n{$VV_ATTRIBUT_ID}_2' $active2>Значени атрибута</label>
+                            </p>
+                            <p class='d4'>
+                              <input type='radio' $disable id='n{$VV_ATTRIBUT_ID}_4' $checked2 value='3' name='n$VV_ATTRIBUT_ID'>
+                              <label for='n{$VV_ATTRIBUT_ID}_4' $active2>Название + значение</label>
+                            </p>
+                            
+                        </fieldset>
+                </td>";
+                $i++;
+                if($i>2){$i=0;$ATTRS.='</tr>';}
+        }
+
+        ?>
+            <div class="attr">
+                <a class="attr_btn <?=$FLAG?>"><span><?=$V_NAME?></span></a>
+                <div class="attr_hold">
+                    <table>
+                        <?=$ATTRS?>
+                    </table>
+                </div>
+            </div>
+            <?
+  }
+?></div></td></tr>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Установить" class="gbt bsave"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+</form></table><?
+  $visible=0;
+}
+
+
+if($_REQUEST['e'] == 'FV')
+{
+$i=0;
+?><h2 class="h2">Укороченный набор атрибутов</h2>
+<table bgcolor="#CCCCCC" border="0" cellpadding="3" cellspacing="1" class="f">
+<form action=CATALOGUE.php method=POST>
+<input type="hidden" name="id" value="<?=$_REQUEST['id']?>">
+<tr bgcolor="#F0F0F0" class="ftr"><td colspan="3"><input type="submit" name="e" value="Применить" class="gbt bsave"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+<?
+
+$sth=$cmf->execute('select ACL.ATTRIBUT_ID,A.NAME,U.NAME from ATTR_CATALOG_LINK ACL,ATTRIBUT A left join UNIT U on (A.UNIT_ID=U.UNIT_ID) where ACL.CATALOGUE_ID=? and ACL.ATTRIBUT_ID=A.ATTRIBUT_ID order by A.ORDERING',$_REQUEST['id']);
+while(list ($V_ATTRIBUT_ID,$V_NAME,$V_UNIT)=mysql_fetch_array($sth, MYSQL_NUM))
+{
+if($i==0){print '<tr bgcolor="#FFFFFF">';}
+$state=$cmf->selectrow_array("select 'checked' from ATTR_CATALOG_VIS where CATALOGUE_ID=? and ATTRIBUT_ID=?",$_REQUEST['id'],$V_ATTRIBUT_ID);
+print "<td><input type=checkbox name='ATR[]' value='$V_ATTRIBUT_ID' $state>&#160;$V_NAME,$V_UNIT</td>";
+$i++;
+if($i>2){$i=0;print '</tr>';}
+}
+if($i!=0){$i=3-$i;print "<td colspan='$i'></td></tr>";}
+?><tr bgcolor="#F0F0F0" class="ftr"><td colspan="3"><input type="submit" name="e" value="Применить" class="gbt bsave"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+</form></table><?
+$visible=0;
+}
+]]></extraevents>
+		<extrasubs><![CDATA[
+
+function GetPath($cmf,$id)
+{
+list ($PATH,$PARENTID,$NAME)=array('','','');
+$i=0;
+while(list($PARENTID,$NAME)=$cmf->selectrow_array('select PARENT_ID,CATNAME from CATALOGUE where CATALOGUE_ID=?',$id))
+{
+$i++;
+if($i==1 && $NAME=='') break;
+$id=$PARENTID;
+if($NAME){ $PATH="/$NAME$PATH"; }
+};
+
+if('/' != substr($PATH,-1)){$PATH=$PATH."/";}
+$PATH = preg_replace("/(\/){1,}/","/",$PATH);
+return $PATH;
+}
+
+function UpdatePath($cmf,$id,$path, $sefu)
+{
+   
+  $sth=$cmf->execute('select CATALOGUE_ID,CATNAME from CATALOGUE where PARENT_ID=?',$id);
+  while(list ($V_CATALOGUE_ID,$V_CATNAME)=mysql_fetch_array($sth, MYSQL_NUM))
+  {        
+    if($V_CATNAME){$V_CATNAME="$path/$V_CATNAME";} else {$V_CATNAME='';};
+    $V_CATNAME = preg_replace("/\/\//","/",$V_CATNAME);
+    if('/' != substr($V_CATNAME,-1)){$V_CATNAME=$V_CATNAME."/";}
+    $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',$V_CATNAME,$V_CATALOGUE_ID);
+    
+        
+    UpdatePath($cmf,$V_CATALOGUE_ID,$V_CATNAME, $sefu);
+    
+    $sefu->_applySEFUCatalogue($V_CATALOGUE_ID);
+    $sefu->_applySEFUCatalogueBrand($V_CATALOGUE_ID);
+  }
+}
+
+function updateOrdering($cmf,$id)
+{
+   $sth = $cmf->execute("select CATALOGUE_ID from CATALOGUE where PARENT_ID=? order by ORDERING",$id);
+   $order=1;
+   while($row = mysql_fetch_array($sth))
+   {
+       $sql = "update CATALOGUE set ORDERING='".$order."' where CATALOGUE_ID = '".$row['CATALOGUE_ID']."'";
+       $cmf->execute($sql);
+       $order++;
+       updateOrdering($cmf,$row['CATALOGUE_ID']);
+   }
+}
+]]></extrasubs>
+	</table>
+	<table name="DISCOUNTS" imagepath="/disc/">
+		<name>Скидки</name>
+		<col type="0" name="DISCOUNT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Наименование</name>
+			<comment>Наименование</comment>
+		</col>
+		<col type="7" name="IMAGE" postfix="_disc_img">
+			<name>Картинка мал.</name>
+			<comment>Картинка маленькая</comment>
+		</col>
+		<col type="7" name="IMAGE1" postfix="_disc_img">
+			<name>Картинка бол.</name>
+			<comment>Картинка большоя</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+	</table>
+	<!-- from=" left join BRAND B on (A.BRAND_ID=B.BRAND_ID)" -->
+	<table name="ITEM" imagepath="/it/" type="3" pagesize="35" parentscript="CATALOGUE" defsort="1" article="CATALOGUE" from=" left join BRAND B on (A.BRAND_ID=B.BRAND_ID)">
+		<link name="ITEM_ITEM"/>
+		<name>Продукция</name>
+		<!--<link name="GOODS_GROUP_ITEM_LINK" />-->
+		<col type="0" name="ITEM_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="6" name="CATALOGUE_ID" parent="y">
+			<name>Рубрика каталога</name>
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Рубрика каталога</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="TYPENAME" size="90" visuality="y">
+			<name>Тип продукции</name>
+			<comment>Тип продукции</comment>
+		</col>
+    <col type="1" name="CATNAME" size="90">
+      <name>Путь до каталога</name>
+      <comment>Путь до каталога</comment>
+    </col>
+		<!--
+        <col type="6" name="BRAND_ID" visuality="y" sortasc="B.NAME" sortdesc="B.NAME desc" visualityname="B.NAME" filt="y">
+                <name>Производитель</name>
+                <ref><table>BRAND</table><field>B.BRAND_ID</field><visual>B.NAME</visual><none> не задан </none>
+                <where><![CDATA[ B INNER JOIN ITEM I on I.BRAND_ID=B.BRAND_ID where B.STATUS=1  group by B.NAME]]></where>
+                </ref>
+                <comment>Уникальный идентификатор товара</comment>
+                <index>2</index>
+        </col>-->
+		<col type="6" name="BRAND_ID" visuality="y" sortasc="B.NAME,A.NAME" sortdesc="B.NAME desc,A.NAME" visualityname="B.NAME" filt="y">
+			<name>Производитель</name>
+			<ref>
+				<table>BRAND</table>
+				<field>B.BRAND_ID</field>
+				<visual>B.NAME</visual>
+				<none>- не задан -</none>
+				<where><![CDATA[ B INNER JOIN ITEM I on I.BRAND_ID=B.BRAND_ID where B.STATUS=1 and I.CATALOGUE_ID = '.$_REQUEST['pid'].' group by B.NAME]]></where>
+				<cond><![CDATA[ B ]]></cond>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>2</index>
+		</col>
+		<col type="6" name="DISCOUNT_ID">
+			<name>Скидка</name>
+			<ref>
+				<table>DISCOUNTS</table>
+				<field>DISCOUNT_ID</field>
+				<visual>NAME</visual>
+				<none>- не задан -</none>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>4</index>
+		</col>
+		<col type="6" name="WARRANTY_ID">
+			<name>Гарантия</name>
+			<ref>
+				<table>WARRANTY</table>
+				<field>WARRANTY_ID</field>
+				<visual>NAME</visual>
+				<none>- не задан -</none>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>4</index>
+		</col>
+		<col type="6" name="DELIVERY_ID">
+			<name>Доставка</name>
+			<ref>
+				<table>DELIVERY</table>
+				<field>DELIVERY_ID</field>
+				<visual>NAME</visual>
+				<none>- не задан -</none>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>4</index>
+		</col>
+		<col type="6" name="CREDIT_ID">
+			<name>Кредит</name>
+			<ref>
+				<table>CREDIT</table>
+				<field>CREDIT_ID</field>
+				<visual>NAME</visual>
+				<none>- не задан -</none>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>4</index>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" child="RESPONSES" filt="y">
+			<name>Наименование продукта</name>
+			<comment>Наименование продукта</comment>
+		</col>
+		<col type="1" name="ARTICLE" size="90" filt="y" visuality="y">
+			<name>Артикул</name>
+			<comment>Артикул</comment>
+			<index>3</index>
+		</col>
+		<col type="6" name="CURRENCY_ID" visuality="y">
+			<name>Валюта</name>
+			<ref>
+				<table>CURRENCY</table>
+				<field>CURRENCY_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Идентификатор валюты</comment>
+		</col>
+		<col type="4" name="PRICE" size="90" visuality="y" filt="y" filttype="checkbox">
+			<name>Цена</name>
+			<comment>Ненулевая цена</comment>
+		</col>
+		<col type="4" name="PRICE1" size="90" visuality="y">
+			<name>Цена со скидкой</name>
+			<comment>Цена со скидкой</comment>
+		</col>
+    <col type="4" name="PURCHASE_PRICE" size="90">
+      <name>Цена закупки</name>
+      <comment>Цена закупки</comment>
+    </col>
+		<col type="15" name="IMAGE1" postfix="_icon" set_width="item_main_icon_x" set_height="item_main_icon_y">
+			<name>Картинка мал.</name>
+			<comment>Картинка маленькая</comment>
+		</col>
+		<col type="15" name="IMAGE2" postfix="_m" set_width="item_main_small_x" set_height="item_main_small_y">
+			<name>Картинка сред.</name>
+			<comment>Картика средняя</comment>
+		</col>
+		<col type="7" name="IMAGE3" postfix="_b" set_width="item_main_big_x" set_height="item_main_big_y">
+			<name>Картинка бол.</name>
+			<comment>Картинка большая</comment>
+		</col>
+    <col type="8" name="IS_ACTION" selectible="y" default="1">
+      <name>Участвует в акции</name>
+      <comment>Участвует в акции</comment>
+    </col>
+		<!--
+        <col type="7" name="IMAGE4" prefix="sc_">
+                <name>Схема</name>
+                <comment>Схема</comment>
+        </col>
+        -->
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="2" name="SEO_BOTTOM" rows="7" cols="90" panelize="y">
+			<name>SEO текст внизу страницы</name>
+			<comment>SEO текст внизу страницы</comment>
+		</col>
+		<col type="1" name="TITLE" size="90">
+			<name>Тайтл</name>
+			<comment>Тайтл</comment>
+		</col>
+		<col type="2" name="DESC_META" rows="7" cols="90">
+			<name>Description</name>
+			<comment>Описание</comment>
+		</col>
+		<col type="2" name="KEYWORD_META" rows="7" cols="90">
+			<name>Ключевые слова</name>
+			<comment>Ключевые слова</comment>
+		</col>
+		<panel/>
+		<col type="12" name="DATE_INSERT" visuality="y" calendar="y">
+			<name>Дата вставки в БД</name>
+			<comment>Дата вставки в базу</comment>
+			<index>1</index>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y" filt="y" filttype="checkbox" visuality="y" input="y">
+			<name>Вкл</name>
+			<comment>Выводить активные позиции</comment>
+		</col>
+		<joined name="ITEM_PHOTO">
+			<name>Дополнительные фотографии</name>
+			<col type="3" name="ITEM_ITEM_ID" primary="y" visuality="y">
+				<name>N</name>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="1" name="NAME" visuality="y" size="90">
+				<name>Наименование</name>
+				<comment>Наименование</comment>
+			</col>
+			<col type="15" name="IMAGE1" postfix="_img_sm" set_width="item_small_x" set_height="item_small_y">
+				<name>Картинка мал.</name>
+				<comment>Картинка маленькая</comment>
+			</col>
+			<col type="7" name="IMAGE2" postfix="_img_lrg" set_width="item_big_x" set_height="item_big_y">
+				<name>Картинка бол.</name>
+				<comment>Картинка большая</comment>
+			</col>
+			<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+				<name>Вкл</name>
+				<comment>Флаг (1-вкл 0-выкл)</comment>
+			</col>
+		</joined>
+		<joined name="ITEM_MEDIA">
+			<name>Медиа файлы</name>
+			<col type="3" name="ITEM_MEDIA_ID" primary="y" visuality="y">
+				<name>N</name>
+				<comment>Уникальный идентификатор</comment>
+			</col>
+			<col type="1" name="NAME" visuality="y" size="90">
+				<name>Наименование</name>
+				<comment>Наименование</comment>
+			</col>
+			<col type="14" name="MEDIA_FILE" postfix="_img_media">
+				<name>Файл медиа</name>
+				<comment>Файл медиа</comment>
+			</col>
+			<col type="2" name="MEDIA_CODE" rows="7" cols="90">
+				<name>Код проигрователя</name>
+				<comment>Код проигрователя</comment>
+			</col>
+			<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+				<name>Вкл</name>
+				<comment>Флаг (1-вкл 0-выкл)</comment>
+			</col>
+		</joined>
+    <joined name="ITEM_REQUEST">
+      <name>Заявки</name>
+      <col type="3" name="ITEM_REQUEST_ID" primary="y" visuality="y">
+        <name>N</name>
+        <comment>Уникальный идентификатор</comment>
+      </col>
+      <col type="1" name="EMAIL" visuality="y" size="90">
+        <name>E-mail</name>
+        <comment>E-mail</comment>
+      </col>
+      <col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+        <name>Вкл</name>
+        <comment>Флаг (1-вкл 0-выкл)</comment>
+      </col>
+    </joined>
+		<!--
+        <col type="11" name="ORDERING">
+                <name>Порядок сортировки</name>
+                <comment>Порядок сортировки</comment>
+        </col>
+        -->
+		<pseudocol>
+			<name>Дополнительные атрибуты</name>
+			<comment>Дополнительные атрибуты</comment>
+			<data><![CDATA[
+
+EOF;
+/*$sth=$cmf->execute('select ACL.ATTRIBUT_ID,A.NAME,A.TYPE,A.UNIT_ID from ATTR_CATALOG_LINK ACL, ATTRIBUT A, ATTRIBUT_GROUP AG where ACL.CATALOGUE_ID=? and ACL.ATTRIBUT_ID=A.ATTRIBUT_ID and A.ATTRIBUT_GROUP_ID=AG.ATTRIBUT_GROUP_ID order by AG.ORDERING,A.ORDERING',$_REQUEST['pid']);*/
+$sth=$cmf->execute('select ACL.ATTRIBUT_ID,A.NAME,A.TYPE,A.UNIT_ID from ATTR_CATALOG_LINK ACL, ATTRIBUT A, ATTRIBUT_GROUP AG where ACL.CATALOGUE_ID=? and ACL.ATTRIBUT_ID=A.ATTRIBUT_ID and A.ATTRIBUT_GROUP_ID=AG.ATTRIBUT_GROUP_ID order by A.ORDERING',$_REQUEST['pid']);
+
+while(list($V_ATTRIBUT_ID,$V_NAME,$V_TYPE,$V_UNIT_ID)=mysql_fetch_array($sth, MYSQL_NUM))
+{
+$V_UNIT_ID=$cmf->selectrow_array('select concat("(",NAME,")") from UNIT where UNIT_ID=?',$V_UNIT_ID);
+if($V_TYPE==5)
+{
+  $VALUE=$cmf->selectrow_array('select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',$_REQUEST['id'],$V_ATTRIBUT_ID);
+  if($VALUE == '1'){$VALUE='<option value="1" selected="">Да</option><option value="0">Нет</option>';} else {$VALUE='<option value="1">Да</option><option value="0" selected="">Нет</option>';}
+?><b><?=$V_NAME?></b><br><select style="width:450px" name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>"><?=$VALUE?></select><br><?
+}
+elseif($V_TYPE==6)
+{
+  $VALUE=$cmf->selectrow_array('select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',$_REQUEST['id'],$V_ATTRIBUT_ID);
+  if($VALUE == '1'){$VALUE='<option value="2">Не знаю</option><option value="1" selected="">Да</option><option value="0">Нет</option>';} elseif ($VALUE == '0'){$VALUE='<option value="2">Не знаю</option><option value="1">Да</option><option value="0" selected="">Нет</option>';} else {$VALUE='<option value="2">Не знаю</option><option value="1">Да</option><option value="0">Нет</option>';}
+?><b><?=$V_NAME?></b><br><select style="width:450px" name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>"><?=$VALUE?></select><br><?
+}
+elseif($V_TYPE==7)
+{
+  $VALUE=$cmf->selectrow_array('select VALUE from ITEM7 where ITEM_ID=? and ATTRIBUT_ID=?',$_REQUEST['id'],$V_ATTRIBUT_ID);
+?><b><?=$V_NAME?> <?=$V_UNIT_ID?></b><br><textarea name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>" cols="90" rows="3" onfocus="_XDOC=this;" onkeydown="_etaKey(event)"><?=$VALUE?></textarea><br><?
+}
+elseif($V_TYPE>2)
+ {
+  $VALUE=$cmf->selectrow_array('select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',$_REQUEST['id'],$V_ATTRIBUT_ID);
+?><b><?=$V_NAME?> <?=$V_UNIT_ID?></b><br><select style="width:450px" name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>"><option value="">-- none --</option><?print $cmf->Spravotchnik($VALUE,'select ATTRIBUT_LIST_ID,NAME from ATTRIBUT_LIST where ATTRIBUT_ID=? order by NAME',$V_ATTRIBUT_ID); ?></select><br><?
+ }
+elseif($V_TYPE==2)
+ {
+  $VALUE=$cmf->selectrow_array("select VALUE from ITEM2 where ITEM_ID=? and ATTRIBUT_ID=?",$_REQUEST['id'],$V_ATTRIBUT_ID);
+?><b><?=$V_NAME?> <?=$V_UNIT_ID?></b><br><input type="text" value="<?=$VALUE?>" name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>" size="90"><br><?
+ }
+else
+ {
+  $VALUE=$cmf->selectrow_array("select VALUE from ITEM$V_TYPE where ITEM_ID=? and ATTRIBUT_ID=?",$_REQUEST['id'],$V_ATTRIBUT_ID);
+?><b><?=$V_NAME?> <?=$V_UNIT_ID?></b><br><input type="text" value="<?=$VALUE?>" name="ATTR_<?=$V_TYPE?>_<?=$V_ATTRIBUT_ID?>" size="90"><br><?
+ }
+}
+print <<<EOF
+]]></data>
+		</pseudocol>
+		<preeditevent><![CDATA[
+if(empty($_REQUEST['pid'])) $_REQUEST['pid']=$cmf->selectrow_array('select CATALOGUE_ID from ITEM where ITEM_ID=? ',$_REQUEST['id']);
+$checkString='';
+$sth=$cmf->execute('select ACL.ATTRIBUT_ID,A.TYPE from ATTR_CATALOG_LINK ACL, ATTRIBUT A, ATTRIBUT_GROUP AG where ACL.CATALOGUE_ID=? and ACL.ATTRIBUT_ID=A.ATTRIBUT_ID and A.ATTRIBUT_GROUP_ID=AG.ATTRIBUT_GROUP_ID and A.TYPE=7 order by AG.ORDERING,A.ORDERING',$_REQUEST['pid']);
+while(list($V_ATTRIBUT_ID,$V_TYPE)=mysql_fetch_array($sth, MYSQL_NUM))$checkString.="&amp;&amp; checkXML(ATTR_".$V_TYPE."_".$V_ATTRIBUT_ID.")";
+]]></preeditevent>
+		<checkevent><![CDATA[ $checkString ]]></checkevent>
+		<postdeleteevent><![CDATA[
+$cmf->CheckCount(0);
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+$cmf->execute('delete from ITEM0 where ITEM_ID=?',$id);
+$cmf->execute('delete from ITEM1 where ITEM_ID=?',$id);
+$cmf->execute('delete from ITEM2 where ITEM_ID=?',$id);
+$cmf->execute('delete from ITEMR where ITEM_ID=?',$id);
+$cmf->execute('delete from ITEM7 where ITEM_ID=?',$id);
+$cmf->UpdateRange($id);
+]]></postdeleteevent>    
+		<postinsertevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ITEM set CATNAME=? where ITEM_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+      
+      $cmf->CheckCount(0);
+      $cmf->UpdateRange($_REQUEST['id']);
+      $cmf->execute('delete from CAT_ITEM');
+      $cmf->Rebuild(array(0));
+      $cmf->execute('drop table if exists ttt');
+      $cmf->execute('create temporary table ttt select BRAND_ID,count(*) as c from ITEM where STATUS=1 group by BRAND_ID');
+      $cmf->execute('update BRAND set COUNT_=0');
+      $cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
+      $cmf->UpdateRange($_REQUEST['id']);
+    ]]>
+    </postinsertevent>
+		<postupdateevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ITEM set CATNAME=? where ITEM_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+      
+      $cmf->execute('delete from CAT_ITEM');
+      $cmf->Rebuild(array(0));
+      $cmf->CheckCount(0);      
+      $cmf->UpdateRange($_REQUEST['id']);
+      ]]>
+      </postupdateevent>
+		<postgroupupdateevent>
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+$cmf->CheckCount(0);
+$cmf->execute('update ITEM I inner join CURRENCY C on (C.CURRENCY_ID=I.CURRENCY_ID) set I.PRICE_VIRTUAL=I.PRICE*C.PRICE where I.ITEM_ID=?',$id);
+$cmf->UpdateRange($id);
+                </postgroupupdateevent>
+		<extraevents><![CDATA[
+if($_REQUEST['e'] == 'Диапазоны')
+{
+$cmf->UpdateAllRanges();
+}
+
+if($_REQUEST['e']=='Переместить')
+{
+?><table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" class="f">
+<form action="ITEM.php" method="POST">
+<input type="hidden" name="pid" value="<?=$_REQUEST['pid']?>">
+<input type="hidden" name="p" value="<?=$_REQUEST['p']?>">
+<?
+if(isset($_REQUEST['id']))
+foreach ($_REQUEST['id'] as $vid){?><input type="hidden" name="id[]" value="<?=$vid?>"/><? } 
+?>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Перенести" class="gbt bmv"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+<tr bgcolor="#FFFFFF"><td><?
+print GetTree($cmf,0);
+?></td></tr>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Перенести" class="gbt bmv"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+</form></table><?
+$visible=0;
+}
+
+if($_REQUEST['e']=='Переместить все')
+{
+?><table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" class="f">
+<form action="ITEM.php" method="POST">
+<input type="hidden" name="pid" value="<?=$_REQUEST['pid']?>">
+<input type="hidden" name="p" value="<?=$_REQUEST['p']?>">
+<?
+$children = getChildren($cmf,$_REQUEST['pid']);
+if($children) $where = " and CATALOGUE_ID IN (".implode(',',$children).")";
+else $where = " and CATALOGUE_ID = '".$_REQUEST['pid']."'";
+
+$items = getItems($cmf,$where);
+if($items)
+{
+   foreach ($items as $vid){?><input type="hidden" name="id[]" value="<?=$vid?>"/><? }
+}
+?>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Перенести" class="gbt bmv"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+<tr bgcolor="#FFFFFF"><td><?
+print GetTree($cmf,0);
+?></td></tr>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Перенести" class="gbt bmv"/><input type="submit" name="event" value="Отменить" class="gbt bcancel"/></td></tr>
+</form></table><?
+$visible=0;
+}
+
+if($_REQUEST['e'] == 'Скопировать')
+{
+if(isset($_REQUEST['id']))
+foreach ($_REQUEST['id'] as $vid)
+ {
+        list($V_CATALOGUE_ID,$V_TYPENAME,$V_BRAND_ID,$V_NAME,$V_CURRENCY_ID,$V_ARTICLE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_DESCRIPTION,$V_PRICE,$V_PRICE1,$V_STATUS)=$cmf->selectrow_array('select CATALOGUE_ID,TYPENAME,BRAND_ID,NAME,CURRENCY_ID,ARTICLE,IMAGE1,IMAGE2,IMAGE3,DESCRIPTION,PRICE,PRICE1,STATUS from ITEM where ITEM_ID=?',$vid);
+        //$V_ITEM_ID=$cmf->GetSequence('ITEM');
+        $V_ITEM_ID=$cmf->selectrow_array('select MAX(ITEM_ID) from ITEM');
+        $V_ITEM_ID=$V_ITEM_ID+1;
+
+        if(!empty($V_IMAGE1) && strchr($V_IMAGE1,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE1);
+        $FORMAT='';
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/$V_ITEM_ID.$FORMAT");
+        $V_IMAGE1="$V_ITEM_ID.$FORMAT#$W#$H";
+        }
+
+        if(!empty($V_IMAGE2) && strchr($V_IMAGE2,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE2);
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/s_{$V_ITEM_ID}.{$FORMAT}");
+        $V_IMAGE2="s_{$V_ITEM_ID}.{$FORMAT}#$W#$H";
+        }
+
+        if(!empty($V_IMAGE3) && strchr($V_IMAGE3,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE3);
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/b_{$V_ITEM_ID}.{$FORMAT}");
+        $V_IMAGE3="b_{$V_ITEM_ID}.{$FORMAT}#$W#$H";
+        }
+
+        //echo $V_IMAGE1."=>".$V_IMAGE2."=>".$V_IMAGE3;
+
+
+        $cmf->execute('insert into ITEM (ITEM_ID,CATALOGUE_ID,TYPENAME,BRAND_ID,NAME,CURRENCY_ID,ARTICLE,IMAGE1,IMAGE2,IMAGE3,DESCRIPTION,PRICE,PRICE1,STATUS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$V_ITEM_ID,$V_CATALOGUE_ID,$V_TYPENAME,$V_BRAND_ID,$V_NAME,$V_CURRENCY_ID,$V_ARTICLE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_DESCRIPTION,$V_PRICE,$V_PRICE1,$V_STATUS);  echo mysql_error();
+        $cmf->execute('insert into ITEM0 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM0 where ITEM_ID=?',$V_ITEM_ID,$vid);
+        $cmf->execute('insert into ITEM1 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM1 where ITEM_ID=?',$V_ITEM_ID,$vid);
+        $cmf->execute('insert into ITEM2 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM2 where ITEM_ID=?',$V_ITEM_ID,$vid);
+ }
+
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+$cmf->CheckCount(0);
+$cmf->execute('drop table if exists ttt');
+$cmf->execute('create temporary table ttt select BRAND_ID,count(*) as c from ITEM where STATUS=1 group by BRAND_ID');
+$cmf->execute('update BRAND set COUNT_=0');
+$cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
+}
+
+if($_REQUEST['e'] == 'Скопировать все')
+{
+$children = getChildren($cmf,$_REQUEST['pid']);
+if($children) $where = " and CATALOGUE_ID IN (".implode(',',$children).")";
+else $where = " and CATALOGUE_ID = '".$_REQUEST['pid']."'";
+
+$items = getItems($cmf,$where);
+
+if($items)
+foreach ($items as $vid)
+ {
+        list($V_CATALOGUE_ID,$V_TYPENAME,$V_BRAND_ID,$V_NAME,$V_CURRENCY_ID,$V_ARTICLE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_DESCRIPTION,$V_PRICE,$V_PRICE1,$V_STATUS)=$cmf->selectrow_array('select CATALOGUE_ID,TYPENAME,BRAND_ID,NAME,CURRENCY_ID,ARTICLE,IMAGE1,IMAGE2,IMAGE3,DESCRIPTION,PRICE,PRICE1,STATUS from ITEM where ITEM_ID=?',$vid);
+        $V_ITEM_ID=$cmf->GetSequence('ITEM');
+        
+        if(!empty($V_IMAGE1) && strchr($V_IMAGE1,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE1);
+        $FORMAT='';
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/$V_ITEM_ID.$FORMAT");
+        $V_IMAGE1="$V_ITEM_ID.$FORMAT#$W#$H";
+        }
+
+        if(!empty($V_IMAGE2) && strchr($V_IMAGE2,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE2);
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/s_{$V_ITEM_ID}.{$FORMAT}");
+        $V_IMAGE2="s_{$V_ITEM_ID}.{$FORMAT}#$W#$H";
+        }
+
+        if(!empty($V_IMAGE3) && strchr($V_IMAGE3,"#"))
+        {
+        list($SRC,$W,$H)=split('#',$V_IMAGE3);
+        list($none,$FORMAT)=split('\.',$SRC);
+        $cmf->FileCopy('/images/it/'.$SRC,"/images/it/b_{$V_ITEM_ID}.{$FORMAT}");
+        $V_IMAGE3="b_{$V_ITEM_ID}.{$FORMAT}#$W#$H";
+        }
+
+        $cmf->execute('insert into ITEM (ITEM_ID,CATALOGUE_ID,TYPENAME,BRAND_ID,NAME,CURRENCY_ID,ARTICLE,IMAGE1,IMAGE2,IMAGE3,DESCRIPTION,PRICE,PRICE1,STATUS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',null,$V_CATALOGUE_ID,$V_TYPENAME,$V_BRAND_ID,$V_NAME,$V_CURRENCY_ID,$V_ARTICLE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_DESCRIPTION,$V_PRICE,$V_PRICE1,$V_STATUS);  echo mysql_error();
+        $cmf->execute('insert into ITEM0 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM0 where ITEM_ID=?',$V_ITEM_ID,$vid);
+        $cmf->execute('insert into ITEM1 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM1 where ITEM_ID=?',$V_ITEM_ID,$vid);
+        $cmf->execute('insert into ITEM2 (ITEM_ID,ATTRIBUT_ID,VALUE) select ?,ATTRIBUT_ID,VALUE from ITEM2 where ITEM_ID=?',$V_ITEM_ID,$vid);
+ }
+
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+$cmf->CheckCount(0);
+$cmf->execute('drop table if exists ttt');
+$cmf->execute('create temporary table ttt select BRAND_ID,count(*) as c from ITEM where STATUS=1 group by BRAND_ID');
+$cmf->execute('update BRAND set COUNT_=0');
+$cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
+}
+
+if($_REQUEST['e'] =='Перенести')
+{
+if(isset($_REQUEST['id']))
+foreach ($_REQUEST['id'] as $vid)
+ {
+        $cmf->execute('update ITEM set CATALOGUE_ID=? where ITEM_ID=?',$_REQUEST['cid'],$vid);
+ }
+$cmf->execute('delete from CAT_ITEM');
+$cmf->Rebuild(array(0));
+$cmf->CheckCount(0);
+$cmf->execute('drop table if exists ttt');
+$cmf->execute('create temporary table ttt select BRAND_ID,count(*) as c from ITEM where STATUS=1 group by BRAND_ID');
+$cmf->execute('update BRAND set COUNT_=0');
+$cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
+
+$cmf->execute('delete from CAT_BRAND');
+$sth = $cmf->execute('select  distinct CATALOGUE_ID,BRAND_ID,COUNT(*) as cnt from ITEM group by CATALOGUE_ID,BRAND_ID');
+while($rw = mysql_fetch_array($sth))
+{
+  $cmf->execute('insert into CAT_BRAND set BRAND_ID=?, CATALOGUE_ID =?, COUNT_=?',$rw['BRAND_ID'],$rw['CATALOGUE_ID'],$rw['cnt']);
+
+}
+}
+
+if(($_REQUEST['e'] =='Добавить') || ($_REQUEST['e'] =='Изменить'))
+{
+if($cmf->Param('id'))
+{
+$cmf->execute('delete from ITEM0 where ITEM_ID=?',$_REQUEST['id']);
+$cmf->execute('delete from ITEM1 where ITEM_ID=?',$_REQUEST['id']);
+$cmf->execute('delete from ITEM2 where ITEM_ID=?',$_REQUEST['id']);
+$cmf->execute('delete from ITEM7 where ITEM_ID=?',$_REQUEST['id']);
+}
+foreach ($_REQUEST as $param=>$val)
+ {
+  if(preg_match('/ATTR_(.)_(.+)/',$param,$m))
+  {
+   list($tbl,$attr)=array($m[1],$m[2]);
+   if(trim($val)!='')
+   {
+   $val=trim($val);
+   if($tbl==1)  $val=preg_replace('/,/','.',$val);
+   if($tbl>2 && $tbl!=7) $tbl=0;
+   if($tbl==2 || $tbl==7) $cmf->execute('insert into ITEM'.$tbl.' (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
+   elseif($tbl==7) $cmf->execute('insert into ITEM64K (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
+   else $cmf->execute('insert into ITEM'.$tbl.'(ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
+   }
+  }
+ }
+}
+]]></extraevents>
+		<extrasubs><![CDATA[
+function GetTree($cmf,$id)
+{
+$sth=$cmf->execute('select CATALOGUE_ID,NAME from CATALOGUE where PARENT_ID=? order by ORDERING',$id);
+if($sth)
+{
+$ret='<ul>';
+while(list($V_CATALOGUE_ID,$V_NAME)=mysql_fetch_array($sth, MYSQL_NUM))
+{
+$ret.=<<<EOF
+<dl><input type="radio" name="cid" value="$V_CATALOGUE_ID">&#160;$V_NAME</dl>
+EOF
+.GetTree($cmf,$V_CATALOGUE_ID);
+}
+$ret.='</ul>';
+}
+return $ret;
+}
+
+function getChildren($cmf,$id)
+{
+  $path = array();
+  $sth=$cmf->execute('select CATALOGUE_ID from CATALOGUE where PARENT_ID=? and STATUS=1 order by CATALOGUE_ID',$id);
+  if(mysql_num_rows($sth))
+  {
+     while($row=mysql_fetch_array($sth))
+     {
+       if($row['CATALOGUE_ID']>0)
+       {
+          $path[] = $row['CATALOGUE_ID'];
+          $path = array_merge($path,getChildren($row['CATALOGUE_ID']));
+       }
+     }
+  }
+  return $path;
+}
+
+function getItems($cmf,$where)
+{
+   $items = array();
+   $sth = $cmf->execute("select ITEM_ID from ITEM where 1 ".$where);
+   if(mysql_num_rows($sth))
+   {
+      while($row=mysql_fetch_array($sth))
+      {
+         $items[] = $row['ITEM_ID'];
+      }
+   }
+   return $items;
+}
+
+function getParents($id)
+         {
+          global $cmf;
+          $path = array();
+          $sth=$cmf->execute('select PARENT_ID,NAME,CATALOGUE_ID from CATALOGUE where CATALOGUE_ID='.$id.' and STATUS=1 order by NAME');
+          if(mysql_num_rows($sth))
+          {
+             while(list($V_ID,$V_VAL,$V_CID)=mysql_fetch_array($sth))
+             {
+                if($V_ID>0)
+                {
+                   $path[] = $V_ID;
+                   $path = array_merge($path,getParents($V_ID));
+                }
+             }
+          }
+          return $path;
+         }
+
+]]></extrasubs>
+		<extrakey class="gbt bmv">
+			<name>e</name>
+			<comment>Переместить</comment>
+		</extrakey>
+		<extrakey class="gbt bcopy">
+			<name>e</name>
+			<comment>Скопировать</comment>
+		</extrakey>
+		<extrakey class="gbt bmv">
+			<name>e</name>
+			<comment>Переместить все</comment>
+		</extrakey>
+		<extrakey class="gbt bcopy">
+			<name>e</name>
+			<comment>Скопировать все</comment>
+		</extrakey>
+		<extrakey class="gbt branges">
+			<name>e</name>
+			<comment>Диапазоны</comment>
+		</extrakey>
+	</table>
+	<table name="ITEM_ITEM" multilink="y" nogen="y" related="1">
+		<name>Сопутствующие товары</name>
+		<col type="6" name="CATALOGUE_ID" parent="y" link="y" internal="y">
+			<ref>
+				<table>CATALOGUE</table>
+				<field>CATALOGUE_ID</field>
+				<visual>NAME</visual>
+				<where><![CDATA[ ]]></where>
+				<where2><![CDATA[ and COUNT_ > 0]]></where2>
+			</ref>
+			<name>ИД рубрики</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="ITEM_ID" link="y" has_related="1" href="1">
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>CONCAT(B.NAME,\' \',A.NAME, \' (Артикул \', A.ARTICLE,\')\')</visual>
+				<where><![CDATA[ left join BRAND B on (A.BRAND_ID=B.BRAND_ID)]]></where>
+				<where2><![CDATA[ and A.STATUS=1 and A.PRICE > 0 ]]></where2>
+				<multi>1</multi>
+				<cond><![CDATA[ and A.CATALOGUE_ID='.$V_CATALOGUE_ID.' ]]></cond>
+				<link><![CDATA[ITEM.php?e=ED&id=$V_ITEM_ID]]></link>
+			</ref>
+			<name>товар</name>
+			<comment>Уникальный идентификатор</comment>
+			<index order="2">2</index>
+		</col>
+		<col type="0" name="ITEM_ITEM_ID" visuality="y" primary="y" href="1">
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>NAME</visual>
+				<where><![CDATA[ ]]></where>
+				<where2><![CDATA[ and STATUS=1 ]]></where2>
+				<cond><![CDATA[ and CATALOGUE_ID='.$V_CATALOGUE_ID.' ]]></cond>
+				<link><![CDATA[ITEM.php?e=ED&id=$V_ITEM_ITEM_ID]]></link>
+			</ref>
+			<name>Связанный товар</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<previsible><![CDATA[
+        //$V_ITEM_ITEM_ID = $cmf->selectrow_arrayQ('select NAME from ITEM   where ITEM_ID=?',$V_ITEM_ITEM_ID);
+        ]]></previsible>
+		<postupdateevent><![CDATA[
+
+        $parents = getParents($_REQUEST['CATALOGUE_ID']);
+        if($parents) $pid = $parents[sizeof($parents)-1];
+        if($pid == '') $pid = 0;
+        $cmf->execute('update ITEM_ITEM set CATALOGUE_ID=? where ITEM_ITEM_ID=? and ITEM_ID=?',$_REQUEST['CATALOGUE_ID'],$_REQUEST['ITEM_ID'],$_REQUEST['id']);
+
+        ]]></postupdateevent>
+		<preinsertevent><![CDATA[
+        $_REQUEST['ITEM_ITEM_ID'] = $_REQUEST['id'];
+        $count = $cmf->selectrow_array("select COUNT(*) from ITEM_ITEM where ITEM_ITEM_ID=? and ITEM_ID=?",$id,$_REQUEST['id']);
+        if($count > 0)
+        {
+           echo '<b>Этот товар уже добавлен в сопутствующие</b><br/><br/><a href="ITEM.php?e=ED&amp;id='.$_REQUEST['id'].'">Вернуться</a>';
+           exit;
+        }
+        ]]></preinsertevent>
+		<preupdateevent><![CDATA[
+        $_REQUEST['ITEM_ITEM_ID'] = $_REQUEST['ITEM_ID'];
+
+        ]]></preupdateevent>
+		<postinsertevent><![CDATA[
+        $cmf->execute('update ITEM_ITEM set CATALOGUE_ID=? where ITEM_ITEM_ID=? and ITEM_ID=?',$_REQUEST['CATALOGUE_ID'],$id,$_REQUEST['id']);
+
+        ]]></postinsertevent>
+	</table>
+	<table name="ANNOUNCEMENTS" ordering="POSTED_AT desc" parentscript="ITEM" pagesize="35">
+		<name>Объявления</name>
+		<col type="0" name="ANN_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="BRAND_ID" visuality="y" parentfilt="y">
+			<index>1</index>
+			<name>Производитель</name>
+			<comment>Идентификатор каталога</comment>
+			<ref>
+				<table>BRAND</table>
+				<field>BRAND_ID</field>
+				<visual>A.NAME</visual>
+				<where><![CDATA[ INNER JOIN ITEM I on I.BRAND_ID=A.BRAND_ID ]]></where>
+				<where2><![CDATA[ and A.STATUS=1 and I.STATUS=1 group by A.BRAND_ID]]></where2>
+				<multi>1</multi>
+				<none>-- Не задан --</none>
+			</ref>
+		</col>
+		<col type="6" name="ITEM_ID" visuality="y" parent="y" link="y" showselect="1" childfilt="y">
+			<index>1</index>
+			<name>Товар</name>
+			<comment>Идентификатор товара</comment>
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>CONCAT(B.TYPENAME,\' \',A.NAME)</visual>
+				<where><![CDATA[ left join CATALOGUE B on (A.CATALOGUE_ID=B.CATALOGUE_ID)]]></where>
+				<where2><![CDATA[ and A.STATUS=1 ]]></where2>
+				<multi>1</multi>
+				<cond><![CDATA[  and A.BRAND_ID='.$V_BRAND_ID.' ]]></cond>
+			</ref>
+		</col>
+		<col type="1" name="FIO" visuality="y">
+			<name>ФИО</name>
+			<comment>ФИО</comment>
+		</col>
+		<col type="1" name="TITLE" visuality="y">
+			<name>Заголовок</name>
+			<comment>Заголовок</comment>
+		</col>
+		<col type="1" name="PRICE" visuality="y">
+			<name>Цена</name>
+			<comment>Цена</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" visuality="y" rows="7" cols="90" panelize="y">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+		<col type="1" name="PHONE" visuality="y" rows="7" cols="90" panelize="y">
+			<name>Телефон</name>
+			<comment>Телефон</comment>
+		</col>
+		<col type="1" name="EMAIL" visuality="y" rows="7" cols="90" panelize="y">
+			<name>E-mail</name>
+			<comment>E-mail</comment>
+		</col>
+		<col type="12" name="POSTED_AT" visuality="y" size="70" calendar="y">
+			<name>Дата добавления</name>
+			<comment>Дата добавления</comment>
+		</col>
+		<col type="8" name="STATUS" default="0" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<back><![CDATA[
+EOF;
+if(!empty($_REQUEST['pid']))
+{
+   ?><a href="ITEM.php?e=RET&amp;id=<?=$_REQUEST['pid']?>"><img src="i/back.gif" border="0" align="top" /> Назад</a><br /><?
+}
+print <<<EOF
+]]></back>
+		<preinsertevent><![CDATA[
+if(!empty($_REQUEST['ITEM_ID'])) $_REQUEST['pid'] = $_REQUEST['ITEM_ID'];
+]]></preinsertevent>
+		<preeditevent><![CDATA[
+if(!empty($_REQUEST['ITEM_ID'])) $_REQUEST['pid'] = $_REQUEST['ITEM_ID'];
+]]></preeditevent>
+	</table>
+	<table name="RESPONSES" pagesize="150" parentscript="ITEM" ordering="DATA DESC" article="CATALOGUE">
+		<name>Отзывы о товаре</name>
+		<col type="0" name="RESPONSES_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="6" name="ITEM_ID" parent="y">
+			<name>ID Товара</name>
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>1</index>
+		</col>
+		<col type="12" name="DATA" visuality="y" calendar="y">
+			<name>Дата</name>
+			<comment>Дата</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Имя</name>
+			<comment>Имя</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>текст</name>
+			<comment>текст</comment>
+		</col>
+		<col type="8" name="HIDE" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<postinsertevent><![CDATA[
+  $V_RESCOUNT=$cmf->selectrow_array('select count(*) from RESPONSES where ITEM_ID=?',$_REQUEST['pid']);
+  $cmf->execute('update ITEM set RESCOUNT_=? where ITEM_ID=?',$V_RESCOUNT,$_REQUEST['pid']);
+  ]]></postinsertevent>
+		<postdeleteevent><![CDATA[
+  $cmf->execute('update ITEM set RESCOUNT_=RESCOUNT_-1 where ITEM_ID=?',$_REQUEST['pid']);
+  ]]></postdeleteevent>
+	</table>
+	<table name="DICTS" type="8" ordering="NAME" letter="NAME">
+		<name>Словарь</name>
+		<col type="0" name="DICTS_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Термин</name>
+			<comment>Термин</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткий текст</name>
+			<comment>Краткий текст</comment>
+		</col>
+		<panel/>
+		<col type="8" name="STATUS" isstate="y" selectible="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+	</table>
+	<table name="ITEM0" nogen="y" multilink="y">
+		<name>Атрибуты товара (INT)</name>
+		<col type="0" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+			<index>1</index>
+		</col>
+		<col type="3" name="VALUE">
+			<name>Значение</name>
+			<comment>Значение атрибута</comment>
+		</col>
+	</table>
+	<table name="CAT_ITEM" nogen="y" multilink="y">
+		<name>Временная таблица связка</name>
+		<col type="3" name="CATALOGUE_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="3" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+	</table>
+	<table name="CAT_BRAND" nogen="y" multilink="y">
+		<name>Временная таблица связка</name>
+		<col type="3" name="CATALOGUE_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="3" name="BRAND_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="COUNT_" internal="y">
+			<name>Количество предложений</name>
+			<comment>количество предложений</comment>
+		</col>
+	</table>
+	<table name="CAT_HOME_TYPE" nogen="y" multilink="y">
+		<name>Временная таблица связка</name>
+		<col type="3" name="CATALOGUE_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="3" name="HOME_TYPE_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>1</index>
+		</col>
+	</table>
+	<table name="BRAND" ordering="NAME" letter="NAME" type="6" imagepath="/br/">
+		<name>Производители</name>
+		<col type="0" name="BRAND_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+			<index>1</index>
+		</col>
+		<col type="3" name="ID_FROM_VBD">
+			<name>ID внешей БД</name>
+			<comment>ID внешей БД</comment>
+		</col>
+		<col type="7" name="IMAGE" visuality="y" isflash="y">
+			<name>Иконка</name>
+			<comment>Иконка</comment>
+		</col>
+		<col type="1" name="URL" visuality="y" size="90">
+			<name>URL</name>
+			<comment>URL</comment>
+		</col>
+		<col type="1" name="ALT_NAME" size="90">
+			<name>Альтернативное название для URL в категории(только латиница)</name>
+			<comment>Альтернативное название для URL в категории</comment>
+		</col>
+		<panel/>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<!--
+  <col type="3" name="OFFERCOUNT_"  internal="y">
+    <name>Количество предложений</name>
+    <comment>количество предложений</comment>
+  </col>
+  -->
+		<col type="3" name="COUNT_" internal="y">
+			<name>количество</name>
+			<comment>количество</comment>
+		</col>
+		<col type="8" name="IN_INDEX" default="0" selectible="y">
+			<name>Выводить на главной странице</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="8" name="IN_ALL_PAGES" default="0" selectible="y">
+			<name>Участвовать на всех страницах сайта</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+	</table>
+	<table name="ITEM1" nogen="y" multilink="y">
+		<name>Атрибуты товара (Double)</name>
+		<col type="0" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+			<index>1</index>
+		</col>
+		<col type="4" name="VALUE">
+			<name>Значение</name>
+			<comment>Значение атрибута</comment>
+		</col>
+	</table>
+	<table name="ITEM2" nogen="y" multilink="y">
+		<name>Атрибуты товара (Char)</name>
+		<col type="0" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="VALUE">
+			<name>Значение</name>
+			<comment>Значение атрибута</comment>
+		</col>
+	</table>
+	<table name="ITEM7" nogen="y" multilink="y">
+		<name>Атрибуты товара (Char)</name>
+		<col type="0" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="ATTRIBUT_ID" primary="y">
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="VALUE">
+			<name>Значение</name>
+			<comment>Значение атрибута</comment>
+		</col>
+	</table>
+	<table name="ITEMR" nogen="y" multilink="y">
+		<name>Диапазоны товара (INT)</name>
+		<col type="0" name="ITEM_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор товара</comment>
+		</col>
+		<col type="3" name="ATTRIBUT_ID" primary="y">
+			<index>1</index>
+			<name>идентификатор атрибута</name>
+			<comment>идентификатор атрибута</comment>
+		</col>
+		<col type="3" name="RANGE_LIST_ID">
+			<index>1</index>
+			<name>Уникальный идентификатор диапазона</name>
+			<comment>Уникальный идентификатор диапазона</comment>
+		</col>
+	</table>
+	<table name="SITE_PARAM" pagesize="100">
+		<name>Параметры сайта</name>
+		<col type="0" name="PARAM_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор параметра</comment>
+		</col>
+		<col type="1" name="SYSNAME" size="90" visuality="y">
+			<name>Системное имя</name>
+			<comment>Системное имя</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название параметра</name>
+			<comment>Название параметра</comment>
+		</col>
+		<col type="1" name="VALUE" size="90" visuality="y">
+			<name>Значение параметра</name>
+			<comment>Значение параметра</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+	</table>
+	<!-- !!!!!! -->
+	<table name="ALIASES" pagesize="120" parentscript="ITEM" from=" left join BRAND B on (A.BRAND_ID=B.BRAND_ID)" article="CATALOGUE">
+		<name>Алиасы для моделей</name>
+		<scriptname><![CDATA[$V_PARENTSCRIPTNAME=$cmf->selectrow_array('select NAME from ITEM where ITEM_ID=?',$_REQUEST['pid']);
+if(!$V_PARENTSCRIPTNAME){$V_PARENTSCRIPTNAME='<span style="color:#FF0000">Нерубрицированные</span>';}
+]]></scriptname>
+		<col type="0" name="ALIASES_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="6" name="ITEM_ID" parent="y">
+			<name>N</name>
+			<ref>
+				<table>ITEM</table>
+				<field>ITEM_ID</field>
+				<visual>NAME</visual>
+			</ref>
+			<comment>Уникальный идентификатор товара</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="TYPENAME" visuality="y" size="90" panelize="y">
+			<name>Тип продукции</name>
+			<comment>Тип продукции</comment>
+		</col>
+		<col type="6" name="BRAND_ID" visuality="y" sortasc="B.NAME,A.NAME" sortdesc="B.NAME desc,A.NAME" visualityname="B.NAME">
+			<name>Производитель</name>
+			<ref>
+				<table>BRAND</table>
+				<field>BRAND_ID</field>
+				<visual>NAME</visual>
+				<none>не задан</none>
+			</ref>
+			<comment>Производитель</comment>
+			<index>2</index>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Модель</name>
+			<comment>Модель</comment>
+			<index>2</index>
+		</col>
+		<extrakey src="i/mv.gif">
+			<name>move</name>
+			<comment>Прикрепить к товару</comment>
+		</extrakey>
+		<!-- previsible><![CDATA[$V_URL=~ m/http\:\/\/([^\/]+)\//;$V_URL=qq{<a href="$V_URL" target=_blank>$1</a>};]]></previsible -->
+		<previsible>
+
+$parts= preg_split('/[\s,\+\|\-\(\)&amp;@]/i', $V_NAME);
+
+$i=0; $k=0;
+$hhh =array();
+
+ foreach ($parts as $value){
+    if (!empty($value))
+     {
+
+       if (preg_match('/^([^0-9]*)(\d+)([^0-9]*)$/i', $value, $match))
+            {
+               for ($j=1; $j&lt;count($match); $j++)
+                 if (!empty($match[$j]))
+                 {
+                   $hhh[$k] = $match[$j];
+                   $k++;
+                 }
+            } else
+            {
+                $part[$i]=trim($value);
+            $i++;
+        }
+     }
+ }
+
+
+$parts="";
+if (!empty($part) &amp;&amp; count($part)>0)
+ {
+    $parts = implode('|',$part);
+    //$parts .="*";
+
+ } elseif (!empty($part) &amp;&amp; count($part)==0) $parts = $part[0]."*";
+
+if (!empty($parts)){
+        $parts = "($parts)?([[:blank:]]|\\\\+|\\\\-|\\\\|)*";
+}
+
+$i=1;$add="";
+foreach ($hhh as $value){
+        if ($i==1) $add.="($value)([[:blank:]]|\\\\+|\\\\-|\\\\|)*";
+        elseif ($i==2) $add.="($value)+";
+        else $add.="($value)*";
+    $i++;
+}
+
+unset($part, $hhh);
+
+$parts .= $add;
+
+$query="select I.ITEM_ID,I.NAME from ITEM as I INNER JOIN BRAND as B ON B.BRAND_ID = I.BRAND_ID where I.NAME
+REGEXP '".$parts."' and B.NAME='".$V_BRAND_ID."' order by I.NAME";
+
+$st = mysql_query($query);
+
+$COIN = '';
+if(mysql_num_rows($st))
+{
+   $number = mysql_num_rows($st);
+   if($number>1)
+   {
+      $COIN .= '&lt;select name="ids['.$V_ALIASES_ID.']" style="width:100px;color:red;">';
+      while($row = mysql_fetch_array($st))
+      {
+         $COIN .='&lt;option value="'.$row['ITEM_ID'].'"&gt;'.$row['NAME'].'&lt;/option&gt;';
+      }
+      $COIN .= '&lt;/select&gt;';
+   }
+   else
+   {
+      $row = mysql_fetch_array($st);
+      $COIN .='&lt;input type="hidden" name="ids['.$V_ALIASES_ID.']" value="'.$row['ITEM_ID'].'"&gt; &lt;b&gt;&lt;font color="red"&gt;'.$row['NAME'].'&lt;/font&gt;&lt;/b&gt;';
+   }
+}
+if($_REQUEST['pid']!='all') $V_NAME .="&lt;br/&gt;".$COIN;
+else
+{
+   $ITEM_NAME = $cmf->selectrow_array("select I.NAME from ITEM I inner join ALIASES A on A.ITEM_ID=I.ITEM_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
+   $BRAND_NAME = $cmf->selectrow_array("select B.NAME from BRAND B inner join ALIASES A on A.BRAND_ID=B.BRAND_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
+   $V_NAME .='&#160;&#160;&lt;font color="blue"&gt;&lt;b&gt;'.$BRAND_NAME.' '.$ITEM_NAME.'&lt;/b&gt;&lt;/font&gt;';
+}
+
+</previsible>
+		<where><![CDATA[($cmf->Param('FILTER_brandID')?' and (A.BRAND_ID='.mysql_escape_string($cmf->Param('FILTER_brandID')).' or A.BRAND_ID=0)':'')]]></where>
+		<back><![CDATA[
+EOF;
+if(!empty($_REQUEST['pid']))
+{
+   if($_REQUEST['pid']!='all')
+   {
+      ?><a href="ITEM.php?e=RET&amp;id=<?=$_REQUEST['pid']?>"><img src="i/back.gif" border="0" align="top" /> Назад</a><br /><?
+   }
+   else
+   {
+      ?><a href="ALIASES.php?pid=0"><img src="i/back.gif" border="0" align="top" /> Назад</a><br /><?
+   }
+}
+else { ?><a href="CATALOGUE.php?e=RET&amp;id=<?=$_REQUEST['pid']?>"><img src="i/back.gif" border="0" align="top" /> Назад</a><br /><?}
+$V_COUNT=$cmf->selectrow_array('select count(* ) from ALIASES A left join BRAND B  USING(BRAND_ID) where A.ITEM_ID=0');
+echo "<b>Осталось не прикреплённых: $V_COUNT</b>";
+
+print <<<EOF
+]]></back>
+		<filter cols="6"><![CDATA[<td colspan="6">
+EOF;
+$BRANDS=$cmf->Spravotchnik($cmf->Param('FILTER_brandID'),'select BRAND_ID,NAME from BRAND GROUP by NAME order by NAME');
+print <<<EOF
+<table bgcolor="#ffffff" border="0" cellpadding="5" cellspacing="1" width="100%">
+<input type="hidden" name="pid" value="{$_REQUEST['pid']}">
+<input type="hidden" name="p" value="{$_REQUEST['p']}">
+<input type="hidden" name="s" value="{$_REQUEST['s']}">
+<tr bgcolor="#CCCCCC"><td><select name="FILTER_brandID" onchange="return chan(this.form,ITEM_ID,'select ITEM_ID,NAME from ITEM where BRAND_ID=? order by NAME',this.value);"><option value="0">--------</option>$BRANDS</select><input type="text" name="q" value="" size="25" onkeyup="return chan(this.form,ITEM_ID,'select ITEM_ID,NAME from ITEM where BRAND_ID=? and NAME like ? order by NAME',FILTER_brandID.value+'\|%25'+this.value+'%25');"/>
+EOF;
+if($_REQUEST['pid'] != 'all') { ?>&#160;&#160;&#160;<input type="submit" name="e" value="Прикрепить"/>&#160;&#160;&#160;<input type="submit" name="e" value="filt"/>&#160;&#160;&#160;<input type="submit" name="e" value="Прикрепить похожие"/><?
+} else { ?>&#160;&#160;&#160;<input type="submit" name="e" value="filt"/><?
+}
+
+if($_REQUEST['pid'] != 'all') { ?>&#160;&#160;&#160;<input type="button" value="Показать прикрепленные" onClick="location.href='ALIASES.php?pid=all'"/> <?
+} else { ?>&#160;&#160;&#160;<input type="submit" name="e" value="Открепить выбранные"/><?
+}
+print <<<EOF
+<br><select name="ITEM_ID" style="width:100%" size="7"></select>
+
+EOF;
+if($cmf->Param('FILTER_brandID'))
+{
+   ?>
+   <script language="javascript">
+   chan(document.forms[0],document.forms[0].ITEM_ID,'select ITEM_ID,NAME from ITEM where BRAND_ID=? order by NAME',<? echo $cmf->Param('FILTER_brandID'); ?>);
+   </script>
+   <?
+}
+print <<<EOF
+
+</td></tr>
+<tr><td bgcolor="#CCCCCC"></td></tr>
+</table></td>]]></filter>
+		<extraevents><![CDATA[
+
+if($cmf->Param('move_x'))
+{
+$BRANDS=$cmf->Spravotchnik(0,'select distinct BRAND_ID,NAME from BRAND order by NAME');
+?><table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" class="f">
+<form action="ALIASES.php" method="POST">
+<input type="hidden" name="pid" value="<?=$_REQUEST['pid']?>">
+<input type="hidden" name="p" value="<?=$_REQUEST['p']?>">
+<input type="hidden" name="s" value="<?=$_REQUEST['s']?>"><?
+if(isset($_REQUEST['id']))
+foreach ($_REQUEST['id'] as $id){ ?><input type="hidden" name="id[]" value="<?=$id?>"/><? }
+?><tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Прикрепить" class="gbt bsave"/><input type="submit" name="e" value="Отменить" class="gbt bcancel"/></td></tr>
+<tr bgcolor="#FFFFFF"><td><select name="brandID" onchange="return chan(this.form,ITEM_ID,'select ITEM_ID,NAME from ITEM where BRAND_ID=? order by NAME',this.value);"><option>--------</option><? echo $BRANDS ?></select><input type="text" name="q" value="" onkeyup="return chan(this.form,ITEM_ID,'select ITEM_ID,NAME from ITEM where BRAND_ID=? and NAME like ? order by NAME',brandID.value+'\|%'+this.value+'%');"/>
+<select name="ITEM_ID" style="width:100%" size="30"></select></td></tr>
+<tr bgcolor="#F0F0F0" class="ftr"><td><input type="submit" name="e" value="Прикрепить" class="gbt bsave"/><input type="submit" name="e" value="Отменить" class="gbt bcancel"/></td></tr>
+</form></table><?
+$visible=0;
+}
+
+if($_REQUEST['e'] == 'Прикрепить')
+{
+ if(isset($_REQUEST['id']))
+ foreach ($_REQUEST['id'] as $id)
+ {
+        $cmf->execute('update ALIASES set ITEM_ID=? where ALIASES_ID=?',$cmf->Param('ITEM_ID'),$id);
+ }
+}
+
+if($_REQUEST['e'] == 'Прикрепить похожие')
+{
+ if(isset($_REQUEST['id']))
+ for($i=0;$i<sizeof($_REQUEST['id']);$i++)
+ {
+     $id = $_REQUEST['id'][$i];
+     $ids = '';
+     if(isset($_REQUEST['ids'][$id])) $ids = $_REQUEST['ids'][$id];
+     if(isset($ids) && $ids)
+     {
+       $cmf->execute('update ALIASES set ITEM_ID=? where ALIASES_ID=?',$_REQUEST['ids'][$_REQUEST['id'][$i]],$_REQUEST['id'][$i]);
+     }
+ }
+}
+
+if($_REQUEST['e'] == 'Открепить выбранные')
+{
+ if(isset($_REQUEST['id']))
+ for($i=0;$i<sizeof($_REQUEST['id']);$i++)
+ {
+     $id = $_REQUEST['id'][$i];
+     if($id)
+     {
+       $cmf->execute('update ALIASES set ITEM_ID=0 where ALIASES_ID=?',$id);
+     }
+ }
+}
+
+
+]]></extraevents>
+		<extrasubs><![CDATA[
+function GetTree($cmf,$id)
+{
+$sth=$cmf->execute('select CATALOGUE_ID,NAME from CATALOGUE where PARENT_ID=? order by ORDERING',$id);
+$ret='<ul>';
+while(list ($V_CATALOGUE_ID,$V_NAME)=mysql_fetch_array($sth, MYSQL_NUM))
+{
+$ret.=<<<EOF
+<dl><input type="radio" name="cid" value="$V_CATALOGUE_ID">&#160;$V_NAME</dl>
+EOF
+.GetTree($cmf,$V_CATALOGUE_ID);
+}
+$ret.='</ul>';
+return $ret;
+}
+]]></extrasubs>
+	</table>
+	<!-- System -->
+	<table name="ANOTHER_PAGES" parentscript="ANOTHER_PAGES" treechild="ANOTHER_PAGES" imagepath="/pg/" type="0">
+		<name>Страницы сайта</name>
+		<col type="0" name="ANOTHER_PAGES_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="3" name="PARENT_ID" parent="y">
+			<name>Родительский узел</name>
+			<comment>Родительский узел</comment>
+			<index>1</index>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" isfold="y">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="CATNAME" visuality="y" size="90">
+			<name>Путь до каталога</name>
+			<comment>Путь до каталога</comment>
+		</col>
+		<col type="1" name="REALCATNAME" size="90" internal="y">
+			<name>Полный Путь до каталога</name>
+			<comment>Полный Путь до каталога</comment>
+		</col>
+		<col type="1" name="URL" visuality="y" size="90">
+			<name>URL</name>
+			<comment>URL</comment>
+		</col>
+		<col type="1" name="TEMPLATE" size="90">
+			<name>Шаблон</name>
+			<comment>Шаблон</comment>
+		</col>
+		<col type="2" name="TITLE" rows="2" cols="90">
+			<name>Тайтл</name>
+			<comment>Тайтл</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="5" cols="90">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+		<col type="2" name="KEYWORDS" rows="5" cols="90">
+			<name>Ключевые слова</name>
+			<comment>Ключевые слова</comment>
+		</col>
+		<!--
+        <col type="7" name="ICON_IMAGE" postfix="_ico">
+                <name>Иконка</name>
+                <comment>Иконка</comment>
+        </col>
+
+        <col type="7" name="IMAGE" postfix="_pg">
+                <name>Картинка раздела</name>
+                <comment>Картинка раздела</comment>
+        </col>
+
+        <col type="8" name="IS_GROUP_NODE" default="0">
+                <name>Группа образующий узел</name>
+                <comment>Группа образующий узел</comment>
+        </col>
+        -->
+		<col type="8" name="IS_NEW_WIN" default="0">
+			<name>В новом окне</name>
+			<comment>В новом окне</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<col type="8" name="REALSTATUS" selectible="y" isrealstate="y">
+			<name>auto Статус - Вкл/Выкл</name>
+			<comment>auto Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="11" name="ORDER_">
+			<name>Порядок</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+    <postinsertevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ANOTHER_PAGES set CATNAME=? where ANOTHER_PAGES_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }      
+      $cmf->execute('update ANOTHER_PAGES set REALSTATUS=?,REALCATNAME=? where ANOTHER_PAGES_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
+    ]]></postinsertevent>
+    <postupdateevent><![CDATA[
+      if(empty($_REQUEST['CATNAME'])){
+        $dbRules = $cmf->select("select * from TRANSLIT_RULE");
+        $rules = array();
+        if(!empty($dbRules)){
+          foreach ($dbRules as $rule){
+            $rules[$rule['SRC']] = $rule['TRANSLIT'];
+          }
+        }
+        
+        $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
+        $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
+        
+        $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
+        
+        $cmf->execute('update ANOTHER_PAGES set CATNAME=? where ANOTHER_PAGES_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
+        
+      }
+      UpdatePath($cmf,0,'');      
+    ]]></postupdateevent>
+		<extrasubs><![CDATA[
+function GetPath($cmf,$id)
+{
+list ($PATH,$PARENTID,$NAME)=array('','','');
+$i=0;
+while(list($PARENTID,$NAME)=$cmf->selectrow_array('select PARENT_ID,CATNAME from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$id))
+{
+$i++;
+if($i==1 && $NAME=='') break;
+$id=$PARENTID;
+if($NAME)
+{
+   $NAME = str_replace("/","",$NAME);
+   $PATH="/$NAME$PATH"; }
+}
+$PATH = preg_replace("/(\/){2,}/","/",$PATH);
+if('/' != substr($PATH,-1)){$PATH=$PATH."/";}
+return $PATH;
+}
+
+function UpdatePath($cmf,$id,$path)
+{
+        $sth=$cmf->execute('select ANOTHER_PAGES_ID,CATNAME from ANOTHER_PAGES where PARENT_ID=?',$id);
+        while(list ($V_CATALOGUE_ID,$V_CATNAME)=mysql_fetch_array($sth, MYSQL_NUM))
+        {
+                if($V_CATNAME)
+                {
+                  $V_CATNAME="$path/$V_CATNAME";
+                }
+                else {$V_CATNAME='';};
+                $V_CATNAME = preg_replace("/(\/){2,}/","/",$V_CATNAME);
+                if('/' != substr($V_CATNAME,-1)){$V_CATNAME=$V_CATNAME."/";}
+                $cmf->execute('update ANOTHER_PAGES set REALCATNAME=? where ANOTHER_PAGES_ID=?',$V_CATNAME,$V_CATALOGUE_ID);
+                UpdatePath($cmf,$V_CATALOGUE_ID,$V_CATNAME);
+        }
+}
+]]></extrasubs>
+	</table>
+	<table name="XMLS" nogen="y">
+		<name>Единица измерения</name>
+		<col type="0" name="XMLS_ID" primary="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор единицы измерения</comment>
+		</col>
+		<col type="10" name="TYPE" primary="y">
+			<name>К чему привязан</name>
+			<enum>
+				<option value="0">Статья</option>
+				<option value="1">Страница сайта</option>
+				<option value="2">новости</option>
+			</enum>
+			<comment>К чему привязанн</comment>
+		</col>
+		<col type="2" name="XML">
+			<name>Содержимое</name>
+			<comment>Содержимое</comment>
+		</col>
+	</table>
+	<table name="SETINGS">
+		<name>Настройки</name>
+		<col type="0" name="SETINGS_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название настройки</name>
+			<comment>Название настройки</comment>
+		</col>
+		<col type="1" name="SYSTEM_NAME" visuality="y" size="90">
+			<name>Системное имя настройки</name>
+			<comment>Системное имя настройки</comment>
+			<index unique="y">1</index>
+		</col>
+		<col type="2" name="VALUE" rows="7" cols="90">
+			<name>Значение</name>
+			<comment>Значение</comment>
+		</col>
+		<panel/>
+	</table>
+	<table name="MANAGERS">
+		<name>Менеджеры</name>
+		<col type="0" name="MANAGER_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Описание</name>
+			<comment>Описание</comment>
+		</col>
+		<col type="1" name="EMAIL" visuality="y" size="90">
+			<name>Email</name>
+			<comment>Email</comment>
+		</col>
+		<col type="8" name="EMAIL_STATUS" isstate="y" selectible="y" default="1">
+			<name>Отправлять письма</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
+			<name>Вкл.</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+	</table>
+	<!-- CMF -->
+	<table name="SEQUENCES" order="NAME">
+		<name>Последовательности</name>
+		<col type="0" name="SEQUENCES_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>N</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название последовательности</name>
+			<comment>Название последовательности</comment>
+			<index unique="y">1</index>
+		</col>
+		<col type="3" name="ID" visuality="y" size="90">
+			<name>Значение последовательности</name>
+			<comment>Значение последовательности</comment>
+		</col>
+	</table>
+	<table name="CMF_USER" pagesize="100" defsort="1">
+		<name>Пользователи системы</name>
+		<col type="0" name="CMF_USER_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="MD5_" size="90" internal="y">
+			<index>1</index>
+			<name>MD5</name>
+			<comment>MD5</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Имя пользователя</name>
+			<comment>Имя пользователя</comment>
+		</col>
+		<col type="1" name="LOGIN" size="90" visuality="y" trim="y">
+			<index>2</index>
+			<name>Login</name>
+			<comment>Login</comment>
+		</col>
+		<col type="1" name="PASS_" size="90">
+			<name>Пароль</name>
+			<comment>Пароль</comment>
+		</col>
+		<col type="1" name="URL" size="90">
+			<name>URL точки входа</name>
+			<comment>URL точки входа</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<postinsertevent><![CDATA[$cmf->execute('update CMF_USER set MD5_=md5(now()) where CMF_USER_ID=?',$_REQUEST['id']);]]></postinsertevent>
+		<postupdateevent><![CDATA[$cmf->execute('update CMF_USER set MD5_=md5(now()) where CMF_USER_ID=?',$_REQUEST['id']);]]></postupdateevent>
+		<joined name="CMF_USER_GROUP">
+			<name>Принадлежность пользователя к группе</name>
+			<col type="6" name="CMF_GROUP_ID" primary="y" visuality="y" editable="y">
+				<ref>
+					<table>CMF_GROUP</table>
+					<field>CMF_GROUP_ID</field>
+					<visual>NAME</visual>
+				</ref>
+				<name>Группа</name>
+				<comment>Уникальный идентификатор группы</comment>
+			</col>
+		</joined>
+	</table>
+	<table name="CMF_GROUP" pagesize="100" defsort="1">
+		<name>Группы системы</name>
+		<col type="0" name="CMF_GROUP_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название группы</name>
+			<comment>Название группы</comment>
+		</col>
+		<col type="1" name="URL" size="90">
+			<name>URL точки входа</name>
+			<comment>URL точки входа</comment>
+		</col>
+		<postinsertevent><![CDATA[
+$_REQUEST['SCRIPT_ID']=$cmf->selectrow_array('select CMF_SCRIPT_ID from CMF_SCRIPT where URL=?','user_rights.php');
+$cmf->execute('insert ignore into CMF_SCRIPT_GROUP (CMF_GROUP_ID,CMF_SCRIPT_ID,R) VALUES (?,?,?)',$_REQUEST['id'],$_REQUEST['SCRIPT_ID'],1);
+]]></postinsertevent>
+	</table>
+	<table name="CMF_SCRIPT" imagepath="/adm/scr/" parentscript="CMF_SCRIPT" treechild="CMF_SCRIPT">
+		<name>Скрипты</name>
+		<col type="0" name="CMF_SCRIPT_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор Скрипта</comment>
+		</col>
+		<col type="3" name="PARENT_ID" parent="y">
+			<index>1</index>
+			<name>N</name>
+			<comment>Уникальный идентификатор рубрики</comment>
+		</col>
+		<col type="1" name="ARTICLE">
+			<index>2</index>
+			<name>Псевдоним скрипта</name>
+			<comment>Псевдоним скрипта</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90" isfold="y">
+			<name>Название cкрипта</name>
+			<comment>Название скрипта</comment>
+		</col>
+		<col type="1" name="URL" visuality="y" size="90" trim="y">
+			<name>Путь к скрипту</name>
+			<comment>Путь к скрипту</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="7" name="IMAGE">
+			<name>Картинка</name>
+			<comment>Картика</comment>
+		</col>
+		<col type="1" name="BACKGROUND" size="7">
+			<name>Цвет фона</name>
+			<comment>Цвет фона</comment>
+		</col>
+		<col type="10" name="TYPE" size="90" visuality="y">
+			<name>Тип</name>
+			<comment>Тип</comment>
+			<enum>
+				<option value="0"> в главное меню </option>
+				<option value="1"> в верхнее меню</option>
+				<option value="2"> еще куда нибудь в меню</option>
+			</enum>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="8" name="REALSTATUS" selectible="y" isrealstate="y">
+			<name>auto Статус - Вкл/Выкл</name>
+			<comment>auto Флаг (1-вкл 0-выкл)</comment>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<postinsertevent><![CDATA[
+        $cmf->execute('update CMF_SCRIPT set REALSTATUS=? where CMF_SCRIPT_ID=?',GetMyRealStatus($cmf,$cmf->Param('id')),$cmf->Param('id'));
+        $cmf->execute('insert into CMF_SCRIPT_GROUP (CMF_SCRIPT_ID,CMF_GROUP_ID,R,W,D) VALUES (?,1,1,1,1)',$cmf->Param('id'));]]></postinsertevent>
+		<postdeleteevent><![CDATA[$cmf->execute('delete from CMF_SCRIPT_GROUP where CMF_SCRIPT_ID=?',$cmf->Param('id'));
+        $cmf->execute('delete from CMF_SCRIPT_USER where CMF_SCRIPT_ID=?',$cmf->Param('id'));]]></postdeleteevent>
+		<extrasubs><![CDATA[
+         function getSubTree($cmf,$parent)
+         {
+           $subtree = array();
+           $sth = $cmf->execute($query = "select CMF_SCRIPT_ID from CMF_SCRIPT where PARENT_ID=?",$parent);
+
+           while($row = mysql_fetch_array($sth))
+           {
+             if($row['CMF_SCRIPT_ID'])
+             {
+                $subtree[] = $row['CMF_SCRIPT_ID'];
+                $subtree = array_merge($subtree,getSubTree($cmf,$row['CMF_SCRIPT_ID']));
+             }
+           }
+           return $subtree;
+         }
+        ]]></extrasubs>
+		<joined name="CMF_SCRIPT_USER">
+			<name>Права пользователей</name>
+			<col type="6" name="CMF_USER_ID" primary="y" visuality="y" editable="y">
+				<name>Имя пользователя</name>
+				<ref>
+					<table>CMF_USER</table>
+					<field>CMF_USER_ID</field>
+					<visual>NAME</visual>
+				</ref>
+				<comment>Уникальный идентификатор пользователя</comment>
+			</col>
+			<col type="8" name="R" default="0" visuality="y">
+				<name>чтение?</name>
+				<comment>чтение?</comment>
+			</col>
+			<col type="8" name="W" default="0" visuality="y">
+				<name>запись?</name>
+				<comment>запись?</comment>
+			</col>
+			<col type="8" name="D" default="0" visuality="y">
+				<name>удаление?</name>
+				<comment>удаление?</comment>
+			</col>
+			<postinsertevent><![CDATA[
+                if(!empty($_REQUEST['id']) && !empty($_REQUEST['CMF_USER_ID']))
+                {
+                 $subtree = getSubTree($cmf,$_REQUEST['id']);
+                 if($subtree)
+                 {
+                    for($i=0;$i<sizeof($subtree);$i++)
+                    {
+                        $cmf->execute('insert into CMF_SCRIPT_USER (CMF_SCRIPT_ID,CMF_USER_ID,R,W,D) values (?,?,?,?,?)',$subtree[$i],$_REQUEST['CMF_USER_ID'],stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']));
+                    }
+                 }
+               }
+               ]]></postinsertevent>
+			<postupdateevent><![CDATA[
+               $subtree = getSubTree($cmf,$_REQUEST['id']);
+               if($subtree)
+               {
+                  for($i=0;$i<sizeof($subtree);$i++)
+                  {
+                      $count = $cmf->selectrow_array("select COUNT(*) from CMF_SCRIPT_USER  where CMF_SCRIPT_ID=? and CMF_USER_ID=?",$subtree[$i],$_REQUEST['CMF_USER_ID']);
+                      if($count == 0)
+                      {
+                         $cmf->execute('insert into CMF_SCRIPT_USER (CMF_SCRIPT_ID,CMF_USER_ID,R,W,D) values (?,?,?,?,?)',$subtree[$i],$_REQUEST['CMF_USER_ID'],stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']));
+                      }
+                      else
+                      {
+                         $cmf->execute('update CMF_SCRIPT_USER set R=?,W=?,D=? where CMF_SCRIPT_ID=? and CMF_USER_ID=?',stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']),$subtree[$i],$_REQUEST['CMF_USER_ID']);
+                      }
+                   }
+               }
+               ]]></postupdateevent>
+			<postdeleteevent><![CDATA[
+               if(is_array($_REQUEST['iid']))
+               {
+                  foreach ($_REQUEST['iid'] as $id)
+                  {
+                     $subtree = getSubTree($cmf,$_REQUEST['id']);
+                     if($subtree)
+                     {
+                        for($i=0;$i<sizeof($subtree);$i++)
+                        {
+                            $cmf->execute('delete from CMF_SCRIPT_USER where CMF_SCRIPT_ID=? and CMF_USER_ID=?',$subtree[$i],$id);
+                        }
+                     }
+                  }
+               }
+               ]]></postdeleteevent>
+		</joined>
+		<joined name="CMF_SCRIPT_GROUP">
+			<name icon="somepic.gif">Права групп</name>
+			<col type="6" name="CMF_GROUP_ID" primary="y" visuality="y" editable="y">
+				<name>Группа</name>
+				<ref>
+					<table>CMF_GROUP</table>
+					<field>CMF_GROUP_ID</field>
+					<visual>NAME</visual>
+				</ref>
+				<comment>Уникальный идентификатор группы</comment>
+			</col>
+			<col type="8" name="R" default="0" visuality="y">
+				<name>чтение?</name>
+				<comment>чтение?</comment>
+			</col>
+			<col type="8" name="W" default="0" visuality="y">
+				<name>запись?</name>
+				<comment>запись?</comment>
+			</col>
+			<col type="8" name="D" default="0" visuality="y">
+				<name>удаление?</name>
+				<comment>удаление?</comment>
+			</col>
+			<postinsertevent><![CDATA[
+                if(!empty($_REQUEST['id']) && !empty($_REQUEST['CMF_USER_ID']))
+                {
+                 $subtree = getSubTree($cmf,$_REQUEST['id']);
+                 if($subtree)
+                 {
+                    for($i=0;$i<sizeof($subtree);$i++)
+                    {
+                        $cmf->execute('insert into CMF_SCRIPT_GROUP (CMF_SCRIPT_ID,CMF_GROUP_ID,R,W,D) values (?,?,?,?,?)',$subtree[$i],$_REQUEST['iid'],stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']));
+                    }
+                 }
+               }
+               ]]></postinsertevent>
+			<postupdateevent><![CDATA[
+               $subtree = getSubTree($cmf,$_REQUEST['id']);
+               if($subtree)
+               {
+                  for($i=0;$i<sizeof($subtree);$i++)
+                  {
+                      $count = $cmf->selectrow_array("select COUNT(*) from CMF_SCRIPT_GROUP where CMF_SCRIPT_ID=? and CMF_GROUP_ID=?",$subtree[$i],$_REQUEST['CMF_GROUP_ID']);
+                      if($count == 0)
+                      {
+                         $cmf->execute('insert into CMF_SCRIPT_GROUP (CMF_SCRIPT_ID,CMF_GROUP_ID,R,W,D) values (?,?,?,?,?)',$subtree[$i],$_REQUEST['CMF_GROUP_ID'],stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']));
+                      }
+                      else
+                      {
+                         $cmf->execute('update CMF_SCRIPT_GROUP set CMF_GROUP_ID=?,R=?,W=?,D=? where CMF_SCRIPT_ID=? and CMF_GROUP_ID=?',stripslashes($_REQUEST['CMF_GROUP_ID'])+0,stripslashes($_REQUEST['R']),stripslashes($_REQUEST['W']),stripslashes($_REQUEST['D']),$subtree[$i],$_REQUEST['CMF_GROUP_ID']);
+                      }
+                   }
+               }
+               ]]></postupdateevent>
+			<postdeleteevent><![CDATA[
+               if(is_array($_REQUEST['iid']))
+               {
+                  foreach ($_REQUEST['iid'] as $id)
+                  {
+                     $subtree = getSubTree($cmf,$_REQUEST['id']);
+                     if($subtree)
+                     {
+                        for($i=0;$i<sizeof($subtree);$i++)
+                        {
+                            $cmf->execute('delete from CMF_SCRIPT_GROUP where CMF_SCRIPT_ID=? and CMF_GROUP_ID=?',$subtree[$i],$id);
+                        }
+                     }
+                  }
+               }
+               ]]></postdeleteevent>
+		</joined>
+	</table>
+	<table name="CMF_XMLS_ARTICLE">
+		<name>Привязка типа к скрипту</name>
+		<col type="3" name="TYPE" primary="y" visuality="y" editable="y">
+			<name>Тип</name>
+			<comment>Тип</comment>
+		</col>
+		<col type="6" name="ARTICLE" visuality="y">
+			<ref type="text">
+				<table>CMF_SCRIPT</table>
+				<field>ARTICLE</field>
+				<visual>NAME</visual>
+			</ref>
+			<name>ARTICLE</name>
+			<comment>ARTICLE</comment>
+		</col>
+		<col type="1" name="EDIT" visuality="y" size="90">
+			<name>Шаблон пути для редактирования</name>
+			<comment>Шаблон пути для редактирования</comment>
+		</col>
+		<col type="1" name="VIEW" visuality="y" size="90">
+			<name>Шаблон пути для просмотра</name>
+			<comment>Шаблон пути для просмотра</comment>
+		</col>
+	</table>
+	<table name="CMF_BUG" pagesize="100" defsort="1">
+		<name>Баги системы</name>
+		<col type="0" name="CMF_BUG_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="6" name="CMF_USER_ID" visuality="y">
+			<ref>
+				<table>CMF_USER</table>
+				<field>CMF_USER_ID</field>
+				<visual>concat(LOGIN,":",CMF_USER_ID)</visual>
+			</ref>
+			<name>Пользователь</name>
+			<comment>Пользователь</comment>
+		</col>
+		<col type="12" name="DATA" visuality="y">
+			<index>1</index>
+			<name>Дата</name>
+			<comment>Дата</comment>
+		</col>
+		<col type="1" name="URL" size="90" visuality="y">
+			<name>URL ошибки</name>
+			<comment>URL ошибки</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="5" cols="90">
+			<name>Текст</name>
+			<comment>Текст</comment>
+		</col>
+		<col type="10" name="STATUS" default="1">
+			<name>Статус</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+			<enum>
+				<option value="0"> Новый </option>
+				<option value="1"> В процессе</option>
+				<option value="2"> Обработан</option>
+				<option value="3"> Отказ</option>
+			</enum>
+		</col>
+		<addpager>&amp;f={$_REQUEST['f']}</addpager>
+		<where><![CDATA[(isset($_REQUEST['f'])?"STATUS={$_REQUEST['f']}":'1=1')]]></where>
+		<filter cols="3"><![CDATA[<th colspan="3" class="main_tbl_title">
+EOF;
+foreach ($cmf->ENUM_STATUS as $key=>$val)
+{
+$COUNT=$cmf->selectrow_array('select count(*) from CMF_BUG where STATUS=?',$key);
+if($cmf->Param('f') == $key){ ?><a href="CMF_BUG.php?f=<?=$key?>" class="red"><?=$val?> (<?=$COUNT?>)</a>&#160;&#160;&#160;<?}
+else {?><a href="CMF_BUG.php?f=<?=$key?>"><?=$val?> (<?=$COUNT?>)</a>&#160;&#160;&#160;<? }
+}
+print <<<EOF
+</th>]]></filter>
+	</table>
+	<table name="CMF_LANG" ordering="ORDERING asc">
+		<name>Языки</name>
+		<col type="0" name="CMF_LANG_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор</comment>
+		</col>
+		<col type="1" name="NAME" visuality="y" size="90">
+			<name>Название</name>
+			<comment>Название</comment>
+		</col>
+		<col type="1" name="SYSTEM_NAME" visuality="y" size="90">
+			<name>Системное имя</name>
+			<comment>Системное имя</comment>
+			<index unique="y">1</index>
+		</col>
+		<col type="11" name="ORDERING">
+			<name>Порядок сортировки</name>
+			<comment>Порядок сортировки</comment>
+		</col>
+		<col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+			<name>Вкл</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
+	</table>
+	<!-- NOT FOUND -->
+	<table name="CMF_PARAM" pagesize="100">
+		<name>Параметры CMF</name>
+		<col type="0" name="CMF_PARAM_ID" primary="y" visuality="y">
+			<name>N</name>
+			<comment>Уникальный идентификатор параметра</comment>
+		</col>
+		<col type="1" name="SYSNAME" size="90" visuality="y">
+			<name>Системное имя</name>
+			<comment>Системное имя</comment>
+		</col>
+		<col type="1" name="NAME" size="90" visuality="y">
+			<name>Название параметра</name>
+			<comment>Название параметра</comment>
+		</col>
+		<col type="1" name="VALUE" size="90" visuality="y">
+			<name>Значение параметра</name>
+			<comment>Значение параметра</comment>
+		</col>
+		<col type="2" name="DESCRIPTION" rows="7" cols="90">
+			<name>Краткое описание</name>
+			<comment>Краткое описание</comment>
+		</col>
+		<col type="8" name="STATUS" isstate="y" selectible="y">
+			<name>Вкл</name>
+			<comment>Флаг (0-вкл 1-выкл)</comment>
+		</col>
+	</table>
+	<!-- /System -->
+  
+  <table name="OLD_SEF_URL" pagesize="50">
+      <name>Таблица соответствия старых урлов урлам сайта</name>
+      <col type="0" name="OLD_SEF_URL_ID" primary="y" visuality="y">
+          <name>N</name>
+          <comment>Уникальный идентификатор</comment>
+      </col>
+      <col type="1" name="NAME" size="90" visuality="y">
+          <name>Старый урл</name>
+          <comment>Название</comment>
+      </col>
+      <col type="6" name="SEF_SITE_URL_ID" visuality="y">
+          <name>ЧПУ-урл :: Урл сайта</name>
+          <ref>
+        <table>SEF_SITE_URL</table>
+        <field>SEF_SITE_URL_ID</field>
+        <visual>concat(SEF_URL," :: ",SITE_URL)</visual>
+      </ref>
+          <comment>Название</comment>
+      </col>    
+      <col type="12" name="DATE" visuality="y" calendar="y">
+          <name>Дата создания записи</name>
+          <comment>Дата</comment>
+      </col>     
+  </table>
+
+  <table name="SEF_SITE_URL" pagesize="50">
+      <name>Таблица соответствия ЧПУ-урлов урлам сайта</name>
+      <col type="0" name="SEF_SITE_URL_ID" primary="y" visuality="y">
+          <name>N</name>
+          <comment>Уникальный идентификатор</comment>
+      </col>
+       <col type="1" name="SEF_URL" size="90" visuality="y">
+          <name>ЧПУ-урл</name>
+          <comment>Название</comment>
+      </col>  
+      <col type="1" name="SITE_URL" size="90" visuality="y">
+          <name>Урл сайта</name>
+          <comment>Название</comment>
+      </col>    
+      <col type="12" name="DATE" visuality="y" calendar="y">
+          <name>Дата создания записи</name>
+          <comment>Дата</comment>
+      </col>     
+  </table>
+  
+  <table name="REDIRECTOR" pagesize="50">
+    <name>Таблица 301 редиректов</name>
+    <col type="0" name="REDIRECTOR_ID" primary="y" visuality="y">
+        <name>N</name>
+        <comment>Уникальный идентификатор</comment>
+    </col>
+     <col type="1" name="URL_FROM" size="90" visuality="y">
+        <name>URL откуда</name>
+        <comment>URL откуда</comment>
+    </col>  
+    <col type="1" name="URL_TO" size="90" visuality="y">
+        <name>URL куда</name>
+        <comment>URL куда</comment>
+    </col>
+  </table>
+
+  <table name="TRANSLIT_RULE" pagesize="50">
+      <name>Правила транслитерации</name>
+      <col type="0" name="TRANSLIT_RULE_ID" primary="y" visuality="y">
+          <name>N</name>
+          <comment>Уникальный идентификатор</comment>
+      </col>
+       <col type="1" name="SRC" size="90" visuality="y">
+          <name>Исх.символ(ы)</name>
+          <comment>Название</comment>
+      </col>  
+      <col type="1" name="TRANSLIT" size="90" visuality="y">
+          <name>Транслит</name>
+          <comment>Название</comment>
+      </col>
+  </table>
+  
+  <table name="TEXTES" pagesize="120" ordering="NAME" imagepath="/textes/">
+    <name>Баннерные Места</name>
+    <col type="0" name="TEXTES_ID" primary="y" visuality="y">
+      <name>N</name>
+      <comment>Уникальный идентификатор</comment>
+    </col>
+    <col type="1" name="NAME" size="90" visuality="y">
+      <name>Название</name>
+      <comment>Название</comment>
+    </col>
+    <col type="1" name="SYS_NAME" size="90" visuality="y">
+      <name>Системное имя</name>
+      <comment>Системное имя</comment>
+    </col>
+    <col type="2" name="DESCRIPTION" rows="7" cols="90" panelize="y" econfig="light_config.js">
+      <name>Текст</name>
+      <comment>Текст</comment>
+    </col>
+    <col type="7" name="IMAGE">
+      <name>Картинка</name>
+      <comment>Картинка</comment>
+    </col>
+    <preinsertevent><![CDATA[
+      $_REQUEST['DESCRIPTION'] = trim($_REQUEST['DESCRIPTION']);
+      $pattern = '/^(?:<p>)?(.+?)(?:<\/p>)?$/is';
+      preg_match($pattern, $_REQUEST['DESCRIPTION'], $out);
+      $_REQUEST['DESCRIPTION'] = isset($out[1]) ? trim($out[1]):$_REQUEST['DESCRIPTION'];    
+    ]]>
+    </preinsertevent>
+    
+   <preupdateevent><![CDATA[
+      $_REQUEST['DESCRIPTION'] = trim($_REQUEST['DESCRIPTION']);
+      $pattern = '/^(?:<p>)?(.+?)(?:<\/p>)?$/is';
+      preg_match($pattern, $_REQUEST['DESCRIPTION'], $out);
+      $_REQUEST['DESCRIPTION'] = isset($out[1]) ? trim($out[1]):$_REQUEST['DESCRIPTION'];
+    ]]>
+    </preupdateevent>
+  </table>
+  
+  <table name="CALLBACK" pagesize="120" ordering="CALLBACK_ID desc">
+    <name>Обратный звонок</name>
+    <col type="0" name="CALLBACK_ID" primary="y" visuality="y">
+      <name>N</name>
+      <comment>Уникальный идентификатор</comment>
+    </col>
+    <col type="1" name="NAME" size="90"  visuality="y">
+      <name>Имя</name>
+      <comment>Имя</comment>
+    </col>
+    <col type="1" name="PHONE" size="90"  visuality="y">
+      <name>Имя</name>
+      <comment>Имя</comment>
+    </col>
+    <col type="2" name="DESCRIPTION" rows="7" cols="90">
+      <name>Лучшее время для звонка</name>
+      <comment>Лучшее время для звонка</comment>
+    </col>
+    <col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+      <name>Статус</name>
+      <comment>Статус</comment>
+    </col>  
+  </table>
+  
+  <table name="SHOPUSER_DISCOUNTS" pagesize="20" ordering="ORDERING" imagepath="/usr_disc/" type="9">
+    <name>Скидка покупателя</name>
+    <col type="0" name="SHOPUSER_DISCOUNTS_ID" primary="y" visuality="y">
+      <name>N</name>
+      <comment>Уникальный идентификатор</comment>
+    </col>
+    <col type="1" name="NAME" size="90"  visuality="y">
+      <name>Название</name>
+      <comment>Название</comment>
+    </col>
+ <!--   <col type="1" name="CLASS_NAME" size="90">
+      <name>Название лкасса</name>
+      <comment>Название лкасса</comment>
+    </col>-->
+    <col type="4" name="MIN" visuality="y">
+      <name>Min значение</name>
+      <comment>Min значение</comment>
+    </col>
+    <col type="4" name="MAX" visuality="y">
+      <name>Max значение</name>
+      <comment>Max значение</comment>
+    </col>
+    <col type="7" name="IMAGE1" postfix="_usr_disc_small">
+      <name>Картинка (маленькая)</name>
+      <comment>Картинка (маленькая)</comment>
+    </col>
+    <col type="7" name="IMAGE2" postfix="_usr_disc_big">
+      <name>Картинка (большая)</name>
+      <comment>Картинка (большая)</comment>
+    </col>
+    <col type="1" name="COLOR" visuality="y" size="20">
+      <name>Color CSS</name>
+      <comment>Цвет отображения</comment>
+    </col>
+    <col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+      <name>Статус</name>
+      <comment>Статус</comment>
+    </col>  
+    <col type="11" name="ORDERING">
+      <name>Порядок сортировки</name>
+      <comment>Порядок сортировки</comment>
+    </col>
+    <joined name="SHOPUSER_DISCOUNTS_RANGE_LIST">
+      <name>Список возможных диапазонов</name>
+      <col type="3" name="SHOPUSER_DISCOUNTS_RANGE_LIST_ID" primary="y" visuality="y">
+        <name>N</name>
+        <comment>Уникальный идентификатор</comment>
+      </col>      
+      <col type="4" name="MIN" visuality="y">
+        <name>Min значение</name>
+        <comment>Min значение</comment>
+      </col>
+      <col type="4" name="MAX" visuality="y">
+        <name>Max значение</name>
+        <comment>Max значение</comment>
+      </col>
+      <col type="1" name="DISCOUNT_SUMM" visuality="y" size="90">
+        <name>Скидка</name>
+        <comment>Скидка</comment>
+      </col>
+    </joined>
+  </table>
+  
+  <table name="MESSAGES">
+    <name>Рассылка</name>
+    <col type="0" name="MESSAGES_ID" primary="y" visuality="y">
+      <name>N</name>
+      <comment>Уникальный идентификатор</comment>
+    </col>
+    <col type="1" name="NAME" size="90" visuality="y">
+      <name>Тема</name>
+      <comment>Тема</comment>
+    </col>
+    <col type="2" name="TEXT" rows="7" cols="90" panelize="y">
+      <name>Текст сообщения</name>
+      <comment>Текст сообщения</comment>
+    </col>
+    <panel/>
+    <col type="10" name="ACTION" visuality="n">
+      <name>Действия</name>
+      <enum>
+        <option value="0">Отправить</option>
+        <option value="1">Сохранить в архиве</option>
+      </enum>
+    </col>
+    <col type="10" name="STATE_" internal="y" visuality="y">
+      <name>Состояние</name>
+      <enum>
+        <option value="0">Отправляется</option>
+        <option value="1">Отправлен</option>
+      </enum>
+      <comment>Состояние</comment>
+    </col>
+    <col type="3" name="ADMIN" internal="y">
+      <name>ИД админа</name>
+      <comment>ИД админа</comment>
+    </col>
+    <col type="6" name="SUBSCRIBE_CLIENT_GROUP_ID" visuality="y">
+      <name>Группа адресов рассылки</name>
+      <ref>
+        <table>SUBSCRIBE_CLIENT_GROUP</table>
+        <field>SUBSCRIBE_CLIENT_GROUP_ID</field>
+        <visual>NAME</visual>
+        <none/>
+      </ref>
+      <comment>Уникальный идентификатор группы</comment>
+      <index>2</index>
+    </col>
+    <postinsertevent><![CDATA[
+
+      switch($_REQUEST['ACTION'])
+      {
+         case 0:
+         {
+            $cmf->execute('update MESSAGES set STATE_= 0 where MESSAGES_ID=?',$_REQUEST['id']);
+            break;
+         }
+
+         case 1:
+         {
+            $cmf->execute('update MESSAGES set STATE_= 1 where MESSAGES_ID=?',$_REQUEST['id']);
+            break;
+         }
+      }
+
+      //Админ
+      if(!empty($_COOKIE['CMF_UID']))
+      {
+         $admin_id = $cmf->selectrow_array("select CMF_USER_ID from CMF_USER where MD5_=?", $_COOKIE['CMF_UID']);
+         $cmf->execute('update MESSAGES set ADMIN=? where MESSAGES_ID=?',$admin_id,$_REQUEST['id']);
+      }
+      
+      if(!empty($_POST['SUBSCRIBE_CLIENT_GROUP_ID'])){
+        $sql="delete from MESSAGES_SHOPUSER
+              where MESSAGES_ID = ?";
+              
+        $cmf->execute($sql,$_REQUEST['id']);
+        
+        $sql="select USER_ID
+              from SHOPUSER_SUBSCRIBE_CLIENT_GROUP
+              where SUBSCRIBE_CLIENT_GROUP_ID = ?";
+              
+        $sth = $cmf->execute($sql, $_REQUEST['SUBSCRIBE_CLIENT_GROUP_ID']);
+        
+        while($row=mysql_fetch_array($sth, MYSQL_ASSOC)){
+          
+          $sql="insert into MESSAGES_SHOPUSER
+                set MESSAGES_ID = {$_REQUEST['id']},
+                    USER_ID = {$row['USER_ID']},
+                    WAS_SEND = 0";
+
+          $cmf->execute($sql);
+        }
+      }
+  ]]></postinsertevent>
+
+    <postupdateevent><![CDATA[
+
+      switch($_REQUEST['ACTION'])
+      {
+         case 0:
+         {
+            $cmf->execute('update MESSAGES set STATE_= 0 where MESSAGES_ID=?',$_REQUEST['id']);
+            break;
+         }
+
+         case 1:
+         {
+            $cmf->execute('update MESSAGES set STATE_= 1 where MESSAGES_ID=?',$_REQUEST['id']);
+            break;
+         }
+      }
+
+      //Админ
+      if(!empty($_COOKIE['CMF_UID']))
+      {
+         $admin_id = $cmf->selectrow_array("select CMF_USER_ID from CMF_USER where MD5_=?", $_COOKIE['CMF_UID']);
+         $cmf->execute('update MESSAGES set ADMIN=? where MESSAGES_ID=?',$admin_id,$_REQUEST['id']);
+      }
+      
+      if(!empty($_POST['SUBSCRIBE_CLIENT_GROUP_ID'])){
+        $sql="delete from MESSAGES_SHOPUSER
+              where MESSAGES_ID = ?";
+              
+        $cmf->execute($sql,$_REQUEST['id']);
+        
+        $sql="select USER_ID
+              from SHOPUSER_SUBSCRIBE_CLIENT_GROUP
+              where SUBSCRIBE_CLIENT_GROUP_ID = ?";
+              
+        $sth = $cmf->execute($sql, $_REQUEST['SUBSCRIBE_CLIENT_GROUP_ID']);
+        
+        while($row=mysql_fetch_array($sth, MYSQL_ASSOC)){
+          
+          $sql="insert into MESSAGES_SHOPUSER
+                set MESSAGES_ID = {$_REQUEST['id']},
+                    USER_ID = {$row['USER_ID']},
+                    WAS_SEND = 0";
+
+          $cmf->execute($sql);
+        }
+      }
+  ]]></postupdateevent>
+  </table>
+
+  <table name="SUBSCRIBE_CLIENT_GROUP">
+    <name>Группа адресов рассылки</name>
+    <col type="0" name="SUBSCRIBE_CLIENT_GROUP_ID" primary="y" visuality="y">
+      <name>N</name>
+      <comment>Уникальный идентификатор</comment>
+    </col>
+    <col type="1" name="NAME" visuality="y" size="90">
+      <name>Имя</name>
+      <comment>Имя</comment>
+      <index>1</index>
+    </col>
+    <col type="8" name="STATUS" default="1" selectible="y" isstate="y">
+      <name>Вкл</name>
+      <comment>Флаг (1-вкл 0-выкл)</comment>
+    </col>
+    <joined name="SHOPUSER_SUBSCRIBE_CLIENT_GROUP">
+      <name>Связь группы с участиниками</name>
+      <col type="0" name="SHOPUSER_SUBSCRIBE_CLIENT_GROUP_ID" primary="y" visuality="y">
+        <name>N</name>
+        <comment>Уникальный идентификатор</comment>
+      </col>
+      <col type="6" name="USER_ID" visuality="y">
+        <name>Участник</name>
+        <ref>
+          <table>SHOPUSER</table>
+          <field>USER_ID</field>
+          <visual>if(SURNAME is null, NAME, concat(SURNAME,\' \',NAME))</visual>
+        </ref>
+        <comment>Уникальный идентификатор группы</comment>
+        <index>2</index>
+      </col>
+    </joined>
+  </table>
+</config>

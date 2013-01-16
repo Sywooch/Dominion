@@ -1,0 +1,94 @@
+.jcarousel-container {
+  position: relative;
+}
+
+.jcarousel-clip {
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.jcarousel-list {
+  z-index: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.jcarousel-list li, .jcarousel-item {
+  float: left;
+  list-style: none;
+  width: 200px;
+}
+.gallery .jcarousel-list li, .gallery .jcarousel-item {
+  width: 70px;
+  padding:0 5px;
+}
+.jcarousel-next {
+  z-index: 3;
+  display: none;
+}
+
+.jcarousel-prev {
+  z-index: 3;
+  display: none;
+}
+
+.jcarousel-skin .jcarousel-container {
+}
+
+.jcarousel-skin .jcarousel-container-horizontal {
+  width: 600px;
+  padding: 20px 40px;
+  margin: 0 auto;
+}
+.gallery .jcarousel-container-horizontal {
+  width: 202px;
+  padding: 10px 20px;
+  margin: 0 auto;
+}
+.jcarousel-skin .jcarousel-clip-horizontal {
+  width: 600px;
+}
+.gallery .jcarousel-clip-horizontal{
+  width:202px;
+}
+.jcarousel-skin .jcarousel-item-placeholder {
+  background: #fff;
+  color: #000;
+}
+
+.jcarousel-skin .jcarousel-next-horizontal {
+  position: absolute;
+  right: 5px;
+  width: 18px;
+  height: 20px;
+  cursor: pointer;
+  background: url(../i/bulet8.png) no-repeat -29px -13px;
+  display: block;
+}
+
+.jcarousel-skin .jcarousel-next-disabled-horizontal, .jcarousel-skin .jcarousel-next-disabled-horizontal:hover, .jcarousel-skin .jcarousel-next-disabled-horizontal:active {
+  cursor: default;
+  background-position: -29px -58px;
+}
+
+.jcarousel-skin .jcarousel-prev-horizontal {
+  display: block;
+  position: absolute;
+  left: 5px;
+  width: 18px;
+  height: 20px;
+  z-index: 100;
+  cursor: pointer;
+  background: url(../i/bulet8.png) no-repeat -4px -13px;
+}
+
+.jcarousel-skin .jcarousel-prev-disabled-horizontal, .jcarousel-skin .jcarousel-prev-disabled-horizontal:hover, .jcarousel-skin .jcarousel-prev-disabled-horizontal:active {
+  cursor: default;
+  background-position: -4px -58px;
+}

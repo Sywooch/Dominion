@@ -1,0 +1,9 @@
+#all, #front_text_block, .news_teaser, #catalog_chapters {
+	zoom:1;
+}
+.catalog_chapter {
+	display: inline;
+}
+#call_form_box {
+	right: 100%;
+}

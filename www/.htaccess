@@ -1,0 +1,25 @@
+#php_value error_reporting 2047
+
+DirectoryIndex index.htm index.php
+RewriteEngine on
+
+#RewriteCond %{HTTP_HOST} ^7560000\.com\.ua$ [NC]
+#RewriteRule ^(.*)$ http://new.7560000.com.ua/$1 [L,R=301]
+
+#RewriteCond %{HTTP_HOST} ^www\.7560000\.com\.ua$ [NC]
+#RewriteRule ^(.*)$ http://new.7560000.com.ua/$1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !/css(.*)
+RewriteCond %{REQUEST_FILENAME} !/js(.*)
+RewriteCond %{REQUEST_FILENAME} !/kcaptcha(.*)
+RewriteCond %{REQUEST_FILENAME} !/import(.*)
+RewriteCond %{REQUEST_FILENAME} !/admin(.*)
+
+RewriteRule robots.txt robots.txt [L]
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+#RewriteRule ^(.*)$ index.php/$1
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
