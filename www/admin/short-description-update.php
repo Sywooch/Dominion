@@ -1,7 +1,7 @@
 <?php
 // Set the application root path
 defined('ROOT_PATH')
-    || define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT'].'/../');
+    || define('ROOT_PATH', realpath(dirname(__FILE__) .'/../../'));
 
 // Define path to application directory
 defined('APPLICATION_PATH')
