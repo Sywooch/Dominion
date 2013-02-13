@@ -50,12 +50,8 @@ class Helpers_Register extends App_Controller_Helper_HelperAbstract
         if (!empty($discounts_id)) {
             $present_discount = $this->work_model->getDiscountData($discounts_id);
             $this->createDiscountNode('present_discount', $present_discount);
-
-
-
-            $user_summ = $this->work_model->getUserOrderSumm($user_data['user_id']);
         }
-
+        $user_summ = $this->work_model->getUserOrderSumm($user_data['user_id']);
         $this->domXml->create_element('user_summ', $user_summ, 2);
         $this->domXml->go_to_parent();
 

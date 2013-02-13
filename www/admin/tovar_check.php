@@ -19,7 +19,7 @@ include 'lib/tovar_check/class.placeholder_data.php';
   $zakaz_id = !empty($_GET['zakaz_id']) ? $_GET['zakaz_id']:0;
 
   if(!empty($zakaz_id)){
-    $model = new checkModel($cmf);    
+    $model = new checkModel($cmf);
     $tovar_check = new tovar_check($config, $model, $zakaz_id);
     $tovar_check->run();
     $excel_data = $tovar_check->getExcelData();

@@ -128,6 +128,7 @@ if($_REQUEST['DATE_TO']) $V_DAT_TO = substr($_REQUEST['DATE_TO'],8,2).".".substr
 else $V_DAT_TO = $_SESSION['ZAKAZ']['DATE_TO'];
 
 $FILT_CMF_USER_ID=$cmf->Spravotchnik($_REQUEST['SES_CMF_USER_ID'],'select CMF_USER_ID,NAME from CMF_USER  order by NAME');
+$FILT_SUPPLIER_ID=$cmf->Spravotchnik($_REQUEST['SES_SUPPLIER_ID'],'select SUPPLIER_ID,NAME from SUPPLIER  order by NAME');
         
         @print <<<EOF
         <span id="DATE_DATE_TO">$V_DAT_TO</span>
@@ -167,20 +168,27 @@ $FILT_CMF_USER_ID=$cmf->Spravotchnik($_REQUEST['SES_CMF_USER_ID'],'select CMF_US
 <td align="left">
 <input type="text" name="SES_ORDER" value="{$_REQUEST["SES_ORDER"]}" />
 </td></tr>
-
 <td width="100">Менеджеры</td>
 <td align="left">
 <select name="SES_CMF_USER_ID">
 <option value="all">-- все менеджеры --</option>
 $FILT_CMF_USER_ID
 </select>
-
-Профит:  $zakaz_profit
-
 </td>
-
-
 </tr>
+<tr>
+<td width="100">Поставщики</td>
+<td align="left">
+<select name="SES_SUPPLIER_ID">
+<option value="all">-- все поставщики --</option>
+$FILT_SUPPLIER_ID
+</select>
+</td></tr>
+<tr>
+<td width="100"><b>Профит:</b></td>
+<td align="left">
+<b>$zakaz_profit</b>
+</td></tr>
 
 </table></td></tr>
 EOF;

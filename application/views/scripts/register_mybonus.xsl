@@ -21,12 +21,12 @@
 				<div class="personal_status">
 					Ваше накопление: <span class="sum">
 							<xsl:value-of select="format-number(user_summ, '### ##0', 'european')"/>&#160;грн.</span> 
-					<xsl:if test="user_summ != 0">		
-				   | Ваш статус: 
-					<a href="/ajax/popup/mode/userdiscount/id/{present_discount/@id}/" class="popup status">
-						<xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of select="present_discount/image_small/@src"/>") no-repeat scroll right top transparent; color: <xsl:value-of select="next_discount/color"/></xsl:attribute>
-						<xsl:value-of select="present_discount/name"/>
-					</a>
+					<xsl:if test="present_discount/name != ''">		
+					   | Ваш статус: 
+						<a href="/ajax/popup/mode/userdiscount/id/{present_discount/@id}/" class="popup status">
+							<xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of select="present_discount/image_small/@src"/>") no-repeat scroll right top transparent; color: <xsl:value-of select="next_discount/color"/></xsl:attribute>
+							<xsl:value-of select="present_discount/name"/>
+						</a>
 					</xsl:if>
 				</div>
 				<div class="personal_status next">

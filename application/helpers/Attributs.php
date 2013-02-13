@@ -132,7 +132,6 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract{
         $this->domXml->create_element('name',$val['val']);
         $this->domXml->go_to_parent();
       }
-    }    
+    }
   }
-          
 }

@@ -209,7 +209,7 @@
       
       $this->openData($o_data);
       
-      $ap_helper = $this->_helper->helperLoader('AnotherPages');      
+      $ap_helper = $this->_helper->helperLoader('AnotherPages');
       $ap_helper->setModel($AnotherPages);
       $ap_helper->setDomXml($this->domXml);
       $ap_helper->getDocInfo($doc_id);
@@ -217,7 +217,7 @@
       
       $user_data = Zend_Auth::getInstance()->getIdentity();
       
-      $rg_helper = $this->_helper->helperLoader('Register');      
+      $rg_helper = $this->_helper->helperLoader('Register');
       $rg_helper->setModel($Cart);
       $rg_helper->setDomXml($this->domXml);
       $rg_helper->getMybonus($user_data);

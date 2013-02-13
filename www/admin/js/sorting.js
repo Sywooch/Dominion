@@ -145,8 +145,8 @@ $(document).ready(function() {
     //    isAdminSorting.deselect();
     //  });
 
-    var size  = $('#filterfield').attr('size');
-    if(size==0){
+//    var size  = $('#filterfield').attr('size');
+//    if(size==0){
         $("#filterfield").change(function(){
             var price = $('#filterfield option:selected').attr('price');
             var purchase_price = $('#filterfield option:selected').attr('purchase_price');
@@ -156,7 +156,7 @@ $(document).ready(function() {
             $("#PURCHASE_PRICE").val(purchase_price);
             $("#CURRENCY_ID").text(currency_id);
         });
-    }
+//    }
 
 });
 
