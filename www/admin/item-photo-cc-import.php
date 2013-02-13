@@ -59,12 +59,12 @@ Zend_Loader::loadClass('Zend_Exception');
   $registry->set('db_connect', $db);
 
 require_once ROOT_PATH.'/include/GrabberException.php';
-require_once ROOT_PATH.'/include/class.item_cc_image_convert.php';
+require_once ROOT_PATH.'/include/class.item_image_convert.php';
 
 require_once ROOT_PATH.'/include/imageResize/config_mage.ini.php';
 require_once ROOT_PATH.'/include/imageResize/imageResizer.php';
 
 
-$item_image_convert = new item_cc_image_convert();
+$item_image_convert = new item_image_convert();
 $item_image_convert->run();
 ?>
