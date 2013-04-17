@@ -321,7 +321,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getCatalItems($catalogue_id, $item_id, $startSelect = 0,
-                                  $perPage = 0)
+        $perPage = 0)
     {
 
         $_catalogue_id = implode(", ", $catalogue_id);
@@ -368,7 +368,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getCatalogItemsID($catalogue_id, $item_id = 0,
-                                      $limit = false, $start = 0)
+        $limit = false, $start = 0)
     {
 
         $_catalogue_id = implode(", ", $catalogue_id);
@@ -410,7 +410,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getSimilarItems($table, $it_id = 0, $limit = false,
-                                    $start = 0)
+        $start = 0)
     {
         $sql = "select TT.ITEM_ID
           from {$table} TT
@@ -500,7 +500,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function recountPrice($price, $price1, $currency_id, $currency,
-                                 $curr_price)
+        $curr_price)
     {
         if ($currency_id != $currency) {
             //Валюта товара не соответствует выбранной,нужен пересчет
@@ -552,7 +552,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function recountPriceSc($price, $item_currency_id,
-                                   $current_currency_id, $curr_price)
+        $current_currency_id, $curr_price)
     {
         if ($item_currency_id != $current_currency_id) {
             //Валюта товара не соответствует выбранной,нужен пересчет
@@ -585,8 +585,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getAttributes($catalogueId = 0,
-                                  $tableName = 'ATTR_CATALOG_LINK', $limit = '',
-                                  $show = 0)
+        $tableName = 'ATTR_CATALOG_LINK', $limit = '', $show = 0)
     {
         if (!$catalogueId)
             return;
@@ -636,7 +635,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getAttributesDescription($catalogueId = 0,
-                                             $tableName = 'ATTR_CATALOG_LINK')
+        $tableName = 'ATTR_CATALOG_LINK')
     {
         if (!$catalogueId)
             return;
@@ -678,7 +677,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getItemAttributes($attributeList, $itemId, $catId = '',
-                                      $limit = 0)
+        $limit = 0)
     {
         $itemAttribute = $attributeList;
         $attribs = array();
@@ -906,6 +905,10 @@ class models_Item extends ZendDBEntity
             , CURRENCY_ID = {$data['CURRENCY_ID']} ";
 
         $this->_db->query($sql);
+
+        $this->updateSequence('ZAKAZ_ITEM');
+
+        return $this->lastInsertId('ZAKAZ_ITEM');
     }
 
     public function getItemMeta($id)
@@ -1472,7 +1475,7 @@ class models_Item extends ZendDBEntity
     }
 
     public function getSearchItems($item_id, $catalogue_id, $item_cash_arr,
-                                   $temp_item_cash)
+        $temp_item_cash)
     {
         $math = '';
         if ($item_cash_arr) {

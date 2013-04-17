@@ -418,13 +418,23 @@
 				<xsl:variable name="style"><![CDATA[<!--[if IE 6.0]><link rel="stylesheet" type="text/css" href="/css/ie.css" media="screen"/><![endif]-->]]></xsl:variable>
 				<link id="favicon" href="/favicon.ico" rel="icon" type="image/x-icon" />
 			  	<link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+                <!--<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />-->
 				<link rel="stylesheet" type="text/css" href="/css/style.css" />
 				<link rel="stylesheet" type="text/css" href="/css/classes.css" />
 				<link rel="stylesheet" type="text/css" href="/css/blocks.css" />
 				<link rel="stylesheet" type="text/css" href="/css/popup.css" />
 				<link rel="stylesheet" type="text/css" href="/css/fancybox.css" />
 
-				<script type="text/javascript" src="/js/jquery.js"></script>
+				<!--<script type="text/javascript" src="/js/jquery.js"></script>-->
+                <!--<script type="text/javascript" src="/js/jquery-ui.custom.min.js"></script>-->
+
+                <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+
+                <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+                <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
+                <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
 				<script type='text/javascript' src='/js/fancybox.js'></script>
 				<script type="text/javascript" src="/js/jquery-ui.custom.min.js"></script>
 				<script type="text/javascript" src="/js/jsfunctions.js"></script>

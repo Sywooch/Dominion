@@ -3,23 +3,23 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="_main.xsl"/>
 
-<xsl:template match="socials">    
+<xsl:template match="socials">
 	<li>
 		<a target="_blank" href="{url}" title="{name}">
 			<img width="20" height="20" src="/images/social/{image/@src}" alt="{name}"/>
 		</a>
 	</li>
-</xsl:template>		
+</xsl:template>
 
-<xsl:template match="banner_social_likes">    
+<xsl:template match="banner_social_likes">
 	<li>
 		<!--<xsl:apply-templates select="banner_code"/>-->
 		<xsl:variable name="banner_code" select="banner_code"/>
 		<xsl:value-of select="$banner_code" disable-output-escaping="yes"/>
 	</li>
-</xsl:template>		
+</xsl:template>
 
-<xsl:template match="attr_shorts">    
+<xsl:template match="attr_shorts">
 	<label>
 		<input type="checkbox" value="{value}" name="attr_shorts[]" xid="{@attribut_id}" id="attr{@attribut_id}" class="attr_shorts" />
 		<xsl:value-of select="name"/><xsl:if  test="type!=6">:&#160;<xsl:choose><xsl:when test="range_name!=''"><xsl:value-of select="range_name"/></xsl:when><xsl:otherwise><xsl:value-of select="value_view"/> <xsl:value-of select="unit_name"/></xsl:otherwise></xsl:choose></xsl:if>
@@ -36,13 +36,13 @@
 				<input type="hidden" name="category_path" id="category_path" value="{//data/@category_path}"/>
 				<xsl:apply-templates select="attr_shorts"/>
 				<div class="applay_filters" style="clear: both;">
-					<a title="Показать все" class="product_button" href="javascript:void(0);">				
+					<a title="Показать все" class="product_button" href="javascript:void(0);">
 						<span>Показать все</span>
 					</a>
 				</div>
 			</form>
 			<div id="same_products_div">
-			</div>		
+			</div>
 		</div>
 	</xsl:if>
 </xsl:template>
@@ -70,13 +70,13 @@
 				</xsl:if>
 				<xsl:value-of select="value"/>&#160;<xsl:value-of select="unit_name"/></dd>
 		</xsl:otherwise>
-	</xsl:choose>	
+	</xsl:choose>
 </xsl:template>
 
 <xsl:template match="view_attribut_group">
 	<h3><xsl:value-of select="name"/></h3>
 	<dl class="product_features">
-		<xsl:apply-templates select="attributes"/>		
+		<xsl:apply-templates select="attributes"/>
 	</dl>
 </xsl:template>
 
@@ -84,9 +84,9 @@
 	<li>
 		<div class="tovar" id="pitm_{@item_id}">
 			<h2><a href="/item/{@item_id}/{urname}/"><xsl:value-of select="brand_name"/>&#160;<xsl:value-of select="name"/></a></h2>
-			<div class="img"><a href="/item/{@item_id}/{urname}/"><img src="/images/it/{image/@src}" alt="" width="{image/@w}" height="{image/@h}"/></a> 
+			<div class="img"><a href="/item/{@item_id}/{urname}/"><img src="/images/it/{image/@src}" alt="" width="{image/@w}" height="{image/@h}"/></a>
 				<xsl:if test="discount_image/@src!=''">
-					<span class="sale"><img src="/images/disc/{discount_image/@src}" alt="" width="{discount_image/@w}" height="{discount_image/@h}" /></span> 
+					<span class="sale"><img src="/images/disc/{discount_image/@src}" alt="" width="{discount_image/@w}" height="{discount_image/@h}" /></span>
 				</xsl:if>
 			</div>
 			<div class="by"> <span class="price"><xsl:value-of select="@price"/></span><xsl:choose><xsl:when test="@in_cart=1"><a id="{@item_id}" class="incard2" title="уже в корзине"><xsl:value-of select="currency"/></a></xsl:when><xsl:otherwise><a href="javascript:void(0);" id="{@item_id}" class="incard"><xsl:value-of select="currency"/></a></xsl:otherwise></xsl:choose><xsl:choose><xsl:when test="@in_compare=1"><span class="srv" title="уже в сравнении">CpaBH|/|Tb</span></xsl:when><xsl:otherwise><span id="citm_{@item_id}"><a href="javascript:void(0);" onclick="compare('{@item_id}',0,0)" class="srv">CpaBH|/|Tb</a></span></xsl:otherwise></xsl:choose></div>
@@ -94,13 +94,13 @@
 	</li>
 </xsl:template>
 
-<xsl:template match="item_photo">    
+<xsl:template match="item_photo">
     <li>
 		<a href="/images/it/{img_big/@src}" class="gr_fancybox" rel="gr_fancybox" title="{//item/typename} {//item/brand_name} {//item/name}"><img src="/images/it/{img_small/@src}" width="{img_small/@w}" height="{img_small/@h}" alt="{//item/typename} {//item/brand_name} {//item/name}" /></a>
 	</li>
 </xsl:template>
 
-<xsl:template match="item_photo" mode="withoutcar">    
+<xsl:template match="item_photo" mode="withoutcar">
     <li class="jcarousel-item jcarousel-item-horizontal">
 		<a href="/images/it/{img_big/@src}" class="gr_fancybox" rel="gr_fancybox" title="{//item/typename} {//item/brand_name} {//item/name}"><img src="/images/it/{img_small/@src}" width="{img_small/@w}" height="{img_small/@h}" alt="{//item/typename} {//item/brand_name} {//item/name}" /></a>
 	</li>
@@ -143,7 +143,7 @@
 	$(document).ready(function() {	
 		$("a.gr_fancybox").fancybox();
 	});
-</script>]]>						
+</script>]]>
 </xsl:variable>
 
 <xsl:variable name="fancybox_jcarousel"><![CDATA[
@@ -153,7 +153,7 @@
 			scroll: 3
 		});
 	});
-</script>]]>						
+</script>]]>
 </xsl:variable>
 
 <xsl:template match="item_media">
@@ -171,7 +171,7 @@
 		<xsl:otherwise>
 			<xsl:value-of select="media_code" disable-output-escaping="yes"/>
 		</xsl:otherwise>
-	</xsl:choose>	 
+	</xsl:choose>
 </xsl:template>
 
 <xsl:template match="comments">
@@ -192,10 +192,10 @@
 		</xsl:if>
 		<a>
 			<xsl:choose>
-				<xsl:when test="pos=1"><xsl:attribute name="href"><xsl:value-of select="//item/href"/></xsl:attribute></xsl:when>			
+				<xsl:when test="pos=1"><xsl:attribute name="href"><xsl:value-of select="//item/href"/></xsl:attribute></xsl:when>
 				<xsl:otherwise><xsl:attribute name="href"><xsl:value-of select="//item/href"/><xsl:value-of select="name"/>/</xsl:attribute></xsl:otherwise>
 			</xsl:choose>
-			<xsl:value-of select="value"/>			
+			<xsl:value-of select="value"/>
 		</a>
 	</li>
 </xsl:template>
@@ -246,7 +246,7 @@
 			<xsl:when test="@section='items'"><xsl:attribute name="class"> tab_content tab<xsl:value-of select="pos"/> active</xsl:attribute></xsl:when>
 			<xsl:otherwise><xsl:attribute name="class"> tab_content tab<xsl:value-of select="pos"/></xsl:attribute></xsl:otherwise>
 		</xsl:choose>
-		<div id="same_products_content" class="clearfix">			
+		<div id="same_products_content" class="clearfix">
 			<xsl:apply-templates select="../item_item"/>
 		</div>
 	</div>
@@ -292,7 +292,7 @@ $().ready(function() {
 		onkeyup: false
 	});
 });
-</script>]]>						
+</script>]]>
 </xsl:variable>
 
 <xsl:template match="tabs" mode="comments">
@@ -323,7 +323,7 @@ $().ready(function() {
 				</div>
 				<input type="submit" value="Отправить"/>
 			</form>
-			
+
 			<div class="content_block comments">
 				<h3>Комментарии <span class="quantity">(<span class="response_count"><xsl:value-of select="count(../comments)"/></span>)</span></h3>
 				<div id="comment_view">
@@ -333,11 +333,11 @@ $().ready(function() {
 	</div>
 </xsl:template>
 
-<xsl:template match="item">	
+<xsl:template match="item">
 	<xsl:value-of select="$fancybox" disable-output-escaping="yes"/>
-		
+
 	<h1><xsl:if test="typename!=''"><xsl:value-of select="typename"/>&#160;</xsl:if><xsl:value-of select="brand_name"/>&#160;<xsl:value-of select="name"/></h1>
-			
+
 	<div id="product_block" class="clearfix">
 		<div id="product_photos">
 			<div id="product_main_photo">
@@ -351,7 +351,7 @@ $().ready(function() {
 									User discount</span>
 							</xsl:if>
 							<xsl:if test="discount_image/@src!=''">
-								<span class="sale"><img src="/images/disc/{discount_image/@src}" alt="" width="{discount_image/@w}" height="{discount_image/@h}" /></span> 
+								<span class="sale"><img src="/images/disc/{discount_image/@src}" alt="" width="{discount_image/@w}" height="{discount_image/@h}" /></span>
 							</xsl:if>
 						</a>
 						<a href="#" class="zoom" title = "Увеличить">Увеличить</a>
@@ -369,7 +369,7 @@ $().ready(function() {
 							</ul>
 						</div>
 					</xsl:when>
-					<xsl:when test="count(item_photo) &lt; 4">						
+					<xsl:when test="count(item_photo) &lt; 4">
 						<div class="gallery  jcarousel-skin">
 							<div class="jcarousel-container jcarousel-container-horizontal">
 								<div class="jcarousel-clip jcarousel-clip-horizontal">
@@ -383,7 +383,7 @@ $().ready(function() {
 				</xsl:choose>
 			</div>
 		</div>
-		
+
 		<div id="product_info_left_column">
 			<div id="poduct_price_block" class="clearfix">
 
@@ -405,7 +405,7 @@ $().ready(function() {
 							<xsl:otherwise>
 								<div class="price_box">
 									<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span> | <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>
-								</div>			
+								</div>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>
@@ -413,7 +413,7 @@ $().ready(function() {
 						<span class="price">нет в наличии</span>
 					</xsl:otherwise>
 				</xsl:choose>
-				
+
 			</div>
 			<div class="info_box">
 				<span class="articul">Артикул товара:<xsl:value-of select="article"/></span>
@@ -435,14 +435,14 @@ $().ready(function() {
 				</xsl:if>
 			</div>
 		</div>
-            
+
 		<div id="product_button_block" class="clearfix">
 			<xsl:choose>
 				<xsl:when test="@price=0 or @active=0">
 					<a href="/item/reserve/id/{@item_id}/" id="{@item_id}" class="product_button noitem_reserve"><span>Сообщить о наличии</span></a>
 				</xsl:when>
-				<xsl:otherwise>				
-					<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас"><span>Купить сейчас</span></a>					
+				<xsl:otherwise>
+					<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас"><span>Купить сейчас</span></a>
 					<xsl:if test="//banner_item_pay/description!=''">
 						<div class="payvar">
 							<xsl:apply-templates select="//banner_item_pay/description"/>
@@ -488,21 +488,21 @@ $().ready(function() {
 				</div>
 			</xsl:if>
 		</div>
-		
+
 		<div class="social_block">
-			<xsl:if test="count(//data/socials) &gt; 0">	
+			<xsl:if test="count(//data/socials) &gt; 0">
 				<ul class="socset">
 					<li>Рассказать друзьям:&#160;</li>
-					<xsl:apply-templates select="//data/socials"/>			
+					<xsl:apply-templates select="//data/socials"/>
 				</ul>
 			</xsl:if>
-			<xsl:if test="count(//banner_social_likes) &gt; 0">	
+			<xsl:if test="count(//banner_social_likes) &gt; 0">
 				<ul class="socset">
-					<xsl:apply-templates select="//banner_social_likes"/>			
+					<xsl:apply-templates select="//banner_social_likes"/>
 				</ul>
-			</xsl:if>			
+			</xsl:if>
 		</div>
-		
+
 	</div>
 	<div class="content_block">
 		<ul class="tabs content">

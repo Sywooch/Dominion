@@ -7,10 +7,10 @@
 require ('core.php');
 $cmf = new SCMF();
 
-if (!$cmf->GetRights()) {
-    header('Location: login.php');
-    exit;
-}
+//if (!$cmf->GetRights()) {
+//    header('Location: login.php');
+//    exit;
+//}
 
 $cmf->Header();
 

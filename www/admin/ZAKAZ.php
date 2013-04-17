@@ -147,8 +147,11 @@ $_REQUEST['PURCHASE_PRICE'] = addslashes($_REQUEST['PURCHASE_PRICE']);
 $_REQUEST['QUANTITY'] = strip_tags($_REQUEST['QUANTITY']);
 $_REQUEST['QUANTITY'] = addslashes($_REQUEST['QUANTITY']);
 
+$ZAKAZ_ITEM_ID = $cmf->GetSequence('ZAKAZ_ITEM');
+
 $sql="insert into ZAKAZ_ITEM
-      set  ZAKAZ_ID = {$_REQUEST['id']}
+      set  ZAKAZ_ITEM_ID = {$ZAKAZ_ITEM_ID}
+          ,ZAKAZ_ID = {$_REQUEST['id']}
           ,ITEM_ID = {$_REQUEST['ITEM_ID']}
           ,CATALOGUE_ID = {$_REQUEST['CATALOGUE_ID']}
           ,NAME = '{$IN_NAME}'
@@ -1009,7 +1012,7 @@ EOF;
    if(!empty($VV_ITEM_PRICE)) {
     echo "<br/><b style='color:#003399'>Цена $VV_ITEM_CURRENCY:</b> $VV_ITEM_PRICE {$VV_ITEM_CURRENCY}";
    }
-   
+
    if(!empty($VV_PURCHASE_PRICE)) {
        echo "<br/><b style='color:#336600'>Цена закупки {$default_currency['SNAME']}:</b> {$VV_PURCHASE_PRICE} {$default_currency['SNAME']}";
    }

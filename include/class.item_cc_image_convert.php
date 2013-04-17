@@ -33,15 +33,13 @@ class item_cc_image_convert
 //                $pictures['name'] = $img['BASE_IMAGE'];
                 $pictures['type'] = 'base';
 
-                $pattern_page = '/(.*)\.(png|jpeg|jpg|gif|bmp)/';
-                preg_match($pattern_page, $img['BASE_IMAGE'], $out);
-                if (!empty($out[1])) {
-                    $pictures['name'] = $out[1].'_3.'.$out[2];
-                }
- 
-                if (!empty($pictures['name']) && file_exists(CC_IMAGE_UPLOAD_PATH . '/'. $pictures['name'])) {
+                $pictures['name'] = $img['BASE_IMAGE'];
+
+
+                if (!empty($pictures['name']) && file_exists(CC_IMAGE_UPLOAD_PATH . '/' . $pictures['name'])) {
 //          if(!$this->Item->itemHasImage($item_id)){
-                    list($_data['IMAGE1'], $_data['IMAGE2'], $_data['IMAGE3']) = $this->convertItemImage($pictures, $item_id);
+                    list($_data['IMAGE1'], $_data['IMAGE2'], $_data['IMAGE3']) = $this->convertItemImage($pictures,
+                                                                                                         $item_id);
                     $_data['NEED_RESIZE'] = 0;
                     $this->Item->updateItemImport($_data, $item_id);
 //          }
@@ -49,8 +47,8 @@ class item_cc_image_convert
                     echo "Image {$pathToImage} for ID {$item_id} converted\r\n<br>";
                     unset($_data);
                 } else {
-                    $errImgName = !empty($pictures['name']) ? $pictures['name']:$img['BASE_IMAGE'];
-                    echo "Image " . CC_IMAGE_UPLOAD_PATH . '/'. $errImgName . " for ID {$item_id} not found\r\n<br>";
+                    $errImgName = !empty($pictures['name']) ? $pictures['name'] : $img['BASE_IMAGE'];
+                    echo "Image " . CC_IMAGE_UPLOAD_PATH . '/' . $errImgName . " for ID {$item_id} not found\r\n<br>";
                 }
 //                $this->getItemPhotos($item_id);
             }
@@ -65,7 +63,7 @@ class item_cc_image_convert
                 $pictures['name'] = $img['NAME'];
                 $pictures['type'] = 'big';
 
-                if (!empty($pictures['name']) && file_exists(CC_IMAGE_UPLOAD_PATH . '/'. $pictures['name'])) {
+                if (!empty($pictures['name']) && file_exists(CC_IMAGE_UPLOAD_PATH . '/' . $pictures['name'])) {
                     list($_data['IMAGE1'], $_data['IMAGE2']) = $this->convertItemFotos($pictures,
                                                                                        $item_id,
                                                                                        $img['ITEM_ITEM_ID']);
@@ -115,7 +113,7 @@ class item_cc_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH .'/' . $picture['name']);
+        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH . '/' . $picture['name']);
 
         if (!$buf) {
             echo "Image " . $picture['name'] . " not founded \r\n<br>";
@@ -205,10 +203,10 @@ class item_cc_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH .'/'. $picture['name']);
+        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH . '/' . $picture['name']);
 
         if (!$buf) {
-            echo "Image " . CC_IMAGE_UPLOAD_PATH .'/' . $picture['name'] . " not founded \n<br>";
+            echo "Image " . CC_IMAGE_UPLOAD_PATH . '/' . $picture['name'] . " not founded \n<br>";
             return $_image_name_result;
         }
 
@@ -286,10 +284,10 @@ class item_cc_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH .'/'. $picture['name']);
+        $buf = file_get_contents(CC_IMAGE_UPLOAD_PATH . '/' . $picture['name']);
 
         if (!$buf) {
-            echo "Image " . CC_IMAGE_UPLOAD_PATH .'/'. $picture['name'] . " not founded \n<br>";
+            echo "Image " . CC_IMAGE_UPLOAD_PATH . '/' . $picture['name'] . " not founded \n<br>";
             return $_image_name_result;
         }
 

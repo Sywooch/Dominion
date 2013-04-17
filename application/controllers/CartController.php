@@ -91,11 +91,10 @@ class CartController extends App_Controller_Frontend_Action
                 foreach ($session->item as $item_id => $view) {
                     $item = $Item->getItemInfo($item_id);
 
-                    list($new_price, $new_price1) = $Item->recountPrice($item['PRICE'],
-                                                                        $item['PRICE1'],
-                                                                        $item['CURRENCY_ID'],
-                                                                        $this->currency,
-                                                                        $curr_info['PRICE']);
+                    list($new_price, $new_price1) = $Item->recountPrice(
+                        $item['PRICE'], $item['PRICE1'], $item['CURRENCY_ID'],
+                        $this->currency, $curr_info['PRICE']
+                    );
 
                     $item['sh_disc_img_small'] = '';
                     $item['sh_disc_img_big'] = '';
@@ -167,7 +166,7 @@ class CartController extends App_Controller_Frontend_Action
                     $message = str_replace('##table##', $table, $message);
 
                     $message = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
-                            . $message . '</body></html>';
+                        . $message . '</body></html>';
 
                     $params['to'] = $zakaz_data['EMAIL'];
                     $params['message'] = $message;
@@ -209,10 +208,10 @@ class CartController extends App_Controller_Frontend_Action
                     $g['ITEMS'] = implode(', ', $vCeneIDItems);
 
                     $sesVcene->vcene = array(
-                        'EMAIL' => $this->order['EMAIL'],
-                        'TOTAL_PRICE' => $total_price,
-                        'ZAKAZ_ID' => $this->order['ZAKAZ_ID'],
-                        'ITEMS' => implode(', ', $vCeneIDItems)
+                          'EMAIL' => $this->order['EMAIL'],
+                          'TOTAL_PRICE' => $total_price,
+                          'ZAKAZ_ID' => $this->order['ZAKAZ_ID'],
+                          'ITEMS' => implode(', ', $vCeneIDItems)
                     );
                 }
             }
@@ -456,13 +455,13 @@ class CartController extends App_Controller_Frontend_Action
             $messageAmin = str_replace("##email##", '', $messageAmin);
 
         $messageAmin = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
-                . $messageAmin . $table . '</body></html>';
+            . $messageAmin . $table . '</body></html>';
 
         return $messageAmin;
     }
 
     private function sendManagerLetter($message_admin, $manager_emails,
-                                       $subject = 'Оформление заказа')
+        $subject = 'Оформление заказа')
     {
         if (!empty($manager_emails)) {
             $email_from = $this->getSettingValue('email_from');

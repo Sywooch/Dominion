@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:decimal-format name="european" decimal-separator="," grouping-separator=" " />
   <!--  Для вывода чистого XHTML использовать это декларацию! -->
-<!--<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="yes" method="xml"/>--> 
+<!--<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="yes" method="xml"/>-->
 <!--<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="yes" method="html"/>-->
 
 <xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="yes" method="xml"
@@ -34,7 +34,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 <xsl:template match="sub"><sub><xsl:apply-templates/></sub></xsl:template>
 <xsl:template match="sup"><sup><xsl:apply-templates/></sup></xsl:template>
 <xsl:template match="nobr"><nobr><xsl:apply-templates/></nobr></xsl:template>
-<xsl:template match="link|a">
+<xsl:template match="a">
 	<a href="{@href}">
 		<xsl:if test="@class"><xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute></xsl:if>
 		<xsl:if test="@target"><xsl:attribute name="target"><xsl:value-of select="@target"/></xsl:attribute></xsl:if>
@@ -42,7 +42,16 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 		<xsl:apply-templates/>
 	</a>
 </xsl:template>
-<xsl:template match="link[@target]"><a href="{@href}" target="{@target}"><xsl:if test="@class"><xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute></xsl:if><xsl:apply-templates/></a></xsl:template>
+
+<xsl:template match="link">
+	<link href="{@href}">
+		<xsl:if test="@media"><xsl:attribute name="medis"><xsl:value-of select="@media"/></xsl:attribute></xsl:if>
+		<xsl:if test="@rel"><xsl:attribute name="rel"><xsl:value-of select="@rel"/></xsl:attribute></xsl:if>
+		<xsl:if test="@type"><xsl:attribute name="type"><xsl:value-of select="@type"/></xsl:attribute></xsl:if>
+		<xsl:apply-templates/>
+	</link>
+</xsl:template>
+<!--<xsl:template match="link[@target]"><a href="{@href}" target="{@target}"><xsl:if test="@class"><xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute></xsl:if><xsl:apply-templates/></a></xsl:template>-->
 <xsl:template match="pop_link"><a href="#" onclick="return win_popup('{@href}',{@width},{@height});"><xsl:apply-templates/></a></xsl:template>
 <xsl:template match="span"><span><xsl:if test="@class"><xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute></xsl:if><xsl:if test="@style"><xsl:attribute name="style"><xsl:value-of select="@style"/></xsl:attribute></xsl:if><xsl:apply-templates/></span></xsl:template>
 <xsl:template match="small"><small><xsl:apply-templates/></small></xsl:template>
@@ -55,27 +64,27 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 <xsl:template match="copy">&#169;</xsl:template>
 <xsl:template match="mark"><span class="mark"><xsl:apply-templates /></span></xsl:template>
 
-<xsl:template match="script">   
+<xsl:template match="script">
 	<script>
 		<xsl:if test="@type"><xsl:attribute name="type"><xsl:value-of select="@type"/></xsl:attribute></xsl:if>
 		<xsl:if test="@src"><xsl:attribute name="src"><xsl:value-of select="@src"/></xsl:attribute></xsl:if>
 		<xsl:apply-templates/>
-	</script>   
+	</script>
 </xsl:template>
 
-<xsl:template match="ul">   
+<xsl:template match="ul">
 	<ul class="ulTXT"><xsl:apply-templates/></ul>
 </xsl:template>
 
 <xsl:template match="ol">
-   
+
    <ol class="olTXT">
                    <xsl:if test="@start">
                            <xsl:attribute name="start"><xsl:value-of select="@start"/></xsl:attribute>
                    </xsl:if>
    <xsl:apply-templates/>
    </ol>
-   
+
    </xsl:template>
 
 <!--
@@ -219,7 +228,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 </xsl:template>
 
 
-<!-- 
+<!--
 <xsl:template match="img">
 <table width="{@width}" border="0" CELLSPACING="0" CELLPADDING="0">
 <xsl:if test="@valign!=''"><xsl:attribute name="valign"><xsl:value-of select="@valign"/></xsl:attribute></xsl:if>
@@ -245,7 +254,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 </table>
 </xsl:template>-->
 
-<!-- 
+<!--
 <xsl:template match="img[@border]">
 <table width="{@width}" border="0" align="left" cellpadding="0" cellspacing="0">
 <xsl:if test="@align!=''"><xsl:attribute name="align"><xsl:value-of select="@align"/></xsl:attribute></xsl:if>
@@ -423,7 +432,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 																		<xsl:attribute name="href"><xsl:value-of select="$url"/>
 																		<xsl:if test="number(@page)-1 &gt; 1">
 																			page/<xsl:value-of select="number(@page)-1"/>/
-																		</xsl:if>																		
+																		</xsl:if>
 																		</xsl:attribute>
 																		&#171;
 																	</a>
@@ -459,7 +468,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
                                                         <xsl:if test="number(@pcount) &gt; 11 and $pages &lt; number(@pcount)">
                                                         <xsl:variable name="next"><xsl:value-of select="$pages + 1"/></xsl:variable>
                                                         <xsl:variable name="next2"><xsl:value-of select="$pages + 2"/></xsl:variable>
-                                                        
+
                                                         <xsl:if test="$next &lt; last_pages[index=0]/lpg">
                                                         <xsl:choose>
                                                         <xsl:when test="$next2=last_pages[index=0]/lpg">
@@ -477,7 +486,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
                                                           <xsl:attribute name="href"><xsl:variable name="next_number"><xsl:value-of select="$pages + 1"/></xsl:variable><xsl:variable name="url"><xsl:call-template name="section_url"><xsl:with-param name="cur" select="$next_number"/></xsl:call-template></xsl:variable><xsl:value-of select="$url"/>page/<xsl:value-of select="$next_number"/>/pcount/<xsl:value-of select="/page/data/section/@pcount"/>/count/<xsl:value-of select="/page/data/section/@count"/>/<xsl:if test="/page/data/section/@psize &gt; 0">/psize/<xsl:value-of select="/page/data/section/@psize"/>/</xsl:if></xsl:attribute>...</a></li>
                                                           <xsl:variable name="next"><xsl:value-of select="$pages + 1"/></xsl:variable>
                                                           -->
-                                                          
+
                                                         <!-- Последние 3 страницы -->
                                                           <xsl:apply-templates select="last_pages">
                                                           <xsl:with-param name="pcount" select="@pcount"/>
@@ -508,7 +517,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
 
                 </xsl:if>
         </xsl:template>
-        
+
         <xsl:template match="section/first_pages">
         <xsl:param name="pcount"/>
         <xsl:param name="count"/>
@@ -556,7 +565,7 @@ doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
                         <xsl:when test="background_align = '6'">background-position: top center;</xsl:when>
                         <xsl:when test="background_align = '7'">background-position: center center;</xsl:when>
                         <xsl:when test="background_align = '8'">background-position: bottom center;</xsl:when>
-                </xsl:choose>      
+                </xsl:choose>
                 <xsl:choose>
                         <xsl:when test="background_repeat = '0'">background-repeat: no-repeat;</xsl:when>
                         <xsl:when test="background_repeat = '2'">background-repeat: repeat-x;</xsl:when>

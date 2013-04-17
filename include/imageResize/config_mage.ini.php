@@ -2,11 +2,9 @@
 
 set_time_limit(0);
 
-
+//define('CC_IMAGE_UPLOAD_PATH', ROOT_PATH.'/upload_images');
 define('IMAGE_UPLOAD_PATH', ROOT_PATH.'/upload_images');
 define('CC_IMAGE_UPLOAD_PATH', ROOT_PATH.'/cc_images');
-//define('IMAGE_TARGET_PATH','/var/www/potapova/data/www/potapova.h7.data-xata.net/images');
-
 
 define('sufixGall', 'gall');
 define('sufixAdd', 'add');
