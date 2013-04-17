@@ -4,11 +4,11 @@
  * Подключаем пути и константы для всего приложения
  * Можно использывать как для приложения (сайта) так и для скриптов крона
  */
-defined('DEBUG_MODE') or define('DEBUG_MODE', false);
+defined('DEBUG_MODE') or define('DEBUG_MODE', true);
 
 
 defined('SITE_PATH')
-    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../../public_html'));
+    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../../www'));
 
 defined('ROOT_PATH')
     || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
@@ -33,12 +33,6 @@ defined('APPLICATION_ENV')
     || define('APPLICATION_ENV',
               (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
-
-define('UPLOAD_XML', ROOT_PATH.'/upload_xml');
-define('UPLOAD_IMAGES', ROOT_PATH.'/upload_images');
-
-define('IS_LIDER', 'hits');
-define('IS_RECOMEND', 'newest');
 
 // Ensure library/ is on include_path
 set_include_path(
