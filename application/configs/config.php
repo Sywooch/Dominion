@@ -8,7 +8,7 @@ defined('DEBUG_MODE') or define('DEBUG_MODE', false);
 
 
 defined('SITE_PATH')
-    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../../www'));
+    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../../public_html'));
 
 defined('ROOT_PATH')
     || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
@@ -33,6 +33,12 @@ defined('APPLICATION_ENV')
     || define('APPLICATION_ENV',
               (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
+
+define('UPLOAD_XML', ROOT_PATH.'/upload_xml');
+define('UPLOAD_IMAGES', ROOT_PATH.'/upload_images');
+
+define('IS_LIDER', 'hits');
+define('IS_RECOMEND', 'newest');
 
 // Ensure library/ is on include_path
 set_include_path(

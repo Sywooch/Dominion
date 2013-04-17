@@ -17,7 +17,7 @@ attr_range_selection.prototype.doUrl = function(evnt) {
          max: this.input_max
         },function(data){
           
-    $('#attr_range_view_url_'+_xid).val(data);            
+    $('#attr_range_view_url_'+_xid).val(data);
     
     it_sel = new selection();
     it_sel.doUrl();
@@ -35,7 +35,8 @@ $(document).ready(function(){
       
       var min_val_start = attr_range_view_start[xid][0];
       var max_val_start = attr_range_view_start[xid][1];
-      
+
+      var slide_name = $(this);
       $(this).slider({
         range: true,
         min:min_val,
@@ -46,10 +47,19 @@ $(document).ready(function(){
           var parent = $(this).parent();
           $(parent).find('input[id*="input_min"]').val(ui.values[0]);
           $(parent).find('input[id*="input_max"]').val(ui.values[1]);
+
+          $(slide_name).prev().find(".min").text($(slide_name).slider("values", 0));
+          $(slide_name).prev().find(".max").text($(slide_name).slider("values", 1));
+
+          $(slide_name).prev().find("input[name*=attr_range_min]").val($(slide_name).slider("values", 0));
+          $(slide_name).prev().find("input[name*=attr_range_max]").val($(slide_name).slider("values", 1));
         },
         stop: function(event, ui) {
+          $(slide_name).prev().find("input[name*=attr_range_min]").val($(slide_name).slider("values", 0));
+          $(slide_name).prev().find("input[name*=attr_range_max]").val($(slide_name).slider("values", 1));
+
           var xid = $(this).attr('xid');
-          
+
           rn_sel = new attr_range_selection(xid);
           rn_sel.doUrl(event);
         }
@@ -152,4 +162,4 @@ $(document).ready(function(){
       }
     }
   });    
-});  
+});    

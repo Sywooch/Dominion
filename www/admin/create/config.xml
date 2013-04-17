@@ -340,10 +340,10 @@
 			<name>Заголовок новости</name>
 			<comment>Заголовок новости</comment>
 		</col>
-    <col type="1" name="CATNAME" size="90">
-      <name>Путь до каталога</name>
-      <comment>Путь до каталога</comment>
-    </col>
+        <col type="1" name="CATNAME" size="90">
+          <name>Путь до каталога</name>
+          <comment>Путь до каталога</comment>
+        </col>
 		<col type="2" name="DESCRIPTION" rows="7" cols="90">
 			<name>Краткий текст</name>
 			<comment>Краткий текст</comment>

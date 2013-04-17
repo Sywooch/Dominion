@@ -7,9 +7,6 @@
 
 require_once realpath(dirname(__FILE__) . '/../application/configs/') . '/config.php';
 
-define('IS_LIDER', 'hits');
-define('IS_RECOMEND', 'newest');
-
 require_once 'Zend/Loader.php';
 
 Zend_Loader::loadClass('Zend_Config_Ini');
@@ -36,14 +33,10 @@ Zend_Loader::loadClass('Zend_Exception');
 
   $registry->set('db_connect', $db);
 
-
-define('UPLOAD_XML', ROOT_PATH.'/upload_xml');
-define('UPLOAD_IMAGES', ROOT_PATH.'/upload_images');
-
 require_once ROOT_PATH.'/include/GrabberException.php';
-require_once ROOT_PATH.'/include/class.item_image_convert.php';
-
 require_once ROOT_PATH.'/include/imageResize/config_mage.ini.php';
+
+require_once ROOT_PATH.'/include/class.item_image_convert.php';
 require_once ROOT_PATH.'/include/imageResize/imageResizer.php';
 
 

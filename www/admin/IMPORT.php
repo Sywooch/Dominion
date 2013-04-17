@@ -21,11 +21,11 @@ if(isset($_REQUEST['del_file']) && $_REQUEST['del_file'])
 $cmf->HeaderNoCache();
 $cmf->MakeCommonHeader();
 ?>
-<h2 class='h2'>Обновление цен на товар</h2>
+<h2 class='h2'>РћР±РЅРѕРІР»РµРЅРёРµ С†РµРЅ РЅР° С‚РѕРІР°СЂ</h2>
 <form action="IMPORT.php" method="POST" enctype="multipart/form-data">
-<b>Выберите файл:</b> <input type="file" name="file"> <br/><br/>
-<input type="submit" name="update" value="Обновить">
-<!-- <input type="submit" name="update_later" value="Обновить по расписанию"> -->
+<b>Р’С‹Р±РµСЂРёС‚Рµ С„Р°Р№Р»:</b> <input type="file" name="file"> <br/><br/>
+<input type="submit" name="update" value="РћР±РЅРѕРІРёС‚СЊ">
+<!-- <input type="submit" name="update_later" value="РћР±РЅРѕРІРёС‚СЊ РїРѕ СЂР°СЃРїРёСЃР°РЅРёСЋ"> -->
 </form>
 <br>
 

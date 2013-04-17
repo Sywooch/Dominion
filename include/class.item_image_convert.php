@@ -30,7 +30,7 @@ class item_image_convert
         if (!empty($base_item_img)) {
             foreach ($base_item_img as $img) {
                 $item_id = $img['ITEM_ID'];
-                $pictures['name'] = $img['BASE_IMAGE'];
+                $pictures['name'] = (substr($img['BASE_IMAGE'], 0, 1) =='/')  ? $img['BASE_IMAGE']:'/'.$img['BASE_IMAGE'];
                 $pictures['type'] = 'base';
                 if (!empty($pictures['name']) && file_exists(IMAGE_UPLOAD_PATH . $pictures['name'])) {
 //          if(!$this->Item->itemHasImage($item_id)){

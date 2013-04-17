@@ -1,23 +1,7 @@
 <?php
 set_time_limit(0);
-defined('SITE_PATH')
-    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../'));
-// Set the application root path
-defined('ROOT_PATH')
-    || define('ROOT_PATH', realpath($_SERVER['DOCUMENT_ROOT'].'/../'));
+require_once realpath(dirname(__FILE__) . '/../../application/configs/') . '/config.php';
 
-// Define path to application directory
-defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', ROOT_PATH . '/application');
-    
-// Define path to application directory
-defined('APPLICATION_MODELS')
-    || define('APPLICATION_MODELS', ROOT_PATH . '/application/models');
-
-// Define path to library directory
-defined('LIBRARY_PATH')
-    || define('LIBRARY_PATH', ROOT_PATH . '/library');
-    
 // Define path to library directory
 defined('ZEND_PATH')
     || define('ZEND_PATH', ROOT_PATH . '/library/Zend');    
@@ -25,8 +9,6 @@ defined('ZEND_PATH')
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(LIBRARY_PATH),
-    realpath(APPLICATION_PATH),
     realpath(ZEND_PATH),
     get_include_path(),
 )));
@@ -59,9 +41,9 @@ Zend_Loader::loadClass('Zend_Exception');
   $registry->set('db_connect', $db);
 
 require_once ROOT_PATH.'/include/GrabberException.php';
-require_once ROOT_PATH.'/include/class.item_image_convert.php';
-
 require_once ROOT_PATH.'/include/imageResize/config_mage.ini.php';
+
+require_once ROOT_PATH.'/include/class.item_image_convert.php';
 require_once ROOT_PATH.'/include/imageResize/imageResizer.php';
 
 
