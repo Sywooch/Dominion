@@ -301,19 +301,17 @@
                 slider_min = <xsl:value-of select="//price_line[position()= 1]/price"/>;
             </xsl:if>
             <xsl:if test="//price_line[position()= 5]/price &gt; 0">
-                slider_max = <xsl:value-of select="//price_line[position()= 1]/price"/>;
+                slider_max = <xsl:value-of select="//price_line[position()= 5]/price"/>;
             </xsl:if>
 
             <xsl:choose>
                 <xsl:when test="@show_price_max &gt; 0">
                     var slide_values_min = <xsl:value-of select="@show_price_min"/>;
-                    var slide_values_max =
-                    <xsl:value-of select="@show_price_max"/>
+                    var slide_values_max = <xsl:value-of select="@show_price_max"/>;
                 </xsl:when>
                 <xsl:otherwise>
                     var slide_values_min = <xsl:value-of select="@min_price"/>;
-                    var slide_values_max =
-                    <xsl:value-of select="@max_price"/>
+                    var slide_values_max = <xsl:value-of select="@max_price"/>;
                 </xsl:otherwise>
             </xsl:choose>
 
