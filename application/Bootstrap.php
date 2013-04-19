@@ -26,19 +26,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
     }
 
-    /**
-     * Bootsturp routing for ЧПУ URL
-     *
-     * @return type
-     */
-    public function _initRouter()
-    {
-        $front = Zend_Controller_Front::getInstance();
-        $rout = new App_Controller_Router_Bootstrap($front);
-        $rout->setRouting();
 
-        return $rout->getRouter();
+    protected function _initConfig()
+    {
+        $config = new Zend_Config($this->getOptions());
+        Zend_Registry::set('config', $config);
+
+        return $config;
     }
+
+    protected function _initConfiguration()
+    {
+        $options = $this->getApplication()->getOptions();
+
+        return $options;
+    }
+
 
     protected function _initAutoload()
     {
@@ -58,20 +61,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $session;
     }
 
-    protected function _initConfig()
+    /**
+     * Bootsturp routing for ЧПУ URL
+     *
+     * @return type
+     */
+    public function _initRouter()
     {
-        $config = new Zend_Config($this->getOptions());
-        Zend_Registry::set('config', $config);
+        $front = Zend_Controller_Front::getInstance();
+        $rout = new App_Controller_Router_Bootstrap($front);
+        $rout->setRouting();
 
-        return $config;
+        return $rout->getRouter();
     }
 
-    protected function _initConfiguration()
-    {
-        $options = $this->getApplication()->getOptions();
-
-        return $options;
-    }
 
     protected function _initView()
     {
