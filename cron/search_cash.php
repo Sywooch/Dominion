@@ -27,13 +27,20 @@ $db_config = array(
 
 $adapter = $config->resources->db->adapter;
 
+echo "Get DB connections... \n";
+
 $db = Zend_Db::factory($adapter, $db_config);
 $db->getConnection();
 
+echo "Connected \n";
 $registry->set('db_connect', $db);
 
 require_once ROOT_PATH . '/include/search_cash/class.search_cash.php';
 require_once ROOT_PATH . '/include/search_cash/class.search_cash_item.php';
 
 $sCash = new search_cash_item();
+
+echo "Start cache building...";
 $sCash->buildCash();
+
+echo "Done!";
