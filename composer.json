@@ -1,0 +1,14 @@
+{
+    "name": "dominion",
+    "description": "internet shop",
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework1": "1.12.*@dev",
+        "ruflin/elastica": "0.20.5.*@dev"
+    }
+}

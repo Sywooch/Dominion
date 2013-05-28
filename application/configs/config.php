@@ -55,3 +55,4 @@ if (DEBUG_MODE) {
 }
 
 require_once APPLICATION_PATH . '/models/ZendDBEntity.php';
+require ROOT_PATH.'/vendor/autoload.php';
