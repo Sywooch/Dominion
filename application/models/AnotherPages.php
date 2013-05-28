@@ -36,8 +36,9 @@ class models_AnotherPages extends ZendDBEntity
         for ($i = 0; $i < count($menu); $i++) {
             $children = $this->getTree($menu[$i]['ANOTHER_PAGES_ID']);
 
-            if ($children)
+            if ($children) {
                 $menu[$i]['menu_children'] = $children;
+            }
         }
 
         return $menu;
@@ -47,25 +48,28 @@ class models_AnotherPages extends ZendDBEntity
     {
         if (!is_numeric($id)) {
             $pid = $this->getDocId($id);
-        }
-        else
+        } else {
             $pid = $id;
+        }
 
         $template = $this->_db->fetchOne("select TEMPLATE from ANOTHER_PAGES where ANOTHER_PAGES_ID = '" . $pid . "'");
 
         list($name, $ext) = explode(".", $template);
+
         return $name;
     }
 
     public function getDocId($id)
     {
         $docId = $this->_db->fetchOne("select ANOTHER_PAGES_ID from ANOTHER_PAGES where REALCATNAME = '/" . $id . "/'");
+
         return $docId;
     }
 
     public function getPageId($id)
     {
         $docId = $this->_db->fetchOne("select ANOTHER_PAGES_ID from ANOTHER_PAGES where URL LIKE '%" . $id . "%'");
+
         return $docId;
     }
 
@@ -76,8 +80,10 @@ class models_AnotherPages extends ZendDBEntity
 
     public function getDocName($id)
     {
-        return $this->_db->fetchOne("select NAME from ANOTHER_PAGES where ANOTHER_PAGES_ID = ?",
-                                    $id);
+        return $this->_db->fetchOne(
+            "select NAME from ANOTHER_PAGES where ANOTHER_PAGES_ID = ?",
+            $id
+        );
     }
 
     public function getDocInfo($id)
@@ -123,23 +129,27 @@ class models_AnotherPages extends ZendDBEntity
         $info = $this->_db->fetchRow($sql);
 
         //XML
-        $xml = $this->_db->fetchOne("select XML from XMLS where TYPE=0 and XMLS_ID=?",
-                                    array($id));
+        $xml = $this->_db->fetchOne(
+            "select XML from XMLS where TYPE=0 and XMLS_ID=?",
+            array($id)
+        );
 
         if ($xml) {
             $xml = str_replace("../images", "/images", $xml);
             $info['text'] = $xml;
-        }
-        else
+        } else {
             $info['text'] = '';
+        }
+
         return $info;
     }
 
     public function getPath($id)
     {
         $path = array();
-        if ($id == 0)
+        if ($id == 0) {
             return $path;
+        }
         $parents = $this->getParents($id);
         $parents = array_reverse($parents);
         if ($parents) {
@@ -164,11 +174,14 @@ class models_AnotherPages extends ZendDBEntity
             foreach ($parents as $parent) {
                 if ($parent['PARENT_ID'] > 0) {
                     $path[] = $parent['PARENT_ID'];
-                    $path = array_merge($path,
-                                        $this->getParents($parent['PARENT_ID']));
+                    $path = array_merge(
+                        $path,
+                        $this->getParents($parent['PARENT_ID'])
+                    );
                 }
             }
         }
+
         return $path;
     }
 
@@ -177,6 +190,7 @@ class models_AnotherPages extends ZendDBEntity
         $path = array();
         $sql = "select ANOTHER_PAGES_ID from ANOTHER_PAGES where PARENT_ID=? and STATUS=1 order by NAME";
         $childs = $this->_db->fetchAll($sql, $id);
+
         return $childs;
     }
 
@@ -186,12 +200,16 @@ class models_AnotherPages extends ZendDBEntity
         $submenu = array();
         if ($children) {
             for ($i = 0; $i < sizeof($children); $i++) {
-                $info = $this->getDocInfo($children[$i]['ANOTHER_PAGES_ID'],
-                                          $lang);
-                if ($info)
+                $info = $this->getDocInfo(
+                    $children[$i]['ANOTHER_PAGES_ID'],
+                    $lang
+                );
+                if ($info) {
                     $submenu[] = $info;
+                }
             }
         }
+
         return $submenu;
     }
 
@@ -259,6 +277,7 @@ class models_AnotherPages extends ZendDBEntity
 //      echo $sql;die;
 //      exit;
         $res = $this->_db->fetchOne($sql);
+
         return $res;
     }
 
@@ -275,6 +294,7 @@ class models_AnotherPages extends ZendDBEntity
         $resultURL = $this->_db->fetchOne($sql);
 
         $resultURL = str_replace('&amp;', '&', $resultURL);
+
         return $resultURL;
     }
 
