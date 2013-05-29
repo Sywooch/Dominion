@@ -199,8 +199,16 @@
             <div class="img_box_align">
                 <div style="margin: 0 auto; width: {image_middle/@w}px;">
                     <a href="{href}">
-                        <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}" width="{image_middle/@w}"
-                             height="{image_middle/@h}"/>
+                        <!--Если картник нет - выводим заглушку -->
+                        <xsl:choose>
+                            <xsl:when test="image_middle/@src">
+                                <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}" width="{image_middle/@w}" height="{image_middle/@h}"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <img alt="no image" src="/i/no-photo.jpg" width="200" height="87"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+
                         <xsl:if test="@has_discount=1">
                             <span class="personal_product_status gold">
                                 <xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of

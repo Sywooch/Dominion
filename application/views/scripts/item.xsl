@@ -344,7 +344,21 @@ $().ready(function() {
 				<xsl:choose>
 					<xsl:when test="image_big/@src!=''">
 						<a href="/images/it/{image_big/@src}" class="gr_fancybox main" rel="gr_fancybox" title="{typename} {brand_name} {name}">
-							<img src="/images/it/{image_middle/@src}" alt="{typename} {brand_name} {name}" />
+
+
+                            <!--Если картник нет - выводим заглушку -->
+                            <xsl:choose>
+                                <xsl:when test="image_middle/@src">
+                                    <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}" width="{image_middle/@w}" height="{image_middle/@h}"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <img alt="no image" src="/i/b_no-photo.jpg" width="200" height="200"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
+
+
+
 							<xsl:if test="@has_discount=1">
 								<span class="personal_product_status gold">
 									<xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of select="sh_disc_img_small/@src"/>") no-repeat scroll 0 0 transparent;</xsl:attribute>
@@ -356,7 +370,22 @@ $().ready(function() {
 						</a>
 						<a href="#" class="zoom" title = "Увеличить">Увеличить</a>
 					</xsl:when>
-					<xsl:otherwise><img src="/images/it/{image_middle/@src}" alt="{typename} {brand_name} {name}" /></xsl:otherwise>
+					<xsl:otherwise>
+
+
+                        <!--Если картник нет - выводим заглушку -->
+                        <xsl:choose>
+                            <xsl:when test="image_middle/@src">
+                                <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}" width="{image_middle/@w}" height="{image_middle/@h}"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <img alt="no image" src="/i/b_no-photo.jpg" width="200" height="200"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+
+
+                        <!--<img src="/images/it/{image_middle/@src}" alt="{typename} {brand_name} {name}" />-->
+                    </xsl:otherwise>
 				</xsl:choose>
 			</div>
 			<div id="product_photos_slider">
