@@ -7,8 +7,8 @@
  */
 class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 {
-    private $fields = array("CATALOGUE_NAME", "NAME", "BRAND"),
-        $actions = array("GET", "PUT", "DELETE");
+    private $fields = array("NAME_PRODUCT", "BRAND");
+    private $actions = array("GET", "PUT", "DELETE");
 
     /**
      * Execute function for query elastic
