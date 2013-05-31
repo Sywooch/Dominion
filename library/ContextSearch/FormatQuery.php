@@ -45,6 +45,13 @@ class FormatQuery
     private $config = array();
 
     /**
+     * Data for put into index search engine
+     *
+     * @var array
+     */
+    private $data = array();
+
+    /**
      * Constructor for get paramters to connect
      *
      * @param string       $search_engine
@@ -61,6 +68,26 @@ class FormatQuery
             $this->config['index'] = $index;
         $this->search_engine = $search_engine;
         $this->action = $action;
+    }
+
+    /**
+     * Setter for data
+     *
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Getter for data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**Установить индекс

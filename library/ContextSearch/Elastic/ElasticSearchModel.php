@@ -37,45 +37,23 @@ class ElasticSearchModel
      * Заполнить данные в индекс ElasticSearch
      *
      * @param \Elastica_Document $elastica_doc
-     * @param \GetElasticSearch  $elastic_searchSQL
-     * @param  string            $type
+     * @param array              $data
+     * @param string             $type
      *
      * @throws \Exception
      */
-    public function putData(\Elastica_Document $elastica_doc, \GetElasticSearch $elastic_searchSQL, $type)
+    public function putData(\Elastica_Document $elastica_doc, array $data, $type)
     {
-        if (!isset($type) || !is_string($type) || !isset($elastica_doc) || !isset($elastic_searchSQL))
-            throw new \Exception("Error: input parameters doesn't correct");
+        if (empty($data) || empty($type)) {
+            throw new \Exception("Error: data or type is empty for put in elastica, class:" . __CLASS__ . " line:" . __LINE__);
+        }
+
         $main_type = $this->index->getType($type);
-        $list = $this->getDataFromSQL($elastic_searchSQL, $type);
-        if (!isset($list))
-            throw new \Exception("Error: The variable 'list' is null");
-        for ($i = 0; $i < count($list); $i++) {
+        for ($i = 0; $i < count($data); $i++) {
             $elastica_doc->setId($i);
-            $elastica_doc->setData($list[$i]);
+            $elastica_doc->setData($data[$i]);
             $main_type->addDocument($elastica_doc);
         }
-    }
-
-    /**
-     * Получить Данные с модели SQL
-     *
-     * @param \GetElasticSearch $elastic_searchSQL
-     * @param string            $type
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    private function getDataFromSQL(\GetElasticSearch $elastic_searchSQL, $type)
-    {
-        if (!isset($type) || !is_string($type))
-            throw new \Exception("Error:The input parameters does not correct type");
-        $name_method = self::NAME_METHOD . ucfirst($type);
-        if (!method_exists($elastic_searchSQL, $name_method))
-            throw new \Exception('Error: The methods not exists to current class');
-        $list = $elastic_searchSQL->$name_method();
-
-        return $list;
     }
 
     /**

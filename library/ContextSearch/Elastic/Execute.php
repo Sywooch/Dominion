@@ -31,7 +31,7 @@ class Execute implements ExecuteInterface
                 $result_query = $elastic_model->searchInElastic($elastica_query, $elastic_factory->getQueryString(), $format_query->getQuery());
                 break;
             case 'PUT':
-                $result_query = $elastic_model->putData($elastic_factory->getDocument(), $elastic_factory->getElasticSQL(), $format_query->getType());
+                $result_query = $elastic_model->putData($elastic_factory->getDocument(), $format_query->getData(), $format_query->getType());
                 break;
             case 'DELETE':
                 $result_query = $elastic_model->deleteType($format_query->getType());

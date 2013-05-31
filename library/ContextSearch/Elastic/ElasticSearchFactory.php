@@ -55,18 +55,6 @@ class ElasticSearchFactory
     }
 
     /**
-     * Получить обьект GetElasticSearch
-     *
-     * @return \GetElasticSearch
-     */
-    public function getElasticSQL()
-    {
-        $elastic_sql = new \GetElasticSearch();
-
-        return $elastic_sql;
-    }
-
-    /**
      * Получить обьект Elastica_query
      *
      * @return \Elastica_Query
