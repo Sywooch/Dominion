@@ -1,19 +1,21 @@
 <?php
 
-namespace library\ContextSearch;
-use library\ContextSearch\FormatQuery;
-
-interface ExecuteInterface
+/**
+ * Interface for describe function class
+ *
+ * Class library_ContextSearch_ExecuteInterface
+ */
+interface ContextSearch_ExecuteInterface
 {
 
     /**
      * Выполнить запрос
      *
-     * @param FormatQuery $format_query
+     * @param library_ContextSearch_FormatQuery $format_query
      *
      * @return mixed
      */
-    public function exec(FormatQuery $format_query);
+    public function exec(ContextSearch_FormatQuery $format_query);
 
     /**Получить Json формат из обьекта результата поиска
      *

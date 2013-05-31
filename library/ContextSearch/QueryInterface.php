@@ -1,7 +1,5 @@
 <?php
 
-namespace library\ContextSearch;
-
 /**
  * Class QueryInterface
  *
@@ -9,9 +7,8 @@ namespace library\ContextSearch;
  *
  * @package lib\ContextSearch
  */
-interface QueryInterface
+interface ContextSearch_QueryInterface
 {
-
     /**
      * Set query to search
      *
@@ -19,7 +16,7 @@ interface QueryInterface
      *
      * @return mixed
      */
-    public function execQuery(FormatQuery $format_query);
+    public function execQuery(ContextSearch_FormatQuery $format_query);
 
     /*Конвертировать в JSON*/
     public function convertToJSON();

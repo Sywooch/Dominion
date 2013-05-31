@@ -1,13 +1,10 @@
 <?php
-
-namespace library\ContextSearch;
-
 /**
  * Class Query
  *
  * @package lib\ContextSearch
  */
-class Query implements QueryInterface
+class ContextSearch_Query implements ContextSearch_QueryInterface
 {
 
     /**
@@ -37,7 +34,7 @@ class Query implements QueryInterface
      * @return mixed
      * @throws \Exception
      */
-    public function execQuery(FormatQuery $format_query)
+    public function execQuery(ContextSearch_FormatQuery $format_query)
     {
         $business_logic = $this->getNameBusinessLogic($format_query->getSearchEngine());
         $search_engine_factory = $format_query->getSearchEngineFactory();

@@ -6,7 +6,7 @@ namespace library\ContextSearch\Elastic;
  *
  * @package library\ContextSearch\Elastic
  */
-class ElasticSearchModel
+class ContextSearch_Elastic_ElasticSearchModel
 {
     /**
      * Index for search

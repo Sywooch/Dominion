@@ -1,24 +1,19 @@
 <?php
-
-namespace library\ContextSearch;
-
-use library\ContextSearch\Elastic\Execute;
-
 /**
  * Class SearchEngineFactory
  *
  * @package lib\ContextSearch
  */
-class SearchEngineFactory
+class ContextSearch_SearchEngineFactory
 {
 
     /**
      * Получить Бизнес логику ElasticSearch
      *
-     * @return Elastic\Execute
+     * @return Execute
      */
     public function getElasticSearch()
     {
-        return new Execute();
+        return new ContextSearch_Elastic_Execute();
     }
 }

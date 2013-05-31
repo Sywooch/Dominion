@@ -1,13 +1,11 @@
 <?php
 
-namespace library\ContextSearch;
-
 /**
  * Class FormatQuery
  *
  * @package library\ContextSearch
  */
-class FormatQuery
+class ContextSearch_FormatQuery
 {
     /**
      * Type search engine
@@ -205,6 +203,6 @@ class FormatQuery
      */
     public function getSearchEngineFactory()
     {
-        return new SearchEngineFactory();
+        return new ContextSearch_SearchEngineFactory();
     }
 }

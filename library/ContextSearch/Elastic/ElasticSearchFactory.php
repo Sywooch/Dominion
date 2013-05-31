@@ -1,15 +1,10 @@
 <?php
-namespace library\ContextSearch\Elastic;
-
-use library\ContextSearch\Elastic\ElasticSearchModel;
-use library\ContextSearch\FormatQuery;
-
 /**
  * Class ElasticSearchFactory
  *
  * @package library\ContextSearch\Elastic
  */
-class ElasticSearchFactory
+class ContextSearch_Elastic_ElasticSearchFactory
 {
     /**
      * Object Elastica client
@@ -35,13 +30,13 @@ class ElasticSearchFactory
     /**
      * Конструктор cоединение с ElasticSearch
      *
-     * @param FormatQuery $format_query
+     * @param ContextSearch_FormatQuery $format_query
      */
-    public function __construct(FormatQuery $format_query)
+    public function __construct(ContextSearch_FormatQuery $format_query)
     {
         $this->format_query = $format_query;
         $this->elastica_client = new \Elastica_Client($format_query->getConfig());
-        $this->elastic_search_model = new ElasticSearchModel($this->elastica_client, $format_query->getIndex());
+        $this->elastic_search_model = new ContextSearch_Elastic_ElasticSearchModel($this->elastica_client, $format_query->getIndex());
     }
 
     /**

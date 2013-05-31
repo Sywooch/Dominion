@@ -7,9 +7,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-use library\ContextSearch\Query;
-use library\ContextSearch\FormatQuery;
-
 /**
  * Controller for execute Elastic Search
  *
@@ -46,25 +43,41 @@ class ElasticSearchController extends App_Controller_Frontend_Action
         $action = $this->_getParam("event");
         $query = $this->_getParam("term");
 
-        if (empty($query)) {
+        if (empty($query) && $action != "PUT") {
             echo $query;
 
             return;
         }
-
-        $formatQuery = new FormatQuery(
+        $formatQuery = new ContextSearch_FormatQuery(
             $this->config->search_engine->name,
             $action,
             $this->config->search_engine->index
         );
+
+        if ($action == "PUT") {
+            $formatQuery->setData($this->prepareDataForPut());
+        }
+
         $formatQuery->setHost($this->config->search_engine->host);
         $formatQuery->setType($this->config->search_engine->type_products);
 
-        $queryObject = new Query();
+        $queryObject = new ContextSearch_Query();
         $queryObject->execQuery($formatQuery);
 
         echo $queryObject->convertToJSON();
 
         return;
+    }
+
+    /**
+     * Genarate for elastic data
+     *
+     * @return array
+     */
+    private function prepareDataForPut()
+    {
+        $formatDataElastic = $this->_helper->helperLoader("FormatDataElastic");
+
+        return $formatDataElastic->formatDataForElastic();
     }
 }

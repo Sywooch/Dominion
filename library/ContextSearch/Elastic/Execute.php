@@ -1,23 +1,26 @@
 <?php
 
-namespace library\ContextSearch\Elastic;
-
-use library\ContextSearch\FormatQuery;
-use library\ContextSearch\ExecuteInterface;
-
 /**
  * Class Execute
  *
  * @package library\ContextSearch\Elastic
  */
-class Execute implements ExecuteInterface
+class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 {
     private $fields = array("CATALOGUE_NAME", "NAME", "BRAND"),
         $actions = array("GET", "PUT", "DELETE");
 
-    public function exec(FormatQuery $format_query)
+    /**
+     * Execute function for query elastic
+     *
+     * @param library_ContextSearch_FormatQuery $format_query
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function exec(ContextSearch_FormatQuery $format_query)
     {
-        $elastic_factory = new ElasticSearchFactory($format_query);
+        $elastic_factory = new ContextSearch_Elastic_ElasticSearchFactory($format_query);
         $elastic_model = $elastic_factory->getElasticSearchModel();
         $logic = $format_query->getAction();
 
