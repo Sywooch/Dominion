@@ -7,9 +7,9 @@
 require_once realpath(dirname(__FILE__) . '/../application/configs/') . '/config.php';
 
 /** Zend_Application */
-require_once 'Zend/Application.php';
+//require_once 'Zend/Application.php';
 
-require_once 'Zend/Session.php';
+//require_once 'Zend/Session.php';
 Zend_Session::start();
 
 // Create application, bootstrap, and run

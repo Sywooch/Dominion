@@ -1,6 +1,8 @@
 <?php
 
-namespace library\ContextSearch\Elastic;
+use Elastica\Client;
+use Elastica\Document;
+
 /**
  * Class ElasticSearchModel
  *
@@ -26,7 +28,7 @@ class ContextSearch_Elastic_ElasticSearchModel
      * @param \Elastica_Client $elastica_client
      * @param  string          $config_index
      */
-    function __construct(\Elastica_Client $elastica_client, $config_index)
+    function __construct(Client $elastica_client, $config_index)
     {
         if (!isset($elastica_client) || !isset($config_index) || !is_string($config_index))
             throw new \Exception("Error:The input parameters is not correct");
@@ -42,7 +44,7 @@ class ContextSearch_Elastic_ElasticSearchModel
      *
      * @throws \Exception
      */
-    public function putData(\Elastica_Document $elastica_doc, array $data, $type)
+    public function putData(Document $elastica_doc, array $data, $type)
     {
         if (empty($data) || empty($type)) {
             throw new \Exception("Error: data or type is empty for put in elastica, class:" . __CLASS__ . " line:" . __LINE__);
@@ -54,6 +56,7 @@ class ContextSearch_Elastic_ElasticSearchModel
             $elastica_doc->setData($data[$i]);
             $main_type->addDocument($elastica_doc);
         }
+        $rr = 0;
     }
 
     /**
@@ -66,7 +69,8 @@ class ContextSearch_Elastic_ElasticSearchModel
      * @return mixed
      * @throws \Exception
      */
-    public function searchInElastic(\Elastica_Query $elastica_query, \Elastica_Query_QueryString $elastica_query_string, $query)
+    public
+    function searchInElastic(\Elastica_Query $elastica_query, \Elastica_Query_QueryString $elastica_query_string, $query)
     {
         if (!isset($query) && !is_string($query) || !isset($elastica_query) || !isset($elastica_query_string))
             throw new \Exception("Error: input parameters is null");
@@ -86,7 +90,8 @@ class ContextSearch_Elastic_ElasticSearchModel
      *
      * @throws \Exception
      */
-    public function facetsData(\Elastica_Facet_Terms $elastica_facet, \Elastica_Query $elastica_query, $config_name, array $fields)
+    public
+    function facetsData(\Elastica_Facet_Terms $elastica_facet, \Elastica_Query $elastica_query, $config_name, array $fields)
     {
         if (!isset($fields) || !isset($elastica_facet) || !isset($elastica_query) || !isset($config_name) && !is_string($config_name))
             throw new \Exception("Error:the input parameters is null");
@@ -102,7 +107,8 @@ class ContextSearch_Elastic_ElasticSearchModel
      *
      * @throws \Exception
      */
-    public function deleteType($type)
+    public
+    function deleteType($type)
     {
         if (!isset($type) || !is_string($type))
             throw new \Exception("Error:The input parameters does not correct type");

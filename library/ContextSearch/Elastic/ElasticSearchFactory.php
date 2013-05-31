@@ -1,4 +1,11 @@
 <?php
+
+use Elastica\Client;
+use Elastica\Query;
+use Elastica\Document;
+use Elastica\Query\QueryString;
+use Elastica\Facet\Terms;
+
 /**
  * Class ElasticSearchFactory
  *
@@ -28,14 +35,14 @@ class ContextSearch_Elastic_ElasticSearchFactory
     private $elastic_search_model;
 
     /**
-     * Конструктор cоединение с ElasticSearch
+     * Constructor for create format query
      *
      * @param ContextSearch_FormatQuery $format_query
      */
     public function __construct(ContextSearch_FormatQuery $format_query)
     {
         $this->format_query = $format_query;
-        $this->elastica_client = new \Elastica_Client($format_query->getConfig());
+        $this->elastica_client = new Client($format_query->getConfig());
         $this->elastic_search_model = new ContextSearch_Elastic_ElasticSearchModel($this->elastica_client, $format_query->getIndex());
     }
 
@@ -56,7 +63,7 @@ class ContextSearch_Elastic_ElasticSearchFactory
      */
     public function getElasticaQuery()
     {
-        $elastica_query = new \Elastica_Query();
+        $elastica_query = new Query();
 
         return $elastica_query;
     }
@@ -68,7 +75,7 @@ class ContextSearch_Elastic_ElasticSearchFactory
      */
     public function getDocument()
     {
-        $elastica_doc = new \Elastica_Document();
+        $elastica_doc = new Document();
 
         return $elastica_doc;
     }
@@ -80,7 +87,7 @@ class ContextSearch_Elastic_ElasticSearchFactory
      */
     public function getQueryString()
     {
-        $elastica_query_string = new \Elastica_Query_QueryString();
+        $elastica_query_string = new QueryString();
 
         return $elastica_query_string;
     }
@@ -92,7 +99,7 @@ class ContextSearch_Elastic_ElasticSearchFactory
      */
     public function getFacets()
     {
-        $elastica_facets = new \Elastica_Facet_Terms($this->format_query->getIndex());
+        $elastica_facets = new Terms($this->format_query->getIndex());
 
         return $elastica_facets;
     }

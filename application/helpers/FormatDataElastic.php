@@ -11,17 +11,17 @@
  *
  * Class Helpers_FormatDataElastic
  */
-class Helpers_FormatDataElastic extends App_Controller_Helper_HelperAbstract
+class Helpers_FormatDataElastic
 {
     /**
      * Formating array for elastic search
      *
+     * @param array $items
+     *
      * @return array
      */
-    public function formatDataForElastic()
+    public function formatDataForElastic(array $items)
     {
-        $elasticSearchModel = new models_ElasticSearch();
-        $items = $elasticSearchModel->getProducts();
         $formatArray = array();
         foreach ($items as $item) {
             $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
