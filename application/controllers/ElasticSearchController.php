@@ -65,9 +65,13 @@ class ElasticSearchController extends App_Controller_Frontend_Action
         $queryObject = new ContextSearch_Query();
         $queryObject->execQuery($formatQuery);
 
-        echo $queryObject->convertToJSON();
+        $jsonResult = $queryObject->convertToJSON();
 
-        return;
+        $this->getResponse()->setHeader("Content-Type", "text/html")
+            ->setBody($jsonResult)
+            ->sendResponse();
+
+        exit();
     }
 
     /**
