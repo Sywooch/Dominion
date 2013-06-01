@@ -35,6 +35,7 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (data) {
                         cache[term] = data;
+                        $("ul.ui-autocomplete").hover("color", "#009933");
                         response($.map(data, function (item) {
                             return {
                                 label: item.TYPENAME + ", " + item.NAME_PRODUCT +
@@ -54,7 +55,8 @@ $(document).ready(function () {
             },
             focus: function (event, ui) {
                 $(this).val(ui.item.label);
-            }
+            },
+            delay: 500
         })
     })
 })
