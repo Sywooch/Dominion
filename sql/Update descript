@@ -1,0 +1,4 @@
+UPDATE
+  ITEM I
+  SET I.DESCRIPTION = GetShortDescript(I.ITEM_ID)
+  WHERE I.ITEM_ID = 6595;

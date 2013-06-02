@@ -1,4 +1,4 @@
-CREATE FUNCTION GetShortDescript(ItemId int)
+CREATE FUNCTION dominion_db.GetShortDescript(ItemId int)
   RETURNS text CHARSET utf8
   SQL SECURITY INVOKER
 BEGIN
@@ -7,6 +7,7 @@ BEGIN
           buf_value varchar(150);
   DECLARE v_finished integer DEFAULT 0;
   DECLARE descript text DEFAULT '';
+  DECLARE i int(11) DEFAULT 0;
 
 
   DECLARE attr_cursor CURSOR FOR
@@ -21,13 +22,13 @@ BEGIN
   AND I.ITEM_ID = ItemId;
 
   DECLARE attr_cursor1 CURSOR FOR
-  SELECT 
+  SELECT
     A.`NAME`,
     I0.VALUE
   FROM ITEM I
     JOIN ITEM0 I0 USING (ITEM_ID)
     JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-  WHERE A.type = 0
+  WHERE A.TYPE = 0
   AND I.ITEM_ID = ItemId;
 
   DECLARE CONTINUE HANDLER FOR SQLSTATE '23000' SET v_finished = 1;
@@ -41,30 +42,33 @@ LOOP
   FETCH attr_cursor INTO attr_name, attr_value;
   IF v_finished = 1 THEN
     LEAVE lbl;
+  ELSEIF i <> 0 THEN
+    SET descript = CONCAT(descript, "<i class=\"dvdr\">/</i> ");
   END IF;
 
-  SET buf_value = CONCAT(attr_name, "/", attr_value);
 
-  SET descript = CONCAT(descript, " ", buf_value);
+  SET descript = CONCAT(descript, attr_name, ": <b>", attr_value, "</b> ");
 
-
+  SET i = i + 1;
 
 END LOOP;
   CLOSE attr_cursor;
 
-SET v_finished = 0;
+  SET v_finished = 0;
+  SET i = 0;
   OPEN attr_cursor1;
 lbl:
 LOOP
 
-  FETCH attr_cursor1 INTO attr_name, attr_value;
   IF v_finished = 1 THEN
     LEAVE lbl;
+  ELSEIF i <> 0 THEN
+    SET descript = CONCAT(descript, "<i class=\"dvdr\">/</i> ");
   END IF;
 
-  SET buf_value = CONCAT(attr_name, "/", attr_value);
+  SET descript = CONCAT(descript, attr_name, ": <b>", attr_value, "</b> ");
+  SET i = i + 1;
 
-  SET descript = CONCAT(descript, " ", buf_value);
 END LOOP;
   CLOSE attr_cursor1;
 
