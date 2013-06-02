@@ -92,8 +92,11 @@ class CartController extends App_Controller_Frontend_Action
                     $item = $Item->getItemInfo($item_id);
 
                     list($new_price, $new_price1) = $Item->recountPrice(
-                        $item['PRICE'], $item['PRICE1'], $item['CURRENCY_ID'],
-                        $this->currency, $curr_info['PRICE']
+                        $item['PRICE'],
+                        $item['PRICE1'],
+                        $item['CURRENCY_ID'],
+                        $this->currency,
+                        $curr_info['PRICE']
                     );
 
                     $item['sh_disc_img_small'] = '';
@@ -137,7 +140,7 @@ class CartController extends App_Controller_Frontend_Action
 
                     $href = 'http://7560000.com.ua/' . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' . $item['CATNAME'] . '/';
 
-                    $table.="<tr>
+                    $table .= "<tr>
                     <td><a href='{$href}'>" . $_item_name . "</a></td>
                     <td>" . $resul_price . " {$curr_info['SNAME']} </td>
                     <td>" . $view['count'] . "</td>
@@ -146,18 +149,18 @@ class CartController extends App_Controller_Frontend_Action
 
                     $Item->insertOrder($zakaz_item);
 
-                    $total_price+=$resul_price * $view['count'];
+                    $total_price += $resul_price * $view['count'];
                 }
 
-                $table.="<tr>
+                $table .= "<tr>
                     <th colspan='3'>&nbsp;</th>
                     <th align=\"left\">
                         Итого:" . $total_price . " {$curr_info['SNAME']}
                   </tr>";
 
-                $table.="</tbody></table><br>";
+                $table .= "</tbody></table><br>";
 
-                $table.="<p>Итоговая сумма заказа: " . $total_price . " " . $curr_info['SNAME'] . "</p>";
+                $table .= "<p>Итоговая сумма заказа: " . $total_price . " " . $curr_info['SNAME'] . "</p>";
 
                 if (!empty($zakaz_data['EMAIL'])) {
                     $doc_id = $AnotherPages->getDocByUrl('order_buy');
@@ -208,10 +211,10 @@ class CartController extends App_Controller_Frontend_Action
                     $g['ITEMS'] = implode(', ', $vCeneIDItems);
 
                     $sesVcene->vcene = array(
-                          'EMAIL' => $this->order['EMAIL'],
-                          'TOTAL_PRICE' => $total_price,
-                          'ZAKAZ_ID' => $this->order['ZAKAZ_ID'],
-                          'ITEMS' => implode(', ', $vCeneIDItems)
+                        'EMAIL' => $this->order['EMAIL'],
+                        'TOTAL_PRICE' => $total_price,
+                        'ZAKAZ_ID' => $this->order['ZAKAZ_ID'],
+                        'ITEMS' => implode(', ', $vCeneIDItems)
                     );
                 }
             }
@@ -294,8 +297,12 @@ class CartController extends App_Controller_Frontend_Action
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $statusid_payment_wm_succes = $this->getSettingValue('statusid_payment_wm_succes') ? $this->getSettingValue('statusid_payment_wm_succes') : '';
-            $statusid_payment_wm_fail = $this->getSettingValue('statusid_payment_wm_fail') ? $this->getSettingValue('statusid_payment_wm_fail') : '';
+            $statusid_payment_wm_succes = $this->getSettingValue('statusid_payment_wm_succes') ? $this->getSettingValue(
+                'statusid_payment_wm_succes'
+            ) : '';
+            $statusid_payment_wm_fail = $this->getSettingValue('statusid_payment_wm_fail') ? $this->getSettingValue(
+                'statusid_payment_wm_fail'
+            ) : '';
             $purse_wmz = $this->getSettingValue('purse_wmz') ? $this->getSettingValue('purse_wmz') : '';
 
             $LMI_PAYEE_PURSE = $request->getPost('LMI_PAYEE_PURSE');
@@ -323,15 +330,21 @@ class CartController extends App_Controller_Frontend_Action
                     $res = $LMI_PAYEE_PURSE . $LMI_PAYMENT_AMOUNT . $LMI_PAYMENT_NO . $LMI_MODE . $LMI_SYS_INVS_NO . $LMI_SYS_TRANS_NO . $LMI_SYS_TRANS_DATE . $LMI_PAYER_PURSE . $LMI_PAYER_WM;
                     $res_ = strtoupper(md5($res));
                     if ($res_ == $LMI_HASH) {
-                        $Cart->setStatusZakaz($statusid_payment_wm_succes,
-                                              $LMI_PAYMENT_NO);
+                        $Cart->setStatusZakaz(
+                            $statusid_payment_wm_succes,
+                            $LMI_PAYMENT_NO
+                        );
                     } else {
-                        $Cart->setStatusZakaz($statusid_payment_wm_fail,
-                                              $LMI_PAYMENT_NO);
+                        $Cart->setStatusZakaz(
+                            $statusid_payment_wm_fail,
+                            $LMI_PAYMENT_NO
+                        );
                     }
                 } else {
-                    $Cart->setStatusZakaz($statusid_payment_wm_fail,
-                                          $LMI_PAYMENT_NO);
+                    $Cart->setStatusZakaz(
+                        $statusid_payment_wm_fail,
+                        $LMI_PAYMENT_NO
+                    );
                 }
             }
         }
@@ -355,7 +368,7 @@ class CartController extends App_Controller_Frontend_Action
             $currency_id = $Cart->curIDWMZ();
             if (!empty($zakaz_items)) {
                 foreach ($zakaz_items as $view) {
-                    $cost+=$view['PRICE'] * $view['QUANTITY'];
+                    $cost += $view['PRICE'] * $view['QUANTITY'];
                 }
             }
 
@@ -363,8 +376,11 @@ class CartController extends App_Controller_Frontend_Action
             $this->domXml->go_to_parent();
             $this->domXml->create_element('surname_err', $name, 2);
             $this->domXml->go_to_parent();
-            $this->domXml->create_element('payment_no',
-                                          $_SESSION['ses_zakaz_id'], 2);
+            $this->domXml->create_element(
+                'payment_no',
+                $_SESSION['ses_zakaz_id'],
+                2
+            );
             $this->domXml->go_to_parent();
         }
 
@@ -412,47 +428,75 @@ class CartController extends App_Controller_Frontend_Action
         $docId = $AnotherPages->getDocByUrl('order_buy_admin');
         $messageAmin = $AnotherPages->getDocXml($docId);
 
-        if (!empty($postData['SURNAME']))
-            $messageAmin = str_replace("##surname##", $postData['SURNAME'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['SURNAME'])) {
+            $messageAmin = str_replace(
+                "##surname##",
+                $postData['SURNAME'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##surname##", '', $messageAmin);
+        }
 
-        if (!empty($postData['_payment']))
-            $messageAmin = str_replace("##payment##", $postData['_payment'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['_payment'])) {
+            $messageAmin = str_replace(
+                "##payment##",
+                $postData['_payment'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##payment##", '', $messageAmin);
+        }
 
-        if (!empty($postData['telmob']))
-            $messageAmin = str_replace("##phone##", $postData['telmob'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['telmob'])) {
+            $messageAmin = str_replace(
+                "##phone##",
+                $postData['telmob'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##phone##", '', $messageAmin);
+        }
 
-        if (!empty($postData['info']))
-            $messageAmin = str_replace("##info##", $postData['info'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['info'])) {
+            $messageAmin = str_replace(
+                "##info##",
+                $postData['info'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##info##", '', $messageAmin);
+        }
 
-        if (!empty($postData['name']))
-            $messageAmin = str_replace("##name##", $postData['name'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['name'])) {
+            $messageAmin = str_replace(
+                "##name##",
+                $postData['name'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##name##", '', $messageAmin);
+        }
 
-        if (!empty($postData['address']))
-            $messageAmin = str_replace("##address##", $postData['address'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['address'])) {
+            $messageAmin = str_replace(
+                "##address##",
+                $postData['address'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##address##", '', $messageAmin);
+        }
 
-        if (!empty($postData['email']))
-            $messageAmin = str_replace("##email##", $postData['email'],
-                                       $messageAmin);
-        else
+        if (!empty($postData['email'])) {
+            $messageAmin = str_replace(
+                "##email##",
+                $postData['email'],
+                $messageAmin
+            );
+        } else {
             $messageAmin = str_replace("##email##", '', $messageAmin);
+        }
 
         $messageAmin = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
             . $messageAmin . $table . '</body></html>';
@@ -460,9 +504,11 @@ class CartController extends App_Controller_Frontend_Action
         return $messageAmin;
     }
 
-    private function sendManagerLetter($message_admin, $manager_emails,
-        $subject = 'Оформление заказа')
-    {
+    private function sendManagerLetter(
+        $message_admin,
+        $manager_emails,
+        $subject = 'Оформление заказа'
+    ) {
         if (!empty($manager_emails)) {
             $email_from = $this->getSettingValue('email_from');
             $patrern = '/(.*)<?([a-zA-Z0-9\-\_]+\@[a-zA-Z0-9\-\_]+(\.[a-zA-Z0-9]+?)+?)>?/U';
