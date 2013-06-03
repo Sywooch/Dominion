@@ -6,7 +6,7 @@ BEGIN
           attr_value,
           buf_value varchar(150);
   DECLARE v_finished integer DEFAULT 0;
-  DECLARE descript text DEFAULT '';
+  DECLARE descriptions text DEFAULT '';
   DECLARE i int(11) DEFAULT 0;
 
 
@@ -43,11 +43,11 @@ LOOP
   IF v_finished = 1 THEN
     LEAVE lbl;
   ELSEIF i <> 0 THEN
-    SET descript = CONCAT(descript, "<i class=\"dvdr\">/</i> ");
+    SET descriptions = CONCAT(descriptions, "<i class=\"dvdr\">/</i> ");
   END IF;
 
 
-  SET descript = CONCAT(descript, attr_name, ": <b>", attr_value, "</b> ");
+  SET descriptions = CONCAT(descriptions, attr_name, ": <b>", attr_value, "</b> ");
 
   SET i = i + 1;
 
@@ -56,21 +56,24 @@ END LOOP;
 
   SET v_finished = 0;
   SET i = 0;
+
+
   OPEN attr_cursor1;
 lbl:
 LOOP
 
+  FETCH attr_cursor1 INTO attr_name, attr_value;
   IF v_finished = 1 THEN
     LEAVE lbl;
   ELSEIF i <> 0 THEN
-    SET descript = CONCAT(descript, "<i class=\"dvdr\">/</i> ");
+    SET descriptions = CONCAT(descriptions, "<i class=\"dvdr\">/</i> ");
   END IF;
 
-  SET descript = CONCAT(descript, attr_name, ": <b>", attr_value, "</b> ");
+  SET descriptions = CONCAT(descriptions, attr_name, ": <b>", attr_value, "</b> ");
   SET i = i + 1;
 
 END LOOP;
   CLOSE attr_cursor1;
 
-  RETURN descript;
+  RETURN descriptions;
 END
