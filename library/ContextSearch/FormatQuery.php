@@ -50,6 +50,20 @@ class ContextSearch_FormatQuery
     private $data = array();
 
     /**
+     * Settgins for strategy search in search engine
+     *
+     * @var bool
+     */
+    private $prefix = false;
+
+    /**
+     * Name filed
+     *
+     * @var array
+     */
+    private $nameFields = array();
+
+    /**
      * Constructor for get paramters to connect
      *
      * @param string       $search_engine
@@ -60,10 +74,12 @@ class ContextSearch_FormatQuery
      */
     public function __construct($search_engine, $action, $index = null)
     {
-        if (!isset($search_engine) && !is_string($search_engine) && !isset($action))
+        if (!isset($search_engine) && !is_string($search_engine) && !isset($action)) {
             throw new \Exception("Error: The not correct input parameter search_engine!");
-        if (isset($index))
+        }
+        if (isset($index)) {
             $this->config['index'] = $index;
+        }
         $this->search_engine = $search_engine;
         $this->action = $action;
     }
@@ -133,6 +149,26 @@ class ContextSearch_FormatQuery
         $this->config['host'] = $host;
     }
 
+    /**
+     * Setter for prefix state
+     *
+     * @param bool $prefix
+     */
+    public function setPrefix($prefix = false)
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Setter for Name fields
+     *
+     * @param array $nameFields
+     */
+    public function setNameFields(array $nameFields)
+    {
+        $this->nameFields = $nameFields;
+    }
+
     /**Получить имя поискового движка
      *
      * @return type string
@@ -197,6 +233,26 @@ class ContextSearch_FormatQuery
     }
 
     /**
+     * Getter for prefix
+     *
+     * @return bool
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Getter for name fields
+     *
+     * @return array
+     */
+    public function getNameFields()
+    {
+        return $this->nameFields;
+    }
+
+    /**
      * Получить экземпляр класса фабрики создания бизнес логики
      *
      * @return SearchEngineFactory
@@ -205,4 +261,5 @@ class ContextSearch_FormatQuery
     {
         return new ContextSearch_SearchEngineFactory();
     }
+
 }

@@ -5,6 +5,7 @@ use Elastica\Document;
 use Elastica\Facet\Terms;
 use Elastica\Query;
 use Elastica\Query\QueryString;
+use Elastica\Filter\Prefix;
 
 /**
  * Class ElasticSearchModel
@@ -24,28 +25,36 @@ class ContextSearch_Elastic_ElasticSearchModel
      * Method get
      */
     const NAME_METHOD = 'get';
+    /**
+     * Name products
+     */
+    const NAME_PREFIX = "products";
 
     /**
      * Конструктор ElasticSearch
      *
-     * @param \Elastica_Client $elastica_client
-     * @param  string          $config_index
+     * @param Client $elastica_client
+     * @param string $config_index
+     *
+     * @throws Exception
      */
-    function __construct(Client $elastica_client, $config_index)
+    public function __construct(Client $elastica_client, $config_index)
     {
-        if (!isset($elastica_client) || !isset($config_index) || !is_string($config_index))
+        if (!isset($elastica_client) || !isset($config_index) || !is_string($config_index)) {
             throw new \Exception("Error:The input parameters is not correct");
+        }
+
         $this->index = $elastica_client->getIndex($config_index);
     }
 
     /**
-     * Заполнить данные в индекс ElasticSearch
+     * Save data in index Elastic Search
      *
-     * @param \Elastica_Document $elastica_doc
-     * @param array              $data
-     * @param string             $type
+     * @param Document $elastica_doc
+     * @param array    $data
+     * @param string   $type
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function putData(Document $elastica_doc, array $data, $type)
     {
@@ -62,34 +71,35 @@ class ContextSearch_Elastic_ElasticSearchModel
     }
 
     /**
-     * Поиск по запросу в ElasticSearch
+     * Execute search in elastic by query
      *
-     * @param \Elastica_Query             $elastica_query
-     * @param \Elastica_Query_QueryString $elastica_query_string
-     * @param  string                     $query
+     * @param Query                $elastica_query
+     * @param QueryString | Prefix $type_query
      *
-     * @return mixed
-     * @throws \Exception
+     * @return \Elastica\ResultSet
+     * @throws Exception
      */
-    public function searchInElastic(Query $elastica_query, QueryString $elastica_query_string, $query)
+    public function searchInElastic($type_query, Query $elastica_query = null)
     {
-        if (!isset($query) && !is_string($query) || !isset($elastica_query) || !isset($elastica_query_string))
-            throw new \Exception("Error: input parameters is null");
-        $elastica_query_string->setQuery($query);
-        $elastica_query->setQuery($elastica_query_string);
+        if (!($type_query instanceof QueryString) && !($type_query instanceof Prefix)) {
+            throw new Exception("Error: class does not exist correct type, class: " . __CLASS__ . ", Line: " . __LINE__);
+        }
+        if (!empty($elastica_query)) {
+            $type_query = $elastica_query->setQuery($type_query);
+        }
 
-        return $this->index->search($elastica_query);
+        return $this->index->search($type_query);
     }
 
     /**
-     * Добавить facets для ElasticSearch
+     * Add facets to ElasticSearch query
      *
-     * @param \Elastica_Facet_Terms $elastica_facet
-     * @param \Elastica_Query       $elastica_query
-     * @param array                 $config_name
-     * @param array                 $fields
+     * @param Terms   $elastica_facet
+     * @param Query   $elastica_query
+     * @param strings $config_name
+     * @param array   $fields
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function facetsData(Terms $elastica_facet, Query $elastica_query, $config_name, array $fields)
     {

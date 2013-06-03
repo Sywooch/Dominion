@@ -5,7 +5,8 @@ use Elastica\Query;
 use Elastica\Document;
 use Elastica\Query\QueryString;
 use Elastica\Facet\Terms;
-use Elastica\Search;
+use Elastica\Query\Match;
+use Elastica\Filter\Prefix;
 
 /**
  * Class ElasticSearchFactory
@@ -116,14 +117,22 @@ class ContextSearch_Elastic_ElasticSearchFactory
     }
 
     /**
-     * Return object search for large search process
+     * Create object for execute elastic query with prefix
      *
-     * @return Search
-//     */
-//    public function getSearch()
-//    {
-//        $search = new Search();
-//        $search->
-//        return ;
-//    }
+     * @return Prefix
+     */
+    public function getMatch()
+    {
+        return new Match();
+    }
+
+    /**
+     * Format execute search
+     *
+     * @return Prefix
+     */
+    public function getQueryPrefix()
+    {
+        return new Prefix();
+    }
 }

@@ -49,6 +49,8 @@ class ElasticSearchController extends App_Controller_Frontend_Action
         $formatQuery->setHost($this->config->search_engine->host);
         $formatQuery->setType($this->config->search_engine->type_products);
         $formatQuery->setQuery($this->_getParam("term"));
+        $formatQuery->setPrefix($this->config->search_engine->prefix);
+        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
 
         $queryObject = new ContextSearch_Query();
         $queryObject->execQuery($formatQuery);

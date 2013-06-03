@@ -7,13 +7,17 @@
  */
 class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 {
-    private $fields = array("NAME_PRODUCT", "BRAND");
+    /**
+     * Name method for execute into elastic search
+     *
+     * @var array
+     */
     private $actions = array("GET", "PUT", "DELETE");
 
     /**
-     * Execute function for query elastic
+     * Execute function for query elastics
      *
-     * @param library_ContextSearch_FormatQuery $format_query
+     * @param ContextSearch_FormatQuery $format_query
      *
      * @return mixed
      * @throws Exception
@@ -29,9 +33,25 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 
         switch ($logic) {
             case 'GET':
-                $elastica_query = $elastic_factory->getElasticaQuery();
-                $elastic_model->facetsData($elastic_factory->getFacets(), $elastica_query, $format_query->getIndex(), $this->fields);
-                $result_query = $elastic_model->searchInElastic($elastica_query, $elastic_factory->getQueryString(), $format_query->getQuery());
+                if ($format_query->getPrefix()) {
+                    $type_query = $elastic_factory->getQueryPrefix();
+                    foreach ($format_query->getNameFields() as $field) {
+                        $type_query->setField($field);
+                        $type_query->setPrefix($format_query->getQuery());
+                        $type_query->toArray();
+                        $result_query = $elastic_model->searchInElastic($type_query);
+                        $results = $result_query->getResults();
+                        if (!empty($results)) {
+                            break;
+                        }
+                    }
+                } else {
+                    $elastica_query = $elastic_factory->getElasticaQuery();
+                    $type_query = $elastic_factory->getQueryString();
+                    $type_query->setQuery($format_query->getQuery());
+                    $elastic_model->facetsData($elastic_factory->getFacets(), $elastica_query, $format_query->getIndex(), $format_query->getNameFields());
+                    $result_query = $elastic_model->searchInElastic($type_query);
+                }
                 break;
             case 'PUT':
                 $result_query = $elastic_model->putData($elastic_factory->getDocument(), $format_query->getData(), $format_query->getType());
@@ -84,9 +104,9 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить XML из результата поиска
      *
-     * @param type $result_query
+     * @param string $result_query
      *
-     * @throws \Exception
+     * @return string
      */
     public function getXML($result_query = null)
     {
