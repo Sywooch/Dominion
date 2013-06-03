@@ -59,7 +59,6 @@ class ContextSearch_Elastic_ElasticSearchModel
             $elastica_doc->setData($data[$i]);
             $main_type->addDocument($elastica_doc);
         }
-        $rr = 0;
     }
 
     /**
@@ -115,5 +114,4 @@ class ContextSearch_Elastic_ElasticSearchModel
         $type_delete = $this->index->getType($type);
         $type_delete->delete();
     }
-
 }

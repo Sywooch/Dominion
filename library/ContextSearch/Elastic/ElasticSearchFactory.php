@@ -5,6 +5,7 @@ use Elastica\Query;
 use Elastica\Document;
 use Elastica\Query\QueryString;
 use Elastica\Facet\Terms;
+use Elastica\Search;
 
 /**
  * Class ElasticSearchFactory
@@ -113,4 +114,16 @@ class ContextSearch_Elastic_ElasticSearchFactory
     {
         return $this->elastic_search_model;
     }
+
+    /**
+     * Return object search for large search process
+     *
+     * @return Search
+//     */
+//    public function getSearch()
+//    {
+//        $search = new Search();
+//        $search->
+//        return ;
+//    }
 }

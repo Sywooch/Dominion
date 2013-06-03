@@ -40,27 +40,15 @@ class ElasticSearchController extends App_Controller_Frontend_Action
      */
     public function indexAction()
     {
-        $action = $this->_getParam("event");
-        $query = $this->_getParam("term");
-
-        if (empty($query) && $action != "PUT") {
-            echo $query;
-
-            return;
-        }
         $formatQuery = new ContextSearch_FormatQuery(
             $this->config->search_engine->name,
-            $action,
+            $this->_getParam("event"),
             $this->config->search_engine->index
         );
 
-        if ($action == "PUT") {
-            $formatQuery->setData($this->prepareDataForPut());
-        }
-
         $formatQuery->setHost($this->config->search_engine->host);
         $formatQuery->setType($this->config->search_engine->type_products);
-        $formatQuery->setQuery($query);
+        $formatQuery->setQuery($this->_getParam("term"));
 
         $queryObject = new ContextSearch_Query();
         $queryObject->execQuery($formatQuery);
@@ -72,17 +60,5 @@ class ElasticSearchController extends App_Controller_Frontend_Action
             ->sendResponse();
 
         exit();
-    }
-
-    /**
-     * Genarate for elastic data
-     *
-     * @return array
-     */
-    private function prepareDataForPut()
-    {
-        $formatDataElastic = $this->_helper->helperLoader("FormatDataElastic");
-
-        return $formatDataElastic->formatDataForElastic();
     }
 }
