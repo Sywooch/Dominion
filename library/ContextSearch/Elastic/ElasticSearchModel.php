@@ -71,24 +71,55 @@ class ContextSearch_Elastic_ElasticSearchModel
     }
 
     /**
-     * Execute search in elastic by query
+     * Execute  search in Elastic
      *
-     * @param Query                $elastica_query
-     * @param QueryString | Prefix $type_query
+     * @param Prefix      $prefix
+     * @param array       $nameFields
+     * @param Query       $query
+     * @param QueryString $queryString
+     * @param string      $queryOrder
+     *
+     * @return \Elastica\ResultSet
+     */
+    public function searchInElastic(
+        Prefix $prefix, array $nameFields, Query $query, QueryString $queryString, $queryOrder = ""
+    )
+    {
+        $results = array();
+        foreach ($nameFields as $field) {
+            $prefix->setField($field);
+            $prefix->setPrefix($queryOrder);
+            $result_query = $this->executeSearch($prefix);
+            $results = $result_query->getResults();
+            if (!empty($results)) {
+                break;
+            }
+        }
+
+        if (empty($results)) {
+            $queryString->setQuery($queryOrder);
+            $query->setQuery($queryString);
+            $result_query = $this->index->search($query);
+        }
+
+        return $result_query;
+    }
+
+    /**
+     * Execute search for elastic Search
+     *
+     * @param $query
      *
      * @return \Elastica\ResultSet
      * @throws Exception
      */
-    public function searchInElastic($type_query, Query $elastica_query = null)
+    private function executeSearch($query)
     {
-        if (!($type_query instanceof QueryString) && !($type_query instanceof Prefix)) {
-            throw new Exception("Error: class does not exist correct type, class: " . __CLASS__ . ", Line: " . __LINE__);
-        }
-        if (!empty($elastica_query)) {
-            $type_query = $elastica_query->setQuery($type_query);
+        if (!$query instanceof Prefix && !$query instanceof $query) {
+            throw new Exception("Error execut search, because the type search object is not exist in specified, class: " . __CLASS__ . " line: " . __LINE__);
         }
 
-        return $this->index->search($type_query);
+        return $this->index->search($query);
     }
 
     /**

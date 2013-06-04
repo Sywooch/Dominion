@@ -50,13 +50,6 @@ class ContextSearch_FormatQuery
     private $data = array();
 
     /**
-     * Settgins for strategy search in search engine
-     *
-     * @var bool
-     */
-    private $prefix = false;
-
-    /**
      * Name filed
      *
      * @var array
@@ -150,16 +143,6 @@ class ContextSearch_FormatQuery
     }
 
     /**
-     * Setter for prefix state
-     *
-     * @param bool $prefix
-     */
-    public function setPrefix($prefix = false)
-    {
-        $this->prefix = $prefix;
-    }
-
-    /**
      * Setter for Name fields
      *
      * @param array $nameFields
@@ -230,16 +213,6 @@ class ContextSearch_FormatQuery
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Getter for prefix
-     *
-     * @return bool
-     */
-    public function getPrefix()
-    {
-        return $this->prefix;
     }
 
     /**

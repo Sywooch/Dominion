@@ -25,6 +25,7 @@ class Helpers_FormatDataElastic
         $formatArray = array();
         foreach ($items as $item) {
             $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
+            $item['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
             unset($item['REALCATNAME'], $item['ITEM_ID'], $item['CATNAME']);
             $formatArray[] = $item;
         }

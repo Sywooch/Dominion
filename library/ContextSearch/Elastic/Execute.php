@@ -33,25 +33,9 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 
         switch ($logic) {
             case 'GET':
-                if ($format_query->getPrefix()) {
-                    $type_query = $elastic_factory->getQueryPrefix();
-                    foreach ($format_query->getNameFields() as $field) {
-                        $type_query->setField($field);
-                        $type_query->setPrefix($format_query->getQuery());
-                        $type_query->toArray();
-                        $result_query = $elastic_model->searchInElastic($type_query);
-                        $results = $result_query->getResults();
-                        if (!empty($results)) {
-                            break;
-                        }
-                    }
-                } else {
-                    $elastica_query = $elastic_factory->getElasticaQuery();
-                    $type_query = $elastic_factory->getQueryString();
-                    $type_query->setQuery($format_query->getQuery());
-                    $elastic_model->facetsData($elastic_factory->getFacets(), $elastica_query, $format_query->getIndex(), $format_query->getNameFields());
-                    $result_query = $elastic_model->searchInElastic($type_query);
-                }
+                $result_query = $elastic_model->searchInElastic(
+                    $elastic_factory->getQueryPrefix(), $format_query->getNameFields(), $elastic_factory->getElasticaQuery(), $elastic_factory->getQueryString(), $format_query->getQuery()
+                );
                 break;
             case 'PUT':
                 $result_query = $elastic_model->putData($elastic_factory->getDocument(), $format_query->getData(), $format_query->getType());

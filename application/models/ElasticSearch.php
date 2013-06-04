@@ -27,6 +27,8 @@ class models_ElasticSearch extends ZendDBEntity
                   B.NAME AS BRAND,
                   I.ARTICLE,
                   I.CATNAME,
+                  I.PRICE,
+                  I.IMAGE1,
                   C.REALCATNAME
                 FROM ITEM I LEFT JOIN BRAND B USING (BRAND_ID)
                 LEFT JOIN CATALOGUE C USING(CATALOGUE_ID)";
