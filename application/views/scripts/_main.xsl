@@ -456,6 +456,7 @@
                 <link rel="stylesheet" type="text/css" href="/css/blocks.css"/>
                 <link rel="stylesheet" type="text/css" href="/css/popup.css"/>
                 <link rel="stylesheet" type="text/css" href="/css/fancybox.css"/>
+                <link rel="stylesheet" type="text/css" href="/css/elastic.css"/>
 
                 <!--<script type="text/javascript" src="/js/jquery.js"></script>-->
                 <!--<script type="text/javascript" src="/js/jquery-ui.custom.min.js"></script>-->

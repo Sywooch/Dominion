@@ -9,15 +9,7 @@ $(document).ready(function () {
                 term = request.term;
                 if (term in cache) {
                     response(
-                        $.map(cache[term], function (item) {
-                            return     {
-                                label: item.TYPENAME + ", " + item.NAME_PRODUCT +
-                                    ", " + item.BRAND + ", " + item.ARTICLE,
-                                value: item.TYPENAME + ", " + item.NAME_PRODUCT +
-                                    ", " + item.BRAND + ", " + item.ARTICLE,
-                                url: item.URL
-                            }
-                        })
+                        cache[term]
                     );
                 }
                 $.ajax({
@@ -32,26 +24,21 @@ $(document).ready(function () {
                         cache[term] = data;
                         $("ul.ui-autocomplete").hover("color", "#009933");
                         response(
-                            $.map(data, function (item) {
-                                return     {
-                                    label: item.TYPENAME + ", " + item.NAME_PRODUCT +
-                                        ", " + item.BRAND + ", " + item.ARTICLE,
-                                    value: item.TYPENAME + ", " + item.NAME_PRODUCT +
-                                        ", " + item.BRAND + ", " + item.ARTICLE,
-                                    url: item.URL
-                                }
-                            })
+                            data
                         );
                     }
                 })
             },
             select: function (event, ui) {
-                window.location.href = ui.item.url;
+                $(this).val(ui.item.TYPENAME + ", " + ui.item.BRAND + ", " + ui.item.PRICE);
+                window.location.href = ui.item.URL;
             },
             focus: function (event, ui) {
-                $(this).val(ui.item.label);
+                $(this).val(ui.item.TYPENAME + ", " + ui.item.BRAND + ", " + ui.item.PRICE);
             },
             delay: 500
-        })
+        }).data("uiAutocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.URL + "'><div class='products'><img src='/images/it/" + item.IMAGE1 + "' /></div><div class='details'>" + item.TYPENAME + ", " + item.BRAND + "</div><div class='price'>цена: " + item.PRICE + "</div></a>").appendTo(ul);
+        }
     })
 })
