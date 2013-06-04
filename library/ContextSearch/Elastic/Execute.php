@@ -1,4 +1,5 @@
 <?php
+use Elastica\ResultSet;
 
 /**
  * Class Execute
@@ -51,19 +52,15 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить массив из результата поиска
      *
-     * @param Array $result_query
+     * @param ResultSet $result_query
      *
-     * @return type
-     * @throws \Exception
+     * @return array
      */
-    public function getArray($result_query)
+    public function getArray(ResultSet $result_query)
     {
-        if (empty($result_query))
-            throw new \Exception("Exception: The result_query is empty");
-
         $arr = array();
 
-        foreach ($result_query as $result) {
+        foreach ($result_query->getResults() as $result) {
             $arr[] = $result->getData();
         }
 
@@ -73,31 +70,28 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить JSON из результата поиска
      *
-     * @param type $result_query
+     * @param ResultSet $result_query
      *
-     * @return type
-     * @throws \Exception
+     * @return mixed|string
      */
-    public function getJSON($result_query = null)
+    public function getJSON(ResultSet $result_query = null)
     {
-        $arr = $this->getArray($result_query);
-
-        return json_encode($arr);
+        return json_encode($this->getArray($result_query));
     }
 
     /**
-     * Получить XML из результата поиска
+     * Get format xml
      *
-     * @param string $result_query
+     * @param ResultSet $result_query
      *
      * @return string
      */
-    public function getXML($result_query = null)
+    public function getXML(ResultSet $result_query = null)
     {
-        $arr = $this->getArray($result_query);
         $dom = new \DOMDocument("1.0", "utf-8");
         $root = $dom->appendChild($dom->createElement("root"));
-        foreach ($arr as $key => $value) {
+
+        foreach ($this->getArray($result_query) as $key => $value) {
             $node = $root->appendChild($dom->createElement("node" . $key));
             foreach ($value as $key_val => $val) {
                 $node->appendChild($dom->createElement($key_val, $val));

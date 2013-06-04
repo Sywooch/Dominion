@@ -38,7 +38,14 @@ $(document).ready(function () {
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
-            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.URL + "'><div class='products'><img src='/images/it/" + item.IMAGE1 + "' /></div><div class='details'>" + item.TYPENAME + ", " + item.BRAND + "</div><div class='price'>цена: " + item.PRICE + "</div></a>").appendTo(ul);
+            var itemArray = null;
+            $.each(item, function (n, value) {
+                if (value == null) {
+                    item[n] = "";
+                }
+            });
+
+            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item['URL'] + "'><div class='products'><img src='/images/it/" + item['IMAGE1'] + "' /></div><div class='details'>" + item['TYPENAME'] + ", " + item['BRAND'] + "</div><div class='price'>цена: " + item['PRICE'] + "</div></a>").appendTo(ul);
         }
     })
 })

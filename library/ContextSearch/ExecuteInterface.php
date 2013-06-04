@@ -1,4 +1,5 @@
 <?php
+use Elastica\ResultSet;
 
 /**
  * Interface for describe function class
@@ -21,17 +22,17 @@ interface ContextSearch_ExecuteInterface
      *
      * @param \Elastica_ResultSet $result_query
      */
-    public function getJSON($result_query);
+    public function getJSON(ResultSet $result_query);
 
     /**Получить массив из обьекта результата поиска
      *
      * @param type $result_query
      */
-    public function getArray($result_query);
+    public function getArray(ResultSet $result_query);
 
     /**Получить XML формат из обьекта результата поиска
      *
      * @param type $result_query
      */
-    public function getXML($result_query);
+    public function getXML(ResultSet $result_query);
 }
