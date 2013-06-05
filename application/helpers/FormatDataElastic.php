@@ -33,4 +33,26 @@ class Helpers_FormatDataElastic
         return $formatArray;
     }
 
+    public function formatDataForResultQuery($dataResult)
+    {
+        if (!is_array($dataResult)) {
+            $dataResult = json_decode($dataResult);
+        }
+        $goods = array();
+        foreach ($dataResult as $data) {
+            $goods['name'] = $data['TYPENAME'];
+            $goods['brand'] = $data['BRAND'];
+            $goods['name_product'] = $data['NAME_PRODUCT'];
+            $image = explode("#", $goods['IMAGE1']);
+            $goods['image'] = array(
+                'url' => $image[0],
+                'width' => $image[1],
+                'height' => $image[2]
+            );
+            $goods['price'] = $data['PRICE'];
+        }
+
+        return $goods;
+    }
+
 }

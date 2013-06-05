@@ -52,15 +52,13 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить массив из результата поиска
      *
-     * @param ResultSet $result_query
-     *
      * @return array
      */
-    public function getArray(ResultSet $result_query)
+    public function getArray(ResultSet $resultQuery)
     {
         $arr = array();
 
-        foreach ($result_query->getResults() as $result) {
+        foreach ($resultQuery->getResults() as $result) {
             $arr[] = $result->getData();
         }
 
@@ -70,28 +68,24 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить JSON из результата поиска
      *
-     * @param ResultSet $result_query
-     *
      * @return mixed|string
      */
-    public function getJSON(ResultSet $result_query = null)
+    public function getJSON(ResultSet $resultQuery)
     {
-        return json_encode($this->getArray($result_query));
+        return json_encode($this->getArray($resultQuery));
     }
 
     /**
      * Get format xml
      *
-     * @param ResultSet $result_query
-     *
      * @return string
      */
-    public function getXML(ResultSet $result_query = null)
+    public function getXML(ResultSet $resultQuery)
     {
         $dom = new \DOMDocument("1.0", "utf-8");
         $root = $dom->appendChild($dom->createElement("root"));
 
-        foreach ($this->getArray($result_query) as $key => $value) {
+        foreach ($this->getArray($resultQuery) as $key => $value) {
             $node = $root->appendChild($dom->createElement("node" . $key));
             foreach ($value as $key_val => $val) {
                 $node->appendChild($dom->createElement($key_val, $val));
