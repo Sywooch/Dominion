@@ -33,26 +33,58 @@ class Helpers_FormatDataElastic
         return $formatArray;
     }
 
+    /**
+     * Format data for show in result search
+     *
+     * @param array|Json $dataResult
+     *
+     * @return array
+     */
     public function formatDataForResultQuery($dataResult)
     {
         if (!is_array($dataResult)) {
             $dataResult = json_decode($dataResult);
         }
         $goods = array();
-        foreach ($dataResult as $data) {
-            $goods['name'] = $data['TYPENAME'];
-            $goods['brand'] = $data['BRAND'];
-            $goods['name_product'] = $data['NAME_PRODUCT'];
+        foreach ($dataResult as $key => $data) {
+            $goods[$key]['name'] = $data['TYPENAME'];
+            $goods[$key]['brand'] = $data['BRAND'];
+            $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
             $image = explode("#", $goods['IMAGE1']);
-            $goods['image'] = array(
+            $goods[$key]['price'] = $data['PRICE'];
+            $goods[$key]['image'] = array(
                 'url' => $image[0],
                 'width' => $image[1],
                 'height' => $image[2]
             );
-            $goods['price'] = $data['PRICE'];
+
+            $goods[$key] = $this->replaceValue($goods[$key], null, "");
+            $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
         }
 
         return $goods;
+    }
+
+    /**
+     * Generate and replace values in array
+     *
+     * @param array $massive
+     * @param mixed $value
+     * @param mixed $replaceValue
+     *
+     * @return array
+     */
+    private function replaceValue(array $massive, $value, $replaceValue)
+    {
+        $valueSearch = array_keys($massive, $value);
+
+        if (!empty($valueSearch)) {
+            foreach ($valueSearch as $value) {
+                $massive[$value] = $replaceValue;
+            }
+        }
+
+        return $massive;
     }
 
 }
