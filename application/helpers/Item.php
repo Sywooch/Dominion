@@ -101,7 +101,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML карточки товара
-     * 
+     *
      * @param array $item
      * @param array $curr_info
      * @param boolean $all_info
@@ -240,7 +240,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XMK фото товара
-     * 
+     *
      * @param array $item
      */
     private function itemImages($item) {
@@ -290,7 +290,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML дополнительных фото
-     * 
+     *
      * @param int $item_id
      */
     private function getItemPhotos($item_id) {
@@ -330,7 +330,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML дополнительных Видео
-     * 
+     *
      * @param int $item_id
      */
     private function getItemMedia($item_id) {
@@ -364,7 +364,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML дополнительных коментариев
-     * 
+     *
      * @param int $item_id
      */
     private function getItemComments($item_id) {
@@ -386,7 +386,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML связанных товаров
-     * 
+     *
      * @param int $goods_category_id
      * @param int $item_id
      * @param array $curr_info
@@ -407,7 +407,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML атрибутов товаров
-     * 
+     *
      * @param int $item_id
      */
     private function getItemAttributs($item) {
@@ -458,7 +458,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
     /**
      * Формирование XML бредкрамба товара
-     * 
+     *
      * @param int $id
      */
     public function getDocPath($id) {
@@ -622,8 +622,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $soc_helper->getSocials(htmlspecialchars(urldecode($mailurl)), urldecode($item_name));
             $this->domXml = $soc_helper->getDomXml();
 
-            $this->domXml->create_element('docinfo', '', 2);            
-            
+            $this->domXml->create_element('docinfo', '', 2);
+
             $this->domXml->create_element('title', $meta['TITLE']);
             $this->domXml->create_element('keywords', $meta['KEYWORD_META']);
             $this->domXml->create_element('description', $meta['DESC_META']);

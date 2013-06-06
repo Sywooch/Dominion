@@ -11,8 +11,27 @@
  *
  * Class Helpers_FormatDataElastic
  */
-class Helpers_FormatDataElastic
+class Helpers_FormatDataElastic extends App_Controller_Helper_HelperAbstract
 {
+    /**
+     * Object value for save state format array for calc price in
+     * discount and send to result search query of elastica
+     *
+     * @var object
+     */
+    private $pricesObjectValue;
+
+    /**
+     * Setter for PriceObjectValue
+     *
+     * @param helpers_PricesObjectValue $pricesObjectValue
+     */
+    public function setPricesObjectValue(helpers_PricesObjectValue $pricesObjectValue)
+    {
+        /** @var $pricesObjectValue helpers_PricesObjectValue */
+        $this->pricesObjectValue = $pricesObjectValue;
+    }
+
     /**
      * Formating array for elastic search
      *
@@ -26,7 +45,7 @@ class Helpers_FormatDataElastic
         foreach ($items as $item) {
             $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
             $item['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
-            unset($item['REALCATNAME'], $item['ITEM_ID'], $item['CATNAME']);
+            unset($item['REALCATNAME'], $item['CATNAME']);
             $formatArray[] = $item;
         }
 
@@ -36,22 +55,18 @@ class Helpers_FormatDataElastic
     /**
      * Format data for show in result search
      *
-     * @param array|Json $dataResult
-     *
      * @return array
      */
-    public function formatDataForResultQuery($dataResult)
+    public function formatDataForResultQuery()
     {
-        if (!is_array($dataResult)) {
-            $dataResult = json_decode($dataResult);
-        }
+        $dataResult = $this->pricesObjectValue->getData();
         $goods = array();
         foreach ($dataResult as $key => $data) {
             $goods[$key]['name'] = $data['TYPENAME'];
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
             $image = explode("#", $goods['IMAGE1']);
-            $goods[$key]['price'] = $data['PRICE'];
+            $goods[$key]['price'] = $this->pricesObjectValue->getItem($key, "iprice");
             $goods[$key]['image'] = array(
                 'url' => $image[0],
                 'width' => $image[1],
@@ -63,6 +78,50 @@ class Helpers_FormatDataElastic
         }
 
         return $goods;
+    }
+
+    /**
+     * Execute format and calculate logic prices
+     *
+     * @throws Exception
+     */
+    public function formatPrices()
+    {
+        if (empty($this->pricesObjectValue)) {
+            throw new Exception("Error: price object value is null, class:" . __CLASS__ . ", line: " . __LINE__);
+        }
+
+        $items = $this->getDataItems($this->pricesObjectValue->getData());
+        $recount = $this->pricesObjectValue->getRecount();
+        $recount->setItemModel($this->pricesObjectValue->getModelsItem());
+        $recount->setCurrency($this->pricesObjectValue->getCurrency());
+
+        foreach ($items as $item) {
+            $recountItem = $recount->calcRecount($item);
+            $roundItem = $recount->calcRound($recountItem);
+            $discountItem = $this->pricesObjectValue->getDiscount()->calcDiscount($roundItem);
+            $this->pricesObjectValue->setItem($discountItem);
+        }
+    }
+
+    /**
+     * Get from model items
+     *
+     * @param array $dataResult
+     *
+     * @return array
+     */
+    private function getDataItems(array $dataResult)
+    {
+        $elasticSearch = new models_ElasticSearch();
+        $itemsId = array();
+        foreach ($dataResult as $data) {
+            $itemsId[] = $data['ITEM_ID'];
+        }
+
+        $items = $elasticSearch->getItemsForPrices($itemsId);
+
+        return $items;
     }
 
     /**
@@ -86,5 +145,6 @@ class Helpers_FormatDataElastic
 
         return $massive;
     }
+
 
 }

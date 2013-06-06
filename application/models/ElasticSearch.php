@@ -35,4 +35,48 @@ class models_ElasticSearch extends ZendDBEntity
 
         return $this->_db->fetchAll($sql);
     }
+
+    /**
+     * Get model from itemsPrices
+     *
+     * @param array $itemsId
+     *
+     * @return array
+     */
+    public function getItemsForPrices(array $itemsId)
+    {
+        $_items = implode(", ", $itemsId);
+
+        $where = "";
+        $where .= " and I.ITEM_ID IN ({$_items}) ";
+
+        $sql = "select I.ITEM_ID
+                ,I.CATALOGUE_ID
+                ,I.NAME
+                ,I.ARTICLE
+                ,I.CURRENCY_ID
+                ,I.PRICE
+                ,I.PRICE1
+                ,I.IMAGE1
+                ,I.IMAGE2
+                ,I.IMAGE3
+                ,I.DESCRIPTION
+                ,I.SEO_BOTTOM
+                ,I.CATNAME
+                ,I.IS_ACTION
+                ,I.STATUS
+                ,D.IMAGE as DISCOUNTS_IMAGE
+                ,B.NAME as BRAND_NAME
+                ,C.REALCATNAME as CATALOGUE_REALCATNAME
+                ,CR.SNAME
+          from ITEM I
+          left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
+          left join CURRENCY CR on (CR.CURRENCY_ID = I.CURRENCY_ID)
+          left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
+          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
+          where
+            I.PRICE > 0 " . $where;
+
+        return $this->_db->fetchAll($sql);
+    }
 }

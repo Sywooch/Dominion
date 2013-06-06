@@ -56,7 +56,17 @@ class ElasticSearchController extends App_Controller_Frontend_Action
 
         $resultArray = $queryObject->convertToArray();
 
+        $helperPriceObjectValue = $this->_helper->helperLoader("PricesObjectValue");
+        $helperPriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
+        $helperPriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
+        $helperPriceObjectValue->setData($resultArray);
+        $helperPriceObjectValue->setCurrency($this->currency);
+
         $helperFormatData = $this->_helper->helperLoader("FormatDataElastic");
+        $helperFormatData->setPricesObjectValue($helperPriceObjectValue);
+
+        $helperFormatData->formatPrices();
+
         $formatData = $helperFormatData->formatDataForResultQuery($resultArray);
 
         $this->getResponse()->setHeader("Content-Type", "text/html")
