@@ -12,7 +12,7 @@
  *
  * Class PricesObjectValue
  */
-class helpers_PricesObjectValue
+class helpers_Format_PricesObjectValue
 {
     /**
      * Items array for save elements prices

@@ -11,7 +11,7 @@
  *
  * Class Helpers_FormatDataElastic
  */
-class Helpers_FormatDataElastic extends App_Controller_Helper_HelperAbstract
+class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstract
 {
     /**
      * Object value for save state format array for calc price in
@@ -24,9 +24,9 @@ class Helpers_FormatDataElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Setter for PriceObjectValue
      *
-     * @param helpers_PricesObjectValue $pricesObjectValue
+     * @param helpers_Format_PricesObjectValue $pricesObjectValue
      */
-    public function setPricesObjectValue(helpers_PricesObjectValue $pricesObjectValue)
+    public function setPricesObjectValue(helpers_Format_PricesObjectValue $pricesObjectValue)
     {
         /** @var $pricesObjectValue helpers_PricesObjectValue */
         $this->pricesObjectValue = $pricesObjectValue;
@@ -62,11 +62,13 @@ class Helpers_FormatDataElastic extends App_Controller_Helper_HelperAbstract
         $dataResult = $this->pricesObjectValue->getData();
         $goods = array();
         foreach ($dataResult as $key => $data) {
+            $unit = $this->pricesObjectValue->getItem($key, "UNIT");
+            $price = $this->pricesObjectValue->getItem($key, "iprice");
             $goods[$key]['name'] = $data['TYPENAME'];
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
             $image = explode("#", $goods['IMAGE1']);
-            $goods[$key]['price'] = $this->pricesObjectValue->getItem($key, "iprice");
+            $goods[$key]['price'] = $price . " " . $unit;
             $goods[$key]['image'] = array(
                 'url' => $image[0],
                 'width' => $image[1],

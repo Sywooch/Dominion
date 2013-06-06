@@ -68,6 +68,7 @@ class Helpers_Prices_Recount extends App_Controller_Helper_HelperAbstract
 
         $item["NEW_PRICE"] = $newPrices;
         $item["OLD_PRICE"] = $oldPrices;
+        $item['UNIT'] = self::$currInfo['SNAME'];
 
         return $item;
     }
