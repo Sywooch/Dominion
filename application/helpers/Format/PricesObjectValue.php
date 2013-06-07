@@ -59,6 +59,11 @@ class helpers_Format_PricesObjectValue
         $this->items[] = $item;
     }
 
+    public function setAllItems(array $items)
+    {
+        $this->items = $items;
+    }
+
     /**
      * Setter for data
      *
@@ -142,14 +147,22 @@ class helpers_Format_PricesObjectValue
     /**
      * Get in items elements
      *
-     * @param integer $key
-     * @param string  $element
+     * @param integer $valueID
+     * @param string  $findElement
      *
      * @return mixed
      */
-    public function getItem($key, $element)
+    public function getItem($valueID, $findElement)
     {
-        return $this->items[$key][$element];
+        $key = null;
+        foreach ($this->items as $key => $item) {
+            $subKey = array_search($valueID, $item);
+            if (!empty($subKey)) {
+                break;
+            }
+        }
+
+        return $this->items[$key][$findElement];
     }
 
     /**

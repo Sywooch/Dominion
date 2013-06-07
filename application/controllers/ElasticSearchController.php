@@ -40,6 +40,12 @@ class ElasticSearchController extends App_Controller_Frontend_Action
      */
     public function indexAction()
     {
+        $term = $this->_getParam("term");
+
+        if (empty($term)) {
+            $this->_helper->json($term);
+        }
+
         $formatQuery = new ContextSearch_FormatQuery(
             $this->config->search_engine->name,
             $this->_getParam("event"),
@@ -48,7 +54,7 @@ class ElasticSearchController extends App_Controller_Frontend_Action
 
         $formatQuery->setHost($this->config->search_engine->host);
         $formatQuery->setType($this->config->search_engine->type_products);
-        $formatQuery->setQuery($this->_getParam("term"));
+        $formatQuery->setQuery($term);
         $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
 
         $queryObject = new ContextSearch_Query();

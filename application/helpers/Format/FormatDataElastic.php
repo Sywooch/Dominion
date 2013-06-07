@@ -47,8 +47,8 @@ class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstr
         $goods = array();
 
         foreach ($resultData as $key => $data) {
-            $price = $pricesObjectValue->getItem($key, "DISCOUNT_PRICE");
-            $unit = $pricesObjectValue->getItem($key, "UNIT");
+            $price = $pricesObjectValue->getItem($data['ITEM_ID'], "DISCOUNT_PRICE");
+            $unit = $pricesObjectValue->getItem($data['ITEM_ID'], "UNIT");
             $goods[$key]['name'] = $data['TYPENAME'];
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
