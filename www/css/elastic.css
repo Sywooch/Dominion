@@ -1,0 +1,16 @@
+li .products {
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 38px;
+    height: 50px;
+    float: left;
+}
+
+li .details {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+li .price {
+    margin-top: 2px;
+}

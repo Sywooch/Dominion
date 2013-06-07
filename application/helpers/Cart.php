@@ -53,17 +53,17 @@ class Helpers_Cart extends App_Controller_Helper_HelperAbstract{
     if(!empty($user_data) && $item['IS_ACTION']==1){
       $params['price'] = $item['iprice'];
       $params['user_id'] = $user_data['user_id'];
-      
+
       $params['real_currency_id'] = $item['CURRENCY_ID'];
       $params['currency_id'] = $this->params['currency'];
-      
+
       $prObj = new models_PriceRecount();
       $_price_result = $prObj->priceRecount($params);
       if(!empty($_price_result['new_price'])){
         $item['has_discount'] = 1;
         $item['iprice1'] = $_price_result['new_price'];
         $item['iprice'] = $params['price'];
-        
+
         $item['PRICE1'] = $_price_result['real_price'];
 
         $item['sh_disc_img_small']  = $_price_result['sh_disc_img_small'];
