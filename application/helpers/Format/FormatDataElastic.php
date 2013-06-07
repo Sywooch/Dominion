@@ -14,25 +14,6 @@
 class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstract
 {
     /**
-     * Object value for save state format array for calc price in
-     * discount and send to result search query of elastica
-     *
-     * @var object
-     */
-    private $pricesObjectValue;
-
-    /**
-     * Setter for PriceObjectValue
-     *
-     * @param helpers_Format_PricesObjectValue $pricesObjectValue
-     */
-    public function setPricesObjectValue(helpers_Format_PricesObjectValue $pricesObjectValue)
-    {
-        /** @var $pricesObjectValue helpers_PricesObjectValue */
-        $this->pricesObjectValue = $pricesObjectValue;
-    }
-
-    /**
      * Formating array for elastic search
      *
      * @param array $items
@@ -55,20 +36,29 @@ class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstr
     /**
      * Format data for show in result search
      *
+     * @param helpers_Format_PricesObjectValue $pricesObjectValue
+     *
      * @return array
      */
-    public function formatDataForResultQuery()
+    public function formatDataForResultQuery(helpers_Format_PricesObjectValue $pricesObjectValue)
     {
-        $dataResult = $this->pricesObjectValue->getData();
+        $resultData = $pricesObjectValue->getData();
+        $this->formatPrices($pricesObjectValue);
         $goods = array();
-        foreach ($dataResult as $key => $data) {
-            $unit = $this->pricesObjectValue->getItem($key, "UNIT");
-            $price = $this->pricesObjectValue->getItem($key, "iprice");
+
+        foreach ($resultData as $key => $data) {
+            $price = $pricesObjectValue->getItem($key, "DISCOUNT_PRICE");
+            $unit = $pricesObjectValue->getItem($key, "UNIT");
             $goods[$key]['name'] = $data['TYPENAME'];
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
-            $image = explode("#", $goods['IMAGE1']);
+
+            $data['IMAGE1'] = !empty($data['IMAGE1']) ? $data['IMAGE1'] : '##';
+            $image = explode("#", $data['IMAGE1']);
+
             $goods[$key]['price'] = $price . " " . $unit;
+
+            $goods[$key]['url'] = $data['URL'];
             $goods[$key]['image'] = array(
                 'url' => $image[0],
                 'width' => $image[1],
@@ -85,24 +75,27 @@ class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstr
     /**
      * Execute format and calculate logic prices
      *
-     * @throws Exception
+     * @param helpers_Format_PricesObjectValue $pricesObjectValue
+     *
+     * @return mixed
      */
-    public function formatPrices()
+    private function formatPrices(helpers_Format_PricesObjectValue $pricesObjectValue)
     {
-        if (empty($this->pricesObjectValue)) {
-            throw new Exception("Error: price object value is null, class:" . __CLASS__ . ", line: " . __LINE__);
-        }
-
-        $items = $this->getDataItems($this->pricesObjectValue->getData());
-        $recount = $this->pricesObjectValue->getRecount();
-        $recount->setItemModel($this->pricesObjectValue->getModelsItem());
-        $recount->setCurrency($this->pricesObjectValue->getCurrency());
-
+        $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {
+            $recount = $pricesObjectValue->getRecount();
+            $recount->setItemModel($pricesObjectValue->getModelsItem());
+            $recount->setCurrency($pricesObjectValue->getCurrency());
+
             $recountItem = $recount->calcRecount($item);
-            $roundItem = $recount->calcRound($recountItem);
-            $discountItem = $this->pricesObjectValue->getDiscount()->calcDiscount($roundItem);
-            $this->pricesObjectValue->setItem($discountItem);
+
+            $nameStrategyRound = "StrategyCurrencyRound_" . $recount->getNameRoundStrategy();
+            $strategyRound = new $nameStrategyRound();
+            $roundItem = $strategyRound->roundCurrency($recountItem, $recountItem['NEW_PRICE'], $recountItem['OLD_PRICE']);
+
+            $item = $pricesObjectValue->getDiscount()->calcDiscount($roundItem);
+
+            $pricesObjectValue->setItem($item);
         }
     }
 
@@ -121,9 +114,7 @@ class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstr
             $itemsId[] = $data['ITEM_ID'];
         }
 
-        $items = $elasticSearch->getItemsForPrices($itemsId);
-
-        return $items;
+        return $elasticSearch->getItemsForPrices($itemsId);
     }
 
     /**

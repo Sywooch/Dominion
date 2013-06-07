@@ -30,7 +30,7 @@ class Helpers_Prices_Recount extends App_Controller_Helper_HelperAbstract
     /**
      * Create static model
      *
-     * @var obejct
+     * @var object
      */
     private static $itemModel;
 
@@ -61,7 +61,7 @@ class Helpers_Prices_Recount extends App_Controller_Helper_HelperAbstract
      */
     public function calcRecount($item)
     {
-        $this->getCurrencyInfo();
+        $this->setCurrencyInfo();
         list($newPrices, $oldPrices) = self::$itemModel->recountPrice(
             $item['PRICE'], $item['PRICE1'], $item['CURRENCY_ID'], $this->currency, self::$currInfo['PRICE']
         );
@@ -80,38 +80,24 @@ class Helpers_Prices_Recount extends App_Controller_Helper_HelperAbstract
      * @return array
      * @throws Exception
      */
-    private function getCurrencyInfo()
+    private function setCurrencyInfo()
     {
         if (empty(self::$currInfo)) {
             if (empty(self::$itemModel)) {
                 throw new Exception("Error: item model is not create, class: " . __CLASS__ . " line: " . __LINE__);
             }
 
-            self::$currInfo = self::$itemModel->getCurrencyInfo($this->currency);
+            self::$currInfo = self::$itemModel->getExtendCurrencyInfo($this->currency);
         }
     }
 
     /**
-     * Calculate round prices
+     * Getter for currency information
      *
-     * @param mixed $item
-     *
-     * @return mixed
+     * @return array
      */
-    public function calcRound($item)
+    public function getNameRoundStrategy()
     {
-        $item['sh_disc_img_small'] = '';
-        $item['sh_disc_img_big'] = '';
-        $item['has_discount'] = 0;
-
-        if ($this->currency > 1) {
-            $item['iprice'] = round($item['NEW_PRICE'], 1);
-            $item['iprice1'] = round($item['OLD_PRICE'], 1);
-        } else {
-            $item['iprice'] = round($item['NEW_PRICE']);
-            $item['iprice1'] = round($item['OLD_PRICE']);
-        }
-
-        return $item;
+        return self::$currInfo['SYSTEM_NAME'];
     }
 }

@@ -30,22 +30,16 @@ $(document).ready(function () {
                 })
             },
             select: function (event, ui) {
-                $(this).val(ui.item.TYPENAME + ", " + ui.item.BRAND + ", " + ui.item.PRICE);
+                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
                 window.location.href = ui.item.URL;
             },
             focus: function (event, ui) {
-                $(this).val(ui.item.TYPENAME + ", " + ui.item.BRAND + ", " + ui.item.PRICE);
+                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
-            var itemArray = null;
-            $.each(item, function (n, value) {
-                if (value == null) {
-                    item[n] = "";
-                }
-            });
 
-            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item['URL'] + "'><div class='products'><img src='/images/it/" + item['IMAGE1'] + "' /></div><div class='details'>" + item['TYPENAME'] + ", " + item['BRAND'] + "</div><div class='price'>цена: " + item['PRICE'] + "</div></a>").appendTo(ul);
+            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.url + "'><div class='products'><img src='/images/it/" + item.image + "' /></div><div class='details'>" + item.name + ", " + item.brand + "</div><div class='price'>цена: " + item.price + "</div></a>").appendTo(ul);
         }
     })
 })

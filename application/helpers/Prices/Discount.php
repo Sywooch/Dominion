@@ -26,7 +26,9 @@ class Helpers_Prices_Discount extends App_Controller_Helper_HelperAbstract
 
         $ct_helper = $helperLoader->loadHelper('Cart', $this->params['currency']);
         $ct_helper->setModel($this->work_model);
+        $item = $ct_helper->recountPrice($item);
+        $item["DISCOUNT_PRICE"] = !empty($item['iprice1']) ? $item['iprice1'] : $item['iprice'];
 
-        return $ct_helper->recountPrice($item);
+        return $item;
     }
 }

@@ -56,6 +56,10 @@ class ElasticSearchController extends App_Controller_Frontend_Action
 
         $resultArray = $queryObject->convertToArray();
 
+        if (empty($resultArray)) {
+            $this->_helper->json($resultArray);
+        }
+
         $helperPriceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
         $helperPriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
         $helperPriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
@@ -63,16 +67,9 @@ class ElasticSearchController extends App_Controller_Frontend_Action
         $helperPriceObjectValue->setCurrency($this->currency);
 
         $helperFormatData = $this->_helper->helperLoader("Format_FormatDataElastic");
-        $helperFormatData->setPricesObjectValue($helperPriceObjectValue);
 
-        $helperFormatData->formatPrices();
+        $formatData = $helperFormatData->formatDataForResultQuery($helperPriceObjectValue);
 
-        $formatData = $helperFormatData->formatDataForResultQuery($resultArray);
-
-        $this->getResponse()->setHeader("Content-Type", "text/html")
-            ->setBody(json_encode($formatData))
-            ->sendResponse();
-
-        exit();
+        $this->_helper->json($formatData);
     }
 }
