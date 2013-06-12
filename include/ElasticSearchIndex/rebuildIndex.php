@@ -19,7 +19,7 @@ $loader->register();
 $elasticSearchModel = new models_ElasticSearch();
 $data = $elasticSearchModel->getProducts();
 
-$helperFormatData = new Helpers_FormatDataElastic();
+$helperFormatData = new Helpers_Format_FormatDataElastic();
 $formatData = $helperFormatData->formatDataForElastic($data);
 
 $fc = new ContextSearch_Query();
