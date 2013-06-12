@@ -31,7 +31,7 @@ class member_discount
                 }
 
                 if (!empty($summ)) {
-                    $result[$view['USER_ID']]+=$summ;
+                    $result[$view['USER_ID']] += $summ;
                 }
             }
         }
@@ -56,8 +56,10 @@ class member_discount
 
         $Registration = new models_Registration();
 
+        // Сбрасываем всем дискаунт
         $Registration->resetUsersDiscount();
 
+        // Иперсчитываем заново
         foreach ($usersIdDiscounts as $user_id => $summ) {
             $shopuser_discounts_id = $this->Item->getUserDiscountId($summ);
             if (!empty($shopuser_discounts_id)) {

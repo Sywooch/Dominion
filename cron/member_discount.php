@@ -9,8 +9,6 @@ require_once realpath(dirname(__FILE__) . '/../application/configs/') . '/config
 
 require_once ROOT_PATH . '/include/class.member_discount.php';
 
-require_once 'Zend/Loader.php';
-
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Registry');
 Zend_Loader::loadClass('Zend_Db');
@@ -25,7 +23,8 @@ $db_config = array(
     'host' => $config->resources->db->params->host,
     'username' => $config->resources->db->params->username,
     'password' => $config->resources->db->params->password,
-    'dbname' => $config->resources->db->params->dbname);
+    'dbname' => $config->resources->db->params->dbname
+);
 
 $adapter = $config->resources->db->adapter;
 
