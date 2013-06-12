@@ -11,7 +11,7 @@
  *
  * Class Helpers_FormatDataElastic
  */
-class Helpers_Format_FormatDataElastic extends App_Controller_Helper_HelperAbstract
+class Helpers_Format_FormatDataElastic
 {
     /**
      * Formating array for elastic search
