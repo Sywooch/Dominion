@@ -1,0 +1,63 @@
+[production]
+
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+includePaths.library = LIBRARY_PATH
+bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
+bootstrap.class = "Bootstrap"
+
+; so auto-loading will find our classes in library/App
+autoloaderNamespaces[] = "App_"
+autoloaderNamespaces[] = "models_"
+autoloaderNamespaces[] = "ContextSearch_"
+autoloaderNamespaces[] = "StrategyCurrencyRound_"
+
+; initialize database
+resources.db.adapter = "PDO_MYSQL"
+resources.db.params.charset = "utf8"
+resources.db.params.host = "localhost"
+resources.db.params.username = "dominion"
+resources.db.params.password = "qwe7890"
+resources.db.params.dbname = "dominion_db"
+resources.db.params.date_format = "YYYY-MM-ddTHH:mm:ss"
+resources.db.isDefaultTableAdapter = true
+
+; initialize front controller resource
+resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
+resources.frontController.defaultControllerName = "index"
+resources.frontController.defaultAction = "index"
+
+pluginPaths.System_Application_Resource = APPLICATION_PATH
+
+; initialize layout resource
+;resources.layout.layoutPath = APPLICATION_PATH "/layouts"
+
+; initialize a view (no options)
+;resources.view[] =
+
+; google analytics
+;analytics.tracker = <your analytics tracker id>
+
+
+search_engine.name = elastic_search
+search_engine.host = localhost
+search_engine.index = dominion
+search_engine.type = products
+
+search_engine.name_fields[] = TYPENAME
+search_engine.name_fields[] = NAME_PRODUCT
+search_engine.name_fields[] = BRAND
+
+[staging : production]
+
+[testing : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+[development : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+
+
