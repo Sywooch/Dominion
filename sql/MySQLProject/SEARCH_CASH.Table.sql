@@ -1,0 +1,13 @@
+﻿--
+-- Описание для таблицы SEARCH_CASH
+--
+CREATE TABLE SEARCH_CASH (
+  SEARCH_CASH varchar(32) NOT NULL,
+  SEARCH_NAME varchar(255) NOT NULL,
+  ITEMS mediumtext NOT NULL,
+  ITEMS_COUNT int(12) NOT NULL,
+  PRIMARY KEY (SEARCH_CASH)
+)
+ENGINE = MYISAM
+CHARACTER SET utf8
+COLLATE utf8_general_ci;

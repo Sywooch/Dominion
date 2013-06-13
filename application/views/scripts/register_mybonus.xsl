@@ -30,9 +30,12 @@
 					</xsl:if>
 				</div>
 				<div class="personal_status next">
-					<span>Следующий предел: <span class="sum">
-							<xsl:value-of select="format-number(next_discount/@min, '### ##0', 'european')"/>&#160;грн.</span>
-					</span>
+
+                    <xsl:if test="next_discount/@min">
+                        <span>Следующий предел: <span class="sum">
+                            <xsl:value-of select="format-number(next_discount/@min, '### ##0', 'european')"/>&#160;грн.</span>
+                        </span>
+                    </xsl:if>
 					<a href="/ajax/popup/mode/userdiscount/id/{next_discount/@id}/" class="popup status">
 						<xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of select="next_discount/image_small/@src"/>") no-repeat scroll right top transparent; color: <xsl:value-of select="next_discount/color"/> </xsl:attribute>
 						<xsl:value-of select="next_discount/name"/>

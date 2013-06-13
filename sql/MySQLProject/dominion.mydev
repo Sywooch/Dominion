@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Project File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DatabaseProject Version="1.0.1" Guid="0307dbd5-2f65-447b-a662-fbee5f546c11">
+  <Provider Guid="59f90733-4d68-4fdf-82a7-f0fcbf5460aa" />
+  <Include>
+    <File RelPath="" Link=".\ALIASES.Table.sql" />
+    <File RelPath="" Link=".\ALIGN.Table.sql" />
+    <File RelPath="" Link=".\ANNOUNCEMENTS.Table.sql" />
+    <File RelPath="" Link=".\ANOTHER_PAGES.Table.sql" />
+    <File RelPath="" Link=".\ARTICLE.Table.sql" />
+    <File RelPath="" Link=".\ARTICLE_GROUP.Table.sql" />
+    <File RelPath="" Link=".\ATTR_CATALOG_LINK.Table.sql" />
+    <File RelPath="" Link=".\ATTR_CATALOG_VIS.Table.sql" />
+    <File RelPath="" Link=".\ATTRIBUT.Table.sql" />
+    <File RelPath="" Link=".\ATTRIBUT_GROUP.Table.sql" />
+    <File RelPath="" Link=".\ATTRIBUT_LIST.Table.sql" />
+    <File RelPath="" Link=".\BANN_SECTION.Table.sql" />
+    <File RelPath="" Link=".\BRAND.Table.sql" />
+    <File RelPath="" Link=".\CALLBACK.Table.sql" />
+    <File RelPath="" Link=".\CAT_BRAND.Table.sql" />
+    <File RelPath="" Link=".\CAT_HOME_TYPE.Table.sql" />
+    <File RelPath="" Link=".\CAT_ITEM.Table.sql" />
+    <File RelPath="" Link=".\CATALOGUE.Table.sql" />
+    <File RelPath="" Link=".\CATALOGUE_BRAND_VIEW.Table.sql" />
+    <File RelPath="" Link=".\CATALOGUE_PRICE_EXPORT.Table.sql" />
+    <File RelPath="" Link=".\CATALOGUE_SECTION_ALIGN.Table.sql" />
+    <File RelPath="" Link=".\CMF_BUG.Table.sql" />
+    <File RelPath="" Link=".\CMF_GROUP.Table.sql" />
+    <File RelPath="" Link=".\CMF_LANG.Table.sql" />
+    <File RelPath="" Link=".\CMF_PARAM.Table.sql" />
+    <File RelPath="" Link=".\CMF_SCRIPT.Table.sql" />
+    <File RelPath="" Link=".\CMF_SCRIPT_GROUP.Table.sql" />
+    <File RelPath="" Link=".\CMF_SCRIPT_USER.Table.sql" />
+    <File RelPath="" Link=".\CMF_USER.Table.sql" />
+    <File RelPath="" Link=".\CMF_USER_GROUP.Table.sql" />
+    <File RelPath="" Link=".\CMF_XMLS_ARTICLE.Table.sql" />
+    <File RelPath="" Link=".\CREDIT.Table.sql" />
+    <File RelPath="" Link=".\CURRENCY.Table.sql" />
+    <File RelPath="" Link=".\DELIVERY.Table.sql" />
+    <File RelPath="" Link=".\DICTS.Table.sql" />
+    <File RelPath="" Link=".\DICTS_GROUP.Table.sql" />
+    <File RelPath="" Link=".\DISCOUNTS.Table.sql" />
+    <File RelPath="" Link=".\GOODS_GROUP.Table.sql" />
+    <File RelPath="" Link=".\GOODS_GROUP_ITEM_LINK.Table.sql" />
+    <File RelPath="" Link=".\ITEM.Table.sql" />
+    <File RelPath="" Link=".\ITEM_DEL.Table.sql" />
+    <File RelPath="" Link=".\ITEM_ITEM.Table.sql" />
+    <File RelPath="" Link=".\ITEM_MEDIA.Table.sql" />
+    <File RelPath="" Link=".\ITEM_OLD.Table.sql" />
+    <File RelPath="" Link=".\ITEM_PHOTO.Table.sql" />
+    <File RelPath="" Link=".\ITEM_REQUEST.Table.sql" />
+    <File RelPath="" Link=".\ITEM_TEMP.Table.sql" />
+    <File RelPath="" Link=".\ITEM0.Table.sql" />
+    <File RelPath="" Link=".\ITEM1.Table.sql" />
+    <File RelPath="" Link=".\ITEM2.Table.sql" />
+    <File RelPath="" Link=".\ITEM7.Table.sql" />
+    <File RelPath="" Link=".\ITEMR.Table.sql" />
+    <File RelPath="" Link=".\MANAGERS.Table.sql" />
+    <File RelPath="" Link=".\MESSAGES.Table.sql" />
+    <File RelPath="" Link=".\MESSAGES_SHOPUSER.Table.sql" />
+    <File RelPath="" Link=".\NEWS.Table.sql" />
+    <File RelPath="" Link=".\NEWS_GROUP.Table.sql" />
+    <File RelPath="" Link=".\OLD_SEF_URL.Table.sql" />
+    <File RelPath="" Link=".\PAYMENT.Table.sql" />
+    <File RelPath="" Link=".\PostDeployment.sql" />
+    <File RelPath="" Link=".\PreDeployment.sql" />
+    <File RelPath="" Link=".\PRICE_EXPORT.Table.sql" />
+    <File RelPath="" Link=".\RANGE_LIST.Table.sql" />
+    <File RelPath="" Link=".\REDIRECTOR.Table.sql" />
+    <File RelPath="" Link=".\RESPONSES.Table.sql" />
+    <File RelPath="" Link=".\SEARCH_CASH.Table.sql" />
+    <File RelPath="" Link=".\SEARCH_CASH_ITEM.Table.sql" />
+    <File RelPath="" Link=".\SECTION_ALIGN.Table.sql" />
+    <File RelPath="" Link=".\SEF_SITE_URL.Table.sql" />
+    <File RelPath="" Link=".\SEQUENCES.Table.sql" />
+    <File RelPath="" Link=".\SETINGS.Table.sql" />
+    <File RelPath="" Link=".\SHOPUSER.Table.sql" />
+    <File RelPath="" Link=".\SHOPUSER_DISCOUNTS.Table.sql" />
+    <File RelPath="" Link=".\SHOPUSER_DISCOUNTS_RANGE_LIST.Table.sql" />
+    <File RelPath="" Link=".\SHOPUSER_SUBSCRIBE_CLIENT_GROUP.Table.sql" />
+    <File RelPath="" Link=".\SITE_PARAM.Table.sql" />
+    <File RelPath="" Link=".\SOCIALS.Table.sql" />
+    <File RelPath="" Link=".\SUBSCRIBE_CLIENT_GROUP.Table.sql" />
+    <File RelPath="" Link=".\SUPPLIER.Table.sql" />
+    <File RelPath="" Link=".\TEXTES.Table.sql" />
+    <File RelPath="" Link=".\TRANSLIT_RULE.Table.sql" />
+    <File RelPath="" Link=".\UNIT.Table.sql" />
+    <File RelPath="" Link=".\VIEW_ATTRIBUT_GROUP.Table.sql" />
+    <File RelPath="" Link=".\WARRANTY.Table.sql" />
+    <File RelPath="" Link=".\XMLS.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZ.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZ_ITEM.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZ_ITEM_OLD.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZ_OLD.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZSTATUS.Table.sql" />
+    <File RelPath="" Link=".\ZAKAZSTATUS_OLD.Table.sql" />
+  </Include>
+  <Configurations Active="По умолчанию">
+    <Configuration Name="По умолчанию" CheckReferences="True" IgnoreErrors="False" OutputPath="" Target="" OutputType="SingleFile" KeepOriginalObjects="True" RecreateObjects="False" RecreateDatabase="False" ServerVersion="5.5.14" Database="dominion_db" UseRegions="False" FullPaths="False" Definer="CURRENT_USER" ScriptDelimiter="$$" StorageEngine="INNODB" Collation="utf8_general_ci" ConvertToLowercase="False" DefinerEffect="Keep">
+      <Connection Name="dominion_db.localhost" ConnectionString="User Id=dominion;Host=localhost;Database=dominion_db;Character Set=utf8" />
+      <Build>
+        <File RelPath="" Name="PreDeployment.sql" BuildAction="Build" />
+        <File RelPath="" Name="ALIASES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ALIGN.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ANNOUNCEMENTS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ANOTHER_PAGES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ARTICLE.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ARTICLE_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ATTR_CATALOG_LINK.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ATTR_CATALOG_VIS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ATTRIBUT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ATTRIBUT_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ATTRIBUT_LIST.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="BANN_SECTION.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="BRAND.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CALLBACK.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CAT_BRAND.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CAT_HOME_TYPE.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CAT_ITEM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CATALOGUE.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CATALOGUE_BRAND_VIEW.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CATALOGUE_PRICE_EXPORT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CATALOGUE_SECTION_ALIGN.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_BUG.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_LANG.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_PARAM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_SCRIPT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_SCRIPT_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_SCRIPT_USER.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_USER.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_USER_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CMF_XMLS_ARTICLE.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CREDIT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="CURRENCY.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="DELIVERY.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="DICTS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="DICTS_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="DISCOUNTS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="GOODS_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="GOODS_GROUP_ITEM_LINK.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_DEL.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_ITEM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_MEDIA.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_OLD.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_PHOTO.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_REQUEST.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM_TEMP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM0.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM1.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM2.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM7.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEMR.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="MANAGERS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="MESSAGES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="MESSAGES_SHOPUSER.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="NEWS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="NEWS_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="OLD_SEF_URL.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="PAYMENT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="PRICE_EXPORT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="RANGE_LIST.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="REDIRECTOR.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="RESPONSES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SEARCH_CASH.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SEARCH_CASH_ITEM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SECTION_ALIGN.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SEF_SITE_URL.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SEQUENCES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SETINGS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SHOPUSER.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SHOPUSER_DISCOUNTS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SHOPUSER_DISCOUNTS_RANGE_LIST.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SHOPUSER_SUBSCRIBE_CLIENT_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SITE_PARAM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SOCIALS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SUBSCRIBE_CLIENT_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="SUPPLIER.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="TEXTES.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="TRANSLIT_RULE.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="UNIT.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="VIEW_ATTRIBUT_GROUP.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="WARRANTY.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="XMLS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZ.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZ_ITEM_OLD.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZ_OLD.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZSTATUS.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZSTATUS_OLD.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ITEM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="ZAKAZ_ITEM.Table.sql" BuildAction="Build" />
+        <File RelPath="" Name="PostDeployment.sql" BuildAction="Build" />
+      </Build>
+    </Configuration>
+  </Configurations>
+</DatabaseProject>
