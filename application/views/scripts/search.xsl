@@ -74,11 +74,7 @@
         </div>
     </xsl:template>
 
-    <xsl:template name="section_url">
-        /search/
-        <xsl:if test="/page/data/query != ''"><xsl:value-of select="/page/data/query"/>/
-        </xsl:if>
-    </xsl:template>
+    <xsl:template name="section_url">/search/<xsl:if test="/page/data/query != ''"><xsl:value-of select="/page/data/query"/>/</xsl:if></xsl:template>
 
     <xsl:template match="data">
         <h1>
