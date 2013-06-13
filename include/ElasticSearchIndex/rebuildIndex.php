@@ -10,19 +10,21 @@ $loader->registerPrefixes(
     array(
         'ContextSearch_' => LIBRARY_PATH,
         "Helpers_" => APPLICATION_PATH,
-        "models_" => APPLICATION_PATH
+        "models_" => APPLICATION_PATH,
+        "Format_" => LIBRARY_PATH
     )
 );
 $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "production");
 Zend_Registry::set("config", $config);
 $loader->register();
+
 $elasticSearchModel = new models_ElasticSearch();
 $data = $elasticSearchModel->getProducts();
 
-$helperFormatData = new Helpers_Format_FormatDataElastic();
+$helperFormatData = new Format_FormatDataElastic();
+
 $formatData = $helperFormatData->formatDataForElastic($data);
 
-$fc = new ContextSearch_Query();
 
 $formatQuery = new ContextSearch_FormatQuery(
     $config->search_engine->name,

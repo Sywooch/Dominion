@@ -32,7 +32,7 @@ class App_View_Xslt extends Zend_View_Abstract
 //      if($_SERVER["HTTP_X_FORWARDED_FOR"]=='193.138.245.146')
 //        echo $this->serializer->getXML();
 //        exit;
-        $this->serializer->saveXML($name);
+//        $this->serializer->saveXML($name);
 
         echo $DOMTranform->getDOMCreator($xmlDoc, $template);
         exit;

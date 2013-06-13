@@ -11,7 +11,7 @@
  *
  * Class Helpers_FormatDataElastic
  */
-class helpers_Format_FormatDataElastic
+class Format_FormatDataElastic
 {
     /**
      * Formating array for elastic search
@@ -40,7 +40,7 @@ class helpers_Format_FormatDataElastic
      *
      * @return array
      */
-    public function formatDataForResultQuery(helpers_Format_PricesObjectValue $pricesObjectValue)
+    public function formatDataForResultQuery(Format_PricesObjectValue $pricesObjectValue)
     {
         $resultData = $pricesObjectValue->getData();
         $this->formatPrices($pricesObjectValue);
@@ -79,7 +79,7 @@ class helpers_Format_FormatDataElastic
      *
      * @return mixed
      */
-    private function formatPrices(helpers_Format_PricesObjectValue $pricesObjectValue)
+    private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
         $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {

@@ -12,7 +12,7 @@
  *
  * Class ElasticSearchController
  */
-class ElasticSearchController extends App_Controller_Frontend_Action
+class ElasticsearchController extends App_Controller_Frontend_Action
 {
     /**
      * Config parameters
@@ -65,16 +65,19 @@ class ElasticSearchController extends App_Controller_Frontend_Action
         if (empty($resultArray)) {
             $this->_helper->json($resultArray);
         }
+        $PriceObjectValue = new Format_PricesObjectValue();
 
-        $helperPriceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $helperPriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
-        $helperPriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
-        $helperPriceObjectValue->setData($resultArray);
-        $helperPriceObjectValue->setCurrency($this->currency);
+//        $PriceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
+        $PriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
+        $PriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
+        $PriceObjectValue->setData($resultArray);
+        $PriceObjectValue->setCurrency($this->currency);
 
-        $helperFormatData = $this->_helper->helperLoader("Format_FormatDataElastic");
+        $formatDataElastic = new Format_FormatDataElastic();
 
-        $formatData = $helperFormatData->formatDataForResultQuery($helperPriceObjectValue);
+//        $helperFormatData = $this->_helper->helperLoader("Format_FormatDataElastic");
+
+        $formatData = $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
 
         $this->_helper->json($formatData);
     }
