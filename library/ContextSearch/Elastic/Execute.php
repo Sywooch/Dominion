@@ -52,6 +52,8 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить массив из результата поиска
      *
+     * @param ResultSet $resultQuery
+     *
      * @return array
      */
     public function getArray(ResultSet $resultQuery)
@@ -68,6 +70,8 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
     /**
      * Получить JSON из результата поиска
      *
+     * @param ResultSet $resultQuery
+     *
      * @return mixed|string
      */
     public function getJSON(ResultSet $resultQuery)
@@ -77,6 +81,8 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
 
     /**
      * Get format xml
+     *
+     * @param ResultSet $resultQuery
      *
      * @return string
      */

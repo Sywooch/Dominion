@@ -155,6 +155,7 @@ class Format_PricesObjectValue
     public function getItem($valueID, $findElement)
     {
         $key = null;
+
         foreach ($this->items as $key => $item) {
             $subKey = array_search($valueID, $item);
             if (!empty($subKey)) {

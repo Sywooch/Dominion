@@ -77,6 +77,7 @@ class ElasticsearchController extends App_Controller_Frontend_Action
 
 //        $helperFormatData = $this->_helper->helperLoader("Format_FormatDataElastic");
 
+
         $formatData = $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
 
         $this->_helper->json($formatData);

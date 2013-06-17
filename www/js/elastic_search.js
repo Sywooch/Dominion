@@ -13,7 +13,7 @@ $(document).ready(function () {
                     );
                 }
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "/elasticsearch/",
                     data: {
                         term: term,
@@ -30,11 +30,10 @@ $(document).ready(function () {
                 })
             },
             select: function (event, ui) {
-                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
-                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
+//                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {

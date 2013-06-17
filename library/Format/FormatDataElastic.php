@@ -36,7 +36,7 @@ class Format_FormatDataElastic
     /**
      * Format data for show in result search
      *
-     * @param helpers_Format_PricesObjectValue $pricesObjectValue
+     * @param Format_PricesObjectValue $pricesObjectValue
      *
      * @return array
      */
@@ -75,9 +75,7 @@ class Format_FormatDataElastic
     /**
      * Execute format and calculate logic prices
      *
-     * @param helpers_Format_PricesObjectValue $pricesObjectValue
-     *
-     * @return mixed
+     * @param Format_PricesObjectValue $pricesObjectValue
      */
     private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
