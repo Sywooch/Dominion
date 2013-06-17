@@ -35,7 +35,11 @@ class ContextSearch_Elastic_Execute implements ContextSearch_ExecuteInterface
         switch ($logic) {
             case 'GET':
                 $result_query = $elastic_model->searchInElastic(
-                    $elastic_factory->getQueryPrefix(), $format_query->getNameFields(), $elastic_factory->getElasticaQuery(), $elastic_factory->getQueryString(), $format_query->getQuery()
+                    $elastic_factory->getQueryPrefix(),
+                    $format_query->getNameFields(),
+                    $elastic_factory->getElasticaQuery(),
+                    $elastic_factory->getQueryString(),
+                    $format_query->getQuery()
                 );
                 break;
             case 'PUT':

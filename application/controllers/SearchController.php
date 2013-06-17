@@ -98,7 +98,6 @@ class SearchController extends App_Controller_Frontend_Action
         }
 
         $this->resultToXML($items, $search_text);
-
     }
 
 
