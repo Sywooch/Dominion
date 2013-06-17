@@ -327,8 +327,7 @@ class SearchController extends App_Controller_Frontend_Action
         return TRUE;
     }
 
-    public
-    function updateAction()
+    public function updateAction()
     {
         set_time_limit(3600);
         $this->_helper->viewRenderer->setNoRender(true);
