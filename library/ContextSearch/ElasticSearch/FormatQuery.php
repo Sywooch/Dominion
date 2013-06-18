@@ -70,7 +70,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      *
      * @param integer $from
      */
-    public function setFrom($from)
+    public function setFrom($from = 0)
     {
         $this->formatQuery['from'] = $from;
     }
@@ -96,13 +96,21 @@ class ContextSearch_ElasticSearch_FormatQuery
     }
 
     /**
+     * Setter Match all
+     */
+    public function setMatchAll()
+    {
+        $this->formatQuery['match_all'];
+    }
+
+    /**
      * Getter Bool
      *
      * @return null
      */
     public function getBool()
     {
-        return (isset($this->formatQuery['bool'])) ? array("bool" => array()) : null;
+        return (isset($this->formatQuery['bool'])) ? array("bool" => array()) : "";
     }
 
     /**
@@ -112,7 +120,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getMust()
     {
-        return (isset($this->formatQuery['must'])) ? array("must" => array()) : null;
+        return (isset($this->formatQuery['must'])) ? array("must" => array()) : "";
     }
 
     /**
@@ -122,7 +130,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getQueryString()
     {
-        return (isset($this->formatQuery['query_string'])) ? $this->formatQuery['query_string'] : array();
+        return (isset($this->formatQuery['query_string'])) ? $this->formatQuery['query_string'] : "";
     }
 
     /**
@@ -132,7 +140,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getPrefix()
     {
-        return (isset($this->formatQuery['prefix'])) ? array("filter" => array("prefix" => $this->formatQuery['prefix'])) : array();
+        return (isset($this->formatQuery['prefix'])) ? array("filter" => array("prefix" => $this->formatQuery['prefix'])) : "";
     }
 
     /**
@@ -142,7 +150,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getCount()
     {
-        return (isset($this->formatQuery['count'])) ? $this->formatQuery['count'] : null;
+        return (isset($this->formatQuery['count'])) ? $this->formatQuery['count'] : "";
     }
 
     /**
@@ -152,7 +160,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getFrom()
     {
-        return (isset($this->formatQuery['from'])) ? array("from" => $this->formatQuery['from']) : null;
+        return (isset($this->formatQuery['from'])) ? array("from" => $this->formatQuery['from']) : "";
     }
 
     /**
@@ -162,7 +170,17 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getSize()
     {
-        return (isset($this->formatQuery['size'])) ? array("size" => $this->formatQuery['size']) : null;
+        return (isset($this->formatQuery['size'])) ? array("size" => $this->formatQuery['size']) : "";
+    }
+
+    /**
+     * Match All
+     *
+     * @return array|string
+     */
+    public function getMatchAll()
+    {
+        return (isset($this->formatQuery['match_all'])) ? array("match_all" => array()) : "";
     }
 
 

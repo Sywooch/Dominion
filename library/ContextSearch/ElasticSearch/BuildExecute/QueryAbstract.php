@@ -57,6 +57,11 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
         return self::$connect['type'];
     }
 
+    public function convertToArray()
+    {
+
+    }
+
     /**
      * Abstract method for few classes
      *

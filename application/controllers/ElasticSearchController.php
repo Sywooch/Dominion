@@ -46,33 +46,21 @@ class ElasticsearchController extends App_Controller_Frontend_Action
             $this->_helper->json($term);
         }
         $parameters = $this->config->toArray();
-        $connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
-        $connect->setAction("GET");
-
-        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
-        $data = array("_all" => $term);
-        $formatQuery->setQueryString($data);
-
-        $contextSearch = new ContextSearch_ContextSearchFactory();
-        $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
-        $elasticSearchGET = $queryBuilder->createQuery($connect);
-
-        $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
-//        $formatQuery = new ContextSearch_FormatQuery(
-//            $this->config->search_engine->name,
-//            $this->_getParam("event"),
-//            $this->config->search_engine->index
-//        );
+//        $connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
+//        $connect->setAction("GET");
 //
-//        $formatQuery->setHost($this->config->search_engine->host);
-//        $formatQuery->setType($this->config->search_engine->type_products);
-//        $formatQuery->setQuery($term);
-//        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
+//        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
+//        $data = array("_all" => $term);
+//        $formatQuery->setQueryString($data);
 //
-//        $queryObject = new ContextSearch_Query();
-//        $queryObject->execQuery($formatQuery);
+//        $contextSearch = new ContextSearch_ContextSearchFactory();
+//        $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+//        $elasticSearchGET = $queryBuilder->createQuery($connect);
 //
 //        $resultArray = $queryObject->convertToArray();
+
+        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $results = $helpersElasticExecute->runElasticGET($parameters, $term);
 
         if (empty($resultArray)) {
             $this->_helper->json($resultArray);
