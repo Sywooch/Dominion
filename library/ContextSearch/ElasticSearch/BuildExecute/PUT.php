@@ -45,7 +45,7 @@ class ContextSearch_ElasticSearch_BuildExecute_PUT extends ContextSearch_Elastic
 
             if (count($documents) === self::LIMIT_DOCS) {
                 $this->type->addDocuments($documents);
-                $this->execute();
+//                $this->execute();
                 unset($documents);
             }
         }
