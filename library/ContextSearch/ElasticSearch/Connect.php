@@ -12,7 +12,7 @@
  *
  * Class ContextSerch_ElasticSearch_Connect
  */
-class ContextSerch_ElasticSearch_Connect
+class ContextSearch_ElasticSearch_Connect
 {
     /**
      * Config array connect
@@ -26,7 +26,7 @@ class ContextSerch_ElasticSearch_Connect
      *
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(array $config = null)
     {
         $this->config = $config;
     }
@@ -89,5 +89,15 @@ class ContextSerch_ElasticSearch_Connect
     public function getAction()
     {
         return (isset($this->config['action'])) ? $this->config['action'] : null;
+    }
+
+    /**
+     * Getter for config parameters connect to Elastic Search
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

@@ -4,7 +4,7 @@
  *
  * Class QueryBuilderInterface
  */
-interface QueryBuilderInterface
+interface ContextSearch_ElasticSearch_QueryBuilderInterface
 {
     /**
      * Create query
@@ -13,5 +13,5 @@ interface QueryBuilderInterface
      *
      * @return mixed
      */
-    public function createQuery(ContextSerch_ElasticSearch_Connect $connect);
+    public function createQuery(ContextSearch_ElasticSearch_Connect $connect);
 }

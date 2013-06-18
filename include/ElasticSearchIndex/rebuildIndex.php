@@ -24,21 +24,14 @@ $data = $elasticSearchModel->getProducts();
 $helperFormatData = new Format_FormatDataElastic();
 
 $formatData = $helperFormatData->formatDataForElastic($data);
+$parameters = $config->toArray();
+$connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
+$connect->setAction("PUT");
+$contextSearch = new ContextSearch_ContextSearchFactory();
+$queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+$elasticSearchPUT = $queryBuilder->createQuery($connect);
 
-
-$formatQuery = new ContextSearch_FormatQuery(
-    $config->search_engine->name,
-    "PUT",
-    $config->search_engine->index
-);
-
-
-$formatQuery->setData($formatData);
-$formatQuery->setHost($config->search_engine->host);
-$formatQuery->setType($config->search_engine->type);
-
-$queryObject = new ContextSearch_Query();
-$queryObject->execQuery($formatQuery);
+$elasticSearchPUT->addDocuments($data);
 
 echo "Data add to index success";
 

@@ -4,7 +4,7 @@
  *
  * Class ContextSearch_ElasticSearch_QueryBuilder
  */
-class ContextSearch_ElasticSearch_QueryBuilder implements QueryBuilderInterface
+class ContextSearch_ElasticSearch_QueryBuilder implements ContextSearch_ElasticSearch_QueryBuilderInterface
 {
     /**
      * Registry to create elastic search
@@ -13,7 +13,7 @@ class ContextSearch_ElasticSearch_QueryBuilder implements QueryBuilderInterface
      *
      * @return mixed|string
      */
-    public function createQuery(ContextSerch_ElasticSearch_Connect $connect)
+    public function createQuery(ContextSearch_ElasticSearch_Connect $connect)
     {
         $nameClass = "ContextSearch_ElasticSearch_BuildExecute_" . $connect->getAction();
 

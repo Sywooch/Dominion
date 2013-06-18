@@ -6,36 +6,49 @@
  * Time: 17:54
  * To change this template use File | Settings | File Templates.
  */
+use Elastica\Client;
 
-abstract class QueryAbstract
+abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
      * Status Singleton
      *
      * @var null
      */
-    private static $connect = null;
+    private static $connect = array();
 
     /**
      * Connect to Elastic Search
      *
-     * @param ContextSerch_ElasticSearch_Connect $connect
+     * @param ContextSearch_ElasticSearch_Connect $connect
      */
-    public function __construct(ContextSerch_ElasticSearch_Connect $connect)
+    public function __construct(ContextSearch_ElasticSearch_Connect $connect)
     {
         if (empty(self::$connect)) {
-            self::$connect = $connect;
+            $elasticaClient = new \Elastica\Client($connect->getConfig());
+            self::$connect['index'] = $elasticaClient->getIndex($connect->getIndex());
+            self::$connect['type'] = self::$connect['index']->getType($connect->getType());
         }
     }
 
     /**
-     * Get Connect for child class
+     * Getter config index
      *
      * @return ContextSerch_ElasticSearch_Connect|null
      */
-    protected function getConnect()
+    protected function getIndex()
     {
-        return self::$connect;
+        return self::$connect['index'];
+    }
+
+    /**
+     * Getter config type
+     *
+     * @return mixed
+     */
+    protected function getType()
+    {
+        return self::$connect['type'];
     }
 
     /**

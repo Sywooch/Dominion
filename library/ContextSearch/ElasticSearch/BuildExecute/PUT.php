@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ContextSearch_ElasticSearch_BuildExecute_PUT extends QueryAbstract
+class ContextSearch_ElasticSearch_BuildExecute_PUT extends ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
      * Document Elastic Search
@@ -26,11 +26,11 @@ class ContextSearch_ElasticSearch_BuildExecute_PUT extends QueryAbstract
      *
      * @param ContextSerch_ElasticSearch_Connect $connect
      */
-    public function __construct(ContextSerch_ElasticSearch_Connect $connect)
+    public function __construct(ContextSearch_ElasticSearch_Connect $connect)
     {
         parent::__construct($connect);
 
-        $this->type = new Elastica\Type();
+        $this->type = $this->getType();
     }
 
     /**
@@ -42,9 +42,13 @@ class ContextSearch_ElasticSearch_BuildExecute_PUT extends QueryAbstract
     {
         foreach ($data as $key => $item) {
             $documents[] = new \Elastica\Document($key, $item);
-        }
 
-        $this->type->addDocuments($documents);
+            if (count($documents) === self::LIMIT_DOCS) {
+                $this->type->addDocuments($documents);
+                $this->execute();
+                unset($documents);
+            }
+        }
     }
 
     /**

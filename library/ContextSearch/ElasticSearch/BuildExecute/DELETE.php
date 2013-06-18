@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ContextSearch_ElasticSearch_BuildExecute_DELETE implements QueryInterface
+class ContextSearch_ElasticSearch_BuildExecute_DELETE extends ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
      * Constructor for connect

@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ContextSearch_ElasticSearch_BuildExecute_GET implements QueryInterface
+class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
      * Constructor for connect

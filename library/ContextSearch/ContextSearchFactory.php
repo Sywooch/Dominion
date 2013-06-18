@@ -12,7 +12,7 @@
  *
  * Class ContextSearch_ContextSearchBuilder
  */
-class ContextSearch_ContextSearchBuilder
+class ContextSearch_ContextSearchFactory
 {
     /**
      * Create Query Builder Elastic search
