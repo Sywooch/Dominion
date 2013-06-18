@@ -12,7 +12,7 @@ class ContextSearch_ElasticSearch_BuildExecute_DELETE extends ContextSearch_Elas
     /**
      * Constructor for connect
      *
-     * @param ContextSerch_ElasticSearch_Connect $connect
+     * @param ContextSearch_ElasticSearch_Connect $connect
      */
     public function __construct(ContextSearch_ElasticSearch_Connect $connect)
     {

@@ -45,22 +45,34 @@ class ElasticsearchController extends App_Controller_Frontend_Action
         if (empty($term)) {
             $this->_helper->json($term);
         }
+        $parameters = $this->config->toArray();
+        $connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
+        $connect->setAction("GET");
 
-        $formatQuery = new ContextSearch_FormatQuery(
-            $this->config->search_engine->name,
-            $this->_getParam("event"),
-            $this->config->search_engine->index
-        );
+        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
+        $data = array("_all" => $term);
+        $formatQuery->setQueryString($data);
 
-        $formatQuery->setHost($this->config->search_engine->host);
-        $formatQuery->setType($this->config->search_engine->type_products);
-        $formatQuery->setQuery($term);
-        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
+        $contextSearch = new ContextSearch_ContextSearchFactory();
+        $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+        $elasticSearchGET = $queryBuilder->createQuery($connect);
 
-        $queryObject = new ContextSearch_Query();
-        $queryObject->execQuery($formatQuery);
-
-        $resultArray = $queryObject->convertToArray();
+        $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
+//        $formatQuery = new ContextSearch_FormatQuery(
+//            $this->config->search_engine->name,
+//            $this->_getParam("event"),
+//            $this->config->search_engine->index
+//        );
+//
+//        $formatQuery->setHost($this->config->search_engine->host);
+//        $formatQuery->setType($this->config->search_engine->type_products);
+//        $formatQuery->setQuery($term);
+//        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
+//
+//        $queryObject = new ContextSearch_Query();
+//        $queryObject->execQuery($formatQuery);
+//
+//        $resultArray = $queryObject->convertToArray();
 
         if (empty($resultArray)) {
             $this->_helper->json($resultArray);
