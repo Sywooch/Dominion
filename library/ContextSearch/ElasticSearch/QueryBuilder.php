@@ -9,9 +9,9 @@ class ContextSearch_ElasticSearch_QueryBuilder implements ContextSearch_ElasticS
     /**
      * Registry to create elastic search
      *
-     * @param ContextSerch_ElasticSearch_Connect $connect
+     * @param ContextSearch_ElasticSearch_Connect $connect
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function createQuery(ContextSearch_ElasticSearch_Connect $connect)
     {

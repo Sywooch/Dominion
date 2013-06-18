@@ -17,16 +17,14 @@ $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "pr
 Zend_Registry::set("config", $config);
 $loader->register();
 
-$formatQuery = new ContextSearch_FormatQuery(
-    $config->search_engine->name,
-    "DELETE",
-    $config->search_engine->index
-);
+$paramters = $config->toArray();
 
-$formatQuery->setHost($config->search_engine->host);
-$formatQuery->setType($config->search_engine->type);
+$connect = new ContextSearch_ElasticSearch_Connect($paramters['search_engine']);
+$connect->setAction("DELETE");
 
-$queryObject = new ContextSearch_Query();
-$queryObject->execQuery($formatQuery);
+$contextSearch = new ContextSearch_ContextSearchFactory();
+$queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+$elasticSearchDELETE = $queryBuilder->createQuery($connect);
+$elasticSearchDELETE->execute();
 
 echo "Index delete success";

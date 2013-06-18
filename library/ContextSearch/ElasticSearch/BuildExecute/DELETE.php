@@ -14,7 +14,7 @@ class ContextSearch_ElasticSearch_BuildExecute_DELETE extends ContextSearch_Elas
      *
      * @param ContextSerch_ElasticSearch_Connect $connect
      */
-    public function __construct(ContextSerch_ElasticSearch_Connect $connect)
+    public function __construct(ContextSearch_ElasticSearch_Connect $connect)
     {
         parent::__construct($connect);
     }
@@ -26,6 +26,7 @@ class ContextSearch_ElasticSearch_BuildExecute_DELETE extends ContextSearch_Elas
      */
     public function execute()
     {
-
+        $typeDelete = $this->getType();
+        $typeDelete->delete();
     }
 }
