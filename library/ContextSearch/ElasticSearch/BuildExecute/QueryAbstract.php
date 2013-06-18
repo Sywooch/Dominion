@@ -18,6 +18,11 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
     private static $connect = array();
 
     /**
+     * Connect parameters
+     */
+    protected $parameters = array();
+
+    /**
      * Connect to Elastic Search
      *
      * @param ContextSearch_ElasticSearch_Connect $connect
@@ -28,6 +33,7 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
             $elasticaClient = new \Elastica\Client($connect->getConfig());
             self::$connect['index'] = $elasticaClient->getIndex($connect->getIndex());
             self::$connect['type'] = self::$connect['index']->getType($connect->getType());
+            $this->parameters = $connect;
         }
     }
 

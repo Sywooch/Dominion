@@ -45,10 +45,10 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function buildQuery(ContextSearch_ElasticSearch_FormatQuery $formatData)
     {
-        $this->queryBuilder['query']['bool']['must'] = $formatData->getQueryString();
-        $this->queryBuilder['filter'] = $formatData->getPrefix();
-        $this->queryBuilder[] = $formatData->getFrom();
-        $this->queryBuilder[] = $formatData->getSize();
+        $this->queryBuilder['query'] = $formatData->getQueryString();
+//        $this->queryBuilder['filter'] = $formatData->getPrefix();
+//        $this->queryBuilder[] = $formatData->getFrom();
+//        $this->queryBuilder[] = $formatData->getSize();
 
         return $this;
     }
@@ -63,7 +63,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $query = new Query($jsonParse);
         $search = new Search(new Client);
 
-        $result = $search->addIndex("goods")->search($query);
+        $result = $search->addIndex($this->parameters->getIndex())->addType($this->parameters->getType())->search($query);
 
         return $result;
     }
