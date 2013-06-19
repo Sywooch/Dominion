@@ -17,10 +17,14 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Run elastic GET
      *
-     * @param array $parameters
-     * @param string $term
+     * @param $parameters
+     * @param $term
+     * @param string $formatResult
+     * @param int $size
+     *
+     * @return mixed
      */
-    public function runElasticGET($parameters, $term)
+    public function runElasticGET($parameters, $term, $formatResult = "convertToArray", $size = 10)
     {
         $connect = new ContextSearch_ElasticSearch_Connect($parameters);
         $connect->setAction("GET");
@@ -30,6 +34,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $formatQuery->setValue($term);
         $formatQuery->setMatchAll();
         $formatQuery->setFields($connect->getFields());
+        $formatQuery->setSize($size);
 
         $contextSearch = new ContextSearch_ContextSearchFactory();
         $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
@@ -44,6 +49,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
             $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
         }
 
-        return $elasticSearchGET->convertToArray($results);
+        return $elasticSearchGET->$formatResult($results);
     }
+
 }

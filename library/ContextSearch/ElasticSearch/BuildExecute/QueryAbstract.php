@@ -20,7 +20,7 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
     /**
      * Connect parameters
      */
-    protected $parameters = array();
+    protected static $parameters;
 
     /**
      * Connect to Elastic Search
@@ -33,7 +33,7 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
             $elasticaClient = new \Elastica\Client($connect->getConfig());
             self::$connect['index'] = $elasticaClient->getIndex($connect->getIndex());
             self::$connect['type'] = self::$connect['index']->getType($connect->getType());
-            $this->parameters = $connect;
+            self::$parameters = $connect;
         }
     }
 
@@ -57,9 +57,14 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
         return self::$connect['type'];
     }
 
-    public function convertToArray()
+    /**
+     * Get parameters
+     *
+     * @return ContextSearch_ElasticSearch_Connect
+     */
+    protected function getParameters()
     {
-
+        return self::$parameters;
     }
 
     /**

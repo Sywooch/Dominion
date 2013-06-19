@@ -35,6 +35,19 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     private $querySearch;
 
+    /**
+     * From
+     *
+     * @var integer
+     */
+    private $from;
+
+    /**
+     * Size
+     *
+     * @var integer
+     */
+    private $size;
 
     /**
      * Constructor for connect
@@ -80,8 +93,11 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $fields = $formatData->getFields();
         $this->querySearch = new Prefix();
         $this->querySearch->setPrefix($formatData->getValue());
+
         foreach ($fields as $field) {
             $this->querySearch->setField($field);
+            $this->from = $formatData->getFrom();
+            $this->size = $formatData->getSize();
             $response = $this->execute();
             $results = $response->getResults();
             if (!empty($results)) {
@@ -93,19 +109,16 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         return null;
     }
 
-    public function buildCount(ContextSearch_ElasticSearch_FormatQuery $formatData)
-    {
-
-    }
-
     /**
      * Execute GET query
      */
     public function execute()
     {
         $search = new Search(new Client);
+        $search->setOption("from", $this->from);
+        $search->setOption("size", $this->size);
 
-        $result = $search->addIndex($this->parameters->getIndex())->addType($this->parameters->getType())->search($this->querySearch);
+        $result = $search->addIndex($this->getParameters()->getIndex())->addType($this->getParameters()->getType())->search($this->querySearch);
 
         return $result;
     }
@@ -137,6 +150,18 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
     public function convertToJson(ResultSet $resultSet)
     {
         return json_encode($resultSet->getResults());
+    }
+
+    /**
+     * Getter for total hits
+     *
+     * @param ResultSet $resultSet
+     *
+     * @return int
+     */
+    public function getTotalHits(ResultSet $resultSet)
+    {
+        return $resultSet->getTotalHits();
     }
 
 }

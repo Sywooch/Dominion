@@ -61,21 +61,12 @@ class SearchController extends App_Controller_Frontend_Action
             return;
         }
 
-        $formatQuery = $formatQuery = new ContextSearch_FormatQuery(
-            $this->config->search_engine->name,
-            "GET",
-            $this->config->search_engine->index
-        );
+        $parameters = $this->config->toArray();
 
-        $formatQuery->setHost($this->config->search_engine->host);
-        $formatQuery->setType($this->config->search_engine->type_products);
-        $formatQuery->setQuery($search_text);
-        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
+        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $totalsHits = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['total_hits']);
 
-        $queryObject = new ContextSearch_Query();
-        $queryObject->execQuery($formatQuery);
-
-        $resultArray = $queryObject->convertToArray();
+        $resultArray = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['convert_to_array'], $totalsHits);
 
         if (empty($resultArray)) {
             return;
