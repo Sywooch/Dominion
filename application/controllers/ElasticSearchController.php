@@ -46,31 +46,20 @@ class ElasticsearchController extends App_Controller_Frontend_Action
             $this->_helper->json($term);
         }
         $parameters = $this->config->toArray();
-//        $connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
-//        $connect->setAction("GET");
-//
-//        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
-//        $data = array("_all" => $term);
-//        $formatQuery->setQueryString($data);
-//
-//        $contextSearch = new ContextSearch_ContextSearchFactory();
-//        $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
-//        $elasticSearchGET = $queryBuilder->createQuery($connect);
-//
-//        $resultArray = $queryObject->convertToArray();
 
         $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
-        $results = $helpersElasticExecute->runElasticGET($parameters, $term);
+        $results = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $term);
 
-        if (empty($resultArray)) {
+        if (empty($results)) {
             $this->_helper->json($results);
         }
+
         $PriceObjectValue = new Format_PricesObjectValue();
 
 //        $PriceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
         $PriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
         $PriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
-        $PriceObjectValue->setData($resultArray);
+        $PriceObjectValue->setData($results);
         $PriceObjectValue->setCurrency($this->currency);
 
         $formatDataElastic = new Format_FormatDataElastic();

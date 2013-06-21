@@ -62,6 +62,16 @@ class ContextSearch_ElasticSearch_Connect
     }
 
     /**
+     * Setter for fields
+     *
+     * @param array $fields
+     */
+    public function setFields($fields)
+    {
+        $this->config['name_fields'] = $fields;
+    }
+
+    /**
      * Getter for index
      *
      * @return string
@@ -99,5 +109,15 @@ class ContextSearch_ElasticSearch_Connect
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Getter Feilds
+     *
+     * @return null
+     */
+    public function getFields()
+    {
+        return (isset($this->config['name_fields'])) ? $this->config['name_fields'] : null;
     }
 }

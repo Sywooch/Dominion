@@ -31,7 +31,7 @@ $contextSearch = new ContextSearch_ContextSearchFactory();
 $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
 $elasticSearchPUT = $queryBuilder->createQuery($connect);
 
-$elasticSearchPUT->addDocuments($data);
+$elasticSearchPUT->addDocuments($formatData);
 
 echo "Data add to index success";
 

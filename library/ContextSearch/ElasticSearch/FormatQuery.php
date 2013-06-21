@@ -48,7 +48,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      * Set Prefix like Filter
      *
      * @param string $prefix
-     * @param array  $fields
+     * @param array $fields
      */
     public function setPrefix($prefix, array $fields)
     {
@@ -86,21 +86,32 @@ class ContextSearch_ElasticSearch_FormatQuery
     }
 
     /**
-     * Setter facetes
+     * Setter for fields
      *
      * @param array $fields
      */
-    public function setFacets(array $fields)
+    public function setFields(array $fields)
     {
-        $this->formatQuery['facets'] = $fields;
+        $this->formatQuery['fields'] = $fields;
     }
+
 
     /**
      * Setter Match all
      */
     public function setMatchAll()
     {
-        $this->formatQuery['match_all'];
+        $this->formatQuery['match_all'] = array("match_all" => array());
+    }
+
+    /**
+     * Setter for Value
+     *
+     * @param string $value
+     */
+    public function setValue($value = "")
+    {
+        $this->formatQuery['value'] = $value;
     }
 
     /**
@@ -160,7 +171,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getFrom()
     {
-        return (isset($this->formatQuery['from'])) ? array("from" => $this->formatQuery['from']) : "";
+        return (isset($this->formatQuery['from'])) ? $this->formatQuery['from'] : 0;
     }
 
     /**
@@ -170,7 +181,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getSize()
     {
-        return (isset($this->formatQuery['size'])) ? array("size" => $this->formatQuery['size']) : "";
+        return (isset($this->formatQuery['size'])) ? $this->formatQuery['size'] : 10;
     }
 
     /**
@@ -180,7 +191,27 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function getMatchAll()
     {
-        return (isset($this->formatQuery['match_all'])) ? array("match_all" => array()) : "";
+        return (isset($this->formatQuery['match_all'])) ? $this->formatQuery['match_all'] : "";
+    }
+
+    /**
+     * Getter Fields
+     *
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->formatQuery['fields'];
+    }
+
+    /**
+     * Getter for value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->formatQuery['value'];
     }
 
 

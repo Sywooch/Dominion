@@ -8,7 +8,7 @@
  */
 
 /**
- * Helpers Execute Elastic
+ * Class for call and execute get logic elastic search
  *
  * Class Helpers_ExecuteElastic
  */
@@ -17,28 +17,39 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Run elastic GET
      *
-     * @param array  $parameters
-     * @param string $term
+     * @param $parameters
+     * @param $term
+     * @param string $formatResult
+     * @param int $size
+     *
+     * @return mixed
      */
-    public function runElasticGET($parameters, $term)
+    public function runElasticGET($parameters, $term, $formatResult = "convertToArray", $size = 10)
     {
         $connect = new ContextSearch_ElasticSearch_Connect($parameters);
         $connect->setAction("GET");
 
         $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
-        $data = array("_all" => $term);
-        $formatQuery->setQueryString($data);
+
+        $formatQuery->setValue($term);
+        $formatQuery->setMatchAll();
+        $formatQuery->setFields($connect->getFields());
+        $formatQuery->setSize($size);
 
         $contextSearch = new ContextSearch_ContextSearchFactory();
         $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+
         $elasticSearchGET = $queryBuilder->createQuery($connect);
 
-        $results = $elasticSearchGET->buildFilter($formatQuery)->execute();
+        $results = $elasticSearchGET->buildFilter($formatQuery);
 
         if (empty($results)) {
+            $data = array("_all" => $term);
+            $formatQuery->setQueryString($data);
             $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
         }
 
-        return $results;
+        return $elasticSearchGET->$formatResult($results);
     }
+
 }
