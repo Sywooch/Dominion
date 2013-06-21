@@ -67,6 +67,7 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
         return self::$parameters;
     }
 
+
     /**
      * Abstract method for few classes
      *

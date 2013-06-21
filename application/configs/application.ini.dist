@@ -18,7 +18,7 @@ autoloaderNamespaces[] = "Format_"
 resources.db.adapter = "PDO_MYSQL"
 resources.db.params.charset = "utf8"
 resources.db.params.host = "localhost"
-resources.db.params.username = "dominion"
+resources.db.params.username = "root"
 resources.db.params.password = "qwe7890"
 resources.db.params.dbname = "dominion_db"
 resources.db.params.date_format = "YYYY-MM-ddTHH:mm:ss"
@@ -45,6 +45,9 @@ search_engine.name = elastic_search
 search_engine.host = localhost
 search_engine.index = dominion
 search_engine.type = products
+
+search_engine.total_hits = getTotalHits
+search_engine.convert_to_array = convertToArray
 
 search_engine.name_fields[] = TYPENAME
 search_engine.name_fields[] = NAME_PRODUCT
