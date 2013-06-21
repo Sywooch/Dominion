@@ -63,7 +63,7 @@ class ElasticsearchController extends App_Controller_Frontend_Action
         $results = $helpersElasticExecute->runElasticGET($parameters, $term);
 
         if (empty($resultArray)) {
-            $this->_helper->json($resultArray);
+            $this->_helper->json($results);
         }
         $PriceObjectValue = new Format_PricesObjectValue();
 

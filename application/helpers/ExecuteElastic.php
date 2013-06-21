@@ -7,6 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
+/**
+ * Helpers Execute Elastic
+ *
+ * Class Helpers_ExecuteElastic
+ */
 class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 {
     /**
