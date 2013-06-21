@@ -3,6 +3,8 @@
  * @category   Grabber
  * @package    ExceptionEmptyPath 
  */
+
+
 class ExceptionEmptyPath extends Zend_Exception
 {}
 
@@ -26,5 +28,3 @@ class ExceptionEmptyProxy extends Zend_Exception
  */
 class ExceptionEmptyAgents extends Zend_Exception
 {}
-
-?>
