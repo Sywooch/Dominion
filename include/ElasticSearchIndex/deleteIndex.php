@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . "/../../application/configs/config.php";
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
@@ -18,23 +17,14 @@ $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "pr
 Zend_Registry::set("config", $config);
 $loader->register();
 
-$elasticSearchModel = new models_ElasticSearch();
-$data = $elasticSearchModel->getProducts();
+$paramters = $config->toArray();
 
-$helperFormatData = new Format_FormatDataElastic();
+$connect = new ContextSearch_ElasticSearch_Connect($paramters['search_engine']);
+$connect->setAction("DELETE");
 
-$formatData = $helperFormatData->formatDataForElastic($data);
-$parameters = $config->toArray();
-$connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
-$connect->setAction("PUT");
 $contextSearch = new ContextSearch_ContextSearchFactory();
 $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
-$elasticSearchPUT = $queryBuilder->createQuery($connect);
+$elasticSearchDELETE = $queryBuilder->createQuery($connect);
+$elasticSearchDELETE->execute();
 
-$elasticSearchPUT->addDocuments($formatData);
-
-echo "Data add to index success";
-
-
-
-
+echo "Index delete success";
