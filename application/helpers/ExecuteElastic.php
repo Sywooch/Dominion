@@ -44,8 +44,14 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $results = $elasticSearchGET->buildFilter($formatQuery);
 
         if (empty($results)) {
+            $formatQuery->clearQuery();
+
             $data = array("_all" => $term);
+            $formatQuery->setBool();
+            $formatQuery->setMust();
+            $formatQuery->setSize($size);
             $formatQuery->setQueryString($data);
+
             $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
         }
 

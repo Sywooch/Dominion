@@ -119,6 +119,7 @@ class SearchController extends App_Controller_Frontend_Action
                 $amount);
 
             $items = $paginator->getCurrentItems();
+
 //        $pos = $this->item_per_page*($this->_getParam('page',1)-1);
 
 

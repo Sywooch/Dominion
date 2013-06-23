@@ -22,15 +22,13 @@ class Format_FormatDataElastic
      */
     public function formatDataForElastic(array $items)
     {
-        $formatArray = array();
-        foreach ($items as $item) {
-            $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-            $item['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
-            unset($item['REALCATNAME'], $item['CATNAME']);
-            $formatArray[] = $item;
+        foreach ($items as $key => $item) {
+            $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
         }
 
-        return $formatArray;
+        unset($tmpArrLink);
+
+        return $items;
     }
 
     /**
