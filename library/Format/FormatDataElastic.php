@@ -77,7 +77,7 @@ class Format_FormatDataElastic
      */
     public function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
-        $items = $this->getDataItems($pricesObjectValue->getData());
+        $items = $pricesObjectValue->getData();
         foreach ($items as $item) {
             $recount = $pricesObjectValue->getRecount();
             $recount->setItemModel($pricesObjectValue->getModelsItem());
@@ -102,7 +102,7 @@ class Format_FormatDataElastic
      *
      * @return array
      */
-    private function getDataItems(array $dataResult)
+    private function getDataItems($dataResult)
     {
         $elasticSearch = new models_ElasticSearch();
         $itemsId = array();

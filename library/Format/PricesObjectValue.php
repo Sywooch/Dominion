@@ -69,7 +69,7 @@ class Format_PricesObjectValue
      *
      * @param array $data
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
     }

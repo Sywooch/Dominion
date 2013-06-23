@@ -61,24 +61,31 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Business logic for execute format data
      *
-     * @param array $items
+     * @param  array $items
      * @param string $currencyStrategy
+     * @param Helpers_Prices_Recount $recount
+     * @param Helpers_Prices_Discount $discount
      * @param bool $formatItem
      *
      * @return array
      */
-    public function executeFormatData($items, $currencyStrategy, $formatItem = false)
+    public function executeFormatData(
+        $items,
+        $currencyStrategy,
+        Helpers_Prices_Recount $recount,
+        Helpers_Prices_Discount $discount,
+        $formatItem = false)
     {
         $PriceObjectValue = new Format_PricesObjectValue();
 
-        $PriceObjectValue->setRecount(new Helpers_Prices_Recount());
-        $PriceObjectValue->setDiscount(new Helpers_Prices_Discount());
+        $PriceObjectValue->setRecount($recount);
+        $PriceObjectValue->setDiscount($discount);
         $PriceObjectValue->setData($items);
         $PriceObjectValue->setCurrency($currencyStrategy);
 
         $formatDataElastic = new Format_FormatDataElastic();
 
-        if (!$formatItem) {
+        if ($formatItem) {
 
             return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
         }

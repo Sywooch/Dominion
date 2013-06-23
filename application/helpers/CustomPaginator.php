@@ -44,8 +44,12 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
      * @param integer $page
      * @param integer $perPage
      */
-    public function setElements(array $data, $page, $perPage)
+    public function setElements(array $data, $page = null, $perPage)
     {
+        if (empty($page)) {
+            $page = 1;
+        }
+
         $this->paginator = Zend_Paginator::factory($data);
 
         $this->paginator->setCurrentPageNumber($page);
@@ -94,6 +98,6 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
      */
     public function getCurrentPage()
     {
-        return $this->paginator->getCurrencyItems();
+        return $this->paginator->getCurrentItems();
     }
 }

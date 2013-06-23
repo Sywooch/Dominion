@@ -27,13 +27,13 @@ class SearchController extends App_Controller_Frontend_Action
     {
         $request = $this->GetRequest();
 
+        $search_text = $request->getParam("search_text");
         if (!$request->isGet() || empty($search_text)) {
 
             return;
         }
 
-        $search_text = trim($request->getQuery('search_text'));
-        $this->createPage(trim($search_text));
+        $this->createPage($search_text);
 
         $parameters = $this->config->toArray();
 
@@ -45,29 +45,36 @@ class SearchController extends App_Controller_Frontend_Action
         }
 
         $customPaginator = $this->_helper->helperLoader("CustomPaginator");
-        $customPaginator->setElements($resultArray);
+        $customPaginator->setElements($resultArray, $this->_getParam('page'), $this->search_per_page);
 
-        $formatData = new Format_PricesObjectValue();
+        $itemsPage = $customPaginator->getCurrentPage();
 
-        $itemsId = array();
-        foreach ($resultArray as $result) {
-            $itemsId[] = $result['ITEM_ID'];
-        }
+        $elasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $formatData = $elasticExecute->executeFormatData(
+            $itemsPage,
+            $this->currency,
+            $this->_helper->helperLoader("Prices_Recount"),
+            $this->_helper->helperLoader("Prices_Discount")
+        );
 
-        $modelItems = new models_ElasticSearch();
-        $items = $modelItems->getItemsForPrices($itemsId);
-        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $priceObjectValue->setAllItems($resultArray);
+        $this->generateXML($customPaginator, $formatData, $search_text);
+//        $itemsId = array();
+//        foreach ($resultArray as $result) {
+//            $itemsId[] = $result['ITEM_ID'];
+//        }
+//
+//        $modelItems = new models_ElasticSearch();
+//        $items = $modelItems->getItemsForPrices($itemsId);
+//        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
+//        $priceObjectValue->setAllItems($resultArray);
+//
+//        foreach ($items as $key => $item) {
+//            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
+//
+//            $items[$key]['URL'] = $url;
+//        }
 
-        foreach ($items as $key => $item) {
-            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
-
-            $items[$key]['URL'] = $url;
-        }
-
-        $this->createPage($search_text);
-
-        $this->resultToXML($items, $search_text);
+//        $this->resultToXML($items, $search_text);
     }
 
     /**
@@ -124,9 +131,46 @@ class SearchController extends App_Controller_Frontend_Action
     }
 
 
-    private function ganarateXML(Helpers_CustomPaginator $paginator, $items)
+    private function generateXML(Helpers_CustomPaginator $paginator, $items, $searchText)
     {
+        $this->domXml->set_tag('//data', true);
+        $this->domXml->create_element('search_count', $paginator->getAmount(), 2);
+        $this->domXml->go_to_parent();
 
+        $this->openSection($searchText,
+            $paginator->getPage(),
+            $paginator->getEnd(),
+            $paginator->getAmount());
+
+        foreach ($items as $hit) {
+            $node_attr = array('item_id' => $hit['ITEM_ID']
+            , 'price' => $hit['PRICE']
+            , 'price1' => $hit['PRICE1']
+            , 'real_price' => $hit['NEW_PRICE']
+            , 'real_price1' => $hit['OLD_PRICE']);
+
+            $this->domXml->create_element('search_result', "", 2);
+            $this->domXml->set_attribute($node_attr);
+
+            $this->domXml->create_element('href', $hit['URL']);
+            $this->domXml->create_element('name', $hit['TYPENAME'] . " " . $hit['BRAND'] . ' ' . $hit['NAME_PRODUCT']);
+            $this->domXml->create_element('short_description', $hit['DESCRIPTION']);
+            $this->domXml->create_element('sname', $hit['SNAME']);
+            $this->domXml->create_element('nat_sname', $hit['SNAME']);
+
+            if (!empty($item_info['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
+                $tmp = explode('#', $hit['IMAGE2']);
+                $this->domXml->create_element('image_middle', '', 2);
+                $this->domXml->set_attribute(array('src' => $tmp[0],
+                        'w' => $tmp[1],
+                        'h' => $tmp[2]
+                    )
+                );
+                $this->domXml->go_to_parent();
+            }
+
+            $this->domXml->go_to_parent();
+        }
     }
 
     private function resultToXML($result, $query, $qr = null)
