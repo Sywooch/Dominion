@@ -54,21 +54,8 @@ class ElasticsearchController extends App_Controller_Frontend_Action
             $this->_helper->json($results);
         }
 
-        $PriceObjectValue = new Format_PricesObjectValue();
+        $executeElastic = $this->_helper->helperLoader("ExecuteElastic");
 
-//        $PriceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $PriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
-        $PriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
-        $PriceObjectValue->setData($results);
-        $PriceObjectValue->setCurrency($this->currency);
-
-        $formatDataElastic = new Format_FormatDataElastic();
-
-//        $helperFormatData = $this->_helper->helperLoader("Format_FormatDataElastic");
-
-
-        $formatData = $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
-
-        $this->_helper->json($formatData);
+        $this->_helper->json($executeElastic->executeFormatData($results, $this->currency, true));
     }
 }

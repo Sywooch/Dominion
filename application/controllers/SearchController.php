@@ -26,15 +26,56 @@ class SearchController extends App_Controller_Frontend_Action
     public function indexAction()
     {
         $request = $this->GetRequest();
-        if (!$request->isGet()) {
+
+        if (!$request->isGet() || empty($search_text)) {
 
             return;
         }
 
-        $AnotherPages = new models_AnotherPages();
-
         $search_text = trim($request->getQuery('search_text'));
-        $search_text = empty($search_text) ? trim($this->_getParam('search_text', '')) : $search_text;
+        $this->createPage(trim($search_text));
+
+        $parameters = $this->config->toArray();
+
+        $resultArray = $this->searchByElastic($search_text, $parameters);
+
+        if (empty($resultArray)) {
+
+            return;
+        }
+
+        $customPaginator = $this->_helper->helperLoader("CustomPaginator");
+        $customPaginator->setElements($resultArray);
+
+        $formatData = new Format_PricesObjectValue();
+
+        $itemsId = array();
+        foreach ($resultArray as $result) {
+            $itemsId[] = $result['ITEM_ID'];
+        }
+
+        $modelItems = new models_ElasticSearch();
+        $items = $modelItems->getItemsForPrices($itemsId);
+        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
+        $priceObjectValue->setAllItems($resultArray);
+
+        foreach ($items as $key => $item) {
+            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
+
+            $items[$key]['URL'] = $url;
+        }
+
+        $this->createPage($search_text);
+
+        $this->resultToXML($items, $search_text);
+    }
+
+    /**
+     * Generate page
+     */
+    private function createPage($search_text)
+    {
+        $AnotherPages = new models_AnotherPages();
 
         $o_data['id'] = 0;
         $o_data['currency'] = $this->currency;
@@ -55,42 +96,38 @@ class SearchController extends App_Controller_Frontend_Action
         $search_text = mb_convert_case($search_text, MB_CASE_LOWER, 'UTF-8');
         $this->domXml->create_element('query', $search_text);
         $this->domXml->go_to_parent();
-
-        if (empty($search_text)) {
-
-            return;
-        }
-
-        $parameters = $this->config->toArray();
-
-        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
-        $totalsHits = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['total_hits']);
-
-        $resultArray = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['convert_to_array'], $totalsHits);
-
-        if (empty($resultArray)) {
-            return;
-        }
-
-        $itemsId = array();
-        foreach ($resultArray as $result) {
-            $itemsId[] = $result['ITEM_ID'];
-        }
-
-        $modelItems = new models_ElasticSearch();
-        $items = $modelItems->getItemsForPrices($itemsId);
-        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $priceObjectValue->setAllItems($resultArray);
-
-        foreach ($items as $key => $item) {
-            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
-
-            $items[$key]['URL'] = $url;
-        }
-
-        $this->resultToXML($items, $search_text);
     }
 
+    /**
+     * Search by elastic search
+     *
+     * @param string $search_text
+     * @param string $parameters
+     *
+     * @return mixed
+     */
+    private function searchByElastic($search_text, $parameters)
+    {
+        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $totalsHits = $helpersElasticExecute->runElasticGET(
+            $parameters['search_engine'],
+            $search_text,
+            $parameters['search_engine']['total_hits']
+        );
+
+        return $helpersElasticExecute->runElasticGET(
+            $parameters['search_engine'],
+            $search_text,
+            $parameters['search_engine']['convert_to_array'],
+            $totalsHits
+        );
+    }
+
+
+    private function ganarateXML(Helpers_CustomPaginator $paginator, $items)
+    {
+
+    }
 
     private function resultToXML($result, $query, $qr = null)
     {

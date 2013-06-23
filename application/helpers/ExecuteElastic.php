@@ -58,4 +58,34 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         return $elasticSearchGET->$formatResult($results);
     }
 
+    /**
+     * Business logic for execute format data
+     *
+     * @param array $items
+     * @param string $currencyStrategy
+     * @param bool $formatItem
+     *
+     * @return array
+     */
+    public function executeFormatData($items, $currencyStrategy, $formatItem = false)
+    {
+        $PriceObjectValue = new Format_PricesObjectValue();
+
+        $PriceObjectValue->setRecount(new Helpers_Prices_Recount());
+        $PriceObjectValue->setDiscount(new Helpers_Prices_Discount());
+        $PriceObjectValue->setData($items);
+        $PriceObjectValue->setCurrency($currencyStrategy);
+
+        $formatDataElastic = new Format_FormatDataElastic();
+
+        if (!$formatItem) {
+
+            return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        }
+
+        $formatDataElastic->formatPrices($PriceObjectValue);
+
+        return $PriceObjectValue->getItems();
+    }
+
 }

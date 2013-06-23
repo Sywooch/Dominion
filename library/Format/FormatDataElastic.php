@@ -75,7 +75,7 @@ class Format_FormatDataElastic
      *
      * @param Format_PricesObjectValue $pricesObjectValue
      */
-    private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
+    public function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
         $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {
