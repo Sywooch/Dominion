@@ -85,10 +85,10 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $this->querySearch = new Prefix();
         $this->querySearch->setPrefix($formatData->getValue());
 
+        $this->size = $formatData->getSize();
+        $this->from = $formatData->getFrom();
         foreach ($fields as $field) {
             $this->querySearch->setField($field);
-            $this->from = $formatData->getFrom();
-            $this->size = $formatData->getSize();
             $response = $this->execute();
             $results = $response->getResults();
             if (!empty($results)) {
@@ -140,7 +140,9 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function convertToJson(ResultSet $resultSet)
     {
-        return json_encode($resultSet->getResults());
+        $arr = $this->convertToArray($resultSet);
+
+        return json_encode($arr);
     }
 
     /**
