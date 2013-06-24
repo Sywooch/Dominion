@@ -121,14 +121,16 @@ class models_ElasticSearch extends ZendDBEntity
                   ,C.REALCATNAME
                   ,C.NAME as CATALOGUE_NAME
                   ,CRN.SNAME
-            from item I
+            from ITEM I
             left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
             left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
             left join WARRANTY W on (W.WARRANTY_ID=I.WARRANTY_ID)
             left join DELIVERY DL on (DL.DELIVERY_ID=I.DELIVERY_ID)
             left join CREDIT CR on (CR.CREDIT_ID=I.CREDIT_ID)
             left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)";
+            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)
+            where I.PRICE > 0;
+            ";
 
         return $this->_db->fetchAll($sql);
     }
