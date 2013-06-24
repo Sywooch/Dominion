@@ -14,7 +14,7 @@ $cmf->MakeCommonHeader();
 
 
 print <<<EOF
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 <h2 class='h2'>Обновление фотографий</h2>

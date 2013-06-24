@@ -1719,7 +1719,7 @@ updateOrdering($cmf,0);
 if($_REQUEST['e'] == 'FT')
 {
 ?><h2 class="h2">Полный набор атрибутов</h2>
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="admin_attr.js"></script>
 <table class="attr_table" bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1">
 <form action=CATALOGUE.php method=POST>

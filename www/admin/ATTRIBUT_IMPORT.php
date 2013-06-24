@@ -87,7 +87,7 @@ print <<<EOF
 }
 </style>
 <link rel="stylesheet" type="text/css" href="../css/fancybox.css" />
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="../js/fancybox.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
