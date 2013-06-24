@@ -1,6 +1,6 @@
 {
-    "name": "dominion",
-    "description": "internet shop",
+    "name": "adlabs/dominion",
+    "description": "Dominion internet-shop",
     "autoload": {
         "psr-0": {
             "": "src/"
