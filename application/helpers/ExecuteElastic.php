@@ -44,12 +44,55 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $results = $elasticSearchGET->buildFilter($formatQuery);
 
         if (empty($results)) {
+            $formatQuery->clearQuery();
+
             $data = array("_all" => $term);
+            $formatQuery->setBool();
+            $formatQuery->setMust();
+            $formatQuery->setSize($size);
             $formatQuery->setQueryString($data);
+
             $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
         }
 
         return $elasticSearchGET->$formatResult($results);
+    }
+
+    /**
+     * Business logic for execute format data
+     *
+     * @param  array $items
+     * @param string $currencyStrategy
+     * @param Helpers_Prices_Recount $recount
+     * @param Helpers_Prices_Discount $discount
+     * @param bool $formatItem
+     *
+     * @return array
+     */
+    public function executeFormatData(
+        $items,
+        $currencyStrategy,
+        Helpers_Prices_Recount $recount,
+        Helpers_Prices_Discount $discount,
+        $formatItem = false)
+    {
+        $PriceObjectValue = new Format_PricesObjectValue();
+
+        $PriceObjectValue->setRecount($recount);
+        $PriceObjectValue->setDiscount($discount);
+        $PriceObjectValue->setData($items);
+        $PriceObjectValue->setCurrency($currencyStrategy);
+
+        $formatDataElastic = new Format_FormatDataElastic();
+
+        if ($formatItem) {
+
+            return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        }
+
+        $formatDataElastic->formatPrices($PriceObjectValue);
+
+        return $PriceObjectValue->getItems();
     }
 
 }

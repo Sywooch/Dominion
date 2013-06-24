@@ -19,7 +19,7 @@ Zend_Registry::set("config", $config);
 $loader->register();
 
 $elasticSearchModel = new models_ElasticSearch();
-$data = $elasticSearchModel->getProducts();
+$data = $elasticSearchModel->getAllData();
 
 $helperFormatData = new Format_FormatDataElastic();
 

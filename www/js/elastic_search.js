@@ -38,17 +38,7 @@ $(document).ready(function () {
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
 
-            return $("<li></li>").data("item.autocomplete", item).append(
-                "<a href='"
-                    + item.url
-                    + "'><div class='products'><img src='/images/it/"
-                    + item.image
-                    + "' /></div><div class='details'>"
-                    + item.name + " "
-                    + item.brand + " "
-                    + item.name_product + " "
-                    + "</div><div class='price'>цена: " + item.price + "</div></a>"
-            ).appendTo(ul);
+            return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.url + "'><div class='products'><img src='/images/it/" + item.image + "' /></div><div class='details'>" + item.name + ", " + item.brand + "</div><div class='price'>цена: " + item.price + "</div></a>").appendTo(ul);
         }
     })
 })
