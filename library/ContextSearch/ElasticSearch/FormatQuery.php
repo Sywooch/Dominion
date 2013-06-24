@@ -29,7 +29,7 @@ class ContextSearch_ElasticSearch_FormatQuery
      */
     public function setMust()
     {
-        $this->formatQuery['must'] = array();
+        $this->formatQuery['bool']['must'] = array();
     }
 
     /**
@@ -40,7 +40,11 @@ class ContextSearch_ElasticSearch_FormatQuery
     public function setQueryString(array $data)
     {
         foreach ($data as $key => $value) {
-            $this->formatQuery['query_string'] = array("query_string" => array("default_field" => $key, "query" => $value));
+            if (!isset($this->formatQuery['bool']['must'])) {
+                $this->formatQuery['query_string'] = array("default_field" => $key, "query" => $value);
+            }
+
+            $this->formatQuery['bool']['must']['query_string'] = array("default_field" => $key, "query" => $value);
         }
     }
 
@@ -212,6 +216,24 @@ class ContextSearch_ElasticSearch_FormatQuery
     public function getValue()
     {
         return $this->formatQuery['value'];
+    }
+
+    /**
+     * Getter for Format Query
+     *
+     * @return array
+     */
+    public function getFormatQuery()
+    {
+        return $this->formatQuery;
+    }
+
+    /**
+     * Clear query
+     */
+    public function clearQuery()
+    {
+        $this->formatQuery = array();
     }
 
 

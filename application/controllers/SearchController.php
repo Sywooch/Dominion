@@ -26,15 +26,63 @@ class SearchController extends App_Controller_Frontend_Action
     public function indexAction()
     {
         $request = $this->GetRequest();
-        if (!$request->isGet()) {
+
+        $search_text = $request->getParam("search_text");
+        if (!$request->isGet() || empty($search_text)) {
 
             return;
         }
 
-        $AnotherPages = new models_AnotherPages();
+        $this->createPage($search_text);
 
-        $search_text = trim($request->getQuery('search_text'));
-        $search_text = empty($search_text) ? trim($this->_getParam('search_text', '')) : $search_text;
+        $parameters = $this->config->toArray();
+
+        $resultArray = $this->searchByElastic($search_text, $parameters);
+
+        if (empty($resultArray)) {
+
+            return;
+        }
+
+        $customPaginator = $this->_helper->helperLoader("CustomPaginator");
+        $customPaginator->setElements($resultArray, $this->_getParam('page'), $this->search_per_page);
+
+        $itemsPage = $customPaginator->getCurrentPage();
+
+        $elasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $formatData = $elasticExecute->executeFormatData(
+            $itemsPage,
+            $this->currency,
+            $this->_helper->helperLoader("Prices_Recount"),
+            $this->_helper->helperLoader("Prices_Discount")
+        );
+
+        $this->generateXML($customPaginator, $formatData, $search_text);
+//        $itemsId = array();
+//        foreach ($resultArray as $result) {
+//            $itemsId[] = $result['ITEM_ID'];
+//        }
+//
+//        $modelItems = new models_ElasticSearch();
+//        $items = $modelItems->getItemsForPrices($itemsId);
+//        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
+//        $priceObjectValue->setAllItems($resultArray);
+//
+//        foreach ($items as $key => $item) {
+//            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
+//
+//            $items[$key]['URL'] = $url;
+//        }
+
+//        $this->resultToXML($items, $search_text);
+    }
+
+    /**
+     * Generate page
+     */
+    private function createPage($search_text)
+    {
+        $AnotherPages = new models_AnotherPages();
 
         $o_data['id'] = 0;
         $o_data['currency'] = $this->currency;
@@ -55,42 +103,75 @@ class SearchController extends App_Controller_Frontend_Action
         $search_text = mb_convert_case($search_text, MB_CASE_LOWER, 'UTF-8');
         $this->domXml->create_element('query', $search_text);
         $this->domXml->go_to_parent();
-
-        if (empty($search_text)) {
-
-            return;
-        }
-
-        $parameters = $this->config->toArray();
-
-        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
-        $totalsHits = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['total_hits']);
-
-        $resultArray = $helpersElasticExecute->runElasticGET($parameters['search_engine'], $search_text, $parameters['search_engine']['convert_to_array'], $totalsHits);
-
-        if (empty($resultArray)) {
-            return;
-        }
-
-        $itemsId = array();
-        foreach ($resultArray as $result) {
-            $itemsId[] = $result['ITEM_ID'];
-        }
-
-        $modelItems = new models_ElasticSearch();
-        $items = $modelItems->getItemsForPrices($itemsId);
-        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $priceObjectValue->setAllItems($resultArray);
-
-        foreach ($items as $key => $item) {
-            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
-
-            $items[$key]['URL'] = $url;
-        }
-
-        $this->resultToXML($items, $search_text);
     }
 
+    /**
+     * Search by elastic search
+     *
+     * @param string $search_text
+     * @param string $parameters
+     *
+     * @return mixed
+     */
+    private function searchByElastic($search_text, $parameters)
+    {
+        $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $totalsHits = $helpersElasticExecute->runElasticGET(
+            $parameters['search_engine'],
+            $search_text,
+            $parameters['search_engine']['total_hits']
+        );
+
+        return $helpersElasticExecute->runElasticGET(
+            $parameters['search_engine'],
+            $search_text,
+            $parameters['search_engine']['convert_to_array'],
+            $totalsHits
+        );
+    }
+
+
+    private function generateXML(Helpers_CustomPaginator $paginator, $items, $searchText)
+    {
+        $this->domXml->set_tag('//data', true);
+        $this->domXml->create_element('search_count', $paginator->getAmount(), 2);
+        $this->domXml->go_to_parent();
+
+        $this->openSection($searchText,
+            $paginator->getPage(),
+            $paginator->getEnd(),
+            $paginator->getAmount());
+
+        foreach ($items as $hit) {
+            $node_attr = array('item_id' => $hit['ITEM_ID']
+            , 'price' => $hit['PRICE']
+            , 'price1' => $hit['PRICE1']
+            , 'real_price' => $hit['NEW_PRICE']
+            , 'real_price1' => $hit['OLD_PRICE']);
+
+            $this->domXml->create_element('search_result', "", 2);
+            $this->domXml->set_attribute($node_attr);
+
+            $this->domXml->create_element('href', $hit['URL']);
+            $this->domXml->create_element('name', $hit['TYPENAME'] . " " . $hit['BRAND'] . ' ' . $hit['NAME_PRODUCT']);
+            $this->domXml->create_element('short_description', $hit['DESCRIPTION']);
+            $this->domXml->create_element('sname', $hit['SNAME']);
+            $this->domXml->create_element('nat_sname', $hit['SNAME']);
+
+            if (!empty($item_info['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
+                $tmp = explode('#', $hit['IMAGE2']);
+                $this->domXml->create_element('image_middle', '', 2);
+                $this->domXml->set_attribute(array('src' => $tmp[0],
+                        'w' => $tmp[1],
+                        'h' => $tmp[2]
+                    )
+                );
+                $this->domXml->go_to_parent();
+            }
+
+            $this->domXml->go_to_parent();
+        }
+    }
 
     private function resultToXML($result, $query, $qr = null)
     {
@@ -119,6 +200,7 @@ class SearchController extends App_Controller_Frontend_Action
                 $amount);
 
             $items = $paginator->getCurrentItems();
+
 //        $pos = $this->item_per_page*($this->_getParam('page',1)-1);
 
 

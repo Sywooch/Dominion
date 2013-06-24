@@ -20,14 +20,6 @@ use Elastica\ResultSet;
  */
 class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
-
-    /**
-     * Format Query Builder
-     *
-     * @var array
-     */
-    private $queryBuilder = array();
-
     /**
      * Search object
      *
@@ -67,11 +59,10 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function buildQuery(ContextSearch_ElasticSearch_FormatQuery $formatData)
     {
-        $this->queryBuilder = $formatData->getQueryString();
-        $this->queryBuilder['from'] = $formatData->getFrom();
-        $this->queryBuilder['size'] = $formatData->getSize();
+        $this->size = $formatData->getSize();
+        $this->from = $formatData->getFrom();
+        $jsonParse = json_encode($formatData->getFormatQuery());
 
-        $jsonParse = json_encode($this->queryBuilder);
         $builder = new Builder($jsonParse);
 
         $this->querySearch = new Query($builder);

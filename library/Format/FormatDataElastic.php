@@ -22,15 +22,13 @@ class Format_FormatDataElastic
      */
     public function formatDataForElastic(array $items)
     {
-        $formatArray = array();
-        foreach ($items as $item) {
-            $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-            $item['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
-            unset($item['REALCATNAME'], $item['CATNAME']);
-            $formatArray[] = $item;
+        foreach ($items as $key => $item) {
+            $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
         }
 
-        return $formatArray;
+        unset($tmpArrLink);
+
+        return $items;
     }
 
     /**
@@ -77,9 +75,9 @@ class Format_FormatDataElastic
      *
      * @param Format_PricesObjectValue $pricesObjectValue
      */
-    private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
+    public function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
-        $items = $this->getDataItems($pricesObjectValue->getData());
+        $items = $pricesObjectValue->getData();
         foreach ($items as $item) {
             $recount = $pricesObjectValue->getRecount();
             $recount->setItemModel($pricesObjectValue->getModelsItem());
@@ -104,7 +102,7 @@ class Format_FormatDataElastic
      *
      * @return array
      */
-    private function getDataItems(array $dataResult)
+    private function getDataItems($dataResult)
     {
         $elasticSearch = new models_ElasticSearch();
         $itemsId = array();

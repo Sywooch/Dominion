@@ -69,7 +69,7 @@ class Format_PricesObjectValue
      *
      * @param array $data
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
     }
@@ -148,7 +148,7 @@ class Format_PricesObjectValue
      * Get in items elements
      *
      * @param integer $valueID
-     * @param string  $findElement
+     * @param string $findElement
      *
      * @return mixed
      */
@@ -174,6 +174,16 @@ class Format_PricesObjectValue
     public function getModelsItem()
     {
         return new models_Item();
+    }
+
+    /**
+     * Getter for items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->items;
     }
 
 }
