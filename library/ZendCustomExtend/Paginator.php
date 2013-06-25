@@ -80,6 +80,10 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
      */
     public function count()
     {
-        $rr = 0;
+        return $this->elasticSearch->runElasticGET(
+            $this->config,
+            $this->searchText,
+            $this->config['total_hits']
+        );
     }
 }

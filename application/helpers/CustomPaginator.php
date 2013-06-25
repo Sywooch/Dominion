@@ -44,21 +44,22 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
      * @param integer $page
      * @param integer $perPage
      */
-    public function setElements($page = null, $perPage, Helpers_ExecuteElastic $elasticExecute, $config)
+    public function setElements($page = null, $perPage, Helpers_ExecuteElastic $elasticExecute, $config, $search_text)
     {
         if (empty($page)) {
             $page = 1;
         }
 
-        $this->paginator = new Zend_Paginator(new ZendCustomExtend_Paginator($elasticExecute, $config, $page));
+        $this->paginator = new Zend_Paginator(new ZendCustomExtend_Paginator($elasticExecute, $config, $search_text));
 
         $this->paginator->setCurrentPageNumber($page);
         $this->paginator->setItemCountPerPage($perPage);
 
-
-        $amount = $this->paginator->getPages()->totalItemCount;
-        $this->page = $page > ceil($amount / $perPage) ? ceil($amount / $perPage) : $page;
-        $this->end = ceil($amount / $perPage);
+        $this->amount = $this->paginator->getPages()->totalItemCount;
+        $this->page = $this->paginator->getCurrentPageNumber();
+        $this->end = $this->paginator->getPageRange();
+//        $this->page = $page > ceil($amount / $perPage) ? ceil($amount / $perPage) : $page;
+//        $this->end = ceil($amount / $perPage);
     }
 
     /**

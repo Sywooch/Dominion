@@ -35,16 +35,10 @@ class SearchController extends App_Controller_Frontend_Action
 
         $this->createPage($search_text);
 
-//        $resultArray = $this->searchByElastic($search_text, $this->config->toArray());
-
-//        if (empty($resultArray)) {
-//
-//            return;
-//        }
         $elasticExecute = $this->_helper->helperLoader("ExecuteElastic");
         $search_engine = $this->config->toArray();
         $customPaginator = $this->_helper->helperLoader("CustomPaginator");
-        $customPaginator->setElements($this->_getParam('page'), $this->search_per_page, $elasticExecute, $search_engine['search_engine']);
+        $customPaginator->setElements($this->_getParam('page'), $this->search_per_page, $elasticExecute, $search_engine['search_engine'], $search_text);
 
 
         $formatData = $elasticExecute->executeFormatData(
@@ -59,6 +53,8 @@ class SearchController extends App_Controller_Frontend_Action
 
     /**
      * Generate page
+     *
+     * @param string $search_text
      */
     private function createPage($search_text)
     {
@@ -133,93 +129,6 @@ class SearchController extends App_Controller_Frontend_Action
             $this->domXml->go_to_parent();
         }
     }
-
-//    private function resultToXML($result, $query, $qr = null)
-//    {
-//        if (!empty($result)) {
-//            $Item = new models_Item();
-//
-//            $page = $this->_getParam('page', 1);
-//
-//            $paginator = Zend_Paginator::factory($result);
-//
-//            $paginator->setCurrentPageNumber($page);
-//            $paginator->setItemCountPerPage($this->search_per_page);
-//
-//
-//            $amount = $paginator->getPages()->totalItemCount;
-//            $page = $page > ceil($amount / $this->search_per_page) ? ceil($amount / $this->search_per_page) : $page;
-//            $end = ceil($amount / $this->search_per_page);
-//
-//            $this->domXml->set_tag('//data', true);
-//            $this->domXml->create_element('search_count', $amount, 2);
-//            $this->domXml->go_to_parent();
-//
-//            $this->openSection($query,
-//                $page,
-//                $end,
-//                $amount);
-//
-//            $items = $paginator->getCurrentItems();
-//
-////        $pos = $this->item_per_page*($this->_getParam('page',1)-1);
-//
-//
-//            $curr_info = $Item->getCurrencyInfo($this->currency);
-//
-//            foreach ($items as $hit) {
-//                $item_info = $Item->getItemInfo($hit['ITEM_ID']);
-//
-//                list($new_price, $new_price1) = $Item->recountPrice($item_info['PRICE'], $item_info['PRICE1'], $item_info['CURRENCY_ID'], $this->currency, $curr_info['PRICE']);
-//
-//                $item_info['sh_disc_img_small'] = '';
-//                $item_info['sh_disc_img_big'] = '';
-//                $item_info['has_discount'] = 0;
-//
-//                if ($this->currency > 1) {
-//                    $item_info['iprice'] = round($new_price, 1);
-//                    $item_info['iprice1'] = round($new_price1, 1);
-//                } else {
-//                    $item_info['iprice'] = round($new_price);
-//                    $item_info['iprice1'] = round($new_price1);
-//                }
-//
-//                $params['currency'] = $this->currency;
-//                $helperLoader = Zend_Controller_Action_HelperBroker::getStaticHelper('HelperLoader');
-//                $ct_helper = $helperLoader->loadHelper('Cart', $params);
-//                $ct_helper->setModel($Item);
-//                $item_info = $ct_helper->recountPrice($item_info);
-//
-//                $node_attr = array('item_id' => $item_info['ITEM_ID']
-//                , 'price' => $item_info['iprice']
-//                , 'price1' => $item_info['iprice1']
-//                , 'real_price' => $item_info['PRICE']
-//                , 'real_price1' => $item_info['PRICE1']);
-//
-//                $this->domXml->create_element('search_result', "", 2);
-//                $this->domXml->set_attribute($node_attr);
-//
-//                $this->domXml->create_element('href', $hit['URL']);
-//                $this->domXml->create_element('name', $item_info['BRAND_NAME'] . ' ' . $item_info['NAME']);
-//                $this->domXml->create_element('short_description', $item_info['DESCRIPTION']);
-//                $this->domXml->create_element('sname', $curr_info['SNAME']);
-//                $this->domXml->create_element('nat_sname', $item_info['SNAME']);
-//
-//                if (!empty($item_info['IMAGE2']) && strchr($item_info['IMAGE2'], "#")) {
-//                    $tmp = explode('#', $item_info['IMAGE2']);
-//                    $this->domXml->create_element('image_middle', '', 2);
-//                    $this->domXml->set_attribute(array('src' => $tmp[0],
-//                            'w' => $tmp[1],
-//                            'h' => $tmp[2]
-//                        )
-//                    );
-//                    $this->domXml->go_to_parent();
-//                }
-//
-//                $this->domXml->go_to_parent();
-//            }
-//        }
-//    }
 
     private function openSection($query = '', $page, $end = 0, $amount = 0)
     {
