@@ -17,14 +17,14 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Run elastic GET
      *
-     * @param $parameters
-     * @param $term
+     * @param array $parameters
+     * @param string $term
      * @param string $formatResult
+     * @param int $from
      * @param int $size
-     *
      * @return mixed
      */
-    public function runElasticGET($parameters, $term, $formatResult = "convertToArray", $size = 10)
+    public function runElasticGET($parameters, $term, $formatResult = "convertToArray", $from = 0, $size = 10)
     {
         $connect = new ContextSearch_ElasticSearch_Connect($parameters);
         $connect->setAction("GET");
@@ -35,6 +35,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $formatQuery->setMatchAll();
         $formatQuery->setFields($connect->getFields());
         $formatQuery->setSize($size);
+        $formatQuery->setFrom($from);
 
         $contextSearch = new ContextSearch_ContextSearchFactory();
         $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
@@ -49,8 +50,10 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
             $data = array("_all" => $term);
             $formatQuery->setBool();
             $formatQuery->setMust();
+            $formatQuery->setFrom($from);
             $formatQuery->setSize($size);
             $formatQuery->setQueryString($data);
+
 
             $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
         }
@@ -94,5 +97,4 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         return $PriceObjectValue->getItems();
     }
-
 }

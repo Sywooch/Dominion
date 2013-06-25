@@ -44,13 +44,13 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
      * @param integer $page
      * @param integer $perPage
      */
-    public function setElements(array $data, $page = null, $perPage)
+    public function setElements($page = null, $perPage, Helpers_ExecuteElastic $elasticExecute, $config)
     {
         if (empty($page)) {
             $page = 1;
         }
 
-        $this->paginator = Zend_Paginator::factory($data);
+        $this->paginator = new Zend_Paginator(new ZendCustomExtend_Paginator($elasticExecute, $config, $page));
 
         $this->paginator->setCurrentPageNumber($page);
         $this->paginator->setItemCountPerPage($perPage);
