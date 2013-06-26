@@ -14,19 +14,42 @@
  */
 class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 {
+
     /**
-     * Run elastic GET
+     * Parameters for Elastic
+     *
+     * @var array
+     */
+    private $parameters = array();
+
+    /**
+     * Set parameters
      *
      * @param array $parameters
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * Run elastic search
+     *
      * @param string $term
      * @param string $formatResult
+     * @param string $nameMethod
      * @param int $from
      * @param int $size
      * @return mixed
+     * @throws Exception
      */
-    public function runElasticGET($parameters, $term, $formatResult = "convertToArray", $from = 0, $size = 10)
+    public function runElasticGET($term, $formatResult = "convertToArray", $nameMethod = "executeQuery", $from = 0, $size = 10)
     {
-        $connect = new ContextSearch_ElasticSearch_Connect($parameters);
+        if (empty($this->parameters)) {
+            throw new Exception("Error: parameters must be not empty");
+        }
+
+        $connect = new ContextSearch_ElasticSearch_Connect($this->parameters);
         $connect->setAction("GET");
 
         $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
@@ -45,20 +68,68 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $results = $elasticSearchGET->buildFilter($formatQuery);
 
         if (empty($results)) {
-            $formatQuery->clearQuery();
+            $currentClass = $this;
 
-            $data = array("_all" => $term);
-            $formatQuery->setBool();
-            $formatQuery->setMust();
-            $formatQuery->setFrom($from);
-            $formatQuery->setSize($size);
-            $formatQuery->setQueryString($data);
-
-
-            $results = $elasticSearchGET->buildQuery($formatQuery)->execute();
+            $results = $currentClass->$nameMethod($formatQuery, $elasticSearchGET, $term, $from, $size);
         }
 
         return $elasticSearchGET->$formatResult($results);
+    }
+
+    /**
+     * Execute Query
+     *
+     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
+     * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
+     * @param string $term
+     * @param string $from
+     * @param integer $size
+     * @return \Elastica\ResultSet
+     */
+    private function executeQuery(
+        ContextSearch_ElasticSearch_FormatQuery $formatQuery,
+        ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET,
+        $term,
+        $from,
+        $size
+    )
+    {
+        $formatQuery->clearQuery();
+
+        $data = array("_all" => $term);
+        $formatQuery->setBool();
+        $formatQuery->setMust();
+        $formatQuery->setFrom($from);
+        $formatQuery->setSize($size);
+        $formatQuery->setQueryString($data);
+
+        return $elasticSearchGET->buildQuery($formatQuery)->execute();
+    }
+
+    /**
+     * Execute match
+     *
+     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
+     * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
+     * @param string $term
+     * @param string $from
+     * @param integer $size
+     */
+    private function executeMatch(
+        ContextSearch_ElasticSearch_FormatQuery $formatQuery,
+        ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET,
+        $term,
+        $from = null,
+        $size = null
+    )
+    {
+        $formatQuery->clearQuery();
+
+        $formatQuery->setMatch($this->parameters['main_field'], $term);
+        $formatQuery->setFrom($from);
+        $formatQuery->setSize($size);
+
+        return $elasticSearchGET->buildQuery($formatQuery)->execute();
     }
 
     /**

@@ -40,9 +40,11 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
     /**
      * Set Element
      *
-     * @param array $data
-     * @param integer $page
-     * @param integer $perPage
+     * @param null $page
+     * @param $perPage
+     * @param Helpers_ExecuteElastic $elasticExecute
+     * @param array $config
+     * @param $search_text
      */
     public function setElements($page = null, $perPage, Helpers_ExecuteElastic $elasticExecute, $config, $search_text)
     {
@@ -57,9 +59,8 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
 
         $this->amount = $this->paginator->getPages()->totalItemCount;
         $this->page = $this->paginator->getCurrentPageNumber();
-        $this->end = $this->paginator->getPageRange();
-//        $this->page = $page > ceil($amount / $perPage) ? ceil($amount / $perPage) : $page;
-//        $this->end = ceil($amount / $perPage);
+
+        $this->end = $this->paginator->getPages();
     }
 
     /**
@@ -89,7 +90,7 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
      */
     public function getEnd()
     {
-        return $this->end;
+        return $this->end->pageCount;
     }
 
     /**

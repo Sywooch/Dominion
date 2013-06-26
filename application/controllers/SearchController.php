@@ -40,7 +40,6 @@ class SearchController extends App_Controller_Frontend_Action
         $customPaginator = $this->_helper->helperLoader("CustomPaginator");
         $customPaginator->setElements($this->_getParam('page'), $this->search_per_page, $elasticExecute, $search_engine['search_engine'], $search_text);
 
-
         $formatData = $elasticExecute->executeFormatData(
             $customPaginator->getCurrentPage(),
             $this->currency,

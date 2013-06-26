@@ -99,6 +99,18 @@ class ContextSearch_ElasticSearch_FormatQuery
         $this->formatQuery['fields'] = $fields;
     }
 
+    /**
+     * Set match
+     *
+     * @param string $nameColumn
+     * @param string $value
+     * @param float $cutoffFrequency
+     */
+    public function setMatch($nameColumn, $value, $cutoffFrequency = 0.0001)
+    {
+        $this->formatQuery['match'] = array($nameColumn => array("query" => $value, "cutoff_frequency" => $cutoffFrequency));
+    }
+
 
     /**
      * Setter Match all
@@ -235,6 +247,5 @@ class ContextSearch_ElasticSearch_FormatQuery
     {
         $this->formatQuery = array();
     }
-
 
 }

@@ -64,13 +64,16 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
      */
     public function getItems($offset, $itemCountPerPage)
     {
-        return $this->elasticSearch->runElasticGET(
-            $this->config,
+        $this->elasticSearch->setParameters($this->config);
+        $results = $this->elasticSearch->runElasticGET(
             $this->searchText,
             $this->config['convert_to_array'],
+            "executeMatch",
             $offset,
             $itemCountPerPage
         );
+
+        return $results;
     }
 
     /**
@@ -80,10 +83,12 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
      */
     public function count()
     {
+        $this->elasticSearch->setParameters($this->config);
+
         return $this->elasticSearch->runElasticGET(
-            $this->config,
             $this->searchText,
-            $this->config['total_hits']
+            $this->config['total_hits'],
+            "executeMatch"
         );
     }
 }
