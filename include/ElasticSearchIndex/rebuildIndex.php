@@ -19,19 +19,37 @@ Zend_Registry::set("config", $config);
 $loader->register();
 
 $elasticSearchModel = new models_ElasticSearch();
-$data = $elasticSearchModel->getAllData();
+$db = $elasticSearchModel->getConnectDB();
+$sql = $elasticSearchModel->getAllData();
+$query = $db->query($sql);
 
 $helperFormatData = new Format_FormatDataElastic();
 
-$formatData = $helperFormatData->formatDataForElastic($data);
 $parameters = $config->toArray();
 $connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
+
 $connect->setAction("PUT");
+
 $contextSearch = new ContextSearch_ContextSearchFactory();
 $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
+
 $elasticSearchPUT = $queryBuilder->createQuery($connect);
 
-$elasticSearchPUT->addDocuments($formatData);
+
+while ($row = $query->fetch()) {
+
+    if (count($data) < 500) {
+        $data[$row['ITEM_ID']] = $row;
+
+        continue;
+    }
+
+    $formatData = $helperFormatData->formatDataForElastic($data);
+
+    $elasticSearchPUT->addDocuments($formatData);
+
+    $data = array();
+}
 
 echo "Data add to index success";
 

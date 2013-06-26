@@ -130,6 +130,16 @@ class models_ElasticSearch extends ZendDBEntity
             left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
             left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)";
 
-        return $this->_db->fetchAll($sql);
+        return $sql;
+    }
+
+    /**
+     * Get connect DB
+     *
+     * @return mixed|null|Zend_Db_Adapter_Abstract
+     */
+    public function getConnectDB()
+    {
+        return $this->_db;
     }
 }
