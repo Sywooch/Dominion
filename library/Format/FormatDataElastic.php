@@ -23,6 +23,7 @@ class Format_FormatDataElastic
     public function formatDataForElastic(array $items)
     {
         foreach ($items as $key => $item) {
+            $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
         }
 

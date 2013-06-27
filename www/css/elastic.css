@@ -14,3 +14,9 @@ li .details {
 li .price {
     margin-top: 2px;
 }
+
+span.else_results {
+    padding-left: 10px;
+    padding-top: 10px;
+    color: #cd0a0a;
+}

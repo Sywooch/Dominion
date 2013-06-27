@@ -22,6 +22,7 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (data) {
                         cache[term] = data;
+                        var len = data.length;
                         $("ul.ui-autocomplete").hover("color", "#009933");
                         response(
                             data
@@ -33,11 +34,14 @@ $(document).ready(function () {
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
-//                $(this).val(ui.item.name + ", " + ui.item.brand + ", " + ui.item.price);
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
+            if (item.else_results) {
+                item.url = "/search/?search_text=" + item.else_results;
 
+                return $("<li></li>").data("item.autocomplete", item).append("<a href=" + item.url + "><span class='else_results'>Еще результаты</a></span>").appendTo(ul);
+            }
             return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.url + "'><div class='products'><img src='/images/it/" + item.image + "' /></div><div class='details'>" + item.name + ", " + item.brand + "</div><div class='price'>цена: " + item.price + "</div></a>").appendTo(ul);
         }
     })

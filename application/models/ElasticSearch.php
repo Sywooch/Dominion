@@ -132,6 +132,16 @@ class models_ElasticSearch extends ZendDBEntity
             where I.PRICE > 0;
             ";
 
-        return $this->_db->fetchAll($sql);
+        return $sql;
+    }
+
+    /**
+     * Get connect DB
+     *
+     * @return mixed|null|Zend_Db_Adapter_Abstract
+     */
+    public function getConnectDB()
+    {
+        return $this->_db;
     }
 }
