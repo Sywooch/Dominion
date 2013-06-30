@@ -27,6 +27,7 @@ class Format_FormatDataElastic
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
         }
 
+        // TODO: ????? Что удаляем?
         unset($tmpArrLink);
 
         return $items;
@@ -52,8 +53,8 @@ class Format_FormatDataElastic
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
 
-            $data['IMAGE1'] = !empty($data['IMAGE1']) ? $data['IMAGE1'] : '##';
-            $image = explode("#", $data['IMAGE1']);
+            $data['IMAGE0'] = !empty($data['IMAGE0']) ? $data['IMAGE0'] : '##';
+            $image = explode("#", $data['IMAGE0']);
 
             $goods[$key]['price'] = $price . " " . $unit;
 

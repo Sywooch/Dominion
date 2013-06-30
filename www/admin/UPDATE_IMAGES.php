@@ -11,8 +11,6 @@ if (!$cmf->GetRights()) {
 $cmf->HeaderNoCache();
 $cmf->MakeCommonHeader();
 
-
-
 print <<<EOF
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
@@ -24,9 +22,6 @@ print <<<EOF
 EOF;
 
 
-
-
-
 if(isset($_POST['update']) && $_POST['update'])
 {
     echo "<p>Обработка данных закончена.</p>";
@@ -36,4 +31,3 @@ if(isset($_POST['update']) && $_POST['update'])
 $cmf->MakeCommonFooter();
 $cmf->Close();
 unset($cmf);
-?>

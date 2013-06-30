@@ -143,12 +143,8 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
      *
      * @return array
      */
-    public function executeFormatData(
-        $items,
-        $currencyStrategy,
-        Helpers_Prices_Recount $recount,
-        Helpers_Prices_Discount $discount,
-        $formatItem = false)
+    public function executeFormatData($items, $currencyStrategy, Helpers_Prices_Recount $recount,
+                                      Helpers_Prices_Discount $discount, $formatItem = false)
     {
         $PriceObjectValue = new Format_PricesObjectValue();
 
