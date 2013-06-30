@@ -1204,7 +1204,7 @@ EOF;
 <table><tr><td>Каталог: <select name="CATALOGUE_ID" onchange="return chan(this.form,this.form.elements['ITEM_ID[]'],'select A.ITEM_ID,CONCAT(B.NAME,\' \',A.NAME, \' (Артикул \', A.ARTICLE,\')\') from ITEM A  left join BRAND B on (A.BRAND_ID=B.BRAND_ID) where A.CATALOGUE_ID=?  and A.STATUS=1 and A.PRICE &gt; 0  order by A.NAME',this.value);"><option value="">-- Не задан --</option>{$VV_CATALOGUE_ID}</select>
 </td></tr>
 
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/sorting.js"></script>
 
 <tr><td>поиск:<br /><input type="text" id="sorting" /></td></tr>
@@ -1298,6 +1298,56 @@ $_REQUEST['id']=$cmf->GetSequence('ITEM');
 		
 				
 
+$path_to_watermark_IMAGE0='';
+	
+
+	$width = $cmf->selectrow_array("select VALUE from SETINGS where SYSTEM_NAME='item_main_icon_x_small'");
+	$height = $cmf->selectrow_array("select VALUE from SETINGS where SYSTEM_NAME='item_main_icon_y_small'");
+   if(isset($_REQUEST['GEN_IMAGE0']) && $_REQUEST['GEN_IMAGE0'] && isset($_FILES['NOT_IMAGE3']['tmp_name']) && $_FILES['NOT_IMAGE3']['tmp_name']){
+	  if(isset($obj_img_resize) && is_object($obj_img_resize)){
+		  
+			if(isset($_REQUEST['iid']) && !empty($_REQUEST['iid'])){
+				$obj_img_resize->addSettings('NOT_IMAGE3',''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			else{
+				$obj_img_resize->addSettings('NOT_IMAGE3',''.$_REQUEST['id'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			
+			$obj_img_resize->addImagePost();
+			$_REQUEST['IMAGE0'] = $obj_img_resize->new_image_name;
+ 
+	  }
+	  else{
+			$_REQUEST['IMAGE0']=$cmf->PicturePostResize('NOT_',$_REQUEST['IMAGE2'],''.$_REQUEST['id'].'_icon_s',$VIRTUAL_IMAGE_PATH,$_REQUEST['WIDTH_IMAGE0'],$_REQUEST['HEIGHT_IMAGE0']);
+	  }
+	}
+	elseif(isset($_FILES['NOT_IMAGE0']['tmp_name']) && $_FILES['NOT_IMAGE0']['tmp_name']){
+	  if(isset($obj_img_resize) && is_object($obj_img_resize)){
+		  
+			if(isset($_REQUEST['iid']) && !empty($_REQUEST['iid'])){
+				$obj_img_resize->addSettings('NOT_IMAGE0',''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			else{
+				$obj_img_resize->addSettings('NOT_IMAGE0',''.$_REQUEST['id'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			
+			$obj_img_resize->addImagePost();
+			$_REQUEST['IMAGE0'] = $obj_img_resize->new_image_name;
+
+	  }
+	  else{
+			$_REQUEST['IMAGE0']=$cmf->PicturePostResize('NOT_IMAGE0',$_REQUEST['IMAGE0'],''.$_REQUEST['id'].'_icon_s',$VIRTUAL_IMAGE_PATH,$_REQUEST['WIDTH_IMAGE0'],$_REQUEST['HEIGHT_IMAGE0']);
+	  }
+	}
+
+			
+	
+	if(isset($_REQUEST['CLR_IMAGE0']) && $_REQUEST['CLR_IMAGE0']){$_REQUEST['IMAGE0']=$cmf->UnlinkFile($_REQUEST['IMAGE0'],$VIRTUAL_IMAGE_PATH);}
+	
+
+		
+				
+
 $path_to_watermark_IMAGE1='';
 	
 
@@ -1458,7 +1508,7 @@ $_REQUEST['IS_ACTION']=isset($_REQUEST['IS_ACTION']) && $_REQUEST['IS_ACTION']?1
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 
 
-$cmf->execute('insert into ITEM (ITEM_ID,CATALOGUE_ID,TYPENAME,CATNAME,BRAND_ID,DISCOUNT_ID,WARRANTY_ID,DELIVERY_ID,CREDIT_ID,NAME,ARTICLE,CURRENCY_ID,PRICE,PRICE1,PURCHASE_PRICE,IMAGE1,IMAGE2,IMAGE3,IS_ACTION,DESCRIPTION,SEO_BOTTOM,TITLE,DESC_META,KEYWORD_META,DATE_INSERT,STATUS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']));
+$cmf->execute('insert into ITEM (ITEM_ID,CATALOGUE_ID,TYPENAME,CATNAME,BRAND_ID,DISCOUNT_ID,WARRANTY_ID,DELIVERY_ID,CREDIT_ID,NAME,ARTICLE,CURRENCY_ID,PRICE,PRICE1,PURCHASE_PRICE,IMAGE0,IMAGE1,IMAGE2,IMAGE3,IS_ACTION,DESCRIPTION,SEO_BOTTOM,TITLE,DESC_META,KEYWORD_META,DATE_INSERT,STATUS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE0']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']));
 
 
 $_REQUEST['e'] ='ED';
@@ -1523,6 +1573,56 @@ if($_REQUEST['e'] == 'Изменить')
 		
 				
 
+$path_to_watermark_IMAGE0='';
+	
+
+	$width = $cmf->selectrow_array("select VALUE from SETINGS where SYSTEM_NAME='item_main_icon_x_small'");
+	$height = $cmf->selectrow_array("select VALUE from SETINGS where SYSTEM_NAME='item_main_icon_y_small'");
+   if(isset($_REQUEST['GEN_IMAGE0']) && $_REQUEST['GEN_IMAGE0'] && isset($_FILES['NOT_IMAGE3']['tmp_name']) && $_FILES['NOT_IMAGE3']['tmp_name']){
+	  if(isset($obj_img_resize) && is_object($obj_img_resize)){
+		  
+			if(isset($_REQUEST['iid']) && !empty($_REQUEST['iid'])){
+				$obj_img_resize->addSettings('NOT_IMAGE3',''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			else{
+				$obj_img_resize->addSettings('NOT_IMAGE3',''.$_REQUEST['id'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			
+			$obj_img_resize->addImagePost();
+			$_REQUEST['IMAGE0'] = $obj_img_resize->new_image_name;
+ 
+	  }
+	  else{
+			$_REQUEST['IMAGE0']=$cmf->PicturePostResize('NOT_',$_REQUEST['IMAGE2'],''.$_REQUEST['id'].'_icon_s',$VIRTUAL_IMAGE_PATH,$_REQUEST['WIDTH_IMAGE0'],$_REQUEST['HEIGHT_IMAGE0']);
+	  }
+	}
+	elseif(isset($_FILES['NOT_IMAGE0']['tmp_name']) && $_FILES['NOT_IMAGE0']['tmp_name']){
+	  if(isset($obj_img_resize) && is_object($obj_img_resize)){
+		  
+			if(isset($_REQUEST['iid']) && !empty($_REQUEST['iid'])){
+				$obj_img_resize->addSettings('NOT_IMAGE0',''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			else{
+				$obj_img_resize->addSettings('NOT_IMAGE0',''.$_REQUEST['id'].'_icon_s', '../images'.$VIRTUAL_IMAGE_PATH, $path_to_watermark_IMAGE0, $width, $height);
+			}
+			
+			$obj_img_resize->addImagePost();
+			$_REQUEST['IMAGE0'] = $obj_img_resize->new_image_name;
+
+	  }
+	  else{
+			$_REQUEST['IMAGE0']=$cmf->PicturePostResize('NOT_IMAGE0',$_REQUEST['IMAGE0'],''.$_REQUEST['id'].'_icon_s',$VIRTUAL_IMAGE_PATH,$_REQUEST['WIDTH_IMAGE0'],$_REQUEST['HEIGHT_IMAGE0']);
+	  }
+	}
+
+			
+	
+	if(isset($_REQUEST['CLR_IMAGE0']) && $_REQUEST['CLR_IMAGE0']){$_REQUEST['IMAGE0']=$cmf->UnlinkFile($_REQUEST['IMAGE0'],$VIRTUAL_IMAGE_PATH);}
+	
+
+		
+				
+
 $path_to_watermark_IMAGE1='';
 	
 
@@ -1682,8 +1782,8 @@ $_REQUEST['IS_ACTION']=isset($_REQUEST['IS_ACTION']) && $_REQUEST['IS_ACTION']?1
 
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 
-if(!empty($_REQUEST['pid'])) $cmf->execute('update ITEM set CATALOGUE_ID=?,TYPENAME=?,CATNAME=?,BRAND_ID=?,DISCOUNT_ID=?,WARRANTY_ID=?,DELIVERY_ID=?,CREDIT_ID=?,NAME=?,ARTICLE=?,CURRENCY_ID=?,PRICE=?,PRICE1=?,PURCHASE_PRICE=?,IMAGE1=?,IMAGE2=?,IMAGE3=?,IS_ACTION=?,DESCRIPTION=?,SEO_BOTTOM=?,TITLE=?,DESC_META=?,KEYWORD_META=?,DATE_INSERT=?,STATUS=? where ITEM_ID=?',stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
-else $cmf->execute('update ITEM set TYPENAME=?,CATNAME=?,BRAND_ID=?,DISCOUNT_ID=?,WARRANTY_ID=?,DELIVERY_ID=?,CREDIT_ID=?,NAME=?,ARTICLE=?,CURRENCY_ID=?,PRICE=?,PRICE1=?,PURCHASE_PRICE=?,IMAGE1=?,IMAGE2=?,IMAGE3=?,IS_ACTION=?,DESCRIPTION=?,SEO_BOTTOM=?,TITLE=?,DESC_META=?,KEYWORD_META=?,DATE_INSERT=?,STATUS=? where ITEM_ID=?',stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
+if(!empty($_REQUEST['pid'])) $cmf->execute('update ITEM set CATALOGUE_ID=?,TYPENAME=?,CATNAME=?,BRAND_ID=?,DISCOUNT_ID=?,WARRANTY_ID=?,DELIVERY_ID=?,CREDIT_ID=?,NAME=?,ARTICLE=?,CURRENCY_ID=?,PRICE=?,PRICE1=?,PURCHASE_PRICE=?,IMAGE0=?,IMAGE1=?,IMAGE2=?,IMAGE3=?,IS_ACTION=?,DESCRIPTION=?,SEO_BOTTOM=?,TITLE=?,DESC_META=?,KEYWORD_META=?,DATE_INSERT=?,STATUS=? where ITEM_ID=?',stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE0']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
+else $cmf->execute('update ITEM set TYPENAME=?,CATNAME=?,BRAND_ID=?,DISCOUNT_ID=?,WARRANTY_ID=?,DELIVERY_ID=?,CREDIT_ID=?,NAME=?,ARTICLE=?,CURRENCY_ID=?,PRICE=?,PRICE1=?,PURCHASE_PRICE=?,IMAGE0=?,IMAGE1=?,IMAGE2=?,IMAGE3=?,IS_ACTION=?,DESCRIPTION=?,SEO_BOTTOM=?,TITLE=?,DESC_META=?,KEYWORD_META=?,DATE_INSERT=?,STATUS=? where ITEM_ID=?',stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['BRAND_ID'])+0,stripslashes($_REQUEST['DISCOUNT_ID'])+0,stripslashes($_REQUEST['WARRANTY_ID'])+0,stripslashes($_REQUEST['DELIVERY_ID'])+0,stripslashes($_REQUEST['CREDIT_ID'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ARTICLE']),stripslashes($_REQUEST['CURRENCY_ID'])+0,stripslashes($_REQUEST['PRICE'])+0,stripslashes($_REQUEST['PRICE1'])+0,stripslashes($_REQUEST['PURCHASE_PRICE'])+0,stripslashes($_REQUEST['IMAGE0']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['IMAGE3']),stripslashes($_REQUEST['IS_ACTION']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['SEO_BOTTOM']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DATE_INSERT']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
 
 $_REQUEST['e'] ='ED';
 
@@ -1722,7 +1822,7 @@ $_REQUEST['e'] ='ED';
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_ITEM_ID,$V_CATALOGUE_ID,$V_TYPENAME,$V_CATNAME,$V_BRAND_ID,$V_DISCOUNT_ID,$V_WARRANTY_ID,$V_DELIVERY_ID,$V_CREDIT_ID,$V_NAME,$V_ARTICLE,$V_CURRENCY_ID,$V_PRICE,$V_PRICE1,$V_PURCHASE_PRICE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_IS_ACTION,$V_DESCRIPTION,$V_SEO_BOTTOM,$V_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DATE_INSERT,$V_STATUS)=$cmf->selectrow_arrayQ('select ITEM_ID,CATALOGUE_ID,TYPENAME,CATNAME,BRAND_ID,DISCOUNT_ID,WARRANTY_ID,DELIVERY_ID,CREDIT_ID,NAME,ARTICLE,CURRENCY_ID,PRICE,PRICE1,PURCHASE_PRICE,IMAGE1,IMAGE2,IMAGE3,IS_ACTION,DESCRIPTION,SEO_BOTTOM,TITLE,DESC_META,KEYWORD_META,DATE_FORMAT(DATE_INSERT,"%Y-%m-%d %H:%i"),STATUS from ITEM where ITEM_ID=?',$_REQUEST['id']);
+list($V_ITEM_ID,$V_CATALOGUE_ID,$V_TYPENAME,$V_CATNAME,$V_BRAND_ID,$V_DISCOUNT_ID,$V_WARRANTY_ID,$V_DELIVERY_ID,$V_CREDIT_ID,$V_NAME,$V_ARTICLE,$V_CURRENCY_ID,$V_PRICE,$V_PRICE1,$V_PURCHASE_PRICE,$V_IMAGE0,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_IS_ACTION,$V_DESCRIPTION,$V_SEO_BOTTOM,$V_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DATE_INSERT,$V_STATUS)=$cmf->selectrow_arrayQ('select ITEM_ID,CATALOGUE_ID,TYPENAME,CATNAME,BRAND_ID,DISCOUNT_ID,WARRANTY_ID,DELIVERY_ID,CREDIT_ID,NAME,ARTICLE,CURRENCY_ID,PRICE,PRICE1,PURCHASE_PRICE,IMAGE0,IMAGE1,IMAGE2,IMAGE3,IS_ACTION,DESCRIPTION,SEO_BOTTOM,TITLE,DESC_META,KEYWORD_META,DATE_FORMAT(DATE_INSERT,"%Y-%m-%d %H:%i"),STATUS from ITEM where ITEM_ID=?',$_REQUEST['id']);
 
 
 if(empty($_REQUEST['pid'])) $_REQUEST['pid']=$cmf->selectrow_array('select CATALOGUE_ID from ITEM where ITEM_ID=? ',$_REQUEST['id']);
@@ -1743,22 +1843,28 @@ $V_STR_CREDIT_ID=$cmf->Spravotchnik($V_CREDIT_ID,'select CREDIT_ID,NAME from CRE
 					
 $V_STR_CURRENCY_ID=$cmf->Spravotchnik($V_CURRENCY_ID,'select CURRENCY_ID,NAME from CURRENCY  order by NAME');        
 					
+if(isset($V_IMAGE0))
+{
+  $IM_IMAGE0=split('#',$V_IMAGE0);
+  if(isset($IM_14[1]) && $IM_IMAGE0[1] > 150){$IM_IMAGE0[2]=$IM_IMAGE0[2]*150/$IM_IMAGE0[1]; $IM_IMAGE0[1]=150;}
+}
+
 if(isset($V_IMAGE1))
 {
   $IM_IMAGE1=split('#',$V_IMAGE1);
-  if(isset($IM_14[1]) && $IM_IMAGE1[1] > 150){$IM_IMAGE1[2]=$IM_IMAGE1[2]*150/$IM_IMAGE1[1]; $IM_IMAGE1[1]=150;}
+  if(isset($IM_15[1]) && $IM_IMAGE1[1] > 150){$IM_IMAGE1[2]=$IM_IMAGE1[2]*150/$IM_IMAGE1[1]; $IM_IMAGE1[1]=150;}
 }
 
 if(isset($V_IMAGE2))
 {
   $IM_IMAGE2=split('#',$V_IMAGE2);
-  if(isset($IM_15[1]) && $IM_IMAGE2[1] > 150){$IM_IMAGE2[2]=$IM_IMAGE2[2]*150/$IM_IMAGE2[1]; $IM_IMAGE2[1]=150;}
+  if(isset($IM_16[1]) && $IM_IMAGE2[1] > 150){$IM_IMAGE2[2]=$IM_IMAGE2[2]*150/$IM_IMAGE2[1]; $IM_IMAGE2[1]=150;}
 }
 
 if(isset($V_IMAGE3))
 {
    $IM_IMAGE3=split('#',$V_IMAGE3);
-   if(isset($IM_16[1]) && $IM_IMAGE3[1] > 150){$IM_IMAGE3[2]=$IM_IMAGE3[2]*150/$IM_IMAGE3[1]; $IM_IMAGE3[1]=150;}
+   if(isset($IM_17[1]) && $IM_IMAGE3[1] > 150){$IM_IMAGE3[2]=$IM_IMAGE3[2]*150/$IM_IMAGE3[1]; $IM_IMAGE3[1]=150;}
 }
 
 $V_IS_ACTION=$V_IS_ACTION?'checked':'';
@@ -1901,7 +2007,28 @@ EOF;
 
 <input type="text" name="PURCHASE_PRICE" value="$V_PURCHASE_PRICE" size="90" /><br />
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал.:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE1" value="$V_IMAGE1" />
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал. для поиска:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE0" value="$V_IMAGE0" />
+EOF;
+if(!empty($IM_IMAGE0[1])) $width = $IM_IMAGE0[1];
+else $width = '';
+
+if(!empty($IM_IMAGE0[2])) $height = $IM_IMAGE0[2];
+else $height = '';
+
+$IM_IMAGE0[0] = !empty($IM_IMAGE0[0]) ? $IM_IMAGE0[0]:0;
+$IM_IMAGE0[1] = !empty($IM_IMAGE0[1]) ? $IM_IMAGE0[1]:0;
+$IM_IMAGE0[2] = !empty($IM_IMAGE0[2]) ? $IM_IMAGE0[2]:0;
+
+print <<<EOF
+<table><tr><td>
+<img src="/images/$VIRTUAL_IMAGE_PATH$IM_IMAGE0[0]" width="$IM_IMAGE0[1]" height="$IM_IMAGE0[2]" /></td>
+<td><input type="file" name="NOT_IMAGE0" size="1" disabled="1" /><br />
+<input type="checkbox" name="GEN_IMAGE0" value="1" checked="1" onClick="if(document.frm.GEN_IMAGE0.checked == '1') document.frm.NOT_IMAGE0.disabled='1'; else document.frm.NOT_IMAGE0.disabled='';" />Сгенерить из большой<br />
+<input type="checkbox" name="CLR_IMAGE0" value="1" />Сбросить карт. <br />
+Ширина превью: <input type="text" name="WIDTH_IMAGE0" size="5" value="$width" /><br />
+Высота превью: <input type="text" name="HEIGHT_IMAGE0" size="5" value="$height" /><br />
+
+</td></tr></table></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал.:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE1" value="$V_IMAGE1" />
 EOF;
 if(!empty($IM_IMAGE1[1])) $width = $IM_IMAGE1[1];
 else $width = '';
@@ -2270,7 +2397,7 @@ $visible=0;
 
 if($_REQUEST['e'] =='Новый')
 {
-list($V_ITEM_ID,$V_CATALOGUE_ID,$V_TYPENAME,$V_CATNAME,$V_BRAND_ID,$V_DISCOUNT_ID,$V_WARRANTY_ID,$V_DELIVERY_ID,$V_CREDIT_ID,$V_NAME,$V_ARTICLE,$V_CURRENCY_ID,$V_PRICE,$V_PRICE1,$V_PURCHASE_PRICE,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_IS_ACTION,$V_DESCRIPTION,$V_SEO_BOTTOM,$V_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DATE_INSERT,$V_STATUS)=array('','','','','','','','','','','','','','','','','','','','','','','','','','');
+list($V_ITEM_ID,$V_CATALOGUE_ID,$V_TYPENAME,$V_CATNAME,$V_BRAND_ID,$V_DISCOUNT_ID,$V_WARRANTY_ID,$V_DELIVERY_ID,$V_CREDIT_ID,$V_NAME,$V_ARTICLE,$V_CURRENCY_ID,$V_PRICE,$V_PRICE1,$V_PURCHASE_PRICE,$V_IMAGE0,$V_IMAGE1,$V_IMAGE2,$V_IMAGE3,$V_IS_ACTION,$V_DESCRIPTION,$V_SEO_BOTTOM,$V_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DATE_INSERT,$V_STATUS)=array('','','','','','','','','','','','','','','','','','','','','','','','','','','');
 
 
 $V_STR_BRAND_ID=$cmf->Spravotchnik($V_BRAND_ID,'select B.BRAND_ID,B.NAME from BRAND  B  order by B.NAME');
@@ -2285,6 +2412,7 @@ $V_STR_CREDIT_ID=$cmf->Spravotchnik($V_CREDIT_ID,'select CREDIT_ID,NAME from CRE
 					
 $V_STR_CURRENCY_ID=$cmf->Spravotchnik($V_CURRENCY_ID,'select CURRENCY_ID,NAME from CURRENCY  order by NAME');
 					
+$IM_IMAGE0=array('','','');
 $IM_IMAGE1=array('','','');
 $IM_IMAGE2=array('','','');
 $IM_IMAGE3=array('','','');
@@ -2426,7 +2554,28 @@ EOF;
 
 <input type="text" name="PURCHASE_PRICE" value="$V_PURCHASE_PRICE" size="90" /><br />
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал.:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE1" value="$V_IMAGE1" />
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал. для поиска:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE0" value="$V_IMAGE0" />
+EOF;
+if(!empty($IM_IMAGE0[1])) $width = $IM_IMAGE0[1];
+else $width = '';
+
+if(!empty($IM_IMAGE0[2])) $height = $IM_IMAGE0[2];
+else $height = '';
+
+$IM_IMAGE0[0] = !empty($IM_IMAGE0[0]) ? $IM_IMAGE0[0]:0;
+$IM_IMAGE0[1] = !empty($IM_IMAGE0[1]) ? $IM_IMAGE0[1]:0;
+$IM_IMAGE0[2] = !empty($IM_IMAGE0[2]) ? $IM_IMAGE0[2]:0;
+
+print <<<EOF
+<table><tr><td>
+<img src="/images/$VIRTUAL_IMAGE_PATH$IM_IMAGE0[0]" width="$IM_IMAGE0[1]" height="$IM_IMAGE0[2]" /></td>
+<td><input type="file" name="NOT_IMAGE0" size="1" disabled="1" /><br />
+<input type="checkbox" name="GEN_IMAGE0" value="1" checked="1" onClick="if(document.frm.GEN_IMAGE0.checked == '1') document.frm.NOT_IMAGE0.disabled='1'; else document.frm.NOT_IMAGE0.disabled='';" />Сгенерить из большой<br />
+<input type="checkbox" name="CLR_IMAGE0" value="1" />Сбросить карт. <br />
+Ширина превью: <input type="text" name="WIDTH_IMAGE0" size="5" value="$width" /><br />
+Высота превью: <input type="text" name="HEIGHT_IMAGE0" size="5" value="$height" /><br />
+
+</td></tr></table></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка мал.:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE1" value="$V_IMAGE1" />
 EOF;
 if(!empty($IM_IMAGE1[1])) $width = $IM_IMAGE1[1];
 else $width = '';

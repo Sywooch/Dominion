@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<basename>electroh_db</basename>
+	<basename>dominion</basename>
 	<coltypes>
 		<option value="0">Ключевое поле (автоинкремент)</option>
 		<option value="1">Короткий текст</option>
@@ -340,10 +340,10 @@
 			<name>Заголовок новости</name>
 			<comment>Заголовок новости</comment>
 		</col>
-    <col type="1" name="CATNAME" size="90">
-      <name>Путь до каталога</name>
-      <comment>Путь до каталога</comment>
-    </col>
+        <col type="1" name="CATNAME" size="90">
+          <name>Путь до каталога</name>
+          <comment>Путь до каталога</comment>
+        </col>
 		<col type="2" name="DESCRIPTION" rows="7" cols="90">
 			<name>Краткий текст</name>
 			<comment>Краткий текст</comment>
@@ -1615,11 +1615,19 @@ EOF;
   
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
-      
+
       require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
+
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+
+      $model = MetaGenerateModelStrategy::getModel($cmf);
+      $meta = new MetaGenerate($model);
+
+      $meta->metaCatalogueById($_REQUEST['id']);
     ]]></postinsertevent>
     <postupdateevent><![CDATA[
       if(empty($_REQUEST['CATNAME'])){
@@ -1640,13 +1648,20 @@ EOF;
       }
       
       $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
-      
-      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
-      $sefu = new CreateSEFU();      
       UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
-      
+
+      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
+      $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
+
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+
+      $model = MetaGenerateModelStrategy::getModel($cmf);
+      $meta = new MetaGenerate($model);
+
+      $meta->metaCatalogueById($_REQUEST['id']);
     ]]></postupdateevent>
 		<extraevents><![CDATA[
 		
@@ -2021,7 +2036,12 @@ function updateOrdering($cmf,$id)
       <name>Цена закупки</name>
       <comment>Цена закупки</comment>
     </col>
-		<col type="15" name="IMAGE1" postfix="_icon" set_width="item_main_icon_x" set_height="item_main_icon_y">
+
+		<col type="15" name="IMAGE0" postfix="_icon_s" set_width="item_main_icon_x_small" set_height="item_main_icon_y_small">
+			<name>Картинка мал. для поиска</name>
+			<comment>Картинка маленькая для контекстного поиска</comment>
+		</col>
+        <col type="15" name="IMAGE1" postfix="_icon" set_width="item_main_icon_x" set_height="item_main_icon_y">
 			<name>Картинка мал.</name>
 			<comment>Картинка маленькая</comment>
 		</col>
@@ -2234,6 +2254,14 @@ $cmf->UpdateRange($id);
       $cmf->execute('update BRAND set COUNT_=0');
       $cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
       $cmf->UpdateRange($_REQUEST['id']);
+      
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+
+      $model = MetaGenerateModelStrategy::getModel($cmf);
+      $meta = new MetaGenerate($model);
+
+      $meta->metaItemById($_REQUEST['id']);
     ]]>
     </postinsertevent>
 		<postupdateevent><![CDATA[
@@ -2259,6 +2287,14 @@ $cmf->UpdateRange($id);
       $cmf->Rebuild(array(0));
       $cmf->CheckCount(0);      
       $cmf->UpdateRange($_REQUEST['id']);
+      
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
+      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+
+      $model = MetaGenerateModelStrategy::getModel($cmf);
+      $meta = new MetaGenerate($model);
+
+      $meta->metaItemById($_REQUEST['id']);
       ]]>
       </postupdateevent>
 		<postgroupupdateevent>
@@ -4043,10 +4079,10 @@ print <<<EOF
       <name>Название</name>
       <comment>Название</comment>
     </col>
- <!--   <col type="1" name="CLASS_NAME" size="90">
+    <col type="1" name="CLASS_NAME" size="90">
       <name>Название лкасса</name>
       <comment>Название лкасса</comment>
-    </col>-->
+    </col>
     <col type="4" name="MIN" visuality="y">
       <name>Min значение</name>
       <comment>Min значение</comment>
@@ -4062,10 +4098,6 @@ print <<<EOF
     <col type="7" name="IMAGE2" postfix="_usr_disc_big">
       <name>Картинка (большая)</name>
       <comment>Картинка (большая)</comment>
-    </col>
-    <col type="1" name="COLOR" visuality="y" size="20">
-      <name>Color CSS</name>
-      <comment>Цвет отображения</comment>
     </col>
     <col type="8" name="STATUS" default="1" selectible="y" isstate="y">
       <name>Статус</name>
