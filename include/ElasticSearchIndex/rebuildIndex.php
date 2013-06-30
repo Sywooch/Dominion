@@ -35,6 +35,7 @@ $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
 
 $elasticSearchPUT = $queryBuilder->createQuery($connect);
 
+$data = array();
 
 while ($row = $query->fetch()) {
 
@@ -48,7 +49,7 @@ while ($row = $query->fetch()) {
 
     $elasticSearchPUT->addDocuments($formatData);
 
-    $data = array();
+    $data = null;
 }
 
 echo "Data add to index success";
