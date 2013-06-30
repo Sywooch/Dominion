@@ -97,6 +97,7 @@ class models_ElasticSearch extends ZendDBEntity
                   ,I.PRICE
                   ,I.PRICE1
                   ,I.PURCHASE_PRICE
+                  ,I.IMAGE0
                   ,I.IMAGE1
                   ,I.IMAGE2
                   ,I.IMAGE3
