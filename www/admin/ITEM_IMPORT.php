@@ -100,7 +100,7 @@ require_once ROOT_PATH . '/include/class.item_image_convert.php';
 require_once ROOT_PATH . '/include/class.sitemap.php';
 
 require_once ROOT_PATH . '/include/imageResize/config_mage.ini.php';
-require_once ROOT_PATH . '/include/imageResize/imageResizer.php';
+require_once ROOT_PATH . '/include/imageResize/ImageResize.php';
 
 require_once ROOT_PATH . '/application/models/ZendDBEntity.php';
 
