@@ -48,7 +48,8 @@ search_engine.index = dominion
 search_engine.type = products
 search_engine.total_hits = getTotalHits
 search_engine.convert_to_array = convertToArray
-search_engine.main_field = MAIN
+search_engine.search_fields[] = MAIN
+search_engine.search_fields[] = CATALOGUE_NAME
 
 search_engine.name_fields[] = TYPENAME
 search_engine.name_fields[] = NAME_PRODUCT
