@@ -96,14 +96,26 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     {
         $formatQuery->clearQuery();
 
-        $data = array("_all" => $term);
+
         $formatQuery->setBool();
         $formatQuery->setMust();
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
-        $formatQuery->setQueryString($data);
+        $data = array();
 
-        return $elasticSearchGET->buildQuery($formatQuery)->execute();
+        foreach ($this->parameters['search_fields'] as $item) {
+            $data[$item] = $term;
+            $formatQuery->setQueryString($data);
+            $resultsSet = $elasticSearchGET->buildQuery($formatQuery)->execute();
+            $results = $resultsSet->getResults();
+            if (!empty($results)) {
+
+                break;
+            }
+        }
+
+
+        return $resultsSet;
     }
 
     /**
@@ -126,7 +138,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     {
         $formatQuery->clearQuery();
 
-        $formatQuery->setMatch($this->parameters['main_field'], $term);
+        $formatQuery->setMultiMatch($this->parameters['search_fields'], $term);
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
 
@@ -160,11 +172,15 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $formatDataElastic = new Format_FormatDataElastic();
 
-        if ($formatItem) {
-
-            return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        $resultData = array();
+        if (empty($items)) {
+            $resultData = $items;
+        } else if ($formatItem) {
+            $resultData = $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        } else {
+            $resultData = $formatDataElastic->formatDataForSearchQuery($PriceObjectValue);
         }
 
-        return $formatDataElastic->formatDataForSearchQuery($PriceObjectValue);
+        return $resultData;
     }
 }

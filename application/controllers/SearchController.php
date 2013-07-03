@@ -37,11 +37,17 @@ class SearchController extends App_Controller_Frontend_Action
 
         $elasticExecute = $this->_helper->helperLoader("ExecuteElastic");
         $search_engine = $this->config->toArray();
+
+        /** @var $customPaginator Helpers_CustomPaginator */
         $customPaginator = $this->_helper->helperLoader("CustomPaginator");
         $customPaginator->setElements($this->_getParam('page'), $this->search_per_page, $elasticExecute, $search_engine['search_engine'], $search_text);
 
+
+        /** @var $items ArrayIterator */
+        $items = $customPaginator->getCurrentPage()->getArrayCopy();
+
         $formatData = $elasticExecute->executeFormatData(
-            $customPaginator->getCurrentPage(),
+            $items,
             $this->currency,
             $this->_helper->helperLoader("Prices_Recount"),
             $this->_helper->helperLoader("Prices_Discount")
