@@ -111,9 +111,10 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
      *
      * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
      * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
-     * @param string $term
-     * @param string $from
-     * @param integer $size
+     * @param $term
+     * @param null| integer $from
+     * @param null| integer $size
+     * @return \Elastica\ResultSet
      */
     private function executeMatch(
         ContextSearch_ElasticSearch_FormatQuery $formatQuery,
@@ -164,8 +165,6 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
             return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
         }
 
-        $formatDataElastic->formatPrices($PriceObjectValue);
-
-        return $PriceObjectValue->getItems();
+        return $formatDataElastic->formatDataForSearchQuery($PriceObjectValue);
     }
 }

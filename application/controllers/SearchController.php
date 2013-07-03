@@ -100,9 +100,9 @@ class SearchController extends App_Controller_Frontend_Action
 
         foreach ($items as $hit) {
             $node_attr = array('item_id' => $hit['ITEM_ID']
-            , 'price' => $hit['PRICE']
+            , 'price' => $hit['NEW_PRICE']
             , 'price1' => $hit['PRICE1']
-            , 'real_price' => $hit['NEW_PRICE']
+            , 'real_price' => $hit['PRICE']
             , 'real_price1' => $hit['OLD_PRICE']);
 
             $this->domXml->create_element('search_result', "", 2);
@@ -111,7 +111,7 @@ class SearchController extends App_Controller_Frontend_Action
             $this->domXml->create_element('href', $hit['URL']);
             $this->domXml->create_element('name', $hit['TYPENAME'] . " " . $hit['BRAND'] . ' ' . $hit['NAME_PRODUCT']);
             $this->domXml->create_element('short_description', $hit['DESCRIPTION']);
-            $this->domXml->create_element('sname', $hit['SNAME']);
+            $this->domXml->create_element('sname', $hit['UNIT']);
             $this->domXml->create_element('nat_sname', $hit['SNAME']);
 
             if (!empty($item_info['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
@@ -186,43 +186,11 @@ class SearchController extends App_Controller_Frontend_Action
                 $index->addDocument($doc);
                 $i++;
             }
-            //$news = $this->News->getSearchNews();
-//            foreach ($news as $new) {
-//              $doc = new Zend_Search_Lucene_Document();
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $new['NEWS_ID']));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('name', $new['NAME'], 'UTF-8'));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $new['descript'], 'UTF-8'));
-
-//              $url = "/news/all/n/{$new['NEWS_ID']}/";
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image', $new['IMAGE1']));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image_src', '/images/news/'));
-//              $index->addDocument($doc);
-//              $i++;
-//            }
-//            $articles = $this->Article->getSearchArticles();            
-//            foreach ($articles as $article) {
-//              $doc = new Zend_Search_Lucene_Document();
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $article['ARTICLE_ID']));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('name', $article['NAME'], 'UTF-8'));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $article['descript'], 'UTF-8'));
-
-//              $url = "/articles/view/n/{$article['ARTICLE_ID']}/";
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image', $article['IMAGE1']));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image_src', '/images/article/'));
-//              $index->addDocument($doc);
-//              $i++;
-//            }
             $cats = $Catalogue->getIndexTree();
             foreach ($cats as $cat) {
                 $doc = new Zend_Search_Lucene_Document();
                 $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $cat['CATALOGUE_ID']));
                 $doc->addField(Zend_Search_Lucene_Field::Text('name', $cat['NAME'], 'UTF-8'));
-
-//              $articleID = $this->Catalogue->getCatArticle($cat['CATALOGUE_ID']);
-//              $articleInfo = $this->Article->getArticleSingle($articleID);
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $articleInfo['DESCRIPTION'], 'UTF-8'));
 
                 $url = $this->getRealURL($cat);
                 $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
