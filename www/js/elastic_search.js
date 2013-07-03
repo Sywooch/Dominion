@@ -42,6 +42,7 @@ $(document).ready(function () {
 
                 return $("<li></li>").data("item.autocomplete", item).append("<a href=" + item.url + "><span class='else_results'>Еще результаты</a></span>").appendTo(ul);
             }
+
             return $("<li></li>").data("item.autocomplete", item).append("<a href='" + item.url + "'><div class='products'><img src='/images/it/" + item.image + "' /></div><div class='details'>" + item.name + ", " + item.brand + "</div><div class='price'>цена: " + item.price + "</div></a>").appendTo(ul);
         }
     })

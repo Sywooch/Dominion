@@ -64,7 +64,7 @@ class ElasticsearchController extends App_Controller_Frontend_Action
             $this->_helper->helperLoader("Prices_Discount"),
             true);
 
-        $results[count($results)]["else_results"] = $term;
+        $results[count($results)]["else_results"] = str_replace(" ", "+", trim($term)) ? str_replace(" ", "+", trim($term)) : $term;
 
         $this->_helper->json($results);
     }
