@@ -25,6 +25,8 @@ class Format_FormatDataElastic
         foreach ($items as $key => $item) {
             $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
+
+            unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
         }
 
         unset($tmpArrLink);

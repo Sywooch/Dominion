@@ -93,42 +93,13 @@ class models_ElasticSearch extends ZendDBEntity
                   ,I.CATNAME
                   ,I.TYPENAME
                   ,I.ARTICLE
-                  ,I.CURRENCY_ID
-                  ,I.PRICE
-                  ,I.PRICE1
-                  ,I.PURCHASE_PRICE
                   ,I.IMAGE1
-                  ,I.IMAGE2
-                  ,I.IMAGE3
-                  ,I.DESCRIPTION
-                  ,I.SEO_BOTTOM
-                  ,I.STATUS
-
-                  ,I.WARRANTY_ID
-                  ,I.DELIVERY_ID
-                  ,I.CREDIT_ID
-
-                  ,I.IS_ACTION
-
-                  ,D.IMAGE as DISCOUNTS_IMAGE
                   ,B.NAME as BRAND
-                  ,B.URL as BRAND_URL
-
-                  ,W.DESCRIPTION as WARRANTY_DESCRIPTION
-                  ,DL.DESCRIPTION as DELIVERY_DESCRIPTION
-                  ,CR.DESCRIPTION as CREDIT_DESCRIPTION
-
                   ,C.REALCATNAME
                   ,C.NAME as CATALOGUE_NAME
-                  ,CRN.SNAME
             from item I
-            left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
             left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-            left join WARRANTY W on (W.WARRANTY_ID=I.WARRANTY_ID)
-            left join DELIVERY DL on (DL.DELIVERY_ID=I.DELIVERY_ID)
-            left join CREDIT CR on (CR.CREDIT_ID=I.CREDIT_ID)
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)";
+            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)";
 
         return $sql;
     }
