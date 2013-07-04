@@ -60,6 +60,7 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
      *
      * @param int $offset
      * @param int $itemCountPerPage
+     *
      * @return array|void
      */
     public function getItems($offset, $itemCountPerPage)
