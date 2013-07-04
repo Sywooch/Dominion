@@ -6,6 +6,7 @@
  */
 
 use Imagine\Image\Box;
+use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Imagine\GD\Imagine;
 
@@ -57,34 +58,41 @@ class ImageResize_Resize
      * @param string $filePath     Путь к файлу который открываем
      * @param string $saveFilePath Путь куда сохраняем
      *
+     * @return BoxInterface
      * @throws Exception
      */
     public function resize($filePath, $saveFilePath)
     {
-        try {
-            $imagine = new Imagine();
 
-            $image = $imagine->open($filePath);
+        $imagine = new Imagine();
 
-            if (!$image) {
-                throw new Exception('Cant open or find file: ' . $filePath);
+        $image = $imagine->open($filePath);
+
+        if (!$image) {
+            throw new Exception('Cant open or find file: ' . $filePath);
+        }
+        $box = $image->getSize();
+
+
+        if ($this->isNeedResize($box->square(), $this->diffSquare)) {
+
+            $newBox = $box->widen($this->width);
+            // Проверяем - влазит ли по высоте
+            if ($newBox->getHeight() > $this->height) {
+                $newBox = $newBox->heighten($this->height);
             }
-            $box = $image->getSize();
 
-
-            if ($this->isNeedResize($box->square(), $this->diffSquare)) {
-                $newBox = $box->widen($this->width);
-
-                $image->resize($newBox)
-                    ->save($saveFilePath, array('flatten' => true));
+            // Ресайзим и копируем
+            $image->resize($newBox)->save($saveFilePath, array('flatten' => true));
+        } else {
+            // Ресайзить не надо - просто копируем под новым именем
+            if (!copy($filePath, $saveFilePath)) {
+                throw new Exception('Cant save file: ' . $saveFilePath);
             }
-
-        } catch (Exception $e) {
-            echo "123";
         }
 
-
-//        return array('width'=>) $newFilePath;
+        // возвращаем размеры новой картинки
+        return $newBox;
     }
 
 
@@ -95,16 +103,12 @@ class ImageResize_Resize
      *
      * @return bool
      */
-    private function isNeedResize($square)
+    public function isNeedResize($square)
     {
-        $diffPictureSize = ($this->width * $this->height) / $square * 100;
-
-        if ($diffPictureSize < $this->diffSquare) {
+        if (($this->width * $this->height) / $square * 100 < $this->diffSquare) {
             return true;
-        } else {
-            return false;
         }
 
+        return false;
     }
-
 }

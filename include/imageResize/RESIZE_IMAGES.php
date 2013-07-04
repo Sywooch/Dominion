@@ -20,10 +20,21 @@ $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "pr
 Zend_Registry::set("config", $config);
 
 
+ImageResize_FacadeResize::resizeOrSave(
+    'd:\Projects\7560000.com.ua\NewVersion\src\tmp\16209.jpeg',
+    'd:\Projects\7560000.com.ua\NewVersion\src\tmp',
+    40,
+    30
+);
 
-$resizer = new ImageResize_Resize(100,200, 20);
+die();
 
-$resizer->resize('d:\Projects\756000.com.ua\src\44307.jpg', 'd:\Projects\756000.com.ua\src\animated-resized-notflatten.jpg');
+$resizer = new ImageResize_Resize(40, 30, 20);
+
+$newSize = $resizer->resize('d:\Projects\7560000.com.ua\NewVersion\src\tmp\16209.jpeg', 'd:\Projects\7560000.com.ua\NewVersion\src\tmp\16209_new.jpeg');
+
+$w = $newSize->getWidth();
+$h = $newSize->getHeight();
 
 die();
 
