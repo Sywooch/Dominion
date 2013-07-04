@@ -49,4 +49,3 @@ require_once ROOT_PATH.'/include/imageResize/imageResizer.php';
 
 $item_image_convert = new item_image_convert();
 $item_image_convert->run();
-?>

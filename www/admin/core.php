@@ -1,7 +1,9 @@
 <?php
 $filtpath = '';
 $filters = '';
+require "../../vendor/autoload.php";
 include "globals.inc.php";
+
 
 class SCMF
 {

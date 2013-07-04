@@ -120,7 +120,7 @@ class SearchController extends App_Controller_Frontend_Action
             $this->domXml->create_element('sname', $hit['UNIT']);
             $this->domXml->create_element('nat_sname', $hit['SNAME']);
 
-            if (!empty($item_info['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
+            if (!empty($hit['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
                 $tmp = explode('#', $hit['IMAGE2']);
                 $this->domXml->create_element('image_middle', '', 2);
                 $this->domXml->set_attribute(array('src' => $tmp[0],

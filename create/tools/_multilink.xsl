@@ -172,7 +172,7 @@ EOF;
 <!--<br/>Фильтр: <input type="text" name="q" onkeyup="return chan(this.form,this.form.elements['{col[@link='y'][ref/table=$parenttable/@name]/@name}[]'],'select A.{col[@link='y'][ref/table=$parenttable/@name]/@name},A.NAME from {/config/table[@name=$parenttable/@name]/@name} A {col[@link='y'][ref/table=$parenttable/@name]/ref/where} where A.{/config/table[@name=$parenttable/@name]/col[@primary='y']/@name}=? and A.NAME like ? order by A.NAME',{/config/table[@name=$parenttable/@name]/col[@primary='y']/@name}.value+'\|%25'+this.value+'%25');"/>--></td></tr>
 
 <!--вставка для фильтра-->
-<!--<script type="text/javascript" src="js/jquery.js"></script>
+<!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/sorting.js"></script>
 
 <tr><td>поиск:<br/><input type="text" id="sorting"/></td></tr>-->
@@ -192,7 +192,7 @@ EOF;
 <!--<br/>Фильтр: <input type="text" name="q" onkeyup="return chan(this.form,this.form.elements['{col[@link='y'][ref/table!=$parenttable/@name]/@name}[]'],'select A.{col[@link='y'][ref/table!=$parenttable/@name]/@name},A.NAME from {/config/table[@name=$ltbn]/@name} A {col[@link='y'][ref/table!=$parenttable/@name]/ref/where} where A.{/config/table[@name=$plbtn]/col[@primary='y']/@name}=? and A.NAME like ? order by A.NAME',{/config/table[@name=$plbtn]/col[@primary='y']/@name}.value+'\|%25'+this.value+'%25');"/>--></td></tr>
 
 <!--вставка для фильтра-->
-<!--<script type="text/javascript" src="js/jquery.js"></script>
+<!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/sorting.js"></script>
 
 <tr><td>поиск:<br/><input type="text" id="sorting"/></td></tr>-->
@@ -302,7 +302,7 @@ EOF;
 <table><tr><td><xsl:value-of select="/config/table[@name=$plbtn]/name"/>: <select name="{/config/table[@name=$plbtn]/col[@primary='y']/@name}" onchange="return chan(this.form,this.form.elements['{col[@link='y'][ref/table=$parenttable/@name]/@name}[]'],'select A.{col[@link='y'][ref/table=$parenttable/@name]/@name},{col[@link='y'][ref/table=$parenttable/@name]/ref/visual} from {/config/table[@name=$parenttable/@name]/@name} A {col[@link='y'][ref/table=$parenttable/@name]/ref/where} where A.{/config/table[@name=$plbtn]/col[@primary='y']/@name}=? {col[@link='y'][ref/table=$parenttable/@name]/ref/where2} order by A.NAME',this.value);"><option value="">-- Не задан --</option>{$VV_<xsl:value-of select="/config/table[@name=$plbtn]/col[@primary='y']/@name"/>}</select>
 <!--<br/>Фильтр: <input type="text" name="q" onkeyup="return chan(this.form,this.form.elements['{col[@link='y'][ref/table=$parenttable/@name]/@name}[]'],'select A.{col[@link='y'][ref/table=$parenttable/@name]/@name},A.NAME from {/config/table[@name=$parenttable/@name]/@name} A {col[@link='y'][ref/table=$parenttable/@name]/ref/where} where A.{/config/table[@name=$parenttable/@name]/col[@primary='y']/@name}=? and A.NAME like ? order by A.NAME',{/config/table[@name=$parenttable/@name]/col[@primary='y']/@name}.value+'\|%25'+this.value+'%25');"/>--></td></tr>
 <!--вставка для фильтра-->
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/sorting.js"></script>
 
 <tr><td>поиск:<br/><input type="text" id="sorting"/></td></tr>

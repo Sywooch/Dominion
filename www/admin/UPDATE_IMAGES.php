@@ -11,10 +11,8 @@ if (!$cmf->GetRights()) {
 $cmf->HeaderNoCache();
 $cmf->MakeCommonHeader();
 
-
-
 print <<<EOF
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 <h2 class='h2'>Обновление фотографий</h2>
@@ -22,9 +20,6 @@ print <<<EOF
      <input type="submit" name="update_images" value="Обновить фотографии">
 <!--</form>-->
 EOF;
-
-
-
 
 
 if(isset($_POST['update']) && $_POST['update'])
@@ -36,4 +31,3 @@ if(isset($_POST['update']) && $_POST['update'])
 $cmf->MakeCommonFooter();
 $cmf->Close();
 unset($cmf);
-?>

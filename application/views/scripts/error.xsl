@@ -73,7 +73,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/classes.css" />
     <link rel="stylesheet" type="text/css" href="/css/blocks.css" />
-    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/js/jsfunctions.js"></script>
  </head>
  <body class="page-404 clearfix">
