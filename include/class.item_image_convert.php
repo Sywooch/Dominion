@@ -139,13 +139,13 @@ class item_image_convert
         try {
             $image1 = pathToImages . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_b_X, Size_b_Y);
+            $sizes = new SizePicture(Size_b_X, Size_b_Y);
 
             // Делаем большую картинку IMAGE3
             $newFile = $resizer->imageConvert($image1, pathToImages, $sizes,
@@ -229,13 +229,13 @@ class item_image_convert
         try {
             $image1 = pathToImages . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_gallery_X, Size_gallery_Y);
+            $sizes = new SizePicture(Size_gallery_X, Size_gallery_Y);
 
 
             // Делаем большую картинку IMAGE3
@@ -310,13 +310,13 @@ class item_image_convert
         try {
             $image1 = pathToImagesGroupItems . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_gruop_X, Size_gruop_Y);
+            $sizes = new SizePicture(Size_gruop_X, Size_gruop_Y);
 
 
             // Делаем большую картинку IMAGE3
