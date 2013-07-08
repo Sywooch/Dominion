@@ -20,12 +20,18 @@ $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "pr
 Zend_Registry::set("config", $config);
 
 
-ImageResize_FacadeResize::resizeOrSave(
+
+
+
+$pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+    's_324234',
     'd:\Projects\7560000.com.ua\NewVersion\src\tmp\16209.jpeg',
     'd:\Projects\7560000.com.ua\NewVersion\src\tmp',
     40,
     30
 );
+
+
 
 die();
 

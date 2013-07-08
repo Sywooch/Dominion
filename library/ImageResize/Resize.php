@@ -1,6 +1,6 @@
 <?php
 /**
- * User: Rus
+ * User: Ruslan
  * Date: 03.07.13
  * Time: 23:34
  */
@@ -55,44 +55,24 @@ class ImageResize_Resize
 
 
     /**
-     * @param string $filePath     Путь к файлу который открываем
-     * @param string $saveFilePath Путь куда сохраняем
+     * @param ImageInterface $image Экземплар класса картинки
      *
-     * @return BoxInterface
-     * @throws Exception
+     * @return ImageInterface
      */
-    public function resize($filePath, $saveFilePath)
+    public function resize($image)
     {
 
-        $imagine = new Imagine();
-
-        $image = $imagine->open($filePath);
-
-        if (!$image) {
-            throw new Exception('Cant open or find file: ' . $filePath);
-        }
         $box = $image->getSize();
 
-
-        if ($this->isNeedResize($box->square(), $this->diffSquare)) {
-
-            $newBox = $box->widen($this->width);
-            // Проверяем - влазит ли по высоте
-            if ($newBox->getHeight() > $this->height) {
-                $newBox = $newBox->heighten($this->height);
-            }
-
-            // Ресайзим и копируем
-            $image->resize($newBox)->save($saveFilePath, array('flatten' => true));
-        } else {
-            // Ресайзить не надо - просто копируем под новым именем
-            if (!copy($filePath, $saveFilePath)) {
-                throw new Exception('Cant save file: ' . $saveFilePath);
-            }
+        $newBox = $box->widen($this->width);
+        // Проверяем - влазит ли по высоте
+        if ($newBox->getHeight() > $this->height) {
+            $newBox = $newBox->heighten($this->height);
         }
 
-        // возвращаем размеры новой картинки
-        return $newBox;
+        // Ресайзим и копируем
+        return $image->resize($newBox);
+
     }
 
 
