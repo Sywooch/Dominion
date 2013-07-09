@@ -2,26 +2,11 @@
 
 require_once __DIR__ . '../../../application/configs/config.php';
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+/* @var $config Zend_Config_Ini */
+//$config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "production");
+//Zend_Registry::set("config", $config);
 
-$loader = new UniversalClassLoader();
-
-$loader->registerPrefixes(
-    array(
-        'ContextSearch_' => LIBRARY_PATH,
-        "Helpers_" => APPLICATION_PATH,
-        "models_" => APPLICATION_PATH,
-        "Format_" => LIBRARY_PATH,
-        "ImageResize_" => LIBRARY_PATH
-    )
-);
-$loader->register();
-$config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "production");
-Zend_Registry::set("config", $config);
-
-
-
-
+$application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
 
 $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
     's_324234',
@@ -30,7 +15,6 @@ $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
     40,
     30
 );
-
 
 
 die();

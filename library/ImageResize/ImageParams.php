@@ -5,7 +5,7 @@
  * Time: 19:02
  */
 
-class ImageParams
+class ImageResize_ImageParams
 {
 
     private $name;

@@ -35,9 +35,10 @@ class ImageResize_FacadeResize
             $newItemName = "$fileSaveDir/$newImageName.$fileExtension";
 
             $imageSize = $image->getSize();
+
             $imageResizeItem = new ImageResize_Resize($needWidth, $needHeight, $diffSquare);
 
-            // Провееряем надо ли ресайзит пиктчу
+            // Проверяем надо ли ресайзит пиктчу
             if ($imageResizeItem->isNeedResize($imageSize->square())) {
                 $image = $imageResizeItem->resize($image)->save($newItemName);
             } else {
@@ -52,7 +53,7 @@ class ImageResize_FacadeResize
         }
 
         // Вернуть размеры картинки
-        return  new ImageParams("$newImageName.$fileExtension", $image->getSize()->getWidth(), $image->getSize()->getHeight());
+        return  new ImageResize_ImageParams("$newImageName.$fileExtension", $image->getSize()->getWidth(), $image->getSize()->getHeight());
     }
 
 }
