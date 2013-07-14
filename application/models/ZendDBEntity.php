@@ -1,10 +1,15 @@
 <?php
 
-class ZendDBEntity {
+class ZendDBEntity
+{
 
+    /**
+     * @var Zend_Db_Adapter_Abstract|null
+     */
     protected $_db = NULL;
 
-    function __construct() {
+    function __construct()
+    {
         $registry = Zend_Registry::getInstance();
 
         if (!Zend_Registry::isRegistered('db_connect')) {
@@ -21,8 +26,7 @@ class ZendDBEntity {
             $this->_db = Zend_Db::factory($adapter, $db_config);
 
             $registry->set('db_connect', $this->_db);
-        }
-        else
+        } else
             $this->_db = $registry->get('db_connect');
 
         $this->_db->getConnection()->exec("SET character_set_server = utf8");

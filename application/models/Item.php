@@ -17,6 +17,31 @@ class models_Item extends ZendDBEntity
     }
 
     /**
+     * Получить путь к базовым картинкам
+     *
+     * @return Zend_Db_Statement_Interface
+     */
+    public function getAllImageBase()
+    {
+        return $this->_db->query(
+                "SELECT I.ITEM_ID, I.BASE_IMAGE FROM ITEM I
+                WHERE I.BASE_IMAGE <> ''
+                limit 1");
+    }
+
+
+    /**
+     * Обновить ITEM - любое поле
+     *
+     * @param array $data  Данные которые сетим
+     * @param array $where Данные для where
+     */
+    public function updateGlobalItem($data, $where)
+    {
+        $this->_db->update('ITEM', $data, $where);
+    }
+
+    /**
      * Model for get by currency extend information
      *
      * @param integer $currencyID
@@ -33,8 +58,8 @@ class models_Item extends ZendDBEntity
     public function getCurrencyName($currency)
     {
         $q = "select SNAME
-          from CURRENCY
-          where CURRENCY_ID=?";
+                  from CURRENCY
+              where CURRENCY_ID=?";
 
         return $this->_db->fetchOne($q, $currency);
     }
@@ -343,7 +368,8 @@ class models_Item extends ZendDBEntity
         $item_id,
         $startSelect = 0,
         $perPage = 0
-    ) {
+    )
+    {
 
         $_catalogue_id = implode(", ", $catalogue_id);
         $sql = "select I.ITEM_ID
@@ -394,7 +420,8 @@ class models_Item extends ZendDBEntity
         $item_id = 0,
         $limit = false,
         $start = 0
-    ) {
+    )
+    {
 
         $_catalogue_id = implode(", ", $catalogue_id);
         $where = '';
@@ -441,7 +468,8 @@ class models_Item extends ZendDBEntity
         $it_id = 0,
         $limit = false,
         $start = 0
-    ) {
+    )
+    {
         $sql = "select TT.ITEM_ID
           from {$table} TT
               ,ITEM I
@@ -540,7 +568,8 @@ class models_Item extends ZendDBEntity
         $currency_id,
         $currency,
         $curr_price
-    ) {
+    )
+    {
         if ($currency_id != $currency) {
             //Валюта товара не соответствует выбранной,нужен пересчет
             $q = "select PRICE from CURRENCY where CURRENCY_ID=?";
@@ -596,7 +625,8 @@ class models_Item extends ZendDBEntity
         $item_currency_id,
         $current_currency_id,
         $curr_price
-    ) {
+    )
+    {
         if ($item_currency_id != $current_currency_id) {
             //Валюта товара не соответствует выбранной,нужен пересчет
             $q = "select PRICE from CURRENCY where CURRENCY_ID=?";
@@ -632,7 +662,8 @@ class models_Item extends ZendDBEntity
         $tableName = 'ATTR_CATALOG_LINK',
         $limit = '',
         $show = 0
-    ) {
+    )
+    {
         if (!$catalogueId) {
             return;
         }
@@ -686,7 +717,8 @@ class models_Item extends ZendDBEntity
     public function getAttributesDescription(
         $catalogueId = 0,
         $tableName = 'ATTR_CATALOG_LINK'
-    ) {
+    )
+    {
         if (!$catalogueId) {
             return;
         }
@@ -732,7 +764,8 @@ class models_Item extends ZendDBEntity
         $itemId,
         $catId = '',
         $limit = 0
-    ) {
+    )
+    {
         $itemAttribute = $attributeList;
         $attribs = array();
         $cnt = 0;
@@ -1590,7 +1623,8 @@ class models_Item extends ZendDBEntity
         $catalogue_id,
         $item_cash_arr,
         $temp_item_cash
-    ) {
+    )
+    {
         $math = '';
         if ($item_cash_arr) {
             foreach ($item_cash_arr as $val) {
