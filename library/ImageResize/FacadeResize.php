@@ -21,7 +21,7 @@ class ImageResize_FacadeResize
      * @param int    $needHeight        требуемая высота
      * @param int    $diffSquare        допустимая разница в площадях картинок для ресайзинга
      *
-     * @return bool|array
+     * @return ImageResize_ImageParams
      */
     static public function resizeOrSave($newImageName, $filePath, $fileSaveDir, $needWidth, $needHeight, $diffSquare = 20)
     {
