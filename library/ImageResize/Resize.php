@@ -5,10 +5,7 @@
  * Time: 23:34
  */
 
-use Imagine\Image\Box;
-use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
-use Imagine\GD\Imagine;
 
 /**
  * Коенвертор картинок

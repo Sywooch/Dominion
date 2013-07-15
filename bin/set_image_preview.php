@@ -33,7 +33,15 @@ $baseImagePath = ROOT_PATH . "/upload_images";
 
 $settingsModel = new models_SystemSets();
 $width = $settingsModel->getSettingValue('item_main_icon_x_small');
+if (!$width) {
+    throw new Exception('Should new width size. Set up into database in settings on name "item_main_icon_x_small"');
+}
+
 $height = $settingsModel->getSettingValue('item_main_icon_y_small');
+if (!$width) {
+    throw new Exception('Should new height size. Set up into database in settings on name "item_main_icon_y_small"');
+}
+
 
 $itemsModels = new models_Item();
 
@@ -48,9 +56,11 @@ while ($row = $stm->fetch()) {
         $height
     );
 
-    $itemsModels->updateGlobalItem(
-        array('IMAGE0' => "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}"),
-        "ITEM_ID = {$row['ITEM_ID']}");
+    if ($pictureTransformed) {
+        $itemsModels->updateGlobalItem(
+            array('IMAGE0' => "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}"),
+            "ITEM_ID = {$row['ITEM_ID']}");
+    }
 }
 
 echo "All small items converted";

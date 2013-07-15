@@ -6,10 +6,7 @@
  * Time: 17:32
  */
 
-use Imagine\Image\Box;
-use Imagine\Image\BoxInterface;
-use Imagine\Image\ImageInterface;
-use Imagine\GD\Imagine;
+use Imagine\Gd\Imagine;
 
 class ImageResize_FacadeResize
 {
@@ -49,11 +46,12 @@ class ImageResize_FacadeResize
 
         } catch (Exception $e) {
             echo $e->getMessage();
+            echo "\n" . $e->getFile() . "; Line:" . $e->getLine();
             return false;
         }
 
         // Вернуть размеры картинки
-        return  new ImageResize_ImageParams("$newImageName.$fileExtension", $image->getSize()->getWidth(), $image->getSize()->getHeight());
+        return new ImageResize_ImageParams("$newImageName.$fileExtension", $image->getSize()->getWidth(), $image->getSize()->getHeight());
     }
 
 }
