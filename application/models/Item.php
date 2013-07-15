@@ -26,7 +26,7 @@ class models_Item extends ZendDBEntity
         return $this->_db->query(
                 "SELECT I.ITEM_ID, I.BASE_IMAGE FROM ITEM I
                 WHERE I.BASE_IMAGE <> ''
-                limit 1");
+                and I.IMAGE0 IS NULL");
     }
 
 
