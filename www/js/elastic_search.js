@@ -31,9 +31,11 @@ $(document).ready(function () {
                 })
             },
             select: function (event, ui) {
+                $(this).val(ui.item.name + " " + ui.item.brand + " " + item.name_product);
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
+                $(this).val(ui.item.name + " " + ui.item.brand + " " + item.name_product);
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
