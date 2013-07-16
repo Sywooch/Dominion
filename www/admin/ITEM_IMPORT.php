@@ -1,8 +1,8 @@
 <?php
 require('core.php');
 
-ini_set("display_errors", 1);
-ini_set("display_startup_errors", 1);
+//ini_set("display_errors", 1);
+//ini_set("display_startup_errors", 1);
 
 set_time_limit(0);
 
@@ -118,7 +118,7 @@ Zend_Registry::set('config', $config);
 
 if (isset($_POST['update_now']) && $_POST['update_now']) {
     $upl_file = isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '';
-    print_r($_FILES);
+
     if ($upl_file) {
         $upl_file_name = $_FILES['file']['name'];
 
