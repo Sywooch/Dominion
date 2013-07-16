@@ -48,6 +48,10 @@ $itemsModels = new models_Item();
 $stm = $itemsModels->getAllImageBase();
 
 while ($row = $stm->fetch()) {
+
+    // Проверяем наличие картинки BASE
+
+
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
         "small_{$row['ITEM_ID']}",
         "{$baseImagePath}/{$row['BASE_IMAGE']}",
