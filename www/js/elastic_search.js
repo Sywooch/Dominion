@@ -43,7 +43,7 @@ $(document).ready(function () {
                 item.url = "/search/" + item.else_results;
 
                 return $("<li></li>").data("item.autocomplete", item).append(
-                    "<a href=" + item.url + "><span class='else_results'>Еще результаты</a></span>"
+                    "<a href=" + item.url + "><span class='else_results'>Еще результаты &#8594;</a></span>"
                 ).appendTo(ul);
             }
             return $("<li></li>").data("item.autocomplete", item).append(
