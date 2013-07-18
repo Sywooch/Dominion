@@ -100,8 +100,8 @@ input.error{
 .sale {
   display: block;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  left: 137px;
+  top: 0;
   width: 80px;
   height: 80px;
 }
