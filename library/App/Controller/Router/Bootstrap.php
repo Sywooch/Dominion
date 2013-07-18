@@ -110,39 +110,51 @@ class App_Controller_Router_Bootstrap
         $is_pmax = false;
         $page = 1;
 
-        $pattern_page = '/(.*)(\/br\/(.+)\/)?(\/at\/(.+)\/)?(\/ar\/(.+)\/)?(\/pmin\/(.+)\/)?(\/pmax\/(.+)\/)?(\/page\/(\d*)\/)?$/Uis';
+        $params = '';
+
+//        $pattern_page = '/(.*)(\/br\/(.+)\/)?(\/at\/(.+)\/)?(\/ar\/(.+)\/)?(\/pmin\/(.+)\/)?(\/pmax\/(.+)\/)?(\/page\/(\d*)\/)?$/Uis';
+        $pattern_page = '/(.*)(\/br\/([^\/]+))?(\/at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(page\/(\d*)\/)?$/Uis';
+
+        $pattern_page = '/(.*)((\/(br).+)?((\?|&).+))?$/Uis';
+//        $pattern_page = '/(.*)((\/(br).+)?$/Uis';
         if (preg_match($pattern_page, $uri, $out)) {
-            $brands = !empty($out[3]) ? $out[3] : '';
-            $attrib = !empty($out[5]) ? $out[5] : '';
-            $attrib_range = !empty($out[7]) ? $out[7] : '';
-            $pmin = !empty($out[9]) ? $out[9] : '';
-            $pmax = !empty($out[11]) ? $out[11] : '';
-            $page = !empty($out[13]) ? $out[13] : 1;
 
-            if (!empty($page)) {
-                $is_page = true;
-            }
-            if (!empty($brands)) {
-                $is_brands = true;
-            }
-            if (!empty($attrib)) {
-                $is_attrib = true;
-            }
-            if (!empty($attrib_range)) {
-                $is_attrib_range = true;
-            }
-            if (!empty($pmin)) {
-                $is_pmin = true;
-            }
-            if (!empty($pmax)) {
-                $is_pmax = true;
+            $trueUrl = $out[1];
+            if (!empty($out[2])) {
+                $params = $out[2];
             }
 
-            $uri = !empty($out[1]) ? $out[1] : $uri;
+//            $brands = !empty($out[3]) ? $out[3] : '';
+//            $attrib = !empty($out[5]) ? $out[5] : '';
+//            $attrib_range = !empty($out[7]) ? $out[7] : '';
+//            $pmin = !empty($out[9]) ? $out[9] : '';
+//            $pmax = !empty($out[11]) ? $out[11] : '';
+//            $page = !empty($out[13]) ? $out[13] : 1;
+//
+//            if (!empty($page)) {
+//                $is_page = true;
+//            }
+//            if (!empty($brands)) {
+//                $is_brands = true;
+//            }
+//            if (!empty($attrib)) {
+//                $is_attrib = true;
+//            }
+//            if (!empty($attrib_range)) {
+//                $is_attrib_range = true;
+//            }
+//            if (!empty($pmin)) {
+//                $is_pmin = true;
+//            }
+//            if (!empty($pmax)) {
+//                $is_pmax = true;
+//            }
+//
+//            $uri = !empty($out[1]) ? $out[1] : $uri;
         }
 
-        $urlInfo = parse_url($uri);
-        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
+//        $urlInfo = parse_url($uri);
+        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($trueUrl);
 
         if (!empty($siteURLbySEFU)) {
             if ($is_page) {
