@@ -265,25 +265,42 @@ class models_AnotherPages extends ZendDBEntity
         return $menu;
     }
 
+    /**
+     * @param string $sefURL
+     *
+     * @return string
+     */
     public function getSiteURLbySEFU($sefURL)
     {
-        $sefURL = preg_replace("/\/$/", "", $sefURL); // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№ СЃР»СЌС€
+        $sefURL = preg_replace("/\/$/", "", $sefURL);
         $sefURL = str_replace('&amp;', '&', $sefURL);
         $sefURL = str_replace('&', '&amp;', $sefURL);
         $sefURLDecode = urldecode($sefURL);
         $sefURL = mysql_escape_string($sefURL);
         $sefURLDecode = mysql_escape_string($sefURLDecode);
-        $sql = "select SITE_URL from SEF_SITE_URL where SEF_URL rlike '^{$sefURL}.?$' or SEF_URL rlike '^$sefURLDecode.?$'";
-//      echo $sql;die;
-//      exit;
+
+        $sql = "select SITE_URL
+                    from SEF_SITE_URL
+                    where SEF_URL rlike '^{$sefURL}.?$'
+                    or SEF_URL rlike '^$sefURLDecode.?$'";
+
         $res = $this->_db->fetchOne($sql);
+
+        if (!$res){
+            return false;
+        }
+
+        // Если в конце нет слеша - обязательно его добавляем
+        if ('/' !== substr($res, -1)) {
+            $res .= "/";
+        }
 
         return $res;
     }
 
     public function getSefURLbyOldURL($oldURL)
     {
-        $oldURL = preg_replace("/\/$/", "", $oldURL); // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№ СЃР»СЌС€
+        $oldURL = preg_replace("/\/$/", "", $oldURL);
         $oldURL = str_replace("&amp;", "&", $oldURL);
         $oldURL = str_replace("&", "&amp;", $oldURL);
 

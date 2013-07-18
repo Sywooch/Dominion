@@ -86,86 +86,34 @@ class App_Controller_Router_Bootstrap
     public function _initSefUrlAliasingCat()
     {
 
-
-        // FIXME: Это что за костыль? То есть данный метод работает только с POST? Почему?
-//        if ($_GET && !isset($_GET['XDEBUG_SESSION_START']))
-//            return true;
-
         $AnotherPages = new models_AnotherPages();
-
         $req = new Zend_Controller_Request_Http();
         $uri = $req->getRequestUri();
 
-        // Избавляемся от URI хвоста, для корректной работы алиасов
-        if ($_GET) {
-            $urlInfo = parse_url($uri);
-            $uri = $urlInfo['path'];
-        }
+        $paramsUrl = '';
 
-        $is_page = false;
-        $is_brands = false;
-        $is_attrib = false;
-        $is_attrib_range = false;
-        $is_pmin = false;
-        $is_pmax = false;
-        $page = 1;
+        $pattern_page = '/(.*)(\/(?:br|page|ar|at|pmin|pmax).+?)/Uis';
 
-        $pattern_page = '/(.*)(br\/(.+)\/)?(at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(page\/(\d*)\/)?$/Uis';
         if (preg_match($pattern_page, $uri, $out)) {
-            $brands = !empty($out[3]) ? $out[3] : '';
-            $attrib = !empty($out[5]) ? $out[5] : '';
-            $attrib_range = !empty($out[7]) ? $out[7] : '';
-            $pmin = !empty($out[9]) ? $out[9] : '';
-            $pmax = !empty($out[11]) ? $out[11] : '';
-            $page = !empty($out[13]) ? $out[13] : 1;
 
-            if (!empty($page)) {
-                $is_page = true;
-            }
-            if (!empty($brands)) {
-                $is_brands = true;
-            }
-            if (!empty($attrib)) {
-                $is_attrib = true;
-            }
-            if (!empty($attrib_range)) {
-                $is_attrib_range = true;
-            }
-            if (!empty($pmin)) {
-                $is_pmin = true;
-            }
-            if (!empty($pmax)) {
-                $is_pmax = true;
-            }
+            $uri = $out[1];
+            if (!empty($out[2])) {
 
-            $uri = !empty($out[1]) ? $out[1] : $uri;
+                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
+                $g = substr($out[2], 0, 1);
+                if ('/' === substr($out[2], 0, 1)) {
+                    $paramsUrl = substr($out[2], 1, strlen($out[2]) - 1);
+                } else {
+                    $paramsUrl = $out[2];
+                }
+
+            }
         }
 
-        $urlInfo = parse_url($uri);
-        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
+        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
 
         if (!empty($siteURLbySEFU)) {
-            if ($is_page) {
-                $siteURLbySEFU .= 'page/' . $page . '/';
-            }
-            if ($is_brands) {
-                $siteURLbySEFU .= 'br/' . $brands . '/';
-            }
-            if ($is_attrib) {
-                $siteURLbySEFU .= 'at/' . $attrib . '/';
-            }
-            if ($is_attrib_range) {
-                $siteURLbySEFU .= 'ar/' . $attrib_range . '/';
-            }
-            if ($is_pmin) {
-                $siteURLbySEFU .= 'pmin/' . $pmin . '/';
-            }
-            if ($is_pmax) {
-                $siteURLbySEFU .= 'pmax/' . $pmax . '/';
-            }
-
-            $req->setRequestUri($siteURLbySEFU);
-//      $_SERVER['REQUEST_URI'] = $siteURLbySEFU;
+            $req->setRequestUri($siteURLbySEFU . $paramsUrl);
         }
 
         $front = Zend_Controller_Front::getInstance();
