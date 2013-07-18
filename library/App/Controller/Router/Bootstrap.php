@@ -110,7 +110,7 @@ class App_Controller_Router_Bootstrap
         $is_pmax = false;
         $page = 1;
 
-        $pattern_page = '/(.*)(br\/(.+)\/)?(at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(page\/(\d*)\/)?$/Uis';
+        $pattern_page = '/(.*)(\/br\/(.+)\/)?(\/at\/(.+)\/)?(\/ar\/(.+)\/)?(\/pmin\/(.+)\/)?(\/pmax\/(.+)\/)?(\/page\/(\d*)\/)?$/Uis';
         if (preg_match($pattern_page, $uri, $out)) {
             $brands = !empty($out[3]) ? $out[3] : '';
             $attrib = !empty($out[5]) ? $out[5] : '';
