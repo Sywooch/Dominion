@@ -22,4 +22,4 @@ RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 #RewriteRule ^(.*)$ index.php/$1
 RewriteRule ^.*$ - [NC,L]
-RewriteRule ^.*$ index.php [NC,L]
+RewriteRule !\.(js|ico|gif|jpg|jpeg|png|css)$ index.php [NC,L]
