@@ -30,7 +30,7 @@ class App_Controller_Router_Bootstrap
         $this->_initAliasingCompare();
         $this->_initAliasingArticle();
         $this->_initAliasingItem();
-        $this->_initAliasingCat();
+//        $this->_initAliasingCat();
         $this->_initAliasingCatAttrib();
         $this->_initAliasingSearch();
 
@@ -91,15 +91,7 @@ class App_Controller_Router_Bootstrap
         $uri = $req->getRequestUri();
 
         $paramsUrl = '';
-//
-//        $uri = "/vse-dlya-doma-dachi-i-sada/motobloki-i-kultivatory/brigadier/";
-//        $uri = "/vse-dlya-doma-dachi-i-sada/motobloki-i-kultivatory/brigadier/page/2/br/bsdf/pmin/1234/";
 
-//        $pattern_page = '/(.*)(\/(?:br|page|ar|at|pmin|pmax).+?)/Uis';
-
-//        $pattern_page = '/(.*)(\/((br\/(b)*)|(page|ar|at|pmin|pmax)).+?)/Uis';
-//        $pattern_page = '^/(.*)\/(br\/(b\d+)*?)?/Uis';
-//        $pattern_page = '/^(.*)\/((br\/(b\d+)+\/)|page)?$/Uis';
         $pattern_page = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*)?$/Uis';
 
         if (preg_match($pattern_page, $uri, $out)) {
@@ -279,28 +271,30 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingCatAttrib()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)(/brand/([^/]\d*?))?(/page/([^/]\d*?))?(/br/([^/].*?))?(/at/([^/].*?))?(/ar/([^/].*?))?(/pmin/([^/].*?))?(/pmax/([^/].*?))?',
+            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?',
+//            'cat/([^/]+)(?:/all/([^/]+))?(?:/br/([^/]+))?(?:/group/(\w+))?(?:/price/(\d+))?(?:/collect/(\d+))?(?:/at/(\w+))?(?:/sort/(\w+)/mode/(\w+))?(?:/page/(\d+))?(.*)?',
             array(
                 'controller' => 'cat',
                 'action' => 'index'
             ),
             array(
                 1 => 'id',
-                3 => 'brand_id',
-                5 => 'page',
-                7 => 'br',
-                9 => 'at',
-                11 => 'ar',
-                13 => 'pmin',
-                15 => 'pmax'
+                2 => 'br',
+                3 => 'at',
+                4 => 'ar',
+                5 => 'pmin',
+                6 => 'pmax',
+                7 => 'page'
             )
         );
 
         $this->_router->addRoute('cat_attribut', $routed);
 
-//    $values3 = $routed->match('/cat/4/br/b37b773/at/a571v6447a510v5884-15196a343v4241-4476/ar/a510v134-701a343v93-424/');
-//    var_dump($values3);
-//    exit;
+//        $uri = "/cat/4/br/b37b773/at/a571v6447a510v5884-15196a343v4241-4476/ar/a510v134-701a343v93-424/page/2/";
+//        $uri = "/cat/4/br/b37b773/";
+        // Это для теста - проверить работу роутера
+//        $values3 = $routed->match($uri);
+
     }
 
     private function _initAliasingSitemap()
