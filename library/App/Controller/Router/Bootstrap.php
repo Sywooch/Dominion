@@ -30,7 +30,7 @@ class App_Controller_Router_Bootstrap
         $this->_initAliasingCompare();
         $this->_initAliasingArticle();
         $this->_initAliasingItem();
-//        $this->_initAliasingCat();
+        $this->_initAliasingCat();
         $this->_initAliasingCatAttrib();
         $this->_initAliasingSearch();
 
