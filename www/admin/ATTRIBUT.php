@@ -836,8 +836,8 @@ while(list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_TYPE,$V_UNIT_ID,$V_VIE
 
 
 $V_STR_ATTRIBUT_GROUP_ID=$cmf->Spravotchnik($V_ATTRIBUT_GROUP_ID,'select ATTRIBUT_GROUP_ID, NAME from ATTRIBUT_GROUP');
-                                        
-$V_TYPE=$cmf->ENUM_TYPE[$V_TYPE];
+
+$V_TYPE=!empty($cmf->ENUM_TYPE[$V_TYPE]) ? $cmf->ENUM_TYPE[$V_TYPE]:'';
                         
 $V_UNIT_ID=$cmf->selectrow_arrayQ('select NAME from UNIT where UNIT_ID=?',$V_UNIT_ID);
                                         
