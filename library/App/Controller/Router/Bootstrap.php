@@ -91,8 +91,16 @@ class App_Controller_Router_Bootstrap
         $uri = $req->getRequestUri();
 
         $paramsUrl = '';
+//
+//        $uri = "/vse-dlya-doma-dachi-i-sada/motobloki-i-kultivatory/brigadier/";
+//        $uri = "/vse-dlya-doma-dachi-i-sada/motobloki-i-kultivatory/brigadier/page/2/br/bsdf/pmin/1234/";
 
-        $pattern_page = '/(.*)(\/(?:br|page|ar|at|pmin|pmax).+?)/Uis';
+//        $pattern_page = '/(.*)(\/(?:br|page|ar|at|pmin|pmax).+?)/Uis';
+
+//        $pattern_page = '/(.*)(\/((br\/(b)*)|(page|ar|at|pmin|pmax)).+?)/Uis';
+//        $pattern_page = '^/(.*)\/(br\/(b\d+)*?)?/Uis';
+//        $pattern_page = '/^(.*)\/((br\/(b\d+)+\/)|page)?$/Uis';
+        $pattern_page = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*)?$/Uis';
 
         if (preg_match($pattern_page, $uri, $out)) {
 
