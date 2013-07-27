@@ -34,6 +34,7 @@ $(document).ready(function () {
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
+                window.location.href = ui.item.url;
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
