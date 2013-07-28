@@ -98,24 +98,18 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
 
         $formatQuery->setBool();
-        $formatQuery->setMust();
+        $formatQuery->setShould();
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
         $data = array();
 
         foreach ($this->parameters['search_fields'] as $item) {
             $data[$item] = $term;
-            $formatQuery->setQueryString($data);
-            $resultsSet = $elasticSearchGET->buildQuery($formatQuery)->execute();
-            $results = $resultsSet->getResults();
-            if (!empty($results)) {
-
-                break;
-            }
         }
 
+        $formatQuery->setQueryString($data);
 
-        return $resultsSet;
+        return $elasticSearchGET->buildQuery($formatQuery)->execute();
     }
 
     /**
