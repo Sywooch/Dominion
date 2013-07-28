@@ -50,6 +50,7 @@ search_engine.total_hits = getTotalHits
 search_engine.convert_to_array = convertToArray
 search_engine.search_fields[] = MAIN
 search_engine.search_fields[] = CATALOGUE_NAME
+search_engine.search_fields[] = MAIN_ALTERNATIVE
 
 search_engine.name_fields[] = TYPENAME
 search_engine.name_fields[] = NAME_PRODUCT
