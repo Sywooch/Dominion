@@ -31,6 +31,7 @@ $(document).ready(function () {
                 })
             },
             select: function (event, ui) {
+                $(this).val(ui.item.name + " " + ui.item.brand + " " + item.name_product);
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
