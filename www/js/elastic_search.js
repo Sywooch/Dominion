@@ -34,12 +34,12 @@ $(document).ready(function () {
                 window.location.href = ui.item.url;
             },
             focus: function (event, ui) {
+                $(this).val(ui.item.name + " " + ui.item.brand + " " + item.name_product);
             },
             delay: 500
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
             if (item.else_results) {
                 item.url = "/search/" + item.else_results;
-
                 return $("<li></li>").data("item.autocomplete", item).append(
                     "<a href=" + item.url + "><span class='else_results'>Еще результаты &#8594;</a></span>"
                 ).appendTo(ul);
