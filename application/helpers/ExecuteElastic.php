@@ -96,11 +96,17 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     {
         $formatQuery->clearQuery();
 
-        $data = array("_all" => $term);
+
         $formatQuery->setBool();
-        $formatQuery->setMust();
+        $formatQuery->setShould();
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
+        $data = array();
+
+        foreach ($this->parameters['search_fields'] as $item) {
+            $data[$item] = $term;
+        }
+
         $formatQuery->setQueryString($data);
 
         return $elasticSearchGET->buildQuery($formatQuery)->execute();
@@ -111,9 +117,10 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
      *
      * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
      * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
-     * @param string $term
-     * @param string $from
-     * @param integer $size
+     * @param $term
+     * @param null| integer $from
+     * @param null| integer $size
+     * @return \Elastica\ResultSet
      */
     private function executeMatch(
         ContextSearch_ElasticSearch_FormatQuery $formatQuery,
@@ -125,7 +132,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     {
         $formatQuery->clearQuery();
 
-        $formatQuery->setMatch($this->parameters['main_field'], $term);
+        $formatQuery->setMultiMatch($this->parameters['search_fields'], $term);
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
 
@@ -155,13 +162,15 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $formatDataElastic = new Format_FormatDataElastic();
 
-        if ($formatItem) {
-
-            return $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        $resultData = array();
+        if (empty($items)) {
+            $resultData = $items;
+        } else if ($formatItem) {
+            $resultData = $formatDataElastic->formatDataForResultQuery($PriceObjectValue);
+        } else {
+            $resultData = $formatDataElastic->formatDataForSearchQuery($PriceObjectValue);
         }
 
-        $formatDataElastic->formatPrices($PriceObjectValue);
-
-        return $PriceObjectValue->getItems();
+        return $resultData;
     }
 }

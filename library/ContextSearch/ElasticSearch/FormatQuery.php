@@ -33,18 +33,42 @@ class ContextSearch_ElasticSearch_FormatQuery
     }
 
     /**
+     * Seteer should
+     */
+    public function setShould()
+    {
+        $this->formatQuery['bool']['should'] = array();
+    }
+
+    /**
      * Set Query String
+     *
+     * @param array $data
+     */
+    public function setQueryStringArray(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (!isset($this->formatQuery['bool']['must'])) {
+                $this->formatQuery['bool']['must'][] = array("query_string" => array("default_field" => $key, "query" => $value));
+            } else if (!isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("query_string" => array("default_field" => $key, "query" => $value));
+            }
+        }
+    }
+
+    /**
+     * Set query string
      *
      * @param array $data
      */
     public function setQueryString(array $data)
     {
         foreach ($data as $key => $value) {
-            if (!isset($this->formatQuery['bool']['must'])) {
-                $this->formatQuery['query_string'] = array("default_field" => $key, "query" => $value);
+            if (isset($this->formatQuery['bool']['must'])) {
+                $this->formatQuery['bool']['must'][] = array("query_string" => array("default_field" => $key, "query" => $value));
+            } else if (isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("query_string" => array("default_field" => $key, "query" => $value));
             }
-
-            $this->formatQuery['bool']['must']['query_string'] = array("default_field" => $key, "query" => $value);
         }
     }
 
@@ -109,6 +133,21 @@ class ContextSearch_ElasticSearch_FormatQuery
     public function setMatch($nameColumn, $value, $cutoffFrequency = 0.0001)
     {
         $this->formatQuery['match'] = array($nameColumn => array("query" => $value, "cutoff_frequency" => $cutoffFrequency));
+    }
+
+    /**
+     * Set multi Match
+     *
+     * @param array $nameColumns
+     * @param $value
+     * @param float $cutoffFrequency
+     */
+    public function setMultiMatch(array $nameColumns, $value, $cutoffFrequency = 0.0001)
+    {
+        $this->formatQuery['multi_match'] = array("query" => $value, "cutoff_frequency" => $cutoffFrequency);
+        foreach ($nameColumns as $column) {
+            $this->formatQuery['multi_match']["fields"][] = $column;
+        }
     }
 
 

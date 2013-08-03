@@ -24,11 +24,12 @@ class Format_FormatDataElastic
     {
         foreach ($items as $key => $item) {
             $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
-            $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-        }
 
-        // TODO: ????? Что удаляем?
-        unset($tmpArrLink);
+            $items[$key]['MAIN_ALTERNATIVE'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . preg_replace("/\s/", "", $item['NAME_PRODUCT'], 1);
+            $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
+
+            unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
+        }
 
         return $items;
     }
@@ -73,13 +74,34 @@ class Format_FormatDataElastic
     }
 
     /**
+     * Format data for search
+     *
+     * @param Format_PricesObjectValue $pricesObjectValue
+     * @return array
+     */
+    public function formatDataForSearchQuery(Format_PricesObjectValue $pricesObjectValue)
+    {
+        $dataResult = $pricesObjectValue->getData();
+        $this->formatPrices($pricesObjectValue);
+
+        $items = $pricesObjectValue->getItems();
+        foreach ($items as $key => $item) {
+            foreach ($dataResult as $data) {
+                $items[$key]['URL'] = $data['URL'];
+            }
+        }
+
+        return $items;
+    }
+
+    /**
      * Execute format and calculate logic prices
      *
      * @param Format_PricesObjectValue $pricesObjectValue
      */
-    public function formatPrices(Format_PricesObjectValue $pricesObjectValue)
+    private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
-        $items = $pricesObjectValue->getData();
+        $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {
             $recount = $pricesObjectValue->getRecount();
             $recount->setItemModel($pricesObjectValue->getModelsItem());
