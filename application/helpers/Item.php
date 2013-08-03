@@ -1,17 +1,19 @@
 <?php
 
-class Helpers_Item extends App_Controller_Helper_HelperAbstract {
+class Helpers_Item extends App_Controller_Helper_HelperAbstract
+{
 
     private $cart;
     private $compare;
     protected $tabs = array('description' => 'Описание'
-        , 'characteristics' => 'Характеристики'
-        , 'video' => 'Видеообзор'
-        , 'items' => 'С этим товаром покупают'
-        , 'comments' => 'Отзывы'
+    , 'characteristics' => 'Характеристики'
+    , 'video' => 'Видеообзор'
+    , 'items' => 'С этим товаром покупают'
+    , 'comments' => 'Отзывы'
     );
 
-    public function getIndexItems() {
+    public function getIndexItems()
+    {
         $result = $this->work_model->FrontGoodsItems();
 
         if (!empty($result)) {
@@ -23,7 +25,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getCatItems($params) {
+    public function getCatItems($params)
+    {
         $session = new Zend_Session_Namespace('compare');
         $this->compare = $session->compare;
 
@@ -38,7 +41,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getSearch($params) {
+    public function getSearch($params)
+    {
         $result = $this->work_model->getSearch($params);
 
         if (!empty($result)) {
@@ -50,7 +54,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getComparedList($catalogue_id) {
+    public function getComparedList($catalogue_id)
+    {
         $session = new Zend_Session_Namespace('compare');
         $this->compare = $session->compare;
 
@@ -65,7 +70,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getItemInfo($id) {
+    public function getItemInfo($id)
+    {
         $result = $this->work_model->getItemInfo($id, $this->lang_id);
         $session = new Zend_Session_Namespace('cart');
         $this->cart = $session->item;
@@ -80,7 +86,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getTabs($section = '') {
+    public function getTabs($section = '')
+    {
         $this->domXml->set_tag('//item', true);
         $i = 1;
         foreach ($this->tabs as $key => $view) {
@@ -102,11 +109,12 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
     /**
      * Формирование XML карточки товара
      *
-     * @param array $item
-     * @param array $curr_info
+     * @param array   $item
+     * @param array   $curr_info
      * @param boolean $all_info
      */
-    private function doItemXmlNode($item, $curr_info, $all_info = false, $node_name = 'item') {
+    private function doItemXmlNode($item, $curr_info, $all_info = false, $node_name = 'item')
+    {
         list($new_price, $new_price1) = $this->work_model->recountPrice($item['PRICE'], $item['PRICE1'], $item['CURRENCY_ID'], $this->params['currency'], $curr_info['PRICE']);
 
         $item['sh_disc_img_small'] = '';
@@ -136,23 +144,24 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
 
         if (isset($this->compare[$item['CATALOGUE_ID']][$item['ITEM_ID']]) &&
-                !empty($this->compare[$item['CATALOGUE_ID']][$item['ITEM_ID']])) {
+            !empty($this->compare[$item['CATALOGUE_ID']][$item['ITEM_ID']])
+        ) {
             $in_compare = 1;
         } else {
             $in_compare = 0;
         }
 
         $node_attr = array('item_id' => $item['ITEM_ID']
-            , 'price' => $item['iprice']
-            , 'price1' => $item['iprice1']
-            , 'real_price' => $item['PRICE']
-            , 'real_price1' => $item['PRICE1']
-            , 'in_cart' => $in_cart
-            , 'in_compare' => $in_compare
-            , 'in_cart_count' => $in_cart_count
-            , 'catalogue_id' => $item['CATALOGUE_ID']
-            , 'has_discount' => $item['has_discount']
-            , 'active' => $item['STATUS']);
+        , 'price' => $item['iprice']
+        , 'price1' => $item['iprice1']
+        , 'real_price' => $item['PRICE']
+        , 'real_price1' => $item['PRICE1']
+        , 'in_cart' => $in_cart
+        , 'in_compare' => $in_compare
+        , 'in_cart_count' => $in_cart_count
+        , 'catalogue_id' => $item['CATALOGUE_ID']
+        , 'has_discount' => $item['has_discount']
+        , 'active' => $item['STATUS']);
 
         if (!empty($item['WARRANTY_ID'])) {
             $node_attr['warranty_id'] = $item['WARRANTY_ID'];
@@ -167,7 +176,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         $this->domXml->create_element($node_name, '', 2);
         $this->domXml->set_attribute($node_attr);
 
-        $href = $this->lang . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' .$item['CATNAME'] . '/';
+        $href = $this->lang . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' . $item['CATNAME'] . '/';
         $href_goods_category = $item['CATALOGUE_REALCATNAME'];
 
         $this->domXml->create_element('name', $item['NAME']);
@@ -186,9 +195,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $tmp = explode('#', $item['sh_disc_img_small']);
             $this->domXml->create_element('sh_disc_img_small', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -197,9 +206,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $tmp = explode('#', $item['sh_disc_img_big']);
             $this->domXml->create_element('sh_disc_img_big', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -220,8 +229,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
             if (!empty($long_text)) {
                 $this->setXmlNode($long_text, 'long_text');
-            }
-            else
+            } else
                 unset($this->tabs['description']);
 
             $this->itemItem($item['ITEM_ID'], $curr_info);
@@ -243,14 +251,15 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param array $item
      */
-    private function itemImages($item) {
+    private function itemImages($item)
+    {
         if (!empty($item['IMAGE1']) && strchr($item['IMAGE1'], "#")) {
             $tmp = explode('#', $item['IMAGE1']);
             $this->domXml->create_element('image_small', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -259,9 +268,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $tmp = explode('#', $item['IMAGE2']);
             $this->domXml->create_element('image_middle', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -270,9 +279,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $tmp = explode('#', $item['IMAGE3']);
             $this->domXml->create_element('image_big', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -293,7 +302,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param int $item_id
      */
-    private function getItemPhotos($item_id) {
+    private function getItemPhotos($item_id)
+    {
         $item_photos = $this->work_model->getItemPhotos($item_id);
         if (!empty($item_photos)) {
             $this->domXml->set_tag('//item', true);
@@ -306,9 +316,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
                     $tmp = explode('#', $view['IMAGE1']);
                     $this->domXml->create_element('img_small', '', 2);
                     $this->domXml->set_attribute(array('src' => $tmp[0],
-                        'w' => $tmp[1],
-                        'h' => $tmp[2]
-                            )
+                            'w' => $tmp[1],
+                            'h' => $tmp[2]
+                        )
                     );
                     $this->domXml->go_to_parent();
                 }
@@ -317,9 +327,9 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
                     $tmp = explode('#', $view['IMAGE2']);
                     $this->domXml->create_element('img_big', '', 2);
                     $this->domXml->set_attribute(array('src' => $tmp[0],
-                        'w' => $tmp[1],
-                        'h' => $tmp[2]
-                            )
+                            'w' => $tmp[1],
+                            'h' => $tmp[2]
+                        )
                     );
                 }
 
@@ -333,7 +343,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param int $item_id
      */
-    private function getItemMedia($item_id) {
+    private function getItemMedia($item_id)
+    {
         $item_media = $this->work_model->getItemMedia($item_id);
         if (!empty($item_media)) {
             $this->domXml->set_tag('//item', true);
@@ -357,8 +368,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
                 $this->domXml->go_to_parent();
             }
-        }
-        else
+        } else
             unset($this->tabs['video']);
     }
 
@@ -367,7 +377,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param int $item_id
      */
-    private function getItemComments($item_id) {
+    private function getItemComments($item_id)
+    {
         $responses = $this->work_model->getItemResponses($item_id);
         if (!empty($responses)) {
             $this->domXml->set_tag('//item', true);
@@ -381,17 +392,18 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             }
         }
 
-        $this->tabs['comments'].= ' (' . count($responses) . ')';
+        $this->tabs['comments'] .= ' (' . count($responses) . ')';
     }
 
     /**
      * Формирование XML связанных товаров
      *
-     * @param int $goods_category_id
-     * @param int $item_id
+     * @param int   $goods_category_id
+     * @param int   $item_id
      * @param array $curr_info
      */
-    private function itemItem($item_id, $curr_info) {
+    private function itemItem($item_id, $curr_info)
+    {
         $item_item = $this->work_model->getItemItem($item_id);
         if (!empty($item_item)) {
             $this->domXml->set_tag('//item', true);
@@ -400,8 +412,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
                 $this->doItemXmlNode($result, $curr_info, false, 'item_item');
             }
-        }
-        else
+        } else
             unset($this->tabs['items']);
     }
 
@@ -410,7 +421,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param int $item_id
      */
-    private function getItemAttributs($item) {
+    private function getItemAttributs($item)
+    {
         $itemAttribute = array();
         $itemAttributes = $this->work_model->getAttributes($item['CATALOGUE_ID'], 'ATTR_CATALOG_LINK');
         $itemAttribute = $this->work_model->getItemAttributes($itemAttributes, $item['ITEM_ID'], $item['CATALOGUE_ID']);
@@ -435,8 +447,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
                     $this->domXml->create_element('attributes', '', 2);
                     $this->domXml->set_attribute(array('attribut_id' => $attribute['attribut_id']
-                        , 'is_rangeable' => $attribute['is_rangeable']
-                        , 'not_card' => $attribute['not_card']));
+                    , 'is_rangeable' => $attribute['is_rangeable']
+                    , 'not_card' => $attribute['not_card']));
 
                     if ($attribute['type'] == 5 || $attribute['type'] == 6)
                         $val = $attribute['val'];
@@ -451,8 +463,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
                     $this->domXml->go_to_parent();
                 }
             }
-        }
-        else
+        } else
             unset($this->tabs['characteristics']);
     }
 
@@ -461,7 +472,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
      *
      * @param int $id
      */
-    public function getDocPath($id) {
+    public function getDocPath($id)
+    {
         $Catalogue = new models_Catalogue();
 
         $goods_category_id = $this->work_model->getItemCatalog($id);
@@ -481,8 +493,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
         $this->domXml->create_element('breadcrumbs', '', 2);
         $this->domXml->set_attribute(array('id' => 0,
-            'parent_id' => 0
-                )
+                'parent_id' => 0
+            )
         );
         $href = '/cat/';
 
@@ -532,19 +544,25 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    private function getCatBrands($id) {
+    private function getCatBrands($id)
+    {
         $Catalogue = new models_Catalogue();
         $AnotherPages = new models_AnotherPages();
 
         $result = $Catalogue->getBrands($id);
         if (!empty($result)) {
+
+            $sefURLCatalogue = $Catalogue->getCatRealCat($id);
+
             foreach ($result as $view) {
                 $this->domXml->create_element('breadcrumbs', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['BRAND_ID']
                 ));
 
 
-                $href = '/cat/' . $id . '/brand/' . $view['BRAND_ID'] . '/';
+//                $href = '/cat/' . $id . '/brand/' . $view['BRAND_ID'] . '/';
+
+                $href = "{$sefURLCatalogue}br/b{$view['BRAND_ID']}/";
 
                 $_href = $AnotherPages->getSefURLbyOldURL($href);
                 if (!empty($_href))
@@ -564,13 +582,14 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
             $href = $Catalogue->getCatRealCat($id);
 
             $this->domXml->create_element('name', 'Все производители');
-            $this->domXml->create_element('url', $href);
+            $this->domXml->create_element('url', $sefURLCatalogue);
 
             $this->domXml->go_to_parent();
         }
     }
 
-    private function getSubCatalogPath($id, $parent_id) {
+    private function getSubCatalogPath($id, $parent_id)
+    {
         $Catalogue = new models_Catalogue();
 
         $result = $Catalogue->getTree($parent_id);
@@ -580,8 +599,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
                     continue;
                 $this->domXml->create_element('breadcrumbs', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['CATALOGUE_ID'],
-                    'parent_id' => $view['PARENT_ID']
-                        )
+                        'parent_id' => $view['PARENT_ID']
+                    )
                 );
                 $href = $this->lang . $view['REALCATNAME'];
 
@@ -593,7 +612,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getItemMeta($id) {
+    public function getItemMeta($id)
+    {
         $meta = $this->work_model->getItemMeta($id);
         $SystemSets = new models_SystemSets();
 
@@ -606,11 +626,11 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract {
 
             $item_name = '';
             if (!empty($meta['TYPENAME']))
-                $item_name.= ' ' . $meta['TYPENAME'];
+                $item_name .= ' ' . $meta['TYPENAME'];
             if (!empty($meta['BRAND_NAME']))
-                $item_name.= ' ' . $meta['BRAND_NAME'];
+                $item_name .= ' ' . $meta['BRAND_NAME'];
             if (!empty($meta['NAME']))
-                $item_name.= ' ' . $meta['NAME'];
+                $item_name .= ' ' . $meta['NAME'];
 
             $item_name = trim($item_name);
 

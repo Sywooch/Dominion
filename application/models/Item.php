@@ -24,7 +24,8 @@ class models_Item extends ZendDBEntity
     public function getAllImageBase()
     {
         return $this->_db->query(
-                "SELECT I.ITEM_ID, I.BASE_IMAGE FROM ITEM I
+            "SELECT I.ITEM_ID, I.BASE_IMAGE, IMAGE3
+                FROM ITEM I
                 WHERE I.BASE_IMAGE <> ''
                 and I.IMAGE0 IS NULL");
     }
