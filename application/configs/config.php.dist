@@ -13,6 +13,10 @@ defined('SITE_PATH')
 defined('ROOT_PATH')
     || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
 
+defined('UPLOAD_PATH')
+|| define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/../../../upload_images'));
+
+
 defined('INDEX_PATH')
     || define('INDEX_PATH', ROOT_PATH . '/search');
 

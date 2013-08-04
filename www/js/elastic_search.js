@@ -41,7 +41,6 @@ $(document).ready(function () {
         }).data("uiAutocomplete")._renderItem = function (ul, item) {
             if (item.else_results) {
                 item.url = "/search/" + item.else_results;
-
                 return $("<li></li>").data("item.autocomplete", item).append(
                     "<a href=" + item.url + "><span class='else_results'>Еще результаты &#8594;</a></span>"
                 ).appendTo(ul);
