@@ -9,8 +9,10 @@ class models_SearchCash extends ZendDBEntity
     protected $_item2 = 'ITEM2';
     protected $_item7 = 'ITEM7';
     protected $_itemr = 'ITEMR';
+
     protected $_attribut = 'ATTRIBUT';
     protected $_attr_catalog_vis = 'ATTR_CATALOG_VIS';
+
     protected $_catalogue = 'CATALOGUE';
     protected $_search_cash = 'SEARCH_CASH';
     protected $_search_cash_item = 'SEARCH_CASH_ITEM';
@@ -18,8 +20,8 @@ class models_SearchCash extends ZendDBEntity
     public function getItem()
     {
         $sql = "select ITEM_ID
-               , CATALOGUE_ID
-               , BRAND_ID
+               , CATALOGUE_ID 
+               , BRAND_ID 
           from {$this->_name}
           where IS_CASHED = 0
             and STATUS = 1
@@ -31,7 +33,7 @@ class models_SearchCash extends ZendDBEntity
     public function getVisAttr($catalogue_id)
     {
         $sql = "select A.ATTRIBUT_ID
-               , A.TYPE
+               , A.TYPE 
           from {$this->_attribut} as A
           inner join {$this->_attr_catalog_vis} ACV on (ACV.ATTRIBUT_ID = A.ATTRIBUT_ID)
           where ACV.CATALOGUE_ID = ?
@@ -183,9 +185,9 @@ class models_SearchCash extends ZendDBEntity
         if (!empty($_cash)) {
             foreach ($_cash as $ch) {
                 if (count($ch) > 1) {
-                    $math.= '(' . implode(' or ', $ch) . ') and ';
+                    $math .= '(' . implode(' or ', $ch) . ') and ';
                 } else {
-                    $math.= implode('', $ch) . ' and ';
+                    $math .= implode('', $ch) . ' and ';
                 }
             }
         }
@@ -209,11 +211,11 @@ class models_SearchCash extends ZendDBEntity
     {
         $having = '';
         if (!empty($price['pmin'])) {
-            $having.= " and result >= {$price['pmin']} ";
+            $having .= " and result >= {$price['pmin']} ";
         }
 
         if (!empty($price['pmax'])) {
-            $having.= " and result <= {$price['pmax']} ";
+            $having .= " and result <= {$price['pmax']} ";
         }
 
         $_item = implode(', ', $item);
@@ -231,5 +233,4 @@ class models_SearchCash extends ZendDBEntity
 
         return $this->_db->fetchAll($sql);
     }
-
 }
