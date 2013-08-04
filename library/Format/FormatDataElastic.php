@@ -66,6 +66,7 @@ class Format_FormatDataElastic
                 'height' => $image[2]
             );
 
+            $goods[$key]['value'] = "{$data['TYPENAME']} {$data['BRAND']} {$data['NAME_PRODUCT']}";
             $goods[$key] = $this->replaceValue($goods[$key], null, "");
             $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
         }
