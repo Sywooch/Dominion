@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 
 <?php
-require_once __DIR__ . "/../../application/configs/config.php";
+require_once __DIR__ . "/../application/configs/config.php";
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
