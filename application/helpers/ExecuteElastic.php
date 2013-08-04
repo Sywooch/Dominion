@@ -38,8 +38,9 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
      * @param string $term
      * @param string $formatResult
      * @param string $nameMethod
-     * @param int $from
-     * @param int $size
+     * @param int    $from
+     * @param int    $size
+     *
      * @return mixed
      * @throws Exception
      */
@@ -79,11 +80,12 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Execute Query
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
+     * @param ContextSearch_ElasticSearch_FormatQuery      $formatQuery
      * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
-     * @param string $term
-     * @param string $from
-     * @param integer $size
+     * @param string                                       $term
+     * @param string                                       $from
+     * @param integer                                      $size
+     *
      * @return \Elastica\ResultSet
      */
     private function executeQuery(
@@ -121,11 +123,12 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Execute match
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
+     * @param ContextSearch_ElasticSearch_FormatQuery      $formatQuery
      * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
-     * @param $term
-     * @param null| integer $from
-     * @param null| integer $size
+     * @param                                              $term
+     * @param null| integer                                $from
+     * @param null| integer                                $size
+     *
      * @return \Elastica\ResultSet
      */
     private function executeMatch(
@@ -148,11 +151,11 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Business logic for execute format data
      *
-     * @param  array $items
-     * @param string $currencyStrategy
-     * @param Helpers_Prices_Recount $recount
+     * @param  array                  $items
+     * @param string                  $currencyStrategy
+     * @param Helpers_Prices_Recount  $recount
      * @param Helpers_Prices_Discount $discount
-     * @param bool $formatItem
+     * @param bool                    $formatItem
      *
      * @return array
      */

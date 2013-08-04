@@ -9,9 +9,9 @@ class models_SystemSets extends ZendDBEntity
 
     public function getSettingValue($where)
     {
-        $sql = "select VALUE
-          from {$this->_name}  
-          where SYSTEM_NAME='{$where}'";
+        $sql = "SELECT VALUE
+          FROM {$this->_name}
+          WHERE SYSTEM_NAME='{$where}'";
 
         return $this->_db->fetchOne($sql);
     }

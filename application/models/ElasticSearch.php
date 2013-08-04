@@ -87,19 +87,19 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllData()
     {
-        $sql = "select I.ITEM_ID,
+        $sql = "SELECT I.ITEM_ID,
                   I.CATALOGUE_ID
                   ,I.NAME AS NAME_PRODUCT
                   ,I.CATNAME
                   ,I.TYPENAME
                   ,I.ARTICLE
                   ,I.IMAGE0
-                  ,B.NAME as BRAND
+                  ,B.NAME AS BRAND
                   ,C.REALCATNAME
-                  ,C.NAME as CATALOGUE_NAME
-            from ITEM I
-            left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)";
+                  ,C.NAME AS CATALOGUE_NAME
+            FROM ITEM I
+            LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)";
 
         return $sql;
     }
@@ -108,6 +108,7 @@ class models_ElasticSearch extends ZendDBEntity
      * get data for format in search
      *
      * @param array $itemsId
+     *
      * @return array
      */
     public function getItemsForPrices(array $itemsId)

@@ -25,12 +25,17 @@ define('UPLOAD_IMAGES', ROOT_PATH . '/upload_images');
 define('IS_LIDER', 'hits');
 define('IS_RECOMEND', 'newest');
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(ROOT_PATH),
-    realpath(ZEND_PATH),
-    realpath(APPLICATION_MODELS),
-    get_include_path(),
-)));
+set_include_path(
+    implode(
+        PATH_SEPARATOR,
+        array(
+            realpath(ROOT_PATH),
+            realpath(ZEND_PATH),
+            realpath(APPLICATION_MODELS),
+            get_include_path(),
+        )
+    )
+);
 
 $cmf = new SCMF('ITEM_IMPORT');
 if (!$cmf->GetRights()) {
@@ -40,8 +45,9 @@ if (!$cmf->GetRights()) {
 
 if (isset($_REQUEST['del_file']) && $_REQUEST['del_file']) {
     $fn = UPLOAD_XML . '/' . $_REQUEST['fl'];
-    if (file_exists($fn))
+    if (file_exists($fn)) {
         unlink($fn);
+    }
     header('Location: ITEM_IMPORT.php');
 }
 
@@ -120,9 +126,9 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
         $_file_ext = array_pop($_file_args);
         $_file_ext = strtolower($_file_ext);
 
-        if ($_file_ext != 'xml' && $_file_ext != 'zip')
+        if ($_file_ext != 'xml' && $_file_ext != 'zip') {
             echo '<font color="red">Файл должен быть в формате XML млм ZIP архив</font><br></br>';
-        else {
+        } else {
             $path = UPLOAD_XML . '/' . $upl_file_name;
 
             if (is_uploaded_file($upl_file)) {
@@ -143,7 +149,7 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
                 if ($_file_ext == 'zip') {
                     $zip = new ZipArchive;
                     $res = $zip->open($_file_path);
-                    if ($res === TRUE) {
+                    if ($res === true) {
                         $zip->extractTo(UPLOAD_XML . '/');
                         $zip->close();
                     }
@@ -176,8 +182,9 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
 //    $map = new SiteMap();
 //    $map->run();
 
-    } else
+    } else {
         echo '<font color="red">Нужно выбрать XML млм ZIP архив</font><br></br>';
+    }
 } elseif (isset($_POST['update_later']) && $_POST['update_later']) {
     $upl_file = isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '';
     if ($upl_file) {
@@ -187,17 +194,18 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
         $_file_ext = array_pop($_file_args);
         $_file_ext = strtolower($_file_ext);
 
-        if ($_file_ext != 'xml' && $_file_ext != 'zip')
+        if ($_file_ext != 'xml' && $_file_ext != 'zip') {
             echo '<font color="red">Файл должен быть в формате XML млм ZIP архив</font><br></br>';
-        else {
+        } else {
             $path = UPLOAD_XML . '/' . $upl_file_name;
             if (is_uploaded_file($upl_file)) {
                 move_uploaded_file($upl_file, $path);
             }
             echo '<meta http-equiv="Refresh" content="1;url=ITEM_IMPORT.php">';
         }
-    } else
+    } else {
         echo '<font color="red">Нужно выбрать XML млм ZIP архив</font><br></br>';
+    }
 }
 
 $cmf->MakeCommonFooter();

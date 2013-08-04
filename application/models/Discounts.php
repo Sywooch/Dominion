@@ -18,7 +18,7 @@ class models_Discounts extends ZendDBEntity
                 FROM {$this->_name}
                   WHERE
                   `STATUS` = 1
-                  and
+                  AND
                   `NAME` = ?";
 
         $result = $this->_db->fetchOne($sql, $discountName);

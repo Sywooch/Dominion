@@ -40,11 +40,11 @@ class Helpers_CustomPaginator extends App_Controller_Helper_HelperAbstract
     /**
      * Set Element
      *
-     * @param null $page
-     * @param $perPage
+     * @param null                   $page
+     * @param                        $perPage
      * @param Helpers_ExecuteElastic $elasticExecute
-     * @param array $config
-     * @param $search_text
+     * @param array                  $config
+     * @param                        $search_text
      */
     public function setElements($page = null, $perPage, Helpers_ExecuteElastic $elasticExecute, $config, $search_text)
     {

@@ -307,7 +307,7 @@ $V_STR_CURRENCY_ID=$cmf->Spravotchnik('','select CURRENCY_ID,NAME from CURRENCY 
   </td>
 </tr>
 
-<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/sorting.js"></script>
 
 <tr><td>поиск:<br /><input type="text" id="sorting" /></td></tr>
