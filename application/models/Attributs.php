@@ -15,49 +15,49 @@ class models_Attributs extends ZendDBEntity
 
         $sql = "SELECT DISTINCT A. * , U.NAME AS U_NAME
             FROM ATTRIBUT A                 
-                 join {$tableName} ACV using (ATTRIBUT_ID)
-                 join CATALOGUE C using (CATALOGUE_ID)
-                 join CAT_ITEM CA using (CATALOGUE_ID)
-                 join ITEM I using (ITEM_ID)
-                 join ITEM0 I0 using (ITEM_ID)                        
-                 left join UNIT U on (U.UNIT_ID=A.UNIT_ID)
-            where C.CATALOGUE_ID = {$catalogueId} 
+                 JOIN {$tableName} ACV USING (ATTRIBUT_ID)
+                 JOIN CATALOGUE C USING (CATALOGUE_ID)
+                 JOIN CAT_ITEM CA USING (CATALOGUE_ID)
+                 JOIN ITEM I USING (ITEM_ID)
+                 JOIN ITEM0 I0 USING (ITEM_ID)
+                 LEFT JOIN UNIT U ON (U.UNIT_ID=A.UNIT_ID)
+            WHERE C.CATALOGUE_ID = {$catalogueId}
                   {$exclude}
-              and A.STATUS = 1
-              and I.STATUS = 1
-              and C.STATUS = 1
-              and I0.ATTRIBUT_ID = A.ATTRIBUT_ID
-              and (A.TYPE = 3 OR
+              AND A.STATUS = 1
+              AND I.STATUS = 1
+              AND C.STATUS = 1
+              AND I0.ATTRIBUT_ID = A.ATTRIBUT_ID
+              AND (A.TYPE = 3 OR
                    A.TYPE = 6 OR
                   (A.TYPE = 0 AND
                   A.IS_RANGEABLE = 1) OR
                   (A.TYPE = 1 AND
                   A.IS_RANGEABLE = 1))
-             order by  A.ORDERING ";
+             ORDER BY  A.ORDERING ";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getItemsAttributes($id, $tableName = 'ATTR_CATALOG_LINK')
     {
-        $sql = "select DISTINCT A.*
-                  ,U.NAME as U_NAME   
-            from ATTRIBUT A
-            join {$tableName} ACV using (ATTRIBUT_ID)
-            join CATALOGUE C using (CATALOGUE_ID)
-            join CAT_ITEM CA using (CATALOGUE_ID)
-            join ITEM I using (ITEM_ID)
-            join ITEM0 I0 using (ITEM_ID) 
-            left join UNIT U on (U.UNIT_ID=A.UNIT_ID) 
-            where I.ITEM_ID = {$id}
-              and A.STATUS=1 
-             and (A.TYPE = 3 OR
+        $sql = "SELECT DISTINCT A.*
+                  ,U.NAME AS U_NAME
+            FROM ATTRIBUT A
+            JOIN {$tableName} ACV USING (ATTRIBUT_ID)
+            JOIN CATALOGUE C USING (CATALOGUE_ID)
+            JOIN CAT_ITEM CA USING (CATALOGUE_ID)
+            JOIN ITEM I USING (ITEM_ID)
+            JOIN ITEM0 I0 USING (ITEM_ID)
+            LEFT JOIN UNIT U ON (U.UNIT_ID=A.UNIT_ID)
+            WHERE I.ITEM_ID = {$id}
+              AND A.STATUS=1
+             AND (A.TYPE = 3 OR
                  A.TYPE = 6 OR
                 (A.TYPE = 0 AND
                 A.IS_RANGEABLE = 1) OR
                 (A.TYPE = 1 AND
                 A.IS_RANGEABLE = 1))
-            order by A.ORDERING";
+            ORDER BY A.ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
@@ -65,14 +65,14 @@ class models_Attributs extends ZendDBEntity
     public function getAttrXml($id, $iid)
     {
 
-        $sql = "select A.NAME as A_NAME
-                 ,U.NAME as U_NAME
-                 ,A.TYPE
-                 ,A.TITLE
-                 ,A.IS_RANGEABLE 
-           from ATTRIBUT A 
-           left join UNIT U on (A.UNIT_ID=U.UNIT_ID) 
-           where A.ATTRIBUT_ID=?";
+        $sql = "SELECT A.NAME AS A_NAME
+                     ,U.NAME AS U_NAME
+                     ,A.TYPE
+                     ,A.TITLE
+                     ,A.IS_RANGEABLE
+               FROM ATTRIBUT A
+               LEFT JOIN UNIT U ON (A.UNIT_ID=U.UNIT_ID)
+               WHERE A.ATTRIBUT_ID=?";
 
         $attr_info = $this->_db->fetchRow($sql, array($id));
 
@@ -89,11 +89,11 @@ class models_Attributs extends ZendDBEntity
 
     public function getDopparam($attribut_id, $item_id)
     {
-        $sql = "select TYPE,
+        $sql = "SELECT TYPE,
                      IS_RANGEABLE 
-              from ATTRIBUT 
-              where STATUS=1 
-                and ATTRIBUT_ID=?";
+              FROM ATTRIBUT
+              WHERE STATUS=1
+                AND ATTRIBUT_ID=?";
 
         $row = $this->_db->fetchRow($sql, $attribut_id);
         $TYPE = $row['TYPE'];
@@ -134,11 +134,11 @@ class models_Attributs extends ZendDBEntity
         }
 
         $SELS = array(
-            'attrr' => "select R.RANGE_LIST_ID as id,R.NAME as val from RANGE_LIST R inner join t100 S on (S.RANGE_LIST_ID=R.RANGE_LIST_ID) order by R.NAME",
+            'attrr' => "SELECT R.RANGE_LIST_ID AS id,R.NAME AS val FROM RANGE_LIST R INNER JOIN t100 S ON (S.RANGE_LIST_ID=R.RANGE_LIST_ID) ORDER BY R.NAME",
             'attr' => "select R.ATTRIBUT_LIST_ID as id,R.NAME as val from ATTRIBUT_LIST R inner join t100 S on (S.VALUE=R.ATTRIBUT_LIST_ID) where R.ATTRIBUT_ID='" . $attribut_id . "' order by R.NAME",
-            'attr0' => "select VALUE as id,VALUE as val from t100 order by VALUE",
+            'attr0' => "SELECT VALUE AS id,VALUE AS val FROM t100 ORDER BY VALUE",
             'attrl' => "select R.ATTRIBUT_LIST_ID as id,S.VALUE as val from ATTRIBUT_LIST R inner join t100 S on (S.VALUE=R.NAME) where R.ATTRIBUT_ID='" . $attribut_id . "' order by S.VALUE",
-            'attr5' => "select VALUE as id,VALUE as val from t100 order by VALUE desc"
+            'attr5' => "SELECT VALUE AS id,VALUE AS val FROM t100 ORDER BY VALUE DESC"
         );
 
 
@@ -149,37 +149,37 @@ class models_Attributs extends ZendDBEntity
 
     public function getRangeValues($id)
     {
-        $sql = "select MIN
+        $sql = "SELECT MIN
                 , MAX 
-           from RANGE_LIST 
-           where RANGE_LIST_ID = {$id}";
+           FROM RANGE_LIST
+           WHERE RANGE_LIST_ID = {$id}";
 
         return $this->_db->fetchRow($sql);
     }
 
     public function getAttributInfo($id)
     {
-        $sql = "select *
-           from ATTRIBUT 
-           where ATTRIBUT_ID = ?";
+        $sql = "SELECT *
+           FROM ATTRIBUT
+           WHERE ATTRIBUT_ID = ?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getRangeName($id)
     {
-        $sql = "select NAME
-           from RANGE_LIST 
-           where RANGE_LIST_ID = {$id}";
+        $sql = "SELECT NAME
+           FROM RANGE_LIST
+           WHERE RANGE_LIST_ID = {$id}";
 
         return $this->_db->fetchOne($sql);
     }
 
     function getAttributByCode($code)
     {
-        $sql = "select ATTRIBUT_ID
-           from ATTRIBUT
-           where ID_FROM_VBD = ?";
+        $sql = "SELECT ATTRIBUT_ID
+           FROM ATTRIBUT
+           WHERE ID_FROM_VBD = ?";
 
         $ff = $this->_db->fetchOne($sql, $code);
 
@@ -192,29 +192,29 @@ class models_Attributs extends ZendDBEntity
 
     function getAttributByName($name, $type)
     {
-        $sql = "select ATTRIBUT_ID
-           from ATTRIBUT
-           where NAME = '{$name}'
-             and TYPE = {$type}";
+        $sql = "SELECT ATTRIBUT_ID
+           FROM ATTRIBUT
+           WHERE NAME = '{$name}'
+             AND TYPE = {$type}";
 
         return $this->_db->fetchOne($sql);
     }
 
     function getUniteByName($name)
     {
-        $sql = "select UNIT_ID
-           from UNIT
-           where NAME = '{$name}'";
+        $sql = "SELECT UNIT_ID
+           FROM UNIT
+           WHERE NAME = '{$name}'";
 
         return $this->_db->fetchOne($sql);
     }
 
     function hasAttributList($name, $attribute_id)
     {
-        $sql = "select ATTRIBUT_LIST_ID
-           from ATTRIBUT_LIST
-           where NAME = '{$name}'
-             and ATTRIBUT_ID = {$attribute_id}";
+        $sql = "SELECT ATTRIBUT_LIST_ID
+           FROM ATTRIBUT_LIST
+           WHERE NAME = '{$name}'
+             AND ATTRIBUT_ID = {$attribute_id}";
 
         return $this->_db->fetchOne($sql);
     }
@@ -228,8 +228,8 @@ class models_Attributs extends ZendDBEntity
 
     function insertAttribut($data)
     {
-        $sql = "insert into ATTRIBUT
-           set ID_FROM_VBD = {$data['ID_FROM_VBD']}
+        $sql = "INSERT INTO ATTRIBUT
+           SET ID_FROM_VBD = {$data['ID_FROM_VBD']}
               ,NAME = '{$data['NAME']}'
               ,ATTRIBUT_GROUP_ID = {$data['ATTRIBUT_GROUP_ID']}
               ,TYPE = {$data['TYPE']}
@@ -247,11 +247,11 @@ class models_Attributs extends ZendDBEntity
 
     public function updateAttribut($data, $uid)
     {
-        $sql = "update ATTRIBUT
-           set ID_FROM_VBD = {$data['ID_FROM_VBD']}
+        $sql = "UPDATE ATTRIBUT
+           SET ID_FROM_VBD = {$data['ID_FROM_VBD']}
               ,NAME = '{$data['NAME']}'
               ,TYPE = {$data['TYPE']}
-           where ATTRIBUT_ID={$uid}";
+           WHERE ATTRIBUT_ID={$uid}";
 
 
 //     echo $sql." \r\n <br>";
@@ -263,14 +263,14 @@ class models_Attributs extends ZendDBEntity
 
     public function getMaxId()
     {
-        $sql = "select max(ATTRIBUT_ID) from ATTRIBUT";
+        $sql = "SELECT max(ATTRIBUT_ID) FROM ATTRIBUT";
 
         return $this->_db->fetchOne($sql);
     }
 
     public function getAttributType($id)
     {
-        $sql = "select TYPE from ATTRIBUT where ATTRIBUT_ID = ?";
+        $sql = "SELECT TYPE FROM ATTRIBUT WHERE ATTRIBUT_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
@@ -439,9 +439,9 @@ class models_Attributs extends ZendDBEntity
                 break;
 
             case 3: // 3-список
-                $sql = "select NAME
-                from ATTRIBUT_LIST
-                where ATTRIBUT_LIST_ID = ?";
+                $sql = "SELECT NAME
+                FROM ATTRIBUT_LIST
+                WHERE ATTRIBUT_LIST_ID = ?";
 
                 $_min = $this->_db->fetchOne($sql, $params['min']);
                 $_max = $this->_db->fetchOne($sql, $params['max']);
