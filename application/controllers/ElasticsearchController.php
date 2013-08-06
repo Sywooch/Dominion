@@ -55,11 +55,11 @@ class ElasticsearchController extends App_Controller_Frontend_Action
         if (empty($results)) {
             $this->_helper->json($results);
         }
+//
+//        /* @var $executeElastic Helpers_ExecuteElastic */
+//        $executeElastic = $this->_helper->helperLoader("ExecuteElastic");
 
-        /* @var $executeElastic Helpers_ExecuteElastic */
-        $executeElastic = $this->_helper->helperLoader("ExecuteElastic");
-
-        $results = $executeElastic->executeFormatData(
+        $results = $helpersElasticExecute->executeFormatData(
             $results, $this->currency,
             $this->_helper->helperLoader("Prices_Recount"),
             $this->_helper->helperLoader("Prices_Discount"),
