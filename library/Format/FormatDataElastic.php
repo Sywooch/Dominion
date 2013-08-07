@@ -85,10 +85,9 @@ class Format_FormatDataElastic
         $this->formatPrices($pricesObjectValue);
 
         $items = $pricesObjectValue->getItems();
-        foreach ($items as $key => $item) {
-            foreach ($dataResult as $data) {
-                $items[$key]['URL'] = $data['URL'];
-            }
+
+        foreach ($dataResult as $data) {
+            $items[$data['ITEM_ID']]['URL'] = $data['URL'];
         }
 
         return $items;
@@ -115,7 +114,7 @@ class Format_FormatDataElastic
 
             $item = $pricesObjectValue->getDiscount()->calcDiscount($roundItem);
 
-            $pricesObjectValue->setItem($item);
+            $pricesObjectValue->setItem($item, $item['ITEM_ID']);
         }
     }
 
