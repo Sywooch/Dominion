@@ -4,6 +4,14 @@ $filters = '';
 
 require_once __DIR__ . '../../../application/configs/config.php';
 
+error_reporting(E_ALL &~ E_DEPRECATED);
+@setlocale(LC_ALL, 'ru_RU.UTF8');
+@setlocale(LC_NUMERIC,"en_US");
+
+$V_G_FONTS = array(
+    "fonts/FEEDBI__.TTF",
+    "fonts/frizzed.ttf",
+);
 
 class SCMF
 {

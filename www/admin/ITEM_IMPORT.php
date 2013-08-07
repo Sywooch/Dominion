@@ -1,41 +1,46 @@
 <?php
-require('core.php');
+
+set_time_limit(0);
+
+require_once 'core.php';
 
 //ini_set("display_errors", 1);
 //ini_set("display_startup_errors", 1);
 
-set_time_limit(0);
 
-define('SITE_PATH', $_SERVER['DOCUMENT_ROOT']);
 
-define('ROOT_PATH', realpath(dirname(__FILE__) . "/../../"));
+//define('SITE_PATH', $_SERVER['DOCUMENT_ROOT']);
 
-define('ZEND_PATH', ROOT_PATH . '/library');
+//define('ROOT_PATH', realpath(dirname(__FILE__) . "/../../"));
+
+//define('ZEND_PATH', ROOT_PATH . '/library');
 
 //define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../');
 //define('ZEND_PATH', ROOT_PATH.'Zend');
 
 
 define('ROOT_WWW', $_SERVER['DOCUMENT_ROOT']);
-define('APPLICATION_MODELS', ROOT_PATH . '/application');
+define('APPLICATION_MODELS', APPLICATION_PATH);
 
-define('UPLOAD_XML', ROOT_PATH . '/upload_xml');
-define('UPLOAD_IMAGES', ROOT_PATH . '/upload_images');
+
+$g = UPLOAD_PATH_PRICES;
+define('UPLOAD_XML', UPLOAD_PATH_PRICES);
+define('UPLOAD_IMAGES', UPLOAD_PATH);
 
 define('IS_LIDER', 'hits');
 define('IS_RECOMEND', 'newest');
 
-set_include_path(
-    implode(
-        PATH_SEPARATOR,
-        array(
-            realpath(ROOT_PATH),
-            realpath(ZEND_PATH),
-            realpath(APPLICATION_MODELS),
-            get_include_path(),
-        )
-    )
-);
+//set_include_path(
+//    implode(
+//        PATH_SEPARATOR,
+//        array(
+//            realpath(ROOT_PATH),
+//            realpath(ZEND_PATH),
+//            realpath(APPLICATION_MODELS),
+//            get_include_path(),
+//        )
+//    )
+//);
 
 $cmf = new SCMF('ITEM_IMPORT');
 if (!$cmf->GetRights()) {
@@ -86,14 +91,14 @@ while ($files = readdir($fd)) {
 echo '</table>';
 closedir($fd);
 
-require_once 'Zend/Loader.php';
-require_once 'Zend/Exception.php';
-//require_once ZEND_PATH.'Zend/Loader.php';
-//require_once ZEND_PATH.'Zend/Exception.php';
+//require_once 'Zend/Loader.php';
+//require_once 'Zend/Exception.php';
+////require_once ZEND_PATH.'Zend/Loader.php';
+////require_once ZEND_PATH.'Zend/Exception.php';
 
 require_once SITE_PATH . '/lib/CreateSEFU.class.php';
 
-require_once ROOT_PATH . '/include/GrabberException.php';
+//require_once ROOT_PATH . '/include/GrabberException.php';
 require_once ROOT_PATH . '/include/class.item_import.php';
 require_once ROOT_PATH . '/include/class.item_image_convert.php';
 
@@ -102,13 +107,13 @@ require_once ROOT_PATH . '/include/class.sitemap.php';
 require_once ROOT_PATH . '/include/imageResize/config_mage.ini.php';
 require_once ROOT_PATH . '/include/imageResize/imageResizer.php';
 
-require_once ROOT_PATH . '/application/models/ZendDBEntity.php';
-
-Zend_Loader::loadClass('Zend_Config_Ini');
-Zend_Loader::loadClass('Zend_Registry');
-Zend_Loader::loadClass('Zend_Db');
-Zend_Loader::loadClass('Zend_Db_Table');
-Zend_Loader::loadClass('Zend_Db_Expr');
+//require_once ROOT_PATH . '/application/models/ZendDBEntity.php';
+//
+//Zend_Loader::loadClass('Zend_Config_Ini');
+//Zend_Loader::loadClass('Zend_Registry');
+//Zend_Loader::loadClass('Zend_Db');
+//Zend_Loader::loadClass('Zend_Db_Table');
+//Zend_Loader::loadClass('Zend_Db_Expr');
 
 $config = new Zend_Config_Ini(APPLICATION_MODELS . '/configs/application.ini', 'production');
 
@@ -127,7 +132,7 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
         $_file_ext = strtolower($_file_ext);
 
         if ($_file_ext != 'xml' && $_file_ext != 'zip') {
-            echo '<font color="red">Файл должен быть в формате XML млм ZIP архив</font><br></br>';
+            echo '<span color="red">Файл должен быть в формате XML млм ZIP архив</span></br></br>';
         } else {
             $path = UPLOAD_XML . '/' . $upl_file_name;
 
@@ -183,7 +188,7 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
 //    $map->run();
 
     } else {
-        echo '<font color="red">Нужно выбрать XML млм ZIP архив</font><br></br>';
+        echo '<span color="red">Нужно выбрать XML млм ZIP архив</span></br></br>';
     }
 } elseif (isset($_POST['update_later']) && $_POST['update_later']) {
     $upl_file = isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '';
@@ -195,7 +200,7 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
         $_file_ext = strtolower($_file_ext);
 
         if ($_file_ext != 'xml' && $_file_ext != 'zip') {
-            echo '<font color="red">Файл должен быть в формате XML млм ZIP архив</font><br></br>';
+            echo '<span color="red">Файл должен быть в формате XML млм ZIP архив</span></br></br>';
         } else {
             $path = UPLOAD_XML . '/' . $upl_file_name;
             if (is_uploaded_file($upl_file)) {
@@ -204,7 +209,7 @@ if (isset($_POST['update_now']) && $_POST['update_now']) {
             echo '<meta http-equiv="Refresh" content="1;url=ITEM_IMPORT.php">';
         }
     } else {
-        echo '<font color="red">Нужно выбрать XML млм ZIP архив</font><br></br>';
+        echo '<span color="red">Нужно выбрать XML млм ZIP архив</span></br></br>';
     }
 }
 
