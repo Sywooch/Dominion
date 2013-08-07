@@ -52,10 +52,16 @@ search_engine.convert_to_array = convertToArray
 search_engine.search_fields[] = MAIN
 search_engine.search_fields[] = CATALOGUE_NAME
 search_engine.search_fields[] = MAIN_ALTERNATIVE
+search_engine.search_fields[] = NAME_PRODUCT
+search_engine.search_fields[] = TYPENAME
+search_engine.search_fields[] = BRAND
+
 
 search_engine.name_fields[] = TYPENAME
 search_engine.name_fields[] = NAME_PRODUCT
 search_engine.name_fields[] = BRAND
+search_engine.name_fields[] = MAIN
+search_engine.name_fields[] = MAIN_ALTERNATIVE
 
 [staging : production]
 
