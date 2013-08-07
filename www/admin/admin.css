@@ -1,0 +1,21 @@
+td {font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:11px;}
+body {font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:11px;background: #666666}
+input,select,textarea{border: 2px groove;font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:11px;}
+.small {font-size:10px;color:#cccccc;}
+a {font-size:12px;font-weight:bold;text-decoration:none;color:#ffffff;}
+a:hover {text-decoration:underline;}
+.select {background:#404040; color:#ffffff ; font-weight:bold;}
+.ye {color: #ffcc00;}
+.save {background:#33cc00; color:#ffffff; font-weight:bold;}
+.can {background:#0956A3;font-weight:bold;color:#ffffff;}
+.buttt {font-weight:bold; font-size:11px;padding:0px;height:22px;}
+
+th {font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:14px;}
+.t{font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:11px;color:#ffffff;}
+.red{font-family:tahoma,arial,helvetica,geneve,sans-serif; font-size:11px;color:#ff0000;}
+.gbut{border: 0px;}
+.h2 {color:#ffffff; MARGIN-BOTTOM: 5px; PADDING-BOTTOM: 5px}
+.h3 {color:#ffffff; MARGIN-BOTTOM: 5px; PADDING-BOTTOM: 5px}
+.b{color:#000000;}
+.d{color:#777777;}
+.cal{font-family:tahoma,arial,helvetica,geneve,sans-serif; color: #ffffff;background: #ff7f00;}
