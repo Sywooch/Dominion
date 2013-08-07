@@ -70,11 +70,8 @@ $cmf->MakeCommonHeader();
     <br>
     <div id="err_mess"></div>
 
-<?
+<?php
 //Вывод списка файлов в каталоге
-
-echo "Path:";
-echo UPLOAD_XML;
 
 $fd = opendir(UPLOAD_XML);
 
