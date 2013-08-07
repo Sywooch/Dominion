@@ -54,9 +54,9 @@ class Format_PricesObjectValue
      *
      * @param mixed $item
      */
-    public function setItem($item)
+    public function setItem($item, $key)
     {
-        $this->items[] = $item;
+        $this->items[$key] = $item;
     }
 
     public function setAllItems(array $items)
