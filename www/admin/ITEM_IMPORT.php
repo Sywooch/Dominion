@@ -23,12 +23,11 @@ define('ROOT_WWW', $_SERVER['DOCUMENT_ROOT']);
 define('APPLICATION_MODELS', APPLICATION_PATH);
 
 
-$g = UPLOAD_PATH_PRICES;
-define('UPLOAD_XML', UPLOAD_PATH_PRICES);
-define('UPLOAD_IMAGES', UPLOAD_PATH);
+//define('UPLOAD_XML', UPLOAD_PATH_PRICES);
+//define('UPLOAD_IMAGES', UPLOAD_PATH);
 
-define('IS_LIDER', 'hits');
-define('IS_RECOMEND', 'newest');
+//define('IS_LIDER', 'hits');
+//define('IS_RECOMEND', 'newest');
 
 //set_include_path(
 //    implode(
@@ -73,8 +72,12 @@ $cmf->MakeCommonHeader();
 
 <?
 //Вывод списка файлов в каталоге
-$dir = UPLOAD_XML;
-$fd = opendir($dir);
+
+echo "Path:";
+echo UPLOAD_XML;
+
+$fd = opendir(UPLOAD_XML);
+
 echo '<p><table width="50%">';
 $num = 1;
 while ($files = readdir($fd)) {
@@ -96,7 +99,7 @@ closedir($fd);
 ////require_once ZEND_PATH.'Zend/Loader.php';
 ////require_once ZEND_PATH.'Zend/Exception.php';
 
-require_once SITE_PATH . '/lib/CreateSEFU.class.php';
+require_once ROOT_PATH . '/lib/CreateSEFU.class.php';
 
 //require_once ROOT_PATH . '/include/GrabberException.php';
 require_once ROOT_PATH . '/include/class.item_import.php';

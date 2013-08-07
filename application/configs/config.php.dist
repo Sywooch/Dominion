@@ -13,39 +13,44 @@ defined('SITE_PATH')
 defined('ROOT_PATH')
     || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
 
-defined('UPLOAD_PATH')
-|| define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/../../../upload_images'));
+//defined('UPLOAD_PATH')
+//    || define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/../../../upload_images'));
+//
+//defined('UPLOAD_PATH_PRICES')
+//    || define('UPLOAD_PATH_PRICES', realpath(dirname(__FILE__) . '/../../../upload_xml'));
 
 
 defined('INDEX_PATH')
     || define('INDEX_PATH', ROOT_PATH . '/search');
 
 // Define path to application directory
-defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', ROOT_PATH . '/application');
+defined('APPLICATION_PATH')|| define('APPLICATION_PATH', ROOT_PATH . '/application');
 
 // Define path to library directory
-defined('LIBRARY_PATH')
-    || define('LIBRARY_PATH', ROOT_PATH . '/library');
+defined('LIBRARY_PATH')|| define('LIBRARY_PATH', ROOT_PATH . '/library');
 
 
-defined('HTTP_HOST')
-    || define('HTTP_HOST', 'http://7560000.com.ua');
+defined('HTTP_HOST') || define('HTTP_HOST', 'http://7560000.com.ua');
 
 // Define application environment
-defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV',
-              (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+defined('APPLICATION_ENV')|| define('APPLICATION_ENV',
+(getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
 
+define('UPLOAD_XML', realpath(__DIR__ . "/../../../upload_xml"));
+
+define('UPLOAD_IMAGES', realpath(__DIR__ . "/../../../upload_images"));
+
+define('IS_LIDER', 'hits');
+define('IS_RECOMEND', 'newest');
 // Ensure library/ is on include_path
 set_include_path(
     implode(
         PATH_SEPARATOR,
         array(
-          realpath(LIBRARY_PATH),
-          realpath(APPLICATION_PATH),
-          get_include_path(),
+            realpath(LIBRARY_PATH),
+            realpath(APPLICATION_PATH),
+//          get_include_path(),
         )
     )
 );
@@ -59,4 +64,4 @@ if (DEBUG_MODE) {
 }
 
 require_once APPLICATION_PATH . '/models/ZendDBEntity.php';
-require ROOT_PATH.'/vendor/autoload.php';
+require ROOT_PATH . '/vendor/autoload.php';

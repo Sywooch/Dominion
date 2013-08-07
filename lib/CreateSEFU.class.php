@@ -2,8 +2,8 @@
 defined('SITE_PATH')
     || define('SITE_PATH', realpath(dirname(__FILE__)).'/../');
 
-  require SITE_PATH."/lib/Translit.class.php";
-  require SITE_PATH."/lib/createSEFU_DB.class.php";
+  require ROOT_PATH."/lib/Translit.class.php";
+  require ROOT_PATH."/lib/createSEFU_DB.class.php";
 
   define('SEFU_PREFIX_CAT_URL_FOR_ADMIN','cat');
   define('SEFU_PREFIX_CAT_URL','catalog');

@@ -1810,8 +1810,8 @@ $_REQUEST['e'] ='ED';
       $cmf->CheckCount(0);      
       $cmf->UpdateRange($_REQUEST['id']);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+      require ROOT_PATH."/lib/MetaGenerate.php";
+      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);

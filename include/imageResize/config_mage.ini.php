@@ -2,9 +2,9 @@
 
 set_time_limit(0);
 
-//define('CC_IMAGE_UPLOAD_PATH', ROOT_PATH.'/upload_images');
-define('IMAGE_UPLOAD_PATH', ROOT_PATH.'/upload_images');
-define('CC_IMAGE_UPLOAD_PATH', ROOT_PATH.'/cc_images');
+//define('CC_UPLOAD_IMAGES', ROOT_PATH.'/upload_images');
+
+define('CC_UPLOAD_IMAGES', ROOT_PATH.'/cc_images');
 
 define('sufixGall', 'gall');
 define('sufixAdd', 'add');
