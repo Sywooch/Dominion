@@ -490,7 +490,12 @@ class item_import
                 $is_recomend = $value->getAttribute('IS_RECOMEND');
                 $is_action = $value->getAttribute('IS_ACTION');
 
+                if( null == $value->getElementsByTagName('price')->Item(0)){
+                    echo "Article price $article is empty. Not allowed! \r\n";
+                    continue;
+                }
                 $price = $value->getElementsByTagName('price')->Item(0)->nodeValue;
+
                 $categoryId = ($value->getElementsByTagName('categoryId')->length > 0) ? $value->getElementsByTagName('categoryId')->Item(0)->nodeValue : 0;
                 $vendorId = ($value->getElementsByTagName('vendorId')->length > 0) ? $value->getElementsByTagName('vendorId')->Item(0)->nodeValue : 0;
                 $name = $value->getElementsByTagName('name')->Item(0)->nodeValue;
