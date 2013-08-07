@@ -87,6 +87,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
 
         $this->size = $formatData->getSize();
         $this->from = $formatData->getFrom();
+
         foreach ($fields as $field) {
             $this->querySearch->setField($field);
             $response = $this->execute();

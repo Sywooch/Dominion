@@ -73,15 +73,21 @@ class ContextSearch_ElasticSearch_FormatQuery
     }
 
     /**
-     * Set Prefix like Filter
+     * Set prefix for elastic search
      *
-     * @param string $prefix
-     * @param array $fields
+     * @param array $data
      */
-    public function setPrefix($prefix, array $fields)
+    public function setPrefix(array $data)
     {
-        $this->formatQuery['prefix'] = array("prefix" => $prefix, "fields" => $fields);
+        foreach ($data as $key => $value) {
+            if (isset($this->formatQuery["bool"]['must'])) {
+                $this->formatQuery['bool']['must'][] = array("prefix" => array($key => $value));
+            } else if (isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("prefix" => array($key => $value));
+            }
+        }
     }
+
 
     /**
      * Setter count

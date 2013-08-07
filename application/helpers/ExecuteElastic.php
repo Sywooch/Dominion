@@ -23,6 +23,13 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     private $parameters = array();
 
     /**
+     * Object Elastic Search GET
+     *
+     * @var ContextSearch_ElasticSearch_BuildExecute_GET
+     */
+    private $elasticSearchGET;
+
+    /**
      * Set parameters
      *
      * @param array $parameters
@@ -52,50 +59,59 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $connect = new ContextSearch_ElasticSearch_Connect($this->parameters);
         $connect->setAction("GET");
 
-        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
-
-        $formatQuery->setValue($term);
-        $formatQuery->setMatchAll();
-        $formatQuery->setFields($connect->getFields());
-        $formatQuery->setSize($size);
-        $formatQuery->setFrom($from);
-
         $contextSearch = new ContextSearch_ContextSearchFactory();
-        $queryBuilder = $contextSearch->getQueryBuilderElasticSearch();
 
-        $elasticSearchGET = $queryBuilder->createQuery($connect);
+        $this->elasticSearchGET = $contextSearch->getQueryBuilderElasticSearch()->createQuery($connect);
 
-        $results = $elasticSearchGET->buildFilter($formatQuery);
-
+        $resultSet = $this->executePrefix($connect->getFields(), $term, $from, $size);
+        $results = $resultSet->getResults();
         if (empty($results)) {
             $currentClass = $this;
 
-            $results = $currentClass->$nameMethod($formatQuery, $elasticSearchGET, $term, $from, $size);
+            $resultSet = $currentClass->$nameMethod($term, $from, $size);
         }
 
-        return $elasticSearchGET->$formatResult($results);
+        return $this->elasticSearchGET->$formatResult($resultSet);
+    }
+
+    /**
+     * Set query prefixs
+     *
+     * @param array $fields
+     * @param string $term
+     * @param integer $from
+     * @param integer $size
+     * @return \Elastica\ResultSet|mixed
+     */
+    private function executePrefix(array $fields, $term, $from, $size)
+    {
+        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
+
+        $formatQuery->setShould();
+        $formatQuery->setFrom($from);
+        $formatQuery->setSize($size);
+
+        $data = array();
+        foreach ($fields as $field) {
+            $data[$field] = $term;
+        }
+
+        $formatQuery->setPrefix($data);
+
+        return $this->elasticSearchGET->buildQuery($formatQuery)->execute();
     }
 
     /**
      * Execute Query
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
-     * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
      * @param string $term
      * @param string $from
      * @param integer $size
      * @return \Elastica\ResultSet
      */
-    private function executeQuery(
-        ContextSearch_ElasticSearch_FormatQuery $formatQuery,
-        ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET,
-        $term,
-        $from,
-        $size
-    )
+    private function executeQuery($term, $from, $size)
     {
-        $formatQuery->clearQuery();
-
+        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
 
         $formatQuery->setBool();
         $formatQuery->setShould();
@@ -109,34 +125,26 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $formatQuery->setQueryString($data);
 
-        return $elasticSearchGET->buildQuery($formatQuery)->execute();
+        return $this->elasticSearchGET->buildQuery($formatQuery)->execute();
     }
 
     /**
      * Execute match
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatQuery
-     * @param ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET
-     * @param $term
+     * @param string $term
      * @param null| integer $from
      * @param null| integer $size
      * @return \Elastica\ResultSet
      */
-    private function executeMatch(
-        ContextSearch_ElasticSearch_FormatQuery $formatQuery,
-        ContextSearch_ElasticSearch_BuildExecute_GET $elasticSearchGET,
-        $term,
-        $from = null,
-        $size = null
-    )
+    private function executeMatch($term, $from = null, $size = null)
     {
-        $formatQuery->clearQuery();
+        $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
 
         $formatQuery->setMultiMatch($this->parameters['search_fields'], $term);
         $formatQuery->setFrom($from);
         $formatQuery->setSize($size);
 
-        return $elasticSearchGET->buildQuery($formatQuery)->execute();
+        return $this->elasticSearchGET->buildQuery($formatQuery)->execute();
     }
 
     /**
