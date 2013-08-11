@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b4b762a950ff31765066c213f7b70bba",
+    "hash": "3ac27ae5f84aa9f6eb40734abe76746f",
     "packages": [
         {
             "name": "imagine/imagine",
@@ -63,17 +63,65 @@
             "time": "2013-07-19 16:16:00"
         },
         {
+            "name": "kriswallsmith/buzz",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/Buzz.git",
+                "reference": "d7545a943496c401f7f5248f285e44b33c86905e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/d7545a943496c401f7f5248f285e44b33c86905e",
+                "reference": "d7545a943496c401f7f5248f285e44b33c86905e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
+            ],
+            "time": "2013-06-04 15:32:22"
+        },
+        {
             "name": "ruflin/elastica",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "c17798525538f24ee32e81f5ddd9a01adb7ada1c"
+                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/c17798525538f24ee32e81f5ddd9a01adb7ada1c",
-                "reference": "c17798525538f24ee32e81f5ddd9a01adb7ada1c",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/e600c3e2520ff550b927464a762e482cd0d225c4",
+                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4",
                 "shasum": ""
             },
             "require": {
@@ -116,7 +164,7 @@
                 "client",
                 "search"
             ],
-            "time": "2013-08-03 19:01:49"
+            "time": "2013-08-08 08:36:24"
         },
         {
             "name": "symfony/class-loader",
@@ -175,12 +223,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/290fe87d3618ce49c2caf7c456402affbd9917ac",
-                "reference": "290fe87d3618ce49c2caf7c456402affbd9917ac",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -227,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "95833f748fc5e7de4584ffa7e06d55d1743ab8e0"
+                "reference": "6efbf4631cc47b2c5c1c5fee87c2f6191f255e70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/95833f748fc5e7de4584ffa7e06d55d1743ab8e0",
-                "reference": "95833f748fc5e7de4584ffa7e06d55d1743ab8e0",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/6efbf4631cc47b2c5c1c5fee87c2f6191f255e70",
+                "reference": "6efbf4631cc47b2c5c1c5fee87c2f6191f255e70",
                 "shasum": ""
             },
             "require": {
@@ -262,7 +310,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2013-07-22 18:15:25"
+            "time": "2013-08-05 16:58:54"
         }
     ],
     "packages-dev": [
@@ -277,7 +325,8 @@
         "ruflin/elastica": 20,
         "symfony/class-loader": 20,
         "symfony/console": 20,
-        "imagine/imagine": 20
+        "imagine/imagine": 20,
+        "kriswallsmith/buzz": 20
     },
     "platform": {
         "php": ">=5.3.3"

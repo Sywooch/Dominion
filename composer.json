@@ -12,6 +12,7 @@
         "ruflin/elastica": "0.20.5.*@dev",
         "symfony/class-loader": "2.4.*@dev",
         "symfony/console": "2.3.*@dev",
-        "imagine/imagine": "dev-develop"
+        "imagine/imagine": "dev-develop",
+        "kriswallsmith/buzz": "dev-master"
     }
 }
