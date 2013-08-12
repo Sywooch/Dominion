@@ -9,42 +9,44 @@ class models_SearchCash extends ZendDBEntity
     protected $_item2 = 'ITEM2';
     protected $_item7 = 'ITEM7';
     protected $_itemr = 'ITEMR';
+
     protected $_attribut = 'ATTRIBUT';
     protected $_attr_catalog_vis = 'ATTR_CATALOG_VIS';
+
     protected $_catalogue = 'CATALOGUE';
     protected $_search_cash = 'SEARCH_CASH';
     protected $_search_cash_item = 'SEARCH_CASH_ITEM';
 
     public function getItem()
     {
-        $sql = "select ITEM_ID
-               , CATALOGUE_ID
-               , BRAND_ID
-          from {$this->_name}
-          where IS_CASHED = 0
-            and STATUS = 1
-          limit 1";
+        $sql = "SELECT ITEM_ID
+               , CATALOGUE_ID 
+               , BRAND_ID 
+          FROM {$this->_name}
+          WHERE IS_CASHED = 0
+            AND STATUS = 1
+          LIMIT 1";
 
         return $this->_db->fetchRow($sql);
     }
 
     public function getVisAttr($catalogue_id)
     {
-        $sql = "select A.ATTRIBUT_ID
-               , A.TYPE
-          from {$this->_attribut} as A
-          inner join {$this->_attr_catalog_vis} ACV on (ACV.ATTRIBUT_ID = A.ATTRIBUT_ID)
-          where ACV.CATALOGUE_ID = ?
+        $sql = "SELECT A.ATTRIBUT_ID
+               , A.TYPE 
+          FROM {$this->_attribut} AS A
+          INNER JOIN {$this->_attr_catalog_vis} ACV ON (ACV.ATTRIBUT_ID = A.ATTRIBUT_ID)
+          WHERE ACV.CATALOGUE_ID = ?
             AND A.STATUS = 1
-          order by A.ATTRIBUT_ID";
+          ORDER BY A.ATTRIBUT_ID";
 
         return $this->_db->fetchAll($sql, $catalogue_id);
     }
 
     public function resetItem()
     {
-        $sql = "update {$this->_name}
-          set IS_CASHED = 0";
+        $sql = "UPDATE {$this->_name}
+          SET IS_CASHED = 0";
 
         $this->_db->query($sql);
     }
@@ -58,8 +60,8 @@ class models_SearchCash extends ZendDBEntity
             $where = " where ITEM_ID in ({$_search_items})";
         }
 
-        $sql = "update {$this->_name}
-          set IS_CASHED = 1
+        $sql = "UPDATE {$this->_name}
+          SET IS_CASHED = 1
           {$where}";
 
         $this->_db->query($sql);
@@ -105,10 +107,10 @@ class models_SearchCash extends ZendDBEntity
                 break;
         }
 
-        $sql = "select VALUE
-          from {$table}
-          where ITEM_ID = {$params['item_id']}
-            and ATTRIBUT_ID = {$params['attr_id']}";
+        $sql = "SELECT VALUE
+          FROM {$table}
+          WHERE ITEM_ID = {$params['item_id']}
+            AND ATTRIBUT_ID = {$params['attr_id']}";
 
         return $this->_db->fetchOne($sql);
     }
@@ -149,13 +151,13 @@ class models_SearchCash extends ZendDBEntity
             $where = " and A.ITEM_ID in ({$_search_items})";
         }
 
-        $sql = "select A.ITEM_ID
-          from {$table} A
-          inner join {$this->_name} I ON (I.ITEM_ID = A.ITEM_ID)
-          inner join {$this->_catalogue} C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
-          where A.ATTRIBUT_ID = {$params['attr_id']}
-            and I.CATALOGUE_ID = {$params['catalogue_id']}
-            and I.STATUS = 1
+        $sql = "SELECT A.ITEM_ID
+          FROM {$table} A
+          INNER JOIN {$this->_name} I ON (I.ITEM_ID = A.ITEM_ID)
+          INNER JOIN {$this->_catalogue} C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+          WHERE A.ATTRIBUT_ID = {$params['attr_id']}
+            AND I.CATALOGUE_ID = {$params['catalogue_id']}
+            AND I.STATUS = 1
             {$value}
             {$where}";
 
@@ -183,9 +185,9 @@ class models_SearchCash extends ZendDBEntity
         if (!empty($_cash)) {
             foreach ($_cash as $ch) {
                 if (count($ch) > 1) {
-                    $math.= '(' . implode(' or ', $ch) . ') and ';
+                    $math .= '(' . implode(' or ', $ch) . ') and ';
                 } else {
-                    $math.= implode('', $ch) . ' and ';
+                    $math .= implode('', $ch) . ' and ';
                 }
             }
         }
@@ -195,12 +197,12 @@ class models_SearchCash extends ZendDBEntity
             $where = " and BRAND_ID in ({$_brands})";
         }
 
-        $sql = "select *
-          from {$this->_search_cash_item}
-          use index (CATALOGUE_ID, BRAND_ID)
-          where CATALOGUE_ID = {$catalogue_id}
+        $sql = "SELECT *
+          FROM {$this->_search_cash_item}
+          USE INDEX (CATALOGUE_ID, BRAND_ID)
+          WHERE CATALOGUE_ID = {$catalogue_id}
           {$where}
-          and  {$math} 1";
+          AND  {$math} 1";
 
         return $this->_db->fetchAll($sql);
     }
@@ -209,27 +211,26 @@ class models_SearchCash extends ZendDBEntity
     {
         $having = '';
         if (!empty($price['pmin'])) {
-            $having.= " and result >= {$price['pmin']} ";
+            $having .= " and result >= {$price['pmin']} ";
         }
 
         if (!empty($price['pmax'])) {
-            $having.= " and result <= {$price['pmax']} ";
+            $having .= " and result <= {$price['pmax']} ";
         }
 
         $_item = implode(', ', $item);
 
-        $sql = "select SCI.*
+        $sql = "SELECT SCI.*
                , if( I.PRICE1 >0, I.PRICE1, I.PRICE ) AS result
                , I.PRICE
                , I.PRICE1
                , I.CURRENCY_ID
                , I.IS_ACTION
-          from {$this->_search_cash_item} SCI
-          inner join {$this->_name} I on (I.ITEM_ID = SCI.ITEM_ID)
-          where SCI.ITEM_ID in ({$_item})
-          having result > 0 {$having}";
+          FROM {$this->_search_cash_item} SCI
+          INNER JOIN {$this->_name} I ON (I.ITEM_ID = SCI.ITEM_ID)
+          WHERE SCI.ITEM_ID IN ({$_item})
+          HAVING result > 0 {$having}";
 
         return $this->_db->fetchAll($sql);
     }
-
 }

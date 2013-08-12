@@ -24,13 +24,12 @@ class Format_FormatDataElastic
     {
         foreach ($items as $key => $item) {
             $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
+
+            $items[$key]['MAIN_ALTERNATIVE'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . preg_replace("/\s/", "", $item['NAME_PRODUCT'], 1);
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
 
             unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
         }
-
-        // TODO: ????? Что удаляем?
-        unset($tmpArrLink);
 
         return $items;
     }
@@ -67,6 +66,7 @@ class Format_FormatDataElastic
                 'height' => $image[2]
             );
 
+            $goods[$key]['value'] = "{$data['TYPENAME']} {$data['BRAND']} {$data['NAME_PRODUCT']}";
             $goods[$key] = $this->replaceValue($goods[$key], null, "");
             $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
         }
@@ -86,10 +86,9 @@ class Format_FormatDataElastic
         $this->formatPrices($pricesObjectValue);
 
         $items = $pricesObjectValue->getItems();
-        foreach ($items as $key => $item) {
-            foreach ($dataResult as $data) {
-                $items[$key]['URL'] = $data['URL'];
-            }
+
+        foreach ($dataResult as $data) {
+            $items[$data['ITEM_ID']]['URL'] = $data['URL'];
         }
 
         return $items;
@@ -116,7 +115,7 @@ class Format_FormatDataElastic
 
             $item = $pricesObjectValue->getDiscount()->calcDiscount($roundItem);
 
-            $pricesObjectValue->setItem($item);
+            $pricesObjectValue->setItem($item, $item['ITEM_ID']);
         }
     }
 

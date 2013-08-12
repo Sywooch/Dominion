@@ -1,4 +1,5 @@
 <?php
+
 class DocController extends App_Controller_Frontend_Action
 {
 
@@ -63,8 +64,7 @@ class DocController extends App_Controller_Frontend_Action
                 $pattern_item = '/item-(\d*)/';
                 if (preg_match($pattern_item, $url, $out)) {
                     $item = $Item->getItemInfoForUrl($out[1]);
-                    $url = 'http://' . $_SERVER['HTTP_HOST'] . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' . $item['CATNAME'] . '/';
-                    ;
+                    $url = 'http://' . $_SERVER['HTTP_HOST'] . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' . $item['CATNAME'] . '/';;
                 }
 
                 $social['URL'] = str_replace('&amp;', '&', $social['URL']);

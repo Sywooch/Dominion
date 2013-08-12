@@ -33,19 +33,26 @@ class ContextSearch_ElasticSearch_FormatQuery
     }
 
     /**
+     * Seteer should
+     */
+    public function setShould()
+    {
+        $this->formatQuery['bool']['should'] = array();
+    }
+
+    /**
      * Set Query String
      *
      * @param array $data
      */
     public function setQueryStringArray(array $data)
     {
-
         foreach ($data as $key => $value) {
             if (!isset($this->formatQuery['bool']['must'])) {
-                $this->formatQuery[] = array("query_string" => array("default_field" => $key, "query" => $value));
+                $this->formatQuery['bool']['must'][] = array("query_string" => array("default_field" => $key, "query" => $value));
+            } else if (!isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("query_string" => array("default_field" => $key, "query" => $value));
             }
-
-            $this->formatQuery['bool']['must'][] = array("query_string" => array("default_field" => $key, "query" => $value));
         }
     }
 
@@ -57,24 +64,30 @@ class ContextSearch_ElasticSearch_FormatQuery
     public function setQueryString(array $data)
     {
         foreach ($data as $key => $value) {
-            if (!isset($this->formatQuery['bool']['must'])) {
-                $this->formatQuery['query_string'] = array("default_field" => $key, "query" => $value);
+            if (isset($this->formatQuery['bool']['must'])) {
+                $this->formatQuery['bool']['must'][] = array("query_string" => array("default_field" => $key, "query" => $value));
+            } else if (isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("query_string" => array("default_field" => $key, "query" => $value));
             }
-
-            $this->formatQuery['bool']['must']['query_string'] = array("default_field" => $key, "query" => $value);
         }
     }
 
     /**
-     * Set Prefix like Filter
+     * Set prefix for elastic search
      *
-     * @param string $prefix
-     * @param array $fields
+     * @param array $data
      */
-    public function setPrefix($prefix, array $fields)
+    public function setPrefix(array $data)
     {
-        $this->formatQuery['prefix'] = array("prefix" => $prefix, "fields" => $fields);
+        foreach ($data as $key => $value) {
+            if (isset($this->formatQuery["bool"]['must'])) {
+                $this->formatQuery['bool']['must'][] = array("prefix" => array($key => $value));
+            } else if (isset($this->formatQuery['bool']['should'])) {
+                $this->formatQuery['bool']['should'][] = array("prefix" => array($key => $value));
+            }
+        }
     }
+
 
     /**
      * Setter count

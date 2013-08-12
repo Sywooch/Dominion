@@ -1,9 +1,11 @@
 <?php
-class models_SectionAlign extends ZendDBEntity{
-  protected $_name = 'SECTION_ALIGN';
-  
-  public function GetBanns($where){     
-    $sql="select ALIGN_ID
+class models_SectionAlign extends ZendDBEntity
+{
+    protected $_name = 'SECTION_ALIGN';
+
+    public function GetBanns($where)
+    {
+        $sql = "SELECT ALIGN_ID
                 ,IMAGE1
                 ,TYPE
                 ,ALT
@@ -11,16 +13,17 @@ class models_SectionAlign extends ZendDBEntity{
                 ,BANNER_CODE
                 ,URL
                 ,NEWWIN 
-          from {$this->_name} 
-          where BANN_SECTION_ID=? 
-            and STATUS=1";
-    
-    return $this->_db->fetchAll($sql, array($where));
-  }
+          FROM {$this->_name}
+          WHERE BANN_SECTION_ID=?
+            AND STATUS=1";
+
+        return $this->_db->fetchAll($sql, array($where));
+    }
 
 
-  public function getBanners($align,$section){
-    $sql = "select SECTION_ALIGN_ID,
+    public function getBanners($align, $section)
+    {
+        $sql = "SELECT SECTION_ALIGN_ID,
                    IMAGE1,
                    ALT,
                    DESCRIPTION,
@@ -28,17 +31,18 @@ class models_SectionAlign extends ZendDBEntity{
                    TYPE,
                    URL,
                    NEWWIN 
-            from {$this->_name} 
-            where ALIGN_ID={$align} 
-              and BANN_SECTION_ID={$section}
-              and STATUS=1
-            order by ORDERING";
-              
-     return $this->_db->fetchAll($sql);
-   }
-   
-   public function getRandomBanner($align,$section,$lang=0){
-     $sql = "select SECTION_ALIGN_ID,
+            FROM {$this->_name}
+            WHERE ALIGN_ID={$align}
+              AND BANN_SECTION_ID={$section}
+              AND STATUS=1
+            ORDER BY ORDERING";
+
+        return $this->_db->fetchAll($sql);
+    }
+
+    public function getRandomBanner($align, $section, $lang = 0)
+    {
+        $sql = "SELECT SECTION_ALIGN_ID,
                     IMAGE1,
                     ALT,
                     DESCRIPTION,
@@ -46,36 +50,33 @@ class models_SectionAlign extends ZendDBEntity{
                     TYPE,
                     URL,
                     NEWWIN 
-             from {$this->_name} 
-             where ALIGN_ID=? 
-               and BANN_SECTION_ID=? 
-               and STATUS=1 
-             order by RAND() limit 0,1";
-             
-     $banner = $this->_db->fetchRow($sql, array($align,$section));
+             FROM {$this->_name}
+             WHERE ALIGN_ID=?
+               AND BANN_SECTION_ID=?
+               AND STATUS=1
+             ORDER BY RAND() LIMIT 0,1";
 
-      $burl = '';
-      if($banner['URL']!='' || strchr($banner['URL'],"http:")) $burl = $banner['URL'];
-      else
-      {
-        if($banner['URL']!='')
-        {
-           if(strchr($banner['URL'],"doc"))
-           {
-              if(substr($banner['URL'],0,1) != "/") $burl .= "/";
-              $burl .= $banner['URL'];
-           }
-           else
-           {
-              if(substr($banner['URL'],0,1) != "/") $burl = "/doc/".$banner['URL'];
-              else $burl = "/doc".$banner['URL'];
-           }
-           if(substr($banner['URL'],-1) != "/") $burl .="/";
-        } else $burl = '';
-      }
-      if($burl!='') $banner['burl'] = $burl;
-      else $banner['burl'] = '';
-      return $banner;
-   }
+        $banner = $this->_db->fetchRow($sql, array($align, $section));
+
+        $burl = '';
+        if ($banner['URL'] != '' || strchr($banner['URL'], "http:")) $burl = $banner['URL'];
+        else {
+            if ($banner['URL'] != '') {
+                if (strchr($banner['URL'], "doc")) {
+                    if (substr($banner['URL'], 0, 1) != "/") $burl .= "/";
+                    $burl .= $banner['URL'];
+                } else {
+                    if (substr($banner['URL'], 0, 1) != "/") $burl = "/doc/" . $banner['URL'];
+                    else $burl = "/doc" . $banner['URL'];
+                }
+                if (substr($banner['URL'], -1) != "/") $burl .= "/";
+            } else $burl = '';
+        }
+        if ($burl != '') $banner['burl'] = $burl;
+        else $banner['burl'] = '';
+
+        return $banner;
+    }
 }
+
 ?>

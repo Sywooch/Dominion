@@ -39,11 +39,11 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
         $_attrib = $this->getAttribArray($_cash);
 
         $this->items_result = $SearchCash->getCashedItems($_attrib,
-                                                          $this->params['catalogue_id'],
-                                                          $this->params['brands']);
+            $this->params['catalogue_id'],
+            $this->params['brands']);
         $this->items_result_wb = $SearchCash->getCashedItems($_attrib,
-                                                             $this->params['catalogue_id'],
-                                                             0);
+            $this->params['catalogue_id'],
+            0);
 
         if (!empty($this->params['pmin']) || !empty($this->params['pmax'])) {
             $items = $this->getItemsResultId();
@@ -69,6 +69,7 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
      * Составить список всех уникальных атрибутов и брендов для активации
      *
      * @param array $items
+     *
      * @return array
      */
     public function getAttributsForActive()
@@ -88,13 +89,13 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
         $_brands = array_unique($_brands);
 
         $items_result = $SearchCash->getCashedItems(null,
-                                                    $this->params['catalogue_id'],
-                                                    $_brands);
+            $this->params['catalogue_id'],
+            $_brands);
 
         if (!empty($this->items_result)) {
             foreach ($this->items_result as $itm) {
                 $_search_cash = array_map('trim',
-                                          explode(' ', $itm['SEARCH_CASH']));
+                    explode(' ', $itm['SEARCH_CASH']));
 
                 $_attrib_temp = array_merge($_attrib_temp, $_search_cash);
             }
@@ -129,7 +130,8 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
      *
      * @param integer $atr
      * @param integer $val
-     * @param string $decart
+     * @param string  $decart
+     *
      * @return string
      */
     private function getDecart($atr, $val, $decart)
@@ -187,10 +189,10 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
         $result = array();
         foreach ($items as $view) {
             list($new_price, $new_price1) = $Item->recountPrice($view['PRICE'],
-                                                                $view['PRICE1'],
-                                                                $view['CURRENCY_ID'],
-                                                                $this->params['currency_id'],
-                                                                $curr_info['PRICE']);
+                $view['PRICE1'],
+                $view['CURRENCY_ID'],
+                $this->params['currency_id'],
+                $curr_info['PRICE']);
 
             if ($this->params['currency_id'] > 1) {
                 $view['iprice'] = round($new_price, 1);
@@ -207,12 +209,10 @@ class Helpers_ItemSelection extends App_Controller_Helper_HelperAbstract
             if (!empty($this->params['nat_pmin']) && !empty($this->params['nat_pmax'])) {
                 if ($this->params['nat_pmax'] >= $result_price && $result_price >= $this->params['nat_pmin'])
                     $result[] = $view;
-            }
-            elseif (!empty($this->params['nat_pmin']) && empty($this->params['nat_pmax'])) {
+            } elseif (!empty($this->params['nat_pmin']) && empty($this->params['nat_pmax'])) {
                 if ($this->params['nat_pmin'] <= $result_price)
                     $result[] = $view;
-            }
-            elseif (empty($this->params['nat_pmin']) && !empty($this->params['nat_pmax'])) {
+            } elseif (empty($this->params['nat_pmin']) && !empty($this->params['nat_pmax'])) {
                 if ($this->params['nat_pmax'] >= $result_price)
                     $result[] = $view;
             }

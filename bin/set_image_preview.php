@@ -29,7 +29,7 @@ $db->getConnection();
 $registry->set('db_connect', $db);
 
 $saveImagePath = SITE_PATH . "/images/it";
-$baseImagePath = ROOT_PATH . "/upload_images";
+$baseImagePath = UPLOAD_PATH;
 
 $settingsModel = new models_SystemSets();
 $width = $settingsModel->getSettingValue('item_main_icon_x_small');
@@ -50,11 +50,31 @@ $stm = $itemsModels->getAllImageBase();
 while ($row = $stm->fetch()) {
 
     // Проверяем наличие картинки BASE
+    // Если картинка существует - конвертим из ней
+    // Если нет - конвертим из IMAGE3
+
+    $baseImage = "{$baseImagePath}/{$row['BASE_IMAGE']}";
+
+    $bigImage = "";
+
+    if (!empty($row['IMAGE3'])) {
+        $bigImage = preg_split('/#/', $row['IMAGE3']);
+        $bigImage = "$saveImagePath/{$bigImage[0]}";
+    }
+
+    if (!file_exists($baseImage) && !file_exists($bigImage)) {
+        // Картинок для конвертации совсем нет - следуюущая итерация
+        continue;
+    } elseif (file_exists($baseImage)) {
+        // nothing to do
+    } elseif (file_exists($bigImage)) {
+        $baseImage = $bigImage;
+    }
 
 
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
         "small_{$row['ITEM_ID']}",
-        "{$baseImagePath}/{$row['BASE_IMAGE']}",
+        $baseImage,
         $saveImagePath,
         $width,
         $height

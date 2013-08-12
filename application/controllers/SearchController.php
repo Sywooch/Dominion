@@ -90,8 +90,8 @@ class SearchController extends App_Controller_Frontend_Action
      * Generate XML
      *
      * @param Helpers_CustomPaginator $paginator
-     * @param array $items
-     * @param string $searchText
+     * @param array                   $items
+     * @param string                  $searchText
      */
     private function generateXML(Helpers_CustomPaginator $paginator, $items, $searchText)
     {
@@ -239,6 +239,7 @@ class SearchController extends App_Controller_Frontend_Action
                 }
             }
         }
+
         return TRUE;
     }
 

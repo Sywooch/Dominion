@@ -1,20 +1,20 @@
 <?php
 
-//  require_once 'Zend/Controller/Action.php';
 /**
  * Контроллер который обрабатыевает не существующие УРЛ
  */
-class ErrorController extends App_Controller_Frontend_Action {
+class ErrorController extends App_Controller_Frontend_Action
+{
 
-    public function init() {
+    public function init()
+    {
         parent::init();
     }
 
-    public function errorAction() {
-
+    public function errorAction()
+    {
 
         $errors = $this->_getParam('error_handler');
-
 
         // TODO: Пока это гвоздь - в дальнейшем надо сделать логирование ошибок
         if (DEBUG_MODE) {
@@ -22,7 +22,6 @@ class ErrorController extends App_Controller_Frontend_Action {
             var_dump($errors->exception);
             exit;
         }
-
 
 
         switch ($errors->type) {
