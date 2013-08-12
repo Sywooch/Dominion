@@ -1,6 +1,6 @@
 <?php
 
-require_once 'ExcelData.php';
+require_once  realpath(__DIR__ . '/../ExcelGenerate/ExcelData.php');
 require_once 'iConfig.php';
 
 class XmlConfig implements iConfig {
