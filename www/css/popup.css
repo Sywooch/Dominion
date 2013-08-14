@@ -152,4 +152,5 @@ input.error{
 
 .social_block{
   clear: both;
+    float: left;
 }

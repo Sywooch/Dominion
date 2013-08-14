@@ -50,6 +50,7 @@
 <xsl:template name="headers">
 <script type="text/javascript" src="/js/jquery.jcarousel.js"/>
 <script type="text/javascript" src="/js/attributs.js"/>
+<script type="text/javascript" src="http://js.testfreaks.com/badge/7560000.com.ua/head.js"/>
 </xsl:template>
 
 <xsl:template match="attributes">
@@ -529,8 +530,13 @@ $().ready(function() {
 				<ul class="socset">
 					<xsl:apply-templates select="//banner_social_likes"/>
 				</ul>
+
 			</xsl:if>
+
 		</div>
+        <div style="float:right">
+            <a id="tfw-badge" href="http://www.testfreaks.com.ua">TestFreaks</a>
+        </div>
 
 	</div>
 	<div class="content_block">
