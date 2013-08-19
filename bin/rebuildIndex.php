@@ -41,7 +41,7 @@ $data = array();
 
 while ($row = $query->fetch()) {
 
-    if (count($data) < 500) {
+    if (count($data) < 499) {
         $data[$row['ITEM_ID']] = $row;
 
         continue;
