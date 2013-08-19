@@ -1,24 +1,27 @@
 <?php
 
-class models_Catalogue extends ZendDBEntity {
+class models_Catalogue extends ZendDBEntity
+{
 
     protected $_name = 'CATALOGUE';
 
-    public function getCatPath($id) {
-        $sql = "select CATALOGUE_ID
+    public function getCatPath($id)
+    {
+        $sql = "SELECT CATALOGUE_ID
                   ,PARENT_ID
                   ,NAME
                   ,CATNAME
-                  ,IF(CATNAME!='',REALCATNAME,'') as REALCATNAME
+                  ,IF(CATNAME!='',REALCATNAME,'') AS REALCATNAME
                   ,URL
-            from {$this->_name}
-            where CATALOGUE_ID=?";
+            FROM {$this->_name}
+            WHERE CATALOGUE_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
-    public function getTree($parentId = 0) {
-        $sql = "select CATALOGUE_ID
+    public function getTree($parentId = 0)
+    {
+        $sql = "SELECT CATALOGUE_ID
                     ,PARENT_ID
                     ,NAME
                     ,CATNAME
@@ -26,28 +29,30 @@ class models_Catalogue extends ZendDBEntity {
                     ,IS_INDEX
                     ,URL
                     ,IMAGE1
-              from {$this->_name}
-              where PARENT_ID=?
-                and REALSTATUS=1
-                and COUNT_ > 0
-              order by ORDERING";
+              FROM {$this->_name}
+              WHERE PARENT_ID=?
+                AND REALSTATUS=1
+                AND COUNT_ > 0
+              ORDER BY ORDERING";
 
         return $this->_db->fetchAll($sql, $parentId);
     }
 
-    public function getAllCats() {
-        $sql = "select CATALOGUE_ID
+    public function getAllCats()
+    {
+        $sql = "SELECT CATALOGUE_ID
                     ,PARENT_ID
                     ,NAME
-              from {$this->_name}
-              where REALSTATUS=1
-                and COUNT_ > 0
-              order by ORDERING";
+              FROM {$this->_name}
+              WHERE REALSTATUS=1
+                AND COUNT_ > 0
+              ORDER BY ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function itemCount($id, $brand_id = 0) {
+    public function itemCount($id, $brand_id = 0)
+    {
         $childs = $this->getChildren($id);
 
         $where = '';
@@ -68,33 +73,34 @@ class models_Catalogue extends ZendDBEntity {
         return $this->_db->fetchOne($sql);
     }
 
-    public function getChildren($id) {
+    public function getChildren($id)
+    {
         $path = array();
-        $sql = "select CATALOGUE_ID
-               from {$this->_name}
-               where PARENT_ID=?
-                 and STATUS=1
-               order by ORDERING, CATALOGUE_ID";
-               
+        $sql = "SELECT CATALOGUE_ID
+               FROM {$this->_name}
+               WHERE PARENT_ID=?
+                 AND STATUS=1
+               ORDER BY ORDERING, CATALOGUE_ID";
         $childs = $this->_db->fetchAll($sql, $id);
 
         if (count($childs) > 0) {
-          foreach ($childs as $child) {
-            if ($child['CATALOGUE_ID'] > 0) {
-              $path[] = $child['CATALOGUE_ID'];
-              $path = array_merge($path, $this->getChildren($child['CATALOGUE_ID']));
+            foreach ($childs as $child) {
+                if ($child['CATALOGUE_ID'] > 0) {
+                    $path[] = $child['CATALOGUE_ID'];
+                    $path = array_merge($path, $this->getChildren($child['CATALOGUE_ID']));
+                }
             }
-          }
         }
 
         return $path;
     }
 
-    public function getAllParents($id, $path) {
-        $sql = "select PARENT_ID
-              from {$this->_name}
-              where CATALOGUE_ID={$id}
-                and STATUS=1";
+    public function getAllParents($id, $path)
+    {
+        $sql = "SELECT PARENT_ID
+              FROM {$this->_name}
+              WHERE CATALOGUE_ID={$id}
+                AND STATUS=1";
 
         $parent_id = $this->_db->fetchOne($sql);
 
@@ -106,79 +112,89 @@ class models_Catalogue extends ZendDBEntity {
         return $path;
     }
 
-    public function getChildCatCount($id) {
-        $sql = "select count(*)
-             from {$this->_name} C
-             where PARENT_ID = {$id}
-               and REALSTATUS=1";
+    public function getChildCatCount($id)
+    {
+        $sql = "SELECT count(*)
+             FROM {$this->_name} C
+             WHERE PARENT_ID = {$id}
+               AND REALSTATUS=1";
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function getChildItemCount($params) {
+    public function getChildItemCount($params)
+    {
         $where = '';
 
         if (!empty($params['brand_id']) && is_array($params['brand_id'])) {
             $_brand = implode(", ", $params['brand_id']);
 
-            $where.=" and BRAND_ID IN ({$_brand}) ";
+            $where .= " and BRAND_ID IN ({$_brand}) ";
         } elseif (!empty($params['brand_id']) && !is_array($params['brand_id'])) {
-            $where.=" and BRAND_ID = {$params['brand_id']} ";
+            $where .= " and BRAND_ID = {$params['brand_id']} ";
         }
 
         if (!empty($params['catalogue_id'])) {
-            $where.=" and CATALOGUE_ID = {$params['catalogue_id']} ";
+            $where .= " and CATALOGUE_ID = {$params['catalogue_id']} ";
         }
 
         if (!empty($params['items_id'])) {
             $_items = implode(", ", $params['items_id']);
 
-            $where.=" and ITEM_ID IN ({$_items}) ";
+            $where .= " and ITEM_ID IN ({$_items}) ";
         }
 
-        $sql = "select count(*)
-            from ITEM
-            where STATUS = 1
-              and PRICE > 0
-              {$where}";
+        $sql = "SELECT count(*)
+            FROM ITEM
+            WHERE STATUS = 1
+              AND PRICE > 0 " .
+            $where;
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function getCatalogueId($cat) {
+    public function getCatalogueId($cat)
+    {
         $sql = "select CATALOGUE_ID from {$this->_name} where REALCATNAME = '/" . $cat . "/'";
+
         return $this->_db->fetchOne($sql);
     }
 
-    public function getCatName($id) {
-        return $this->_db->fetchOne("select NAME from {$this->_name} where CATALOGUE_ID=?", array($id));
+    public function getCatName($id)
+    {
+        return $this->_db->fetchOne("SELECT NAME FROM {$this->_name} WHERE CATALOGUE_ID=?", array($id));
     }
 
-    public function getParentId($id) {
-        $sql = "select PARENT_ID from {$this->_name} where CATALOGUE_ID=?";
+    public function getParentId($id)
+    {
+        $sql = "SELECT PARENT_ID FROM {$this->_name} WHERE CATALOGUE_ID=?";
+
         return $this->_db->fetchOne($sql, $id);
     }
 
-    public function getCatRealCat($id) {
-        $sql = "select REALCATNAME from {$this->_name} where CATALOGUE_ID=?";
+    public function getCatRealCat($id)
+    {
+        $sql = "SELECT REALCATNAME FROM {$this->_name} WHERE CATALOGUE_ID=?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
-    public function getParents($id) {
-        $sql = "select PARENT_ID
+    public function getParents($id)
+    {
+        $sql = "SELECT PARENT_ID
                     , CATALOGUE_ID
                     , NAME
                     , REALCATNAME
-               from {$this->_name}
-               where CATALOGUE_ID={$id}
-                 and STATUS=1";
+               FROM {$this->_name}
+               WHERE CATALOGUE_ID={$id}
+                 AND STATUS=1";
 
         return $this->_db->fetchRow($sql);
     }
 
-    public function getCatInfo($id) {
-        $sql = "select PARENT_ID
+    public function getCatInfo($id)
+    {
+        $sql = "SELECT PARENT_ID
                      ,CATALOGUE_ID
                      ,NAME
                      ,CATNAME
@@ -190,13 +206,13 @@ class models_Catalogue extends ZendDBEntity {
                      ,SUB_TITLE
                      ,DESC_META
                      ,KEYWORD_META
-               from {$this->_name}
-               where CATALOGUE_ID=?";
+               FROM {$this->_name}
+               WHERE CATALOGUE_ID=?";
 
         $result = $this->_db->fetchRow($sql, $id);
 
         if ($result) {
-            $xml = $this->_db->fetchOne("select XML from XMLS where TYPE=2 and XMLS_ID=?", $id);
+            $xml = $this->_db->fetchOne("SELECT XML FROM XMLS WHERE TYPE=2 AND XMLS_ID=?", $id);
             if ($xml)
                 $result['LONG_TEXT'] = $xml;
             else
@@ -206,17 +222,19 @@ class models_Catalogue extends ZendDBEntity {
         return $result;
     }
 
-    public function getCurrencies() {
-        $sql = "select CURRENCY_ID,
+    public function getCurrencies()
+    {
+        $sql = "SELECT CURRENCY_ID,
                        NAME,
                        SYSTEM_NAME
-                from CURRENCY
-                order by CURRENCY_ID";
+                FROM CURRENCY
+                ORDER BY CURRENCY_ID";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function getBrands($catid = 0) {
+    public function getBrands($catid = 0)
+    {
 
 //        $sql = "select B.BRAND_ID
 //                     ,B.NAME
@@ -251,20 +269,22 @@ class models_Catalogue extends ZendDBEntity {
         return $this->_db->fetchAll($sql, array($catid, $catid));
     }
 
-    public function getCount($f, $id) {
+    public function getCount($f, $id)
+    {
 
     }
 
-    public function getComparedItems() {
+    public function getComparedItems()
+    {
         $comp_cats = array();
         if (!empty($_SESSION['citems'])) {
             $i = 0;
             foreach ($_SESSION['citems'] as $key => $Coms) {
                 if ($key > 0 && !empty($Coms)) {
-                    $sql = "select NAME
-                    from {$this->_name}
-                    where CATALOGUE_ID = {$key}
-                      and STATUS=1";
+                    $sql = "SELECT NAME
+                    FROM {$this->_name}
+                    WHERE CATALOGUE_ID = {$key}
+                      AND STATUS=1";
 
                     $cat_name = $this->_db->fetchOne($sql);
 
@@ -293,12 +313,14 @@ class models_Catalogue extends ZendDBEntity {
                 }
             }
         }
+
         return $comp_cats;
     }
 
-    public function CheckEmptyItems($table, $V_ATTRIBUT_ID) {
+    public function CheckEmptyItems($table, $V_ATTRIBUT_ID)
+    {
         if ($V_ATTRIBUT_ID != 11111 && $V_ATTRIBUT_ID != 22222) {
-            $q = "select TYPE,IS_RANGEABLE from ATTRIBUT where STATUS=1 and ATTRIBUT_ID=?";
+            $q = "SELECT TYPE,IS_RANGEABLE FROM ATTRIBUT WHERE STATUS=1 AND ATTRIBUT_ID=?";
             $row = $this->_db->fetchRow($q, $V_ATTRIBUT_ID);
             $TYPE = $row['TYPE'];
             $IS_RANGEABLE = $row['IS_RANGEABLE'];
@@ -315,7 +337,7 @@ class models_Catalogue extends ZendDBEntity {
             } elseif ($TYPE == 3) {
                 $query = 'select S.ITEM_ID,G.VALUE from ' . $table . ' S inner join ITEM0 G on S.ITEM_ID=G.ITEM_ID inner join ATTRIBUT_LIST AL on AL.ATTRIBUT_LIST_ID=G.VALUE where G.ATTRIBUT_ID=' . $V_ATTRIBUT_ID . '  and G.VALUE <> ""'; #group by G.VALUE
             }
-            $count = 0;  //echo $query."<br>";
+            $count = 0; //echo $query."<br>";
             if ($query != '') {
                 $itms = $this->_db->fetchAll($query);
 
@@ -330,89 +352,94 @@ class models_Catalogue extends ZendDBEntity {
                     return 1;
             } else
                 return 1;
-        }
-        else {
+        } else {
 
         }
     }
 
-    public function getCurrencyRate() {
-        $sql = "select PRICE
-             from CURRENCY
-             where SYSTEM_NAME = 'USD'";
+    public function getCurrencyRate()
+    {
+        $sql = "SELECT PRICE
+             FROM CURRENCY
+             WHERE SYSTEM_NAME = 'USD'";
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function getCurrencyId($name) {
-        $sql = "select CURRENCY_ID
-             from CURRENCY
-             where SYSTEM_NAME = '{$name}'";
+    public function getCurrencyId($name)
+    {
+        $sql = "SELECT CURRENCY_ID
+             FROM CURRENCY
+             WHERE SYSTEM_NAME = '{$name}'";
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function getPriceIndentId($indent) {
-        $sql = "select PRICE_EXPORT_ID
-             from PRICE_EXPORT
-             where INDENT = '{$indent}'";
+    public function getPriceIndentId($indent)
+    {
+        $sql = "SELECT PRICE_EXPORT_ID
+             FROM PRICE_EXPORT
+             WHERE INDENT = '{$indent}'";
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function getExportCatalog($id) {
-        $sql = "select C.CATALOGUE_ID
+    public function getExportCatalog($id)
+    {
+        $sql = "SELECT C.CATALOGUE_ID
                    ,C.PARENT_ID
                    ,C.NAME
-              from {$this->_name} C
+              FROM {$this->_name} C
                  , CATALOGUE_PRICE_EXPORT CPE
                  , ITEM I
               WHERE CPE.PRICE_EXPORT_ID = {$id}
-                and CPE.CATALOGUE_ID = C.CATALOGUE_ID
-                and C.REALSTATUS=1
-                and C.COUNT_ > 0
-                and I.CATALOGUE_ID=C.CATALOGUE_ID
-                and I.STATUS=1
-              group by C.CATALOGUE_ID
-              order by C.PARENT_ID, C.ORDERING";
+                AND CPE.CATALOGUE_ID = C.CATALOGUE_ID
+                AND C.REALSTATUS=1
+                AND C.COUNT_ > 0
+                AND I.CATALOGUE_ID=C.CATALOGUE_ID
+                AND I.STATUS=1
+              GROUP BY C.CATALOGUE_ID
+              ORDER BY C.PARENT_ID, C.ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function getExportItems($id) {
-        $sql = "select I.ITEM_ID
+    public function getExportItems($id)
+    {
+        $sql = "SELECT I.ITEM_ID
                   , CR.SYSTEM_NAME
                   , CR.PRICE
                   , I.BRAND_ID
-                  , B.NAME as BRAND_NAME
-                  , IF (I.TYPENAME is null or I.TYPENAME='', C.TYPENAME, I.TYPENAME) as TYPENAME
-                  , if(I.PRICE1>0,I.PRICE1,I.PRICE) as ITEM_PRICE
-                  , I.PRICE1 as ITEM_PRICE1
+                  , B.NAME AS BRAND_NAME
+                  , IF (I.TYPENAME IS null OR I.TYPENAME='', C.TYPENAME, I.TYPENAME) AS TYPENAME
+                  , if(I.PRICE1>0,I.PRICE1,I.PRICE) AS ITEM_PRICE
+                  , I.PRICE1 AS ITEM_PRICE1
                   , I.IMAGE1
                   , I.CURRENCY_ID
                   , I.NAME
                   , I.CATNAME
                   , I.DESCRIPTION
                   , I.CATALOGUE_ID
-                  , C.REALCATNAME as CATALOGUE_REALCATNAME
+                  , C.REALCATNAME AS CATALOGUE_REALCATNAME
                   
-                  from CURRENCY CR
-                     , ITEM I left join BRAND B on (I.BRAND_ID=B.BRAND_ID)
-                       inner join CATALOGUE C on (C.CATALOGUE_ID=I.CATALOGUE_ID)
-                  where I.STATUS=1
-                    and I.PRICE>0
-                    and I.STATUS=1
-                    and I.CURRENCY_ID=CR.CURRENCY_ID
-                    and I.CATALOGUE_ID={$id}";
+                  FROM CURRENCY CR
+                     , ITEM I LEFT JOIN BRAND B ON (I.BRAND_ID=B.BRAND_ID)
+                       INNER JOIN CATALOGUE C ON (C.CATALOGUE_ID=I.CATALOGUE_ID)
+                  WHERE I.STATUS=1
+                    AND I.PRICE>0
+                    AND I.STATUS=1
+                    AND I.CURRENCY_ID=CR.CURRENCY_ID
+                    AND I.CATALOGUE_ID={$id}";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function getIndexTree($catalogueID = 0, $lang = 0) {
+    public function getIndexTree($catalogueID = 0, $lang = 0)
+    {
         // если $catalogueID = 0 - выводим все наименования каталогов, у которых стоит атрибут IN_INDEX = 1
         // если  указан $catalogueID - выводим его каталоги-потомки
         $where = $catalogueID ? "and C.PARENT_ID = $catalogueID" : "";
-        $sql = "select C.CATALOGUE_ID,
+        $sql = "SELECT C.CATALOGUE_ID,
                     C.PARENT_ID,
                     C.NAME,
                     C.CATNAME,
@@ -420,117 +447,132 @@ class models_Catalogue extends ZendDBEntity {
                     C.IS_INDEX,
                     C.URL,
                     C.IMAGE1
-             from {$this->_name} C
-             inner join ITEM I on (I.CATALOGUE_ID = C.CATALOGUE_ID) and I.STATUS = 1
-             where 1
+             FROM {$this->_name} C
+             INNER JOIN ITEM I ON (I.CATALOGUE_ID = C.CATALOGUE_ID) AND I.STATUS = 1
+             WHERE 1
                $where
-               and C.REALSTATUS = 1
-               and C.COUNT_ > 0
-               and I.STATUS = 1
-               and I.PRICE > 0
-             group by C.CATALOGUE_ID
-             order by C.ORDERING";
+               AND C.REALSTATUS = 1
+               AND C.COUNT_ > 0
+               AND I.STATUS = 1
+               AND I.PRICE > 0
+             GROUP BY C.CATALOGUE_ID
+             ORDER BY C.ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function getCatalogueByCode($cid) {
-        $sql = "select CATALOGUE_ID from {$this->_name} where ID_FROM_VBD=?";
+    public function getCatalogueByCode($cid)
+    {
+        $sql = "SELECT CATALOGUE_ID FROM {$this->_name} WHERE ID_FROM_VBD=?";
+
         return $this->_db->fetchOne($sql, $cid);
     }
 
-    public function getCatalogueByName($name) {
-        $sql = "select CATALOGUE_ID from {$this->_name} where NAME='{$name}'";
+    public function getCatalogueByName($name)
+    {
+        $sql = "SELECT CATALOGUE_ID FROM {$this->_name} WHERE NAME='{$name}'";
+
         return $this->_db->fetchOne($sql);
     }
 
-    public function insertCatalogue($data) {
+    public function insertCatalogue($data)
+    {
         $this->_db->insert('CATALOGUE', $data);
 
         return $this->_db->lastInsertId();
     }
 
-    public function updateCatalogue($data, $uid) {
+    public function updateCatalogue($data, $uid)
+    {
         $this->_db->update('CATALOGUE', $data, 'CATALOGUE_ID=' . $uid);
     }
 
-    public function getMaxId() {
-        $sql = "select max(CATALOGUE_ID) from {$this->_name}";
+    public function getMaxId()
+    {
+        $sql = "SELECT max(CATALOGUE_ID) FROM {$this->_name}";
+
         return $this->_db->fetchOne($sql);
     }
 
-    public function sequencesUpdate($name, $uid) {
-        $sql = "update SEQUENCES
-           set ID = {$uid}
-           where NAME = '{$name}'";
+    public function sequencesUpdate($name, $uid)
+    {
+        $sql = "UPDATE SEQUENCES
+           SET ID = {$uid}
+           WHERE NAME = '{$name}'";
 
         $this->_db->query($sql);
     }
 
-    public function getCatByParent($uid) {
-        $sql = "select CATALOGUE_ID
-           from {$this->_name}
-           where PARENT_ID={$uid}";
+    public function getCatByParent($uid)
+    {
+        $sql = "SELECT CATALOGUE_ID
+           FROM {$this->_name}
+           WHERE PARENT_ID={$uid}";
 
         return $this->_db->fetchCol($sql);
     }
 
-    public function getItemsCountByCat($uid) {
-        $sql = "select count(*)
-           from ITEM
-           where CATALOGUE_ID={$uid}";
+    public function getItemsCountByCat($uid)
+    {
+        $sql = "SELECT count(*)
+           FROM ITEM
+           WHERE CATALOGUE_ID={$uid}";
 
         return $this->_db->fetchOne($sql);
     }
 
-    public function updateCatCount($count, $uid) {
+    public function updateCatCount($count, $uid)
+    {
 
-        $sql = "update CATALOGUE
-           set COUNT_= {$count}
-           where CATALOGUE_ID={$uid}";
+        $sql = "UPDATE CATALOGUE
+           SET COUNT_= {$count}
+           WHERE CATALOGUE_ID={$uid}";
 
         $this->_db->query($sql);
     }
 
-    public function getCatalogueBanner($id) {
-      $banners = array();
-      $path[] = $id;
-      $path = $this->getAllParents($id, $path);
+    public function getCatalogueBanner($id)
+    {
+        $banners = array();
+        $path[] = $id;
+        $path = $this->getAllParents($id, $path);
 
-      if (!empty($path)) {
-        foreach ($path as $pid) {
-          $sql = "select SA.*
-                  from SECTION_ALIGN SA
-                  join CATALOGUE_SECTION_ALIGN CSA on (CSA.SECTION_ALIGN_ID = SA.SECTION_ALIGN_ID)
-                  where CSA.CATALOGUE_ID = {$pid}
-                  order by SA.IS_ADV desc, SA.ORDERING";
+        if (!empty($path)) {
+            foreach ($path as $pid) {
+                $sql = "SELECT SA.*
+                  FROM SECTION_ALIGN SA
+                  JOIN CATALOGUE_SECTION_ALIGN CSA ON (CSA.SECTION_ALIGN_ID = SA.SECTION_ALIGN_ID)
+                  WHERE CSA.CATALOGUE_ID = {$pid}
+                  ORDER BY SA.IS_ADV DESC, SA.ORDERING";
 
-          $_banners = $this->_db->fetchAll($sql);
-          if (!empty($_banners))
-              $banners = array_merge($banners, $_banners);
+                $_banners = $this->_db->fetchAll($sql);
+                if (!empty($_banners))
+                    $banners = array_merge($banners, $_banners);
+            }
         }
-      }
 
-      return $banners;
+        return $banners;
     }
 
-    public function getSiteMapCatTree() {
-        $sql = "select CATALOGUE_ID
+    public function getSiteMapCatTree()
+    {
+        $sql = "SELECT CATALOGUE_ID
                    ,PARENT_ID
                    ,CATNAME
                    ,REALCATNAME
                    ,URL
-             from {$this->_name}
-             where REALSTATUS=1
-             order by ORDERING";
+             FROM {$this->_name}
+             WHERE REALSTATUS=1
+             ORDER BY ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
-    public function getOrdering($parent_id) {
-        $sql = "select max(ORDERING)
-             from {$this->_name}
-             where PARENT_ID = ?";
+    public function getOrdering($parent_id)
+    {
+        $sql = "SELECT max(ORDERING)
+             FROM {$this->_name}
+             WHERE PARENT_ID = ?";
 
         $ordering = $this->_db->fetchOne($sql, $parent_id);
         $ordering++;
@@ -538,31 +580,35 @@ class models_Catalogue extends ZendDBEntity {
         return $ordering;
     }
 
-    public function getCatalogOrdering($id) {
-        $sql = "select ORDERING
-             from {$this->_name}
-             where CATALOGUE_ID = ?";
+    public function getCatalogOrdering($id)
+    {
+        $sql = "SELECT ORDERING
+             FROM {$this->_name}
+             WHERE CATALOGUE_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
-    public function trancuteCatItem() {
-        $sql = "delete from CAT_ITEM";
+    public function trancuteCatItem()
+    {
+        $sql = "DELETE FROM CAT_ITEM";
 
         $this->_db->query($sql);
     }
 
-    public function rebuildCatItem($tid, $id) {
-        $sql = "insert into CAT_ITEM (CATALOGUE_ID,ITEM_ID)
-             select {$tid},ITEM_ID
-             from ITEM
-             where CATALOGUE_ID={$id}
-               and STATUS=1";
+    public function rebuildCatItem($tid, $id)
+    {
+        $sql = "INSERT INTO CAT_ITEM (CATALOGUE_ID,ITEM_ID)
+             SELECT {$tid},ITEM_ID
+             FROM ITEM
+             WHERE CATALOGUE_ID={$id}
+               AND STATUS=1";
 
         $this->_db->query($sql);
     }
 
-    public function getatalogActive($id) {
+    public function getatalogActive($id)
+    {
         $path = array();
 //    $path = $this->getAllParents($id, $path);
         $path[count($path)] = $id;
@@ -578,5 +624,3 @@ class models_Catalogue extends ZendDBEntity {
     }
 
 }
-
-?>

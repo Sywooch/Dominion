@@ -5,12 +5,14 @@ abstract class App_Controller_Helper_HelperAbstract
 
     /**
      * Data model
+     *
      * @var ZendDBEntity
      */
     protected $work_model;
 
     /**
      * DOM xml data
+     *
      * @var DOMxml
      */
     protected $domXml;
@@ -84,13 +86,13 @@ abstract class App_Controller_Helper_HelperAbstract
             $length -= strlen($etc);
             if (!$break_words && !$middle) {
                 $string = preg_replace('/\s+?(\S+)?$/', '',
-                                       substr($string, 0, $length + 1));
+                    substr($string, 0, $length + 1));
             }
             if (!$middle) {
                 return substr($string, 0, $length) . $etc;
             } else {
                 return substr($string, 0, $length / 2) . $etc . substr($string,
-                                                                       -$length / 2);
+                    -$length / 2);
             }
         } else {
             return $string;

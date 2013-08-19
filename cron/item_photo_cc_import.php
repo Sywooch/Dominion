@@ -41,7 +41,7 @@ require_once ROOT_PATH.'/include/GrabberException.php';
 require_once ROOT_PATH.'/include/class.item_cc_image_convert.php';
 
 require_once ROOT_PATH.'/include/imageResize/config_mage.ini.php';
-require_once ROOT_PATH.'/include/imageResize/imageResizer.php';
+require_once ROOT_PATH . '/include/imageResize/ImageResize.php';
 
 
 $item_image_convert = new item_cc_image_convert();

@@ -19,17 +19,17 @@ class models_AnotherPages extends ZendDBEntity
 
     public function getTree($parentId = 0)
     {
-        $sql = 'select ANOTHER_PAGES_ID,
+        $sql = 'SELECT ANOTHER_PAGES_ID,
                       PARENT_ID,
                       NAME,
                       CATNAME,
                       REALCATNAME,
                       URL,
                       IS_NEW_WIN
-               from ANOTHER_PAGES
-               where PARENT_ID=?
-                 and STATUS=1
-               order by ORDER_ asc';
+               FROM ANOTHER_PAGES
+               WHERE PARENT_ID=?
+                 AND STATUS=1
+               ORDER BY ORDER_ ASC';
 
         $menu = $this->_db->fetchAll($sql, $parentId);
 
@@ -81,14 +81,14 @@ class models_AnotherPages extends ZendDBEntity
     public function getDocName($id)
     {
         return $this->_db->fetchOne(
-            "select NAME from ANOTHER_PAGES where ANOTHER_PAGES_ID = ?",
+            "SELECT NAME FROM ANOTHER_PAGES WHERE ANOTHER_PAGES_ID = ?",
             $id
         );
     }
 
     public function getDocInfo($id)
     {
-        $sql = "select ANOTHER_PAGES_ID,
+        $sql = "SELECT ANOTHER_PAGES_ID,
                         PARENT_ID,
                         NAME,
                         REALCATNAME,
@@ -96,19 +96,19 @@ class models_AnotherPages extends ZendDBEntity
                         TITLE,
                         DESCRIPTION,
                         KEYWORDS
-                 from ANOTHER_PAGES
-                 where ANOTHER_PAGES_ID=?";
+                 FROM ANOTHER_PAGES
+                 WHERE ANOTHER_PAGES_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getDocMetaInfo($id)
     {
-        $sql = "select TITLE,
+        $sql = "SELECT TITLE,
                         DESCRIPTION,
                         KEYWORDS
-                 from ANOTHER_PAGES
-                 where ANOTHER_PAGES_ID=?";
+                 FROM ANOTHER_PAGES
+                 WHERE ANOTHER_PAGES_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
@@ -130,7 +130,7 @@ class models_AnotherPages extends ZendDBEntity
 
         //XML
         $xml = $this->_db->fetchOne(
-            "select XML from XMLS where TYPE=0 and XMLS_ID=?",
+            "SELECT XML FROM XMLS WHERE TYPE=0 AND XMLS_ID=?",
             array($id)
         );
 
@@ -167,7 +167,7 @@ class models_AnotherPages extends ZendDBEntity
     public function getParents($id)
     {
         $path = array();
-        $sql = "select PARENT_ID from ANOTHER_PAGES where ANOTHER_PAGES_ID=? and STATUS=1 order by NAME";
+        $sql = "SELECT PARENT_ID FROM ANOTHER_PAGES WHERE ANOTHER_PAGES_ID=? AND STATUS=1 ORDER BY NAME";
         $parents = $this->_db->fetchAll($sql, $id);
 
         if (count($parents) > 0) {
@@ -188,7 +188,7 @@ class models_AnotherPages extends ZendDBEntity
     public function getChildren($id)
     {
         $path = array();
-        $sql = "select ANOTHER_PAGES_ID from ANOTHER_PAGES where PARENT_ID=? and STATUS=1 order by NAME";
+        $sql = "SELECT ANOTHER_PAGES_ID FROM ANOTHER_PAGES WHERE PARENT_ID=? AND STATUS=1 ORDER BY NAME";
         $childs = $this->_db->fetchAll($sql, $id);
 
         return $childs;
@@ -215,45 +215,45 @@ class models_AnotherPages extends ZendDBEntity
 
     public function getDocXml($id, $type = 0)
     {
-        $sql = "select XML
-            from XMLS
-            where XMLS_ID=?
-              and TYPE=?";
+        $sql = "SELECT XML
+            FROM XMLS
+            WHERE XMLS_ID=?
+              AND TYPE=?";
 
         return $this->_db->fetchOne($sql, array($id, $type));
     }
 
     public function getSocials()
     {
-        $sql = "select *
-            from SOCIALS
-            where STATUS=1
-            order by ORDERING";
+        $sql = "SELECT *
+            FROM SOCIALS
+            WHERE STATUS=1
+            ORDER BY ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getSocialsOne($indent)
     {
-        $sql = "select *
-            from SOCIALS
-            where STATUS=1
-              and INDENT= '{$indent}'
-            order by ORDERING";
+        $sql = "SELECT *
+            FROM SOCIALS
+            WHERE STATUS=1
+              AND INDENT= '{$indent}'
+            ORDER BY ORDERING";
 
         return $this->_db->fetchRow($sql);
     }
 
     public function getSiteMapTree()
     {
-        $sql = 'select ANOTHER_PAGES_ID
+        $sql = 'SELECT ANOTHER_PAGES_ID
                     , CATNAME
                     , REALCATNAME
                     , URL
-               from ANOTHER_PAGES
-               where STATUS=1
-                 and PARENT_ID = 5
-               order by ORDER_ asc';
+               FROM ANOTHER_PAGES
+               WHERE STATUS=1
+                 AND PARENT_ID = 5
+               ORDER BY ORDER_ ASC';
 
         $menu = $this->_db->fetchAll($sql);
 
@@ -265,31 +265,48 @@ class models_AnotherPages extends ZendDBEntity
         return $menu;
     }
 
+    /**
+     * @param string $sefURL
+     *
+     * @return string
+     */
     public function getSiteURLbySEFU($sefURL)
     {
-        $sefURL = preg_replace("/\/$/", "", $sefURL); // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№ СЃР»СЌС€
+        $sefURL = preg_replace("/\/$/", "", $sefURL);
         $sefURL = str_replace('&amp;', '&', $sefURL);
         $sefURL = str_replace('&', '&amp;', $sefURL);
         $sefURLDecode = urldecode($sefURL);
         $sefURL = mysql_escape_string($sefURL);
         $sefURLDecode = mysql_escape_string($sefURLDecode);
-        $sql = "select SITE_URL from SEF_SITE_URL where SEF_URL rlike '^{$sefURL}.?$' or SEF_URL rlike '^$sefURLDecode.?$'";
-//      echo $sql;die;
-//      exit;
+
+        $sql = "SELECT SITE_URL
+                    FROM SEF_SITE_URL
+                    WHERE SEF_URL RLIKE '^{$sefURL}.?$'
+                    OR SEF_URL RLIKE '^$sefURLDecode.?$'";
+
         $res = $this->_db->fetchOne($sql);
+
+        if (!$res) {
+            return false;
+        }
+
+        // Если в конце нет слеша - обязательно его добавляем
+        if ('/' !== substr($res, -1)) {
+            $res .= "/";
+        }
 
         return $res;
     }
 
     public function getSefURLbyOldURL($oldURL)
     {
-        $oldURL = preg_replace("/\/$/", "", $oldURL); // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№ СЃР»СЌС€
+        $oldURL = preg_replace("/\/$/", "", $oldURL);
         $oldURL = str_replace("&amp;", "&", $oldURL);
         $oldURL = str_replace("&", "&amp;", $oldURL);
 
-        $sql = "select S.SEF_URL
-              from OLD_SEF_URL O join SEF_SITE_URL S using (SEF_SITE_URL_ID)
-              where O.NAME rlike '^$oldURL.?$'";
+        $sql = "SELECT S.SEF_URL
+              FROM OLD_SEF_URL O JOIN SEF_SITE_URL S USING (SEF_SITE_URL_ID)
+              WHERE O.NAME RLIKE '^$oldURL.?$'";
 
         $resultURL = $this->_db->fetchOne($sql);
 
@@ -300,7 +317,7 @@ class models_AnotherPages extends ZendDBEntity
 
     public function getTranslitRules()
     {
-        $result = $this->_db->fetchAll("select * from TRANSLIT_RULE");
+        $result = $this->_db->fetchAll("SELECT * FROM TRANSLIT_RULE");
         $rules = array();
         if (!empty($result)) {
             foreach ($result as $view) {
@@ -313,19 +330,19 @@ class models_AnotherPages extends ZendDBEntity
 
     public function getCatName($id)
     {
-        $sql = "select PARENT_ID
+        $sql = "SELECT PARENT_ID
                   ,CATNAME
-            from CATALOGUE
-            where CATALOGUE_ID=?";
+            FROM CATALOGUE
+            WHERE CATALOGUE_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getRedirector($url)
     {
-        $sql = "select URL_TO
-            from REDIRECTOR
-            where URL_FROM = '{$url}'";
+        $sql = "SELECT URL_TO
+            FROM REDIRECTOR
+            WHERE URL_FROM = '{$url}'";
 
         return $this->_db->fetchOne($sql);
     }

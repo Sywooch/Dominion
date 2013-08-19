@@ -54,9 +54,9 @@ class Format_PricesObjectValue
      *
      * @param mixed $item
      */
-    public function setItem($item)
+    public function setItem($item, $key)
     {
-        $this->items[] = $item;
+        $this->items[$key] = $item;
     }
 
     public function setAllItems(array $items)
@@ -69,7 +69,7 @@ class Format_PricesObjectValue
      *
      * @param array $data
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
     }
@@ -148,13 +148,14 @@ class Format_PricesObjectValue
      * Get in items elements
      *
      * @param integer $valueID
-     * @param string  $findElement
+     * @param string $findElement
      *
      * @return mixed
      */
     public function getItem($valueID, $findElement)
     {
         $key = null;
+
         foreach ($this->items as $key => $item) {
             $subKey = array_search($valueID, $item);
             if (!empty($subKey)) {
@@ -173,6 +174,16 @@ class Format_PricesObjectValue
     public function getModelsItem()
     {
         return new models_Item();
+    }
+
+    /**
+     * Getter for items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->items;
     }
 
 }

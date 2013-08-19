@@ -1,6 +1,6 @@
 <?php
 
-require_once 'imageResizer.php';
+require_once 'ImageResize.php';
 /**
  * Конвертироавние всех необходимых картинок для данного проекта
  * @package makeImageToStandart
@@ -58,10 +58,10 @@ class Resize {
 //                    $options['savePath'] = sufixPathTech . "/";
 //                    $this->imageConvert($V_ITEM_ID, "IMAGE_TECHNICAL", $imageName, pathToImagesTech, Size_tech_X, Size_tech_Y, "", $options);
 
-                    $resizer = new imageResizer();
+                    $resizer = new ImageResize();
 
                     $options['pathToWatermark'] = pathToWatermarkTech;
-                    $sizes = new sizePicture(Size_tech_X, Size_tech_Y);
+                    $sizes = new SizePicture(Size_tech_X, Size_tech_Y);
                     $newFile = $resizer->imageConvert($imageName, pathToImagesTech, $sizes, "$V_ITEM_ID", $options);
                     if ($newFile)
                         $this->setDBupdateAfterConvert($newFile, $V_ITEM_ID, 'IMAGE_TECHNICAL', sufixPathTech . "/$V_ITEM_ID");
@@ -114,8 +114,8 @@ class Resize {
 //                    $options['savePath'] = sufixAdd."/";
 //                    $this->imageConvert($V_ITEM_ID, "IMAGE1", $imageName, pathToImagesTech, Size_gallery_photo_X, Size_gallery_photo_X, "");
 //************
-                    $resizer = new imageResizer();
-                    $sizes = new sizePicture(Size_item_photo_big_X, Size_item_photo_big_Y);
+                    $resizer = new ImageResize();
+                    $sizes = new SizePicture(Size_item_photo_big_X, Size_item_photo_big_Y);
                     $newFile = $resizer->imageConvert($imageName, pathToImagesAdd, $sizes, "{$V_ITEM_ID}_{$V_ITEM_ITEM}_img_lrg", $options);
                     if ($newFile)
                         try {
@@ -134,7 +134,7 @@ class Resize {
                         throw new Exception('Cant create big add picture');
 
 //                   Добавляем ималенькую картинку
-                    $sizes = new sizePicture(Size_item_photo_sm_X, Size_item_photo_sm_Y);
+                    $sizes = new SizePicture(Size_item_photo_sm_X, Size_item_photo_sm_Y);
                     $newFile = $this->imageConvert($imageName, pathToImagesAdd, $sizes, "{$V_ITEM_ID}_{$V_ITEM_ITEM}_img_sm");
                     if ($newFile)
                         try {
@@ -256,13 +256,13 @@ class Resize {
                 try {
                     $image1 = pathToImages . $image1;
 
-                    $resizer = new imageResizer();
+                    $resizer = new ImageResize();
 
                     // Делаем большую картинку IMAGE3
 //                    $options['pathToWatermark'] = pathToWatermarkTech;
                     $options['strictSize'] = false;
 //                    $options['pathToWatermark'] = pathToWatermark;
-                    $sizes = new sizePicture(Size_b_X, Size_b_Y);
+                    $sizes = new SizePicture(Size_b_X, Size_b_Y);
 
                     $newFile = $resizer->imageConvert($image1, pathToImages, $sizes, "b_$V_ITEM_ID", $options);
                     if ($newFile)
@@ -285,7 +285,7 @@ class Resize {
 
 
 //               Делаем XXL картинку IMAGE4
-                    $diffSize = new sizePicture(Size_b_X, Size_b_Y);
+                    $diffSize = new SizePicture(Size_b_X, Size_b_Y);
                     if ($diffSize->getDiffSize($W, $H) > DifferenceInArea) {
 //                        $options['pathToWatermark'] = pathToWatermark;
                         $sizes->setWidthHeight(Size_xxl_X, Size_xxl_Y);

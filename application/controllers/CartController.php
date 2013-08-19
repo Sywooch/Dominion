@@ -508,7 +508,8 @@ class CartController extends App_Controller_Frontend_Action
         $message_admin,
         $manager_emails,
         $subject = 'Оформление заказа'
-    ) {
+    )
+    {
         if (!empty($manager_emails)) {
             $email_from = $this->getSettingValue('email_from');
             $patrern = '/(.*)<?([a-zA-Z0-9\-\_]+\@[a-zA-Z0-9\-\_]+(\.[a-zA-Z0-9]+?)+?)>?/U';

@@ -1,6 +1,6 @@
 {
-    "name": "dominion",
-    "description": "internet shop",
+    "name": "adlabs/dominion",
+    "description": "Dominion internet-shop",
     "autoload": {
         "psr-0": {
             "": "src/"
@@ -11,6 +11,9 @@
         "zendframework/zendframework1": "1.12.*@dev",
         "ruflin/elastica": "0.20.5.*@dev",
         "symfony/class-loader": "2.4.*@dev",
-        "symfony/console": "2.3.*@dev"
+        "symfony/console": "2.3.*@dev",
+        "imagine/imagine": "dev-develop",
+        "phpexcel/phpexcel": "dev-master"
+
     }
 }

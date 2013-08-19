@@ -1,21 +1,27 @@
 <?php
-ini_set("display_errors",1);
-ini_set("display_startup_errors",1);
-require ('core.php');
+/**
+ * Выгрузка пользователей для рассылки
+ */
+
+ini_set("display_errors", 0);
+ini_set("display_startup_errors", 0);
+require('core.php');
 include 'lib/tovar_check/config.php';
 include 'lib/shopuser/class.model.php';
 include 'lib/shopuser/class.export_shopuser.php';
 
 $cmf = new SCMF('SHOPUSER_EXPORT');
 
-session_set_cookie_params($cmf->sessionCookieLifeTime,'/admin/');
+session_set_cookie_params($cmf->sessionCookieLifeTime, '/admin/');
 session_start();
 
-if (!$cmf->GetRights()) {header('Location: login.php'); exit;}
+if (!$cmf->GetRights()) {
+    header('Location: login.php');
+    exit;
+}
 $cmf->HeaderNoCache();
 $cmf->makeCookieActions();
-if(isset($_POST['shopusersexport']) && $_POST['shopusersexport'])
-{
+if (isset($_POST['shopusersexport']) && $_POST['shopusersexport']) {
     $model = new shopuserModel($cmf);
     $tovar_check = new export_shopuser($model);
     $tovar_check->run();
@@ -40,4 +46,3 @@ EOF;
 $cmf->MakeCommonFooter();
 $cmf->Close();
 unset($cmf);
-?>

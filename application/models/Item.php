@@ -8,12 +8,38 @@ class models_Item extends ZendDBEntity
 
     public function getCurrencyInfo($currency)
     {
-        $q = "select PRICE,
+        $q = "SELECT PRICE,
                  SNAME
-          from CURRENCY
-          where CURRENCY_ID=?";
+          FROM CURRENCY
+          WHERE CURRENCY_ID=?";
 
         return $this->_db->fetchRow($q, $currency);
+    }
+
+    /**
+     * Получить путь к базовым картинкам
+     *
+     * @return Zend_Db_Statement_Interface
+     */
+    public function getAllImageBase()
+    {
+        return $this->_db->query(
+            "SELECT I.ITEM_ID, I.BASE_IMAGE, IMAGE3
+                FROM ITEM I
+                WHERE I.BASE_IMAGE <> ''
+                AND I.IMAGE0 IS NULL");
+    }
+
+
+    /**
+     * Обновить ITEM - любое поле
+     *
+     * @param array $data  Данные которые сетим
+     * @param array $where Данные для where
+     */
+    public function updateGlobalItem($data, $where)
+    {
+        $this->_db->update('ITEM', $data, $where);
     }
 
     /**
@@ -32,9 +58,9 @@ class models_Item extends ZendDBEntity
 
     public function getCurrencyName($currency)
     {
-        $q = "select SNAME
-          from CURRENCY
-          where CURRENCY_ID=?";
+        $q = "SELECT SNAME
+                  FROM CURRENCY
+              WHERE CURRENCY_ID=?";
 
         return $this->_db->fetchOne($q, $currency);
     }
@@ -47,10 +73,10 @@ class models_Item extends ZendDBEntity
             $where = " and CATALOGUE_ID = {$params['catalogue_id']} ";
         }
 
-        $sql = "select count(*)
-            from {$this->_name}
-            where PRICE > 0
-              and STATUS = 1
+        $sql = "SELECT count(*)
+            FROM {$this->_name}
+            WHERE PRICE > 0
+              AND STATUS = 1
             {$where}";
 
         return $this->_db->fetchOne($sql);
@@ -69,14 +95,14 @@ class models_Item extends ZendDBEntity
             $limit = " limit {$params['start']}, {$params['limit']} ";
         }
 
-        $sql = "select ITEM_ID
+        $sql = "SELECT ITEM_ID
                   ,PRICE
                   ,PRICE1
-            from {$this->_name}
-            where PRICE > 0
-              and STATUS = 1
+            FROM {$this->_name}
+            WHERE PRICE > 0
+              AND STATUS = 1
             {$where}
-            order by PRICE
+            ORDER BY PRICE
             {$limit}";
 
         return $this->_db->fetchRow($sql);
@@ -84,9 +110,9 @@ class models_Item extends ZendDBEntity
 
     public function getSimilarTempTable($id, $not_in)
     {
-        $sql = "select distinct CI.ITEM_ID
-              from CAT_ITEM CI
-              inner join ITEM I on (CI.ITEM_ID=I.ITEM_ID) where 1 ";
+        $sql = "SELECT DISTINCT CI.ITEM_ID
+              FROM CAT_ITEM CI
+              INNER JOIN ITEM I ON (CI.ITEM_ID=I.ITEM_ID) WHERE 1 ";
 
         if (!empty($id)) {
             $sql .= " and CI.CATALOGUE_ID IN ({$id})";
@@ -104,7 +130,7 @@ class models_Item extends ZendDBEntity
         $result = array();
         $childs_ = implode("','", $childs);
         foreach ($PARAM as $attr => $val) {
-            $sql = "select TYPE,IS_RANGEABLE from ATTRIBUT where STATUS=1 and ATTRIBUT_ID={$attr}";
+            $sql = "SELECT TYPE,IS_RANGEABLE FROM ATTRIBUT WHERE STATUS=1 AND ATTRIBUT_ID={$attr}";
             $row = $this->_db->fetchRow($sql);
 
             $TYPE = $row['TYPE'];
@@ -113,43 +139,43 @@ class models_Item extends ZendDBEntity
             $value = $PARAM[$attr];
 
             if ($TYPE < 2 && $IS_RANGEABLE) {
-                $query = "select ATTRIBUT_ID
-                from ITEMR
-                where ATTRIBUT_ID = ?
-                  and RANGE_LIST_ID = ?
-                  and ITEM_ID in ('{$childs_}')";
+                $query = "SELECT ATTRIBUT_ID
+                FROM ITEMR
+                WHERE ATTRIBUT_ID = ?
+                  AND RANGE_LIST_ID = ?
+                  AND ITEM_ID IN ('{$childs_}')";
             } elseif ($TYPE == 0) {
-                $query = "select ATTRIBUT_ID
-                from ITEM0
-                where ATTRIBUT_ID = ?
-                  and VALUE = ?
-                  and ITEM_ID in ('{$childs_}')";
+                $query = "SELECT ATTRIBUT_ID
+                FROM ITEM0
+                WHERE ATTRIBUT_ID = ?
+                  AND VALUE = ?
+                  AND ITEM_ID IN ('{$childs_}')";
             } elseif ($TYPE == 2) {
-                $query = "select ATTRIBUT_ID
-                from ITEM2
-                where ATTRIBUT_ID = ?
-                  and VALUE = ?
-                  and ITEM_ID in ('{$childs_}')";
+                $query = "SELECT ATTRIBUT_ID
+                FROM ITEM2
+                WHERE ATTRIBUT_ID = ?
+                  AND VALUE = ?
+                  AND ITEM_ID IN ('{$childs_}')";
             } elseif ($TYPE == 3 || $TYPE == 4) {
-                $query = "select IO.ATTRIBUT_ID
-                from ITEM0 IO
-                join ATTRIBUT_LIST AL on (AL.ATTRIBUT_LIST_ID = IO.VALUE)
-                where IO.ATTRIBUT_ID = ?
-                  and AL.NAME = ?
-                  and IO.ITEM_ID in ('{$childs_}')";
+                $query = "SELECT IO.ATTRIBUT_ID
+                FROM ITEM0 IO
+                JOIN ATTRIBUT_LIST AL ON (AL.ATTRIBUT_LIST_ID = IO.VALUE)
+                WHERE IO.ATTRIBUT_ID = ?
+                  AND AL.NAME = ?
+                  AND IO.ITEM_ID IN ('{$childs_}')";
             } elseif ($TYPE > 4) {
                 if ($value == 0) {
-                    $query = "select ATTRIBUT_ID
-                  from ITEM0
-                  where ATTRIBUT_ID = ?
-                    and (VALUE=? or VALUE=2)
-                    and ITEM_ID in ('{$childs_}')";
+                    $query = "SELECT ATTRIBUT_ID
+                  FROM ITEM0
+                  WHERE ATTRIBUT_ID = ?
+                    AND (VALUE=? OR VALUE=2)
+                    AND ITEM_ID IN ('{$childs_}')";
                 } else {
-                    $query = "select ATTRIBUT_ID
-                  from ITEM0
-                  where ATTRIBUT_ID = ?
-                    and (VALUE=? or VALUE=1)
-                    and ITEM_ID in ('{$childs_}')";
+                    $query = "SELECT ATTRIBUT_ID
+                  FROM ITEM0
+                  WHERE ATTRIBUT_ID = ?
+                    AND (VALUE=? OR VALUE=1)
+                    AND ITEM_ID IN ('{$childs_}')";
                 }
             }
 
@@ -161,25 +187,25 @@ class models_Item extends ZendDBEntity
 
     public function getItemItemAjax($id)
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                 ,I.CURRENCY_ID
                 ,I.PRICE
                 ,I.PRICE1
                 ,I.STATUS
-          from ITEM_ITEM II
-          join ITEM I on (I.ITEM_ID = II.ITEM_ITEM_ID)
-          where II.ITEM_ID={$id}
-            and II.STATUS = 1";
+          FROM ITEM_ITEM II
+          JOIN ITEM I ON (I.ITEM_ID = II.ITEM_ITEM_ID)
+          WHERE II.ITEM_ID={$id}
+            AND II.STATUS = 1";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getItemItem($id)
     {
-        $sql = "select ITEM_ITEM_ID
-          from ITEM_ITEM
-          where ITEM_ID={$id}
-            and STATUS = 1";
+        $sql = "SELECT ITEM_ITEM_ID
+          FROM ITEM_ITEM
+          WHERE ITEM_ID={$id}
+            AND STATUS = 1";
 
         return $this->_db->fetchCol($sql);
     }
@@ -194,7 +220,7 @@ class models_Item extends ZendDBEntity
      */
     public function getItemInfo($id)
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                   ,I.CATALOGUE_ID
                   ,I.NAME
                   ,I.CATNAME
@@ -217,26 +243,26 @@ class models_Item extends ZendDBEntity
 
                   ,I.IS_ACTION
 
-                  ,D.IMAGE as DISCOUNTS_IMAGE
-                  ,B.NAME as BRAND_NAME
-                  ,B.URL as BRAND_URL
+                  ,D.IMAGE AS DISCOUNTS_IMAGE
+                  ,B.NAME AS BRAND_NAME
+                  ,B.URL AS BRAND_URL
 
-                  ,W.DESCRIPTION as WARRANTY_DESCRIPTION
-                  ,DL.DESCRIPTION as DELIVERY_DESCRIPTION
-                  ,CR.DESCRIPTION as CREDIT_DESCRIPTION
+                  ,W.DESCRIPTION AS WARRANTY_DESCRIPTION
+                  ,DL.DESCRIPTION AS DELIVERY_DESCRIPTION
+                  ,CR.DESCRIPTION AS CREDIT_DESCRIPTION
 
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
-                  ,C.NAME as CATALOGUE_NAME
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
+                  ,C.NAME AS CATALOGUE_NAME
                   ,CRN.SNAME
-            from ITEM I
-            left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
-            left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-            left join WARRANTY W on (W.WARRANTY_ID=I.WARRANTY_ID)
-            left join DELIVERY DL on (DL.DELIVERY_ID=I.DELIVERY_ID)
-            left join CREDIT CR on (CR.CREDIT_ID=I.CREDIT_ID)
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)
-            where I.ITEM_ID=?";
+            FROM ITEM I
+            LEFT JOIN DISCOUNTS D ON (D.DISCOUNT_ID = I.DISCOUNT_ID)
+            LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+            LEFT JOIN WARRANTY W ON (W.WARRANTY_ID=I.WARRANTY_ID)
+            LEFT JOIN DELIVERY DL ON (DL.DELIVERY_ID=I.DELIVERY_ID)
+            LEFT JOIN CREDIT CR ON (CR.CREDIT_ID=I.CREDIT_ID)
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+            LEFT JOIN CURRENCY CRN ON (CRN.CURRENCY_ID = I.CURRENCY_ID)
+            WHERE I.ITEM_ID=?";
 
 
         return $this->_db->fetchRow($sql, $id);
@@ -244,34 +270,34 @@ class models_Item extends ZendDBEntity
 
     public function getItemChpuInfo($id)
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                   ,I.CATNAME
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
-            from ITEM I
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            where I.ITEM_ID=?";
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
+            FROM ITEM I
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+            WHERE I.ITEM_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getItemLognText($id)
     {
-        $sql = "select XML
-          from XMLS
-          where TYPE=3
-            and XMLS_ID=?";
+        $sql = "SELECT XML
+          FROM XMLS
+          WHERE TYPE=3
+            AND XMLS_ID=?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getItemInfoAjax($id)
     {
-        $sql = "select ITEM_ID
+        $sql = "SELECT ITEM_ID
                   ,CURRENCY_ID
                   ,PRICE
                   ,PRICE1
-            from ITEM
-            where ITEM_ID=?";
+            FROM ITEM
+            WHERE ITEM_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
@@ -305,7 +331,7 @@ class models_Item extends ZendDBEntity
             $where .= " and I.ITEM_ID IN ({$_items}) ";
         }
 
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                 ,I.CATALOGUE_ID
                 ,I.NAME
                 ,I.ARTICLE
@@ -320,19 +346,19 @@ class models_Item extends ZendDBEntity
                 ,I.CATNAME
                 ,I.IS_ACTION
                 ,I.STATUS
-                ,D.IMAGE as DISCOUNTS_IMAGE
-                ,B.NAME as BRAND_NAME
-                ,C.REALCATNAME as CATALOGUE_REALCATNAME
+                ,D.IMAGE AS DISCOUNTS_IMAGE
+                ,B.NAME AS BRAND_NAME
+                ,C.REALCATNAME AS CATALOGUE_REALCATNAME
                 ,CR.SNAME
-          from ITEM I
-          left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-          left join CURRENCY CR on (CR.CURRENCY_ID = I.CURRENCY_ID)
-          left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
-          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-          where I.STATUS=1
-            and I.PRICE > 0
+          FROM ITEM I
+          LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+          LEFT JOIN CURRENCY CR ON (CR.CURRENCY_ID = I.CURRENCY_ID)
+          LEFT JOIN DISCOUNTS D ON (D.DISCOUNT_ID = I.DISCOUNT_ID)
+          LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+          WHERE I.STATUS=1
+            AND I.PRICE > 0
             {$where}
-          order by {$order_by} {$asc}
+          ORDER BY {$order_by} {$asc}
           LIMIT {$params['start']},{$params['per_page']}";
 
         return $this->_db->fetchAll($sql);
@@ -343,10 +369,11 @@ class models_Item extends ZendDBEntity
         $item_id,
         $startSelect = 0,
         $perPage = 0
-    ) {
+    )
+    {
 
         $_catalogue_id = implode(", ", $catalogue_id);
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                 ,I.CATALOGUE_ID
                 ,I.NAME
                 ,I.ARTICLE
@@ -357,16 +384,16 @@ class models_Item extends ZendDBEntity
                 ,I.IMAGE2
                 ,I.SEO_BOTTOM
                 ,I.IS_ACTION
-                ,D.IMAGE as DISCOUNTS_IMAGE
-                ,B.NAME as BRAND_NAME
-          from ITEM I
-          left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
-          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-          where I.STATUS=1
-            and I.ITEM_ID <> {$item_id}
-            and I.PRICE > 0
-            and I.CATALOGUE_ID IN ({$_catalogue_id})
-          order by I.NAME";
+                ,D.IMAGE AS DISCOUNTS_IMAGE
+                ,B.NAME AS BRAND_NAME
+          FROM ITEM I
+          LEFT JOIN DISCOUNTS D ON (D.DISCOUNT_ID = I.DISCOUNT_ID)
+          LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+          WHERE I.STATUS=1
+            AND I.ITEM_ID <> {$item_id}
+            AND I.PRICE > 0
+            AND I.CATALOGUE_ID IN ({$_catalogue_id})
+          ORDER BY I.NAME";
 
         if (!empty($perPage)) {
             $sql .= " limit {$startSelect},{$perPage}";
@@ -380,11 +407,11 @@ class models_Item extends ZendDBEntity
 
         $_catalogue_id = implode(", ", $catalogue_id);
 
-        $sql = "select ITEM_ID
-          from ITEM
-          where STATUS=1
-            and PRICE > 0
-            and CATALOGUE_ID IN ({$_catalogue_id})";
+        $sql = "SELECT ITEM_ID
+          FROM ITEM
+          WHERE STATUS=1
+            AND PRICE > 0
+            AND CATALOGUE_ID IN ({$_catalogue_id})";
 
         return $this->_db->fetchCol($sql);
     }
@@ -394,7 +421,8 @@ class models_Item extends ZendDBEntity
         $item_id = 0,
         $limit = false,
         $start = 0
-    ) {
+    )
+    {
 
         $_catalogue_id = implode(", ", $catalogue_id);
         $where = '';
@@ -403,11 +431,11 @@ class models_Item extends ZendDBEntity
             $where = 'and ITEM_ID <> ' . $item_id;
         }
 
-        $sql = "select ITEM_ID
-          from ITEM
-          where STATUS=1
-            and PRICE > 0
-            and CATALOGUE_ID IN ({$_catalogue_id})
+        $sql = "SELECT ITEM_ID
+          FROM ITEM
+          WHERE STATUS=1
+            AND PRICE > 0
+            AND CATALOGUE_ID IN ({$_catalogue_id})
             {$where}";
 
         if (!empty($limit) && !empty($start)) {
@@ -421,13 +449,13 @@ class models_Item extends ZendDBEntity
 
     public function getSimilarItemsCount($table, $it_id = 0)
     {
-        $sql = "select count(TT.ITEM_ID)
-          from {$table} TT
+        $sql = "SELECT count(TT.ITEM_ID)
+          FROM {$table} TT
               ,ITEM I
-          where I.ITEM_ID = TT.ITEM_ID
-            and I.STATUS=1
-            and I.ITEM_ID <> {$it_id}
-            and I.PRICE > 0";
+          WHERE I.ITEM_ID = TT.ITEM_ID
+            AND I.STATUS=1
+            AND I.ITEM_ID <> {$it_id}
+            AND I.PRICE > 0";
 
         if (!empty($it_id)) {
             $sql .= " and I.ITEM_ID != {$it_id}";
@@ -441,13 +469,14 @@ class models_Item extends ZendDBEntity
         $it_id = 0,
         $limit = false,
         $start = 0
-    ) {
-        $sql = "select TT.ITEM_ID
-          from {$table} TT
+    )
+    {
+        $sql = "SELECT TT.ITEM_ID
+          FROM {$table} TT
               ,ITEM I
-          where I.ITEM_ID = TT.ITEM_ID
-            and I.STATUS=1
-            and I.PRICE > 0";
+          WHERE I.ITEM_ID = TT.ITEM_ID
+            AND I.STATUS=1
+            AND I.PRICE > 0";
 
         if (!empty($it_id)) {
             $sql .= " and I.ITEM_ID <> {$it_id}";
@@ -472,59 +501,59 @@ class models_Item extends ZendDBEntity
      */
     public function getItemCatalog($id)
     {
-        $sql = "select CATALOGUE_ID from ITEM where ITEM_ID = ?";
+        $sql = "SELECT CATALOGUE_ID FROM ITEM WHERE ITEM_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getItemName($id)
     {
-        $sql = "select NAME from ITEM where ITEM_ID=?";
+        $sql = "SELECT NAME FROM ITEM WHERE ITEM_ID=?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getCartItemName($id)
     {
-        $sql = "select concat(B.NAME,' ',I.NAME)
-          from ITEM I
-          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-          where I.ITEM_ID=?";
+        $sql = "SELECT concat(B.NAME,' ',I.NAME)
+          FROM ITEM I
+          LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+          WHERE I.ITEM_ID=?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getItemBreadcrumbName($id)
     {
-        $sql = "select I.TYPENAME
+        $sql = "SELECT I.TYPENAME
                 ,I.NAME
-                ,B.NAME as BRAND_NAME
-          from ITEM I
-          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-          where I.ITEM_ID=?";
+                ,B.NAME AS BRAND_NAME
+          FROM ITEM I
+          LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+          WHERE I.ITEM_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getCountItemResponses($id)
     {
-        $sql = "select count(*)
-             from RESPONSES
-             where ITEM_ID={$id}
-               and HIDE=1
-             order by DATA desc";
+        $sql = "SELECT count(*)
+             FROM RESPONSES
+             WHERE ITEM_ID={$id}
+               AND HIDE=1
+             ORDER BY DATA DESC";
 
         return $this->_db->fetchOne($sql);
     }
 
     public function getItemResponses($id)
     {
-        $sql = "select *
-                   ,DATE_FORMAT(DATA,'%d/%m/%Y %H:%i') as date
-             from RESPONSES
-             where ITEM_ID=?
-               and HIDE=1
-             order by DATA desc";
+        $sql = "SELECT *
+                   ,DATE_FORMAT(DATA,'%d/%m/%Y %H:%i') AS date
+             FROM RESPONSES
+             WHERE ITEM_ID=?
+               AND HIDE=1
+             ORDER BY DATA DESC";
 
         return $this->_db->fetchAll($sql, array($id));
     }
@@ -540,10 +569,11 @@ class models_Item extends ZendDBEntity
         $currency_id,
         $currency,
         $curr_price
-    ) {
+    )
+    {
         if ($currency_id != $currency) {
             //Валюта товара не соответствует выбранной,нужен пересчет
-            $q = "select PRICE from CURRENCY where CURRENCY_ID=?";
+            $q = "SELECT PRICE FROM CURRENCY WHERE CURRENCY_ID=?";
             $cprice = $this->_db->fetchOne($q, $currency_id);
 
             if ($currency_id > 1 && $curr_price > 1) {
@@ -596,10 +626,11 @@ class models_Item extends ZendDBEntity
         $item_currency_id,
         $current_currency_id,
         $curr_price
-    ) {
+    )
+    {
         if ($item_currency_id != $current_currency_id) {
             //Валюта товара не соответствует выбранной,нужен пересчет
-            $q = "select PRICE from CURRENCY where CURRENCY_ID=?";
+            $q = "SELECT PRICE FROM CURRENCY WHERE CURRENCY_ID=?";
             $cprice = $this->_db->fetchOne($q, $item_currency_id);
             if ($item_currency_id > 1) {
                 //Цена не в гривне,пересчет в гривны
@@ -632,7 +663,8 @@ class models_Item extends ZendDBEntity
         $tableName = 'ATTR_CATALOG_LINK',
         $limit = '',
         $show = 0
-    ) {
+    )
+    {
         if (!$catalogueId) {
             return;
         }
@@ -672,7 +704,7 @@ class models_Item extends ZendDBEntity
 
         for ($i = 0; $i < count($attributes); $i++) {
             if ($attributes[$i]['UNIT_ID']) {
-                $q = "select NAME from UNIT where UNIT_ID=?";
+                $q = "SELECT NAME FROM UNIT WHERE UNIT_ID=?";
                 $unit_name = $this->_db->fetchOne($q, $attributes[$i]['UNIT_ID']);
                 $attributes[$i]['UNIT_NAME'] = $unit_name;
             } else {
@@ -686,7 +718,8 @@ class models_Item extends ZendDBEntity
     public function getAttributesDescription(
         $catalogueId = 0,
         $tableName = 'ATTR_CATALOG_LINK'
-    ) {
+    )
+    {
         if (!$catalogueId) {
             return;
         }
@@ -716,7 +749,7 @@ class models_Item extends ZendDBEntity
 
         for ($i = 0; $i < count($attributes); $i++) {
             if ($attributes[$i]['UNIT_ID']) {
-                $q = "select NAME from UNIT where UNIT_ID=?";
+                $q = "SELECT NAME FROM UNIT WHERE UNIT_ID=?";
                 $unit_name = $this->_db->fetchOne($q, $attributes[$i]['UNIT_ID']);
                 $attributes[$i]['UNIT_NAME'] = $unit_name;
             } else {
@@ -732,7 +765,8 @@ class models_Item extends ZendDBEntity
         $itemId,
         $catId = '',
         $limit = 0
-    ) {
+    )
+    {
         $itemAttribute = $attributeList;
         $attribs = array();
         $cnt = 0;
@@ -747,12 +781,12 @@ class models_Item extends ZendDBEntity
             switch ($attrType) {
                 case 0: // 0-Int
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM0 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     if ($itemAttribute[$j]['IS_RANGEABLE'] == 1) {
                         $val = $this->_db->fetchOne(
-                            'select RANGE_LIST_ID from ITEMR where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT RANGE_LIST_ID FROM ITEMR WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     } else {
@@ -762,12 +796,12 @@ class models_Item extends ZendDBEntity
 
                 case 1: // 1-double
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM1 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM1 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     if ($itemAttribute[$j]['IS_RANGEABLE'] == 1) {
                         $val = $this->_db->fetchOne(
-                            'select RANGE_LIST_ID from ITEMR where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT RANGE_LIST_ID FROM ITEMR WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     } else {
@@ -777,7 +811,7 @@ class models_Item extends ZendDBEntity
 
                 case 2: // 2-varchar
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM2 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM2 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     break;
@@ -786,7 +820,7 @@ class models_Item extends ZendDBEntity
                     if ($multiple == 1) {
                         $value = '';
                         $values = $this->_db->fetchAll(
-                            'select A.NAME from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                            'SELECT A.NAME FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                         if ($values) {
@@ -798,12 +832,12 @@ class models_Item extends ZendDBEntity
                         }
                     } else {
                         $value = $this->_db->fetchOne(
-                            'select A.NAME from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                            'SELECT A.NAME FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     }
                     $val = $this->_db->fetchOne(
-                        'select VALUE from ITEM0 I where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM0 I WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
 
@@ -811,7 +845,7 @@ class models_Item extends ZendDBEntity
                     break;
                 case 4: // 4-список с картинкой и текстом
                     $data = $this->_db->fetchRow(
-                        'select A.NAME,A.IMAGE from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                        'SELECT A.NAME,A.IMAGE FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     $value = $data['NAME'];
@@ -821,14 +855,14 @@ class models_Item extends ZendDBEntity
                 case 5: // 5-чекбокс
                 case 6: // 6-чекбокс с тремя состояниями (да,нет,не знаю)
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM0 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     if (empty($value)) {
                         $val = 'Нет';
                     } else {
                         $val = $this->_db->fetchOne(
-                            'select ALTER_VALUE from ATTRIBUT where ATTRIBUT_ID=?',
+                            'SELECT ALTER_VALUE FROM ATTRIBUT WHERE ATTRIBUT_ID=?',
                             array($itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     }
@@ -836,7 +870,7 @@ class models_Item extends ZendDBEntity
 
                 case 7: // краткое описание(64 к)
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM7 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM7 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     break;
@@ -888,12 +922,12 @@ class models_Item extends ZendDBEntity
                 case 0: // 0-Int
                     if ($itemAttribute[$j]['IS_RANGEABLE'] == 1) {
                         $value = $this->_db->fetchOne(
-                            'select RANGE_LIST_ID from ITEMR where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT RANGE_LIST_ID FROM ITEMR WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     } else {
                         $value = $this->_db->fetchOne(
-                            'select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT VALUE FROM ITEM0 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     }
@@ -902,12 +936,12 @@ class models_Item extends ZendDBEntity
                 case 1: // 1-double
                     if ($itemAttribute[$j]['IS_RANGEABLE'] == 1) {
                         $value = $this->_db->fetchOne(
-                            'select RANGE_LIST_ID from ITEMR where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT RANGE_LIST_ID FROM ITEMR WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     } else {
                         $value = $this->_db->fetchOne(
-                            'select VALUE from ITEM1 where ITEM_ID=? and ATTRIBUT_ID=?',
+                            'SELECT VALUE FROM ITEM1 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     }
@@ -915,7 +949,7 @@ class models_Item extends ZendDBEntity
 
                 case 2: // 2-varchar
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM2 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM2 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     break;
@@ -924,7 +958,7 @@ class models_Item extends ZendDBEntity
                     if ($multiple == 1) {
                         $value = '';
                         $values = $this->_db->fetchAll(
-                            'select A.NAME from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                            'SELECT A.NAME FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                         if ($values) {
@@ -936,12 +970,12 @@ class models_Item extends ZendDBEntity
                         }
                     } else {
                         $value = $this->_db->fetchOne(
-                            'select A.NAME from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                            'SELECT A.NAME FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                             array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                         );
                     }
                     $val = $this->_db->fetchOne(
-                        'select VALUE from ITEM0 I where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM0 I WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
 
@@ -949,7 +983,7 @@ class models_Item extends ZendDBEntity
                     break;
                 case 4: // 4-список с картинкой и текстом
                     $data = $this->_db->fetchRow(
-                        'select A.NAME,A.IMAGE from ITEM0 I, ATTRIBUT_LIST A where I.VALUE=A.ATTRIBUT_LIST_ID and I.ITEM_ID=? and I.ATTRIBUT_ID=?',
+                        'SELECT A.NAME,A.IMAGE FROM ITEM0 I, ATTRIBUT_LIST A WHERE I.VALUE=A.ATTRIBUT_LIST_ID AND I.ITEM_ID=? AND I.ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     $value = $data['NAME'];
@@ -958,11 +992,11 @@ class models_Item extends ZendDBEntity
                 case 5: // 5-чекбокс
                 case 6: // 6-чекбокс с тремя состояниями (да,нет,не знаю)
                     $value = $this->_db->fetchOne(
-                        'select VALUE from ITEM0 where ITEM_ID=? and ATTRIBUT_ID=?',
+                        'SELECT VALUE FROM ITEM0 WHERE ITEM_ID=? AND ATTRIBUT_ID=?',
                         array($itemId, $itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     $val = $this->_db->fetchOne(
-                        'select ALTER_VALUE from ATTRIBUT where ATTRIBUT_ID=?',
+                        'SELECT ALTER_VALUE FROM ATTRIBUT WHERE ATTRIBUT_ID=?',
                         array($itemAttribute[$j]['ATTRIBUT_ID'])
                     );
                     break;
@@ -1001,8 +1035,8 @@ class models_Item extends ZendDBEntity
 
     public function insertOrder($data)
     {
-        $sql = "insert into ZAKAZ_ITEM
-          set ZAKAZ_ID = {$data['ZAKAZ_ID']}
+        $sql = "INSERT INTO ZAKAZ_ITEM
+          SET ZAKAZ_ID = {$data['ZAKAZ_ID']}
             , CATALOGUE_ID = {$data['CATALOGUE_ID']}
             , NAME = '{$data['NAME']}'
             , ITEM_ID = {$data['ITEM_ID']}
@@ -1022,17 +1056,17 @@ class models_Item extends ZendDBEntity
 
     public function getItemMeta($id)
     {
-        $sql = "select I.CATALOGUE_ID
-                  ,B.NAME as BRAND_NAME
+        $sql = "SELECT I.CATALOGUE_ID
+                  ,B.NAME AS BRAND_NAME
                   ,I.ITEM_ID
                   ,I.NAME
                   ,I.TYPENAME
                   ,I.TITLE
                   ,I.DESC_META
                   ,I.KEYWORD_META
-            from ITEM I
-            left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-            where I.ITEM_ID=?";
+            FROM ITEM I
+            LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+            WHERE I.ITEM_ID=?";
 
         return $this->_db->fetchRow($sql, $id);
     }
@@ -1048,33 +1082,33 @@ class models_Item extends ZendDBEntity
         if (!empty($gen_catalog_id)) {
             $where .= " and CATALOGUE_ID = {$gen_catalog_id}";
         }
-        $sql = "select CATALOGUE_ID
+        $sql = "SELECT CATALOGUE_ID
                   ,TYPENAME
                   ,BRAND_ID
                   ,ITEM_ID
                   ,NAME
-            from ITEM I
-            where {$where}";
+            FROM ITEM I
+            WHERE {$where}";
 
         return $this->_db->fetchAll($sql);
     }
 
     function getBrandName($id)
     {
-        $sql = "select NAME
-           from BRAND
-           where BRAND_ID = ?";
+        $sql = "SELECT NAME
+           FROM BRAND
+           WHERE BRAND_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getCatSubItemTitle($id)
     {
-        $sql = "select SUB_ITEM_TITLE
+        $sql = "SELECT SUB_ITEM_TITLE
                , PARENT_ID
                , CATALOGUE_ID
-          from CATALOGUE
-          where CATALOGUE_ID = ?";
+          FROM CATALOGUE
+          WHERE CATALOGUE_ID = ?";
 
         return $this->_db->fetchRow($sql, $id);
     }
@@ -1083,32 +1117,32 @@ class models_Item extends ZendDBEntity
     {
         $ids_str = implode(',', $cid);
 
-        $sql = "select B.BRAND_ID
+        $sql = "SELECT B.BRAND_ID
                , B.NAME
-          from ITEM I
+          FROM ITEM I
               ,BRAND B
-          where I.CATALOGUE_ID IN ({$ids_str})
-            and I.BRAND_ID = B.BRAND_ID
-            and I.PRICE > 0
-            and I.STATUS=1
-            and B.STATUS=1
-          group by B.BRAND_ID
-          order by B.NAME";
+          WHERE I.CATALOGUE_ID IN ({$ids_str})
+            AND I.BRAND_ID = B.BRAND_ID
+            AND I.PRICE > 0
+            AND I.STATUS=1
+            AND B.STATUS=1
+          GROUP BY B.BRAND_ID
+          ORDER BY B.NAME";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getItemsSearch()
     {
-        $sql = "select I.*
-                  ,C.NAME as CNAME
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
-                  ,B.NAME as BRAND_NAME
-            from ITEM I
-            join CATALOGUE C on (C.CATALOGUE_ID=I.CATALOGUE_ID)
-            join BRAND B on (B.BRAND_ID=I.BRAND_ID)
-            where I.STATUS = 1
-              and I.PRICE  > 0";
+        $sql = "SELECT I.*
+                  ,C.NAME AS CNAME
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
+                  ,B.NAME AS BRAND_NAME
+            FROM ITEM I
+            JOIN CATALOGUE C ON (C.CATALOGUE_ID=I.CATALOGUE_ID)
+            JOIN BRAND B ON (B.BRAND_ID=I.BRAND_ID)
+            WHERE I.STATUS = 1
+              AND I.PRICE  > 0";
 
         return $this->_db->fetchAll($sql);
     }
@@ -1125,54 +1159,54 @@ class models_Item extends ZendDBEntity
               JOIN ITEM0 I0
                 ON (AL.ATTRIBUT_ID = I0.ATTRIBUT_ID
               AND AL.ATTRIBUT_LIST_ID = I0.VALUE AND I0.ITEM_ID = ?)
-              join ATTRIBUT A on (AL.ATTRIBUT_ID = A.ATTRIBUT_ID)";
+              JOIN ATTRIBUT A ON (AL.ATTRIBUT_ID = A.ATTRIBUT_ID)";
 
         return $this->_db->fetchAll($sql, $itemID);
     }
 
     public function getItemPhotos($id)
     {
-        $sql = "select *
-            from ITEM_PHOTO
-            where ITEM_ID = ?
-              and STATUS=1";
+        $sql = "SELECT *
+            FROM ITEM_PHOTO
+            WHERE ITEM_ID = ?
+              AND STATUS=1";
 
         return $this->_db->fetchAll($sql, $id);
     }
 
     public function getItemMedia($id)
     {
-        $sql = "select *
-            from ITEM_MEDIA
-            where ITEM_ID = ?
-              and STATUS=1";
+        $sql = "SELECT *
+            FROM ITEM_MEDIA
+            WHERE ITEM_ID = ?
+              AND STATUS=1";
 
         return $this->_db->fetchAll($sql, $id);
     }
 
     public function getAllItemId()
     {
-        $sql = "select ITEM_ID
+        $sql = "SELECT ITEM_ID
                  , CATALOGUE_ID
-            from ITEM";
+            FROM ITEM";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function updateItem($id, $description)
     {
-        $sql = "update ITEM
-            set DESCRIPTION = '{$description}'
-            where ITEM_ID = {$id}";
+        $sql = "UPDATE ITEM
+            SET DESCRIPTION = '{$description}'
+            WHERE ITEM_ID = {$id}";
 
         return $this->_db->query($sql);
     }
 
     function getItemByCode($code)
     {
-        $sql = "select ITEM_ID
-           from ITEM
-           where ARTICLE = '{$code}'";
+        $sql = "SELECT ITEM_ID
+           FROM ITEM
+           WHERE ARTICLE = '{$code}'";
 
 //     echo __CLASS__."==".__METHOD__."==".$sql."\r\n";
 
@@ -1181,28 +1215,28 @@ class models_Item extends ZendDBEntity
 
     function getWarrantyByCode($code)
     {
-        $sql = "select WARRANTY_ID
-           from WARRANTY
-           where ID_FROM_VBD = {$code}";
+        $sql = "SELECT WARRANTY_ID
+           FROM WARRANTY
+           WHERE ID_FROM_VBD = {$code}";
 
         return $this->_db->fetchOne($sql);
     }
 
     function getDeliveryByCode($code)
     {
-        $sql = "select DELIVERY_ID
-           from DELIVERY
-           where ID_FROM_VBD = '{$code}'";
+        $sql = "SELECT DELIVERY_ID
+           FROM DELIVERY
+           WHERE ID_FROM_VBD = '{$code}'";
 
         return $this->_db->fetchOne($sql);
     }
 
     function getItemByName($name, $categoryId)
     {
-        $sql = "select ITEM_ID
-           from ITEM
-           where NAME = '{$name}'
-             and CATALOGUE_ID = {$categoryId}";
+        $sql = "SELECT ITEM_ID
+           FROM ITEM
+           WHERE NAME = '{$name}'
+             AND CATALOGUE_ID = {$categoryId}";
 
 //     echo __CLASS__."==".__METHOD__."==".$sql."\r\n";
 
@@ -1237,18 +1271,18 @@ class models_Item extends ZendDBEntity
 
     function updateSequence($name)
     {
-        $sql = "update SEQUENCES
-           set ID = ID + 1
-           where NAME = '{$name}'";
+        $sql = "UPDATE SEQUENCES
+           SET ID = ID + 1
+           WHERE NAME = '{$name}'";
 
         $this->_db->query($sql);
     }
 
     function lastInsertId($name)
     {
-        $sql = "select ID
-           from SEQUENCES
-           where NAME = '{$name}'";
+        $sql = "SELECT ID
+           FROM SEQUENCES
+           WHERE NAME = '{$name}'";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1272,20 +1306,20 @@ class models_Item extends ZendDBEntity
 
     public function hasAttrCatalogLink($catalogue_id, $attribut_id)
     {
-        $sql = "select count(*)
-           from ATTR_CATALOG_LINK
-           where CATALOGUE_ID = {$catalogue_id}
-             and ATTRIBUT_ID = {$attribut_id}";
+        $sql = "SELECT count(*)
+           FROM ATTR_CATALOG_LINK
+           WHERE CATALOGUE_ID = {$catalogue_id}
+             AND ATTRIBUT_ID = {$attribut_id}";
 
         return $this->_db->fetchOne($sql);
     }
 
     public function hasItemN($table, $data)
     {
-        $sql = "select ITEM_ID
-           from {$table}
-           where ATTRIBUT_ID = {$data['ATTRIBUT_ID']}
-             and ITEM_ID = {$data['ITEM_ID']}";
+        $sql = "SELECT ITEM_ID
+           FROM {$table}
+           WHERE ATTRIBUT_ID = {$data['ATTRIBUT_ID']}
+             AND ITEM_ID = {$data['ITEM_ID']}";
 
 //     echo __CLASS__."==".__METHOD__."==".$sql."\r\n";
 
@@ -1310,19 +1344,19 @@ class models_Item extends ZendDBEntity
 
     public function getMaxId()
     {
-        $sql = "select max(ITEM_ID) from ITEM";
+        $sql = "SELECT max(ITEM_ID) FROM ITEM";
 
         return $this->_db->fetchOne($sql);
     }
 
     public function itemHasImage($id)
     {
-        $sql = "select count(1)
-           from ITEM
-           where IMAGE1 like '%#%'
-             and IMAGE2 like '%#%'
-             and IMAGE3 like '%#%'
-             and ITEM_ID = {$id}";
+        $sql = "SELECT count(1)
+           FROM ITEM
+           WHERE IMAGE1 LIKE '%#%'
+             AND IMAGE2 LIKE '%#%'
+             AND IMAGE3 LIKE '%#%'
+             AND ITEM_ID = {$id}";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1331,10 +1365,10 @@ class models_Item extends ZendDBEntity
 
     public function itemHasItemImage($name, $id)
     {
-        $sql = "select ITEM_ITEM_ID
-           from ITEM_PHOTO
-           where ITEM_ID = {$id}
-             and NAME = '{$name}'";
+        $sql = "SELECT ITEM_ITEM_ID
+           FROM ITEM_PHOTO
+           WHERE ITEM_ID = {$id}
+             AND NAME = '{$name}'";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1343,10 +1377,10 @@ class models_Item extends ZendDBEntity
 
     public function getBaseItemImage()
     {
-        $sql = "select ITEM_ID
+        $sql = "SELECT ITEM_ID
                      , BASE_IMAGE
-                from ITEM
-                where NEED_RESIZE = 1";
+                FROM ITEM
+                WHERE NEED_RESIZE = 1";
 
 //     echo __CLASS__."==".__METHOD__."==".$sql."\r\n";
 
@@ -1355,22 +1389,22 @@ class models_Item extends ZendDBEntity
 
     public function getBaseItemPhotos($item_id)
     {
-        $sql = "select ITEM_ITEM_ID
+        $sql = "SELECT ITEM_ITEM_ID
                 , NAME
-           from ITEM_PHOTO
-           where ITEM_ID = {$item_id}";
+           FROM ITEM_PHOTO
+           WHERE ITEM_ID = {$item_id}";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getSiteMapItems()
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                   ,I.CATNAME
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
-            from ITEM I
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            where I.STATUS=1";
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
+            FROM ITEM I
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+            WHERE I.STATUS=1";
 
         return $this->_db->fetchAll($sql);
     }
@@ -1384,10 +1418,10 @@ class models_Item extends ZendDBEntity
 
     public function hasItemReserved($data)
     {
-        $sql = "select count(*)
-            from ITEM_REQUEST
-            where ITEM_ID = {$data['ITEM_ID']}
-              and EMAIL = '{$data['EMAIL']}'";
+        $sql = "SELECT count(*)
+            FROM ITEM_REQUEST
+            WHERE ITEM_ID = {$data['ITEM_ID']}
+              AND EMAIL = '{$data['EMAIL']}'";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1396,51 +1430,51 @@ class models_Item extends ZendDBEntity
 
     public function getReservedItems()
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                   ,I.NAME
                   ,I.CATNAME
                   ,I.TYPENAME
-                  ,B.NAME as BRAND_NAME
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
+                  ,B.NAME AS BRAND_NAME
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
 
                   ,IR.EMAIL
-            from ITEM I
-            inner join ITEM_REQUEST IR on (IR.ITEM_ID = I.ITEM_ID)
-            left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            where I.STATUS = 1
-              and I.PRICE > 0
-              and IR.STATUS = 0";
+            FROM ITEM I
+            INNER JOIN ITEM_REQUEST IR ON (IR.ITEM_ID = I.ITEM_ID)
+            LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+            WHERE I.STATUS = 1
+              AND I.PRICE > 0
+              AND IR.STATUS = 0";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function updateReservedData($items_id)
     {
-        $sql = "update ITEM_REQUEST
-            set STATUS = 1
-            where ITEM_ID in ({$items_id})";
+        $sql = "UPDATE ITEM_REQUEST
+            SET STATUS = 1
+            WHERE ITEM_ID IN ({$items_id})";
 
         $this->_db->query($sql);
     }
 
     public function getPayments()
     {
-        $sql = "select *
-          from PAYMENT
-          where STATUS = 1
-          order by ORDERING";
+        $sql = "SELECT *
+          FROM PAYMENT
+          WHERE STATUS = 1
+          ORDER BY ORDERING";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getUserOrders()
     {
-        $sql = "select ZAKAZ_ID
+        $sql = "SELECT ZAKAZ_ID
                      , USER_ID
-                from ZAKAZ
-                where STATUS = 3
-                  and USER_ID is not null
+                FROM ZAKAZ
+                WHERE STATUS = 3
+                  AND USER_ID IS NOT null
                   ";
 
         return $this->_db->fetchAll($sql);
@@ -1448,41 +1482,41 @@ class models_Item extends ZendDBEntity
 
     public function getUserOrderSumm($id)
     {
-        $sql = "select sum(COST)
-                from ZAKAZ_ITEM
-                where ZAKAZ_ID = ?";
+        $sql = "SELECT sum(COST)
+                FROM ZAKAZ_ITEM
+                WHERE ZAKAZ_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
 
     public function getUserDiscountId($summ)
     {
-        $sql = "select SHOPUSER_DISCOUNTS_ID
-          from SHOPUSER_DISCOUNTS
-          where MIN <= {$summ}
-            and MAX >= {$summ}
-          order by ORDERING asc";
+        $sql = "SELECT SHOPUSER_DISCOUNTS_ID
+          FROM SHOPUSER_DISCOUNTS
+          WHERE MIN <= {$summ}
+            AND MAX >= {$summ}
+          ORDER BY ORDERING ASC";
 
         return $this->_db->fetchOne($sql);
     }
 
     public function getUserDiscountImages($id)
     {
-        $sql = "select IMAGE1
+        $sql = "SELECT IMAGE1
                , IMAGE2
-          from SHOPUSER_DISCOUNTS
-          where SHOPUSER_DISCOUNTS_ID = ?";
+          FROM SHOPUSER_DISCOUNTS
+          WHERE SHOPUSER_DISCOUNTS_ID = ?";
 
         return $this->_db->fetchRow($sql, $id);
     }
 
     public function getUserDiscountRang($shopuser_discounts_id, $summ)
     {
-        $sql = "select DISCOUNT_SUMM
-          from SHOPUSER_DISCOUNTS_RANGE_LIST
-          where MIN <= {$summ}
-            and MAX >= {$summ}
-            and SHOPUSER_DISCOUNTS_ID = {$shopuser_discounts_id}";
+        $sql = "SELECT DISCOUNT_SUMM
+          FROM SHOPUSER_DISCOUNTS_RANGE_LIST
+          WHERE MIN <= {$summ}
+            AND MAX >= {$summ}
+            AND SHOPUSER_DISCOUNTS_ID = {$shopuser_discounts_id}";
 
         return $this->_db->fetchOne($sql);
     }
@@ -1509,11 +1543,11 @@ class models_Item extends ZendDBEntity
             $where .= " and ITEM_ID IN ({$_items}) ";
         }
 
-        $sql = "select min(if(PRICE1 > 0, PRICE1, PRICE)) as min_price
-               , max(if(PRICE1 > 0, PRICE1, PRICE)) as max_price
-          from ITEM
-          where STATUS = 1
-            and PRICE > 0
+        $sql = "SELECT min(if(PRICE1 > 0, PRICE1, PRICE)) AS min_price
+               , max(if(PRICE1 > 0, PRICE1, PRICE)) AS max_price
+          FROM ITEM
+          WHERE STATUS = 1
+            AND PRICE > 0
             {$where}";
 
         return $this->_db->fetchRow($sql);
@@ -1522,26 +1556,26 @@ class models_Item extends ZendDBEntity
     public function getSelectItemAuthPrice($catalogue_id)
     {
 
-        $sql = "select PRICE
+        $sql = "SELECT PRICE
                 ,PRICE1
                 ,CURRENCY_ID
                 ,IS_ACTION
-          from ITEM
-          where STATUS=1
-            and PRICE > 0
-            and CATALOGUE_ID = {$catalogue_id}
-          order by PRICE";
+          FROM ITEM
+          WHERE STATUS=1
+            AND PRICE > 0
+            AND CATALOGUE_ID = {$catalogue_id}
+          ORDER BY PRICE";
 
         return $this->_db->fetchAll($sql);
     }
 
     public function getItemByImage($image)
     {
-        $sql = "select count(1)
-          from ITEM
-          where IMAGE1 like '{$image}#%'
-             or IMAGE2 like '{$image}#%'
-             or IMAGE3 like '{$image}#%'";
+        $sql = "SELECT count(1)
+          FROM ITEM
+          WHERE IMAGE1 LIKE '{$image}#%'
+             OR IMAGE2 LIKE '{$image}#%'
+             OR IMAGE3 LIKE '{$image}#%'";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1550,10 +1584,10 @@ class models_Item extends ZendDBEntity
 
     public function getItemPhotoByImage($image)
     {
-        $sql = "select count(1)
-          from ITEM_PHOTO
-          where IMAGE1 like '{$image}#%'
-             or IMAGE2 like '{$image}#%'";
+        $sql = "SELECT count(1)
+          FROM ITEM_PHOTO
+          WHERE IMAGE1 LIKE '{$image}#%'
+             OR IMAGE2 LIKE '{$image}#%'";
 
         $res = $this->_db->fetchOne($sql);
 
@@ -1562,15 +1596,15 @@ class models_Item extends ZendDBEntity
 
     public function getItemInfoForUrl($id)
     {
-        $sql = "select I.ITEM_ID
+        $sql = "SELECT I.ITEM_ID
                   ,I.NAME
                   ,I.CATNAME
-                  ,C.REALCATNAME as CATALOGUE_REALCATNAME
-                  ,C.NAME as CATALOGUE_NAME
+                  ,C.REALCATNAME AS CATALOGUE_REALCATNAME
+                  ,C.NAME AS CATALOGUE_NAME
 
-            from ITEM I
-            left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            where I.ITEM_ID=?";
+            FROM ITEM I
+            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)
+            WHERE I.ITEM_ID=?";
 
 
         return $this->_db->fetchRow($sql, $id);
@@ -1578,9 +1612,9 @@ class models_Item extends ZendDBEntity
 
     public function getSearchItemCash($id)
     {
-        $sql = "select SEARCH_CASH
-          from SEARCH_CASH_ITEM
-          where ITEM_ID = ?";
+        $sql = "SELECT SEARCH_CASH
+          FROM SEARCH_CASH_ITEM
+          WHERE ITEM_ID = ?";
 
         return $this->_db->fetchOne($sql, $id);
     }
@@ -1590,7 +1624,8 @@ class models_Item extends ZendDBEntity
         $catalogue_id,
         $item_cash_arr,
         $temp_item_cash
-    ) {
+    )
+    {
         $math = '';
         if ($item_cash_arr) {
             foreach ($item_cash_arr as $val) {
@@ -1605,11 +1640,11 @@ class models_Item extends ZendDBEntity
             $math .= '(' . implode(' or ', $ch) . ') and ';
         }
 
-        $sql = "select ITEM_ID
-          from SEARCH_CASH_ITEM
-          where {$math} 1
-            and CATALOGUE_ID = {$catalogue_id}
-            and ITEM_ID <> {$item_id}";
+        $sql = "SELECT ITEM_ID
+          FROM SEARCH_CASH_ITEM
+          WHERE {$math} 1
+            AND CATALOGUE_ID = {$catalogue_id}
+            AND ITEM_ID <> {$item_id}";
 
         return $this->_db->fetchCol($sql);
     }

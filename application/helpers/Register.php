@@ -26,7 +26,7 @@ class Helpers_Register extends App_Controller_Helper_HelperAbstract
 
                 $this->domXml->create_element('myorders', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['ZAKAZ_ID']
-                    , 'order' => $key + 1
+                , 'order' => $key + 1
                 ));
 
                 $this->domXml->create_element('posted_at', $view['date']);
@@ -79,9 +79,9 @@ class Helpers_Register extends App_Controller_Helper_HelperAbstract
             $tmp = explode('#', $data['IMAGE1']);
             $this->domXml->create_element('image_small', '', 2);
             $this->domXml->set_attribute(array('src' => $tmp[0],
-                'w' => $tmp[1],
-                'h' => $tmp[2]
-                    )
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
             );
             $this->domXml->go_to_parent();
         }
@@ -113,8 +113,7 @@ class Helpers_Register extends App_Controller_Helper_HelperAbstract
                 $this->domXml->create_element('href', $href);
 
 
-
-                $total+= $view['COST'];
+                $total += $view['COST'];
 
 
                 $this->domXml->go_to_parent();

@@ -50,8 +50,8 @@ class CatController extends App_Controller_Frontend_Action
         $this->domXml->create_element('section', '', 2);
 
         $this->domXml->set_attribute(array('count' => $count
-            , 'page' => $page
-            , 'pcount' => $pcount
+        , 'page' => $page
+        , 'pcount' => $pcount
         ));
 
         $this->domXml->go_to_parent();
@@ -281,7 +281,7 @@ class CatController extends App_Controller_Frontend_Action
             $attributs_params['Catalogue'] = $Catalogue;
 
             $at_helper = $this->_helper->helperLoader('Attributs',
-                                                      $attributs_params);
+                $attributs_params);
             $at_helper->setLang($this->lang, $this->lang_id);
             $at_helper->setModel($Attributs);
             $at_helper->setDomXml($this->domXml);
@@ -298,8 +298,8 @@ class CatController extends App_Controller_Frontend_Action
             if (preg_match('/(\w+)v(\w*)-(\w*)/', $attr_val, $m)) {
                 $this->domXml->create_element('attr_range_mm', '', 2);
                 $this->domXml->set_attribute(array('id' => $m[1]
-                    , 'min' => $m[2]
-                    , 'max' => $m[3]
+                , 'min' => $m[2]
+                , 'max' => $m[3]
                 ));
 
                 $this->domXml->go_to_parent();

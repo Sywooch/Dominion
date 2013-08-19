@@ -1,20 +1,20 @@
 <?php
-require('core.php');
+require ('core.php');
 require_once 'lib/AttributImport/AttributImportModel.php';
 require_once 'lib/AttributImport/AttributImport.php';
 
 $cmf = new SCMF('ATTRIBUT_IMPORT');
 
 if ($_POST) {
-    $mode = !empty($_POST['mode']) ? $_POST['mode'] : '';
+    $mode = !empty($_POST['mode']) ? $_POST['mode']:'';
 
     $atModel = new AttributImportModel($cmf);
     $atImp = new AttributImport($atModel);
 
-    switch ($mode) {
+    switch($mode){
         case 'import':
-            $atImp->run($_POST);
-            break;
+             $atImp->run($_POST);
+             break;
         case 'create':
             $atImp->create($_POST);
             break;
@@ -25,38 +25,31 @@ if ($_POST) {
     exit;
 }
 
-session_set_cookie_params($cmf->sessionCookieLifeTime, '/admin/');
+session_set_cookie_params($cmf->sessionCookieLifeTime,'/admin/');
 session_start();
 
-if (!$cmf->GetRights()) {
-    header('Location: login.php');
-    exit;
-}
+if (!$cmf->GetRights()) {header('Location: login.php'); exit;}
 $cmf->HeaderNoCache();
 $cmf->makeCookieActions();
 
 $cmf->MakeCommonHeader();
 $selHtml = '';
-function selectHtml($parentId = 0, $level = 1)
-{
+function selectHtml($parentId = 0, $level=1){
     global $cmf, $selHtml;
 
-    $sth = $cmf->execute(
-        'select CATALOGUE_ID
-                                     , CONCAT(REPEAT(\'-\', ' . $level . '*2-1), NAME) as NAME
-                        from CATALOGUE where PARENT_ID = ' . $parentId . ' order by ORDERING'
-    );
-    if (is_resource($sth)) {
-        while (list($V_CATALOGUE_ID, $V_NAME) = mysql_fetch_array($sth, MYSQL_NUM)) {
-            $selHtml .= "<option value='{$V_CATALOGUE_ID}'>|{$V_NAME}</option>";
+    $sth=$cmf->execute('select CATALOGUE_ID
+                             , CONCAT(REPEAT(\'-\', '.$level.'*2-1), NAME) as NAME 
+                        from CATALOGUE where PARENT_ID = '.$parentId.' order by ORDERING');
+    if(is_resource($sth)) {
+        while(list($V_CATALOGUE_ID,$V_NAME)=mysql_fetch_array($sth, MYSQL_NUM)){
+            $selHtml.= "<option value='{$V_CATALOGUE_ID}'>|{$V_NAME}</option>";
             $level++;
             selectHtml($V_CATALOGUE_ID, $level);
             $level--;
         }
     }
 }
-
-selectHtml(0, 1);
+selectHtml(0,1);
 print <<<EOF
 <style>
 .error{

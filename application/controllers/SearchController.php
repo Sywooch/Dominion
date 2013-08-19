@@ -26,15 +26,44 @@ class SearchController extends App_Controller_Frontend_Action
     public function indexAction()
     {
         $request = $this->GetRequest();
-        if (!$request->isGet()) {
+
+        $search_text = $request->getParam("search_text");
+        if (!$request->isGet() || empty($search_text)) {
 
             return;
         }
 
-        $AnotherPages = new models_AnotherPages();
+        $this->createPage($search_text);
 
-        $search_text = trim($request->getQuery('search_text'));
-        $search_text = empty($search_text) ? trim($this->_getParam('search_text', '')) : $search_text;
+        $elasticExecute = $this->_helper->helperLoader("ExecuteElastic");
+        $search_engine = $this->config->toArray();
+
+        /** @var $customPaginator Helpers_CustomPaginator */
+        $customPaginator = $this->_helper->helperLoader("CustomPaginator");
+        $customPaginator->setElements($this->_getParam('page'), $this->search_per_page, $elasticExecute, $search_engine['search_engine'], $search_text);
+
+
+        /** @var $items ArrayIterator */
+        $items = $customPaginator->getCurrentPage()->getArrayCopy();
+
+        $formatData = $elasticExecute->executeFormatData(
+            $items,
+            $this->currency,
+            $this->_helper->helperLoader("Prices_Recount"),
+            $this->_helper->helperLoader("Prices_Discount")
+        );
+
+        $this->generateXML($customPaginator, $formatData, $search_text);
+    }
+
+    /**
+     * Generate page
+     *
+     * @param string $search_text
+     */
+    private function createPage($search_text)
+    {
+        $AnotherPages = new models_AnotherPages();
 
         $o_data['id'] = 0;
         $o_data['currency'] = $this->currency;
@@ -55,136 +84,54 @@ class SearchController extends App_Controller_Frontend_Action
         $search_text = mb_convert_case($search_text, MB_CASE_LOWER, 'UTF-8');
         $this->domXml->create_element('query', $search_text);
         $this->domXml->go_to_parent();
-
-        if (empty($search_text)) {
-
-            return;
-        }
-
-        $formatQuery = $formatQuery = new ContextSearch_FormatQuery(
-            $this->config->search_engine->name,
-            "GET",
-            $this->config->search_engine->index
-        );
-
-        $formatQuery->setHost($this->config->search_engine->host);
-        $formatQuery->setType($this->config->search_engine->type_products);
-        $formatQuery->setQuery($search_text);
-        $formatQuery->setNameFields($this->config->search_engine->name_fields->toArray());
-
-        $queryObject = new ContextSearch_Query();
-        $queryObject->execQuery($formatQuery);
-
-        $resultArray = $queryObject->convertToArray();
-
-        if (empty($resultArray)) {
-            return;
-        }
-
-        $itemsId = array();
-        foreach ($resultArray as $result) {
-            $itemsId[] = $result['ITEM_ID'];
-        }
-
-        $modelItems = new models_ElasticSearch();
-        $items = $modelItems->getItemsForPrices($itemsId);
-        $priceObjectValue = $this->_helper->helperLoader("Format_PricesObjectValue");
-        $priceObjectValue->setAllItems($resultArray);
-
-        foreach ($items as $key => $item) {
-            $url = $priceObjectValue->getItem($item['ITEM_ID'], "URL");
-
-            $items[$key]['URL'] = $url;
-        }
-
-        $this->resultToXML($items, $search_text);
-
     }
 
-
-    private function resultToXML($result, $query, $qr = null)
+    /**
+     * Generate XML
+     *
+     * @param Helpers_CustomPaginator $paginator
+     * @param array                   $items
+     * @param string                  $searchText
+     */
+    private function generateXML(Helpers_CustomPaginator $paginator, $items, $searchText)
     {
-        if (!empty($result)) {
-            $Item = new models_Item();
+        $this->domXml->set_tag('//data', true);
+        $this->domXml->create_element('search_count', $paginator->getAmount(), 2);
+        $this->domXml->go_to_parent();
 
-            $page = $this->_getParam('page', 1);
+        $this->openSection($searchText,
+            $paginator->getPage(),
+            $paginator->getEnd(),
+            $paginator->getAmount());
 
-            $paginator = Zend_Paginator::factory($result);
+        foreach ($items as $hit) {
+            $node_attr = array('item_id' => $hit['ITEM_ID']
+            , 'price' => $hit['NEW_PRICE']
+            , 'price1' => $hit['PRICE1']
+            , 'real_price' => $hit['PRICE']
+            , 'real_price1' => $hit['OLD_PRICE']);
 
-            $paginator->setCurrentPageNumber($page);
-            $paginator->setItemCountPerPage($this->search_per_page);
+            $this->domXml->create_element('search_result', "", 2);
+            $this->domXml->set_attribute($node_attr);
 
+            $this->domXml->create_element('href', $hit['URL']);
+            $this->domXml->create_element('name', $hit['TYPENAME'] . " " . $hit['BRAND'] . ' ' . $hit['NAME_PRODUCT']);
+            $this->domXml->create_element('short_description', $hit['DESCRIPTION']);
+            $this->domXml->create_element('sname', $hit['UNIT']);
+            $this->domXml->create_element('nat_sname', $hit['SNAME']);
 
-            $amount = $paginator->getPages()->totalItemCount;
-            $page = $page > ceil($amount / $this->search_per_page) ? ceil($amount / $this->search_per_page) : $page;
-            $end = ceil($amount / $this->search_per_page);
-
-            $this->domXml->set_tag('//data', true);
-            $this->domXml->create_element('search_count', $amount, 2);
-            $this->domXml->go_to_parent();
-
-            $this->openSection($query,
-                $page,
-                $end,
-                $amount);
-
-            $items = $paginator->getCurrentItems();
-//        $pos = $this->item_per_page*($this->_getParam('page',1)-1);
-
-
-            $curr_info = $Item->getCurrencyInfo($this->currency);
-
-            foreach ($items as $hit) {
-                $item_info = $Item->getItemInfo($hit['ITEM_ID']);
-
-                list($new_price, $new_price1) = $Item->recountPrice($item_info['PRICE'], $item_info['PRICE1'], $item_info['CURRENCY_ID'], $this->currency, $curr_info['PRICE']);
-
-                $item_info['sh_disc_img_small'] = '';
-                $item_info['sh_disc_img_big'] = '';
-                $item_info['has_discount'] = 0;
-
-                if ($this->currency > 1) {
-                    $item_info['iprice'] = round($new_price, 1);
-                    $item_info['iprice1'] = round($new_price1, 1);
-                } else {
-                    $item_info['iprice'] = round($new_price);
-                    $item_info['iprice1'] = round($new_price1);
-                }
-
-                $params['currency'] = $this->currency;
-                $helperLoader = Zend_Controller_Action_HelperBroker::getStaticHelper('HelperLoader');
-                $ct_helper = $helperLoader->loadHelper('Cart', $params);
-                $ct_helper->setModel($Item);
-                $item_info = $ct_helper->recountPrice($item_info);
-
-                $node_attr = array('item_id' => $item_info['ITEM_ID']
-                , 'price' => $item_info['iprice']
-                , 'price1' => $item_info['iprice1']
-                , 'real_price' => $item_info['PRICE']
-                , 'real_price1' => $item_info['PRICE1']);
-
-                $this->domXml->create_element('search_result', "", 2);
-                $this->domXml->set_attribute($node_attr);
-
-                $this->domXml->create_element('href', $hit['URL']);
-                $this->domXml->create_element('name', $item_info['BRAND_NAME'] . ' ' . $item_info['NAME']);
-                $this->domXml->create_element('short_description', $item_info['DESCRIPTION']);
-                $this->domXml->create_element('sname', $curr_info['SNAME']);
-                $this->domXml->create_element('nat_sname', $item_info['SNAME']);
-
-                if (!empty($item_info['IMAGE2']) && strchr($item_info['IMAGE2'], "#")) {
-                    $tmp = explode('#', $item_info['IMAGE2']);
-                    $this->domXml->create_element('image_middle', '', 2);
-                    $this->domXml->set_attribute(array('src' => $tmp[0],
-                            'w' => $tmp[1],
-                            'h' => $tmp[2]
-                        )
-                    );
-                    $this->domXml->go_to_parent();
-                }
-
+            if (!empty($hit['IMAGE2']) && strchr($hit['IMAGE2'], "#")) {
+                $tmp = explode('#', $hit['IMAGE2']);
+                $this->domXml->create_element('image_middle', '', 2);
+                $this->domXml->set_attribute(array('src' => $tmp[0],
+                        'w' => $tmp[1],
+                        'h' => $tmp[2]
+                    )
+                );
                 $this->domXml->go_to_parent();
             }
+
+            $this->domXml->go_to_parent();
         }
     }
 
@@ -245,43 +192,11 @@ class SearchController extends App_Controller_Frontend_Action
                 $index->addDocument($doc);
                 $i++;
             }
-            //$news = $this->News->getSearchNews();
-//            foreach ($news as $new) {
-//              $doc = new Zend_Search_Lucene_Document();
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $new['NEWS_ID']));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('name', $new['NAME'], 'UTF-8'));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $new['descript'], 'UTF-8'));
-
-//              $url = "/news/all/n/{$new['NEWS_ID']}/";
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image', $new['IMAGE1']));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image_src', '/images/news/'));
-//              $index->addDocument($doc);
-//              $i++;
-//            }
-//            $articles = $this->Article->getSearchArticles();            
-//            foreach ($articles as $article) {
-//              $doc = new Zend_Search_Lucene_Document();
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $article['ARTICLE_ID']));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('name', $article['NAME'], 'UTF-8'));
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $article['descript'], 'UTF-8'));
-
-//              $url = "/articles/view/n/{$article['ARTICLE_ID']}/";
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image', $article['IMAGE1']));
-//              $doc->addField(Zend_Search_Lucene_Field::UnIndexed('image_src', '/images/article/'));
-//              $index->addDocument($doc);
-//              $i++;
-//            }
             $cats = $Catalogue->getIndexTree();
             foreach ($cats as $cat) {
                 $doc = new Zend_Search_Lucene_Document();
                 $doc->addField(Zend_Search_Lucene_Field::UnIndexed('item_id', $cat['CATALOGUE_ID']));
                 $doc->addField(Zend_Search_Lucene_Field::Text('name', $cat['NAME'], 'UTF-8'));
-
-//              $articleID = $this->Catalogue->getCatArticle($cat['CATALOGUE_ID']);
-//              $articleInfo = $this->Article->getArticleSingle($articleID);
-//              $doc->addField(Zend_Search_Lucene_Field::Text('description', $articleInfo['DESCRIPTION'], 'UTF-8'));
 
                 $url = $this->getRealURL($cat);
                 $doc->addField(Zend_Search_Lucene_Field::UnIndexed('url', $url));
@@ -324,6 +239,7 @@ class SearchController extends App_Controller_Frontend_Action
                 }
             }
         }
+
         return TRUE;
     }
 

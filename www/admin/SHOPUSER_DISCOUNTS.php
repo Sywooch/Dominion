@@ -236,7 +236,6 @@ $_REQUEST['id']=$cmf->GetSequence('SHOPUSER_DISCOUNTS');
 
 
 
-
 		
 				
     if(isset($_FILES['NOT_IMAGE1']['tmp_name']) && $_FILES['NOT_IMAGE1']['tmp_name']){
@@ -276,11 +275,12 @@ $_REQUEST['id']=$cmf->GetSequence('SHOPUSER_DISCOUNTS');
 			
 		if(isset($_REQUEST['CLR_IMAGE2']) && $_REQUEST['CLR_IMAGE2']){$_REQUEST['IMAGE2']=$cmf->UnlinkFile($_REQUEST['IMAGE2'],$VIRTUAL_IMAGE_PATH);}
 	
+
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 
 
 
-$cmf->execute('insert into SHOPUSER_DISCOUNTS (SHOPUSER_DISCOUNTS_ID,NAME,CLASS_NAME,MIN,MAX,IMAGE1,IMAGE2,STATUS,ORDERING) values (?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CLASS_NAME']),stripslashes($_REQUEST['MIN'])+0,stripslashes($_REQUEST['MAX'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['ORDERING']));
+$cmf->execute('insert into SHOPUSER_DISCOUNTS (SHOPUSER_DISCOUNTS_ID,NAME,MIN,MAX,IMAGE1,IMAGE2,COLOR,STATUS,ORDERING) values (?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['MIN'])+0,stripslashes($_REQUEST['MAX'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['COLOR']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['ORDERING']));
 
 
 $_REQUEST['e']='ED';
@@ -295,7 +295,6 @@ if($_REQUEST['e'] == 'Изменить')
 
 
 
-
 		
 				
     if(isset($_FILES['NOT_IMAGE1']['tmp_name']) && $_FILES['NOT_IMAGE1']['tmp_name']){
@@ -335,31 +334,32 @@ if($_REQUEST['e'] == 'Изменить')
 			
 		if(isset($_REQUEST['CLR_IMAGE2']) && $_REQUEST['CLR_IMAGE2']){$_REQUEST['IMAGE2']=$cmf->UnlinkFile($_REQUEST['IMAGE2'],$VIRTUAL_IMAGE_PATH);}
 	
+
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 
 
-$cmf->execute('update SHOPUSER_DISCOUNTS set NAME=?,CLASS_NAME=?,MIN=?,MAX=?,IMAGE1=?,IMAGE2=?,STATUS=? where SHOPUSER_DISCOUNTS_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CLASS_NAME']),stripslashes($_REQUEST['MIN'])+0,stripslashes($_REQUEST['MAX'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
+$cmf->execute('update SHOPUSER_DISCOUNTS set NAME=?,MIN=?,MAX=?,IMAGE1=?,IMAGE2=?,COLOR=?,STATUS=? where SHOPUSER_DISCOUNTS_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['MIN'])+0,stripslashes($_REQUEST['MAX'])+0,stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE2']),stripslashes($_REQUEST['COLOR']),stripslashes($_REQUEST['STATUS']),$_REQUEST['id']);
 $_REQUEST['e']='ED';
 
 };
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_CLASS_NAME,$V_MIN,$V_MAX,$V_IMAGE1,$V_IMAGE2,$V_STATUS)=
-$cmf->selectrow_arrayQ('select SHOPUSER_DISCOUNTS_ID,NAME,CLASS_NAME,MIN,MAX,IMAGE1,IMAGE2,STATUS from SHOPUSER_DISCOUNTS where SHOPUSER_DISCOUNTS_ID=?',$_REQUEST['id']);
+list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_MIN,$V_MAX,$V_IMAGE1,$V_IMAGE2,$V_COLOR,$V_STATUS)=
+$cmf->selectrow_arrayQ('select SHOPUSER_DISCOUNTS_ID,NAME,MIN,MAX,IMAGE1,IMAGE2,COLOR,STATUS from SHOPUSER_DISCOUNTS where SHOPUSER_DISCOUNTS_ID=?',$_REQUEST['id']);
 
 
 
 if(isset($V_IMAGE1))
 {
    $IM_IMAGE1=split('#',$V_IMAGE1);
-   if(isset($IM_5[1]) && $IM_IMAGE1[1] > 150){$IM_IMAGE1[2]=$IM_IMAGE1[2]*150/$IM_IMAGE1[1]; $IM_IMAGE1[1]=150;}
+   if(isset($IM_4[1]) && $IM_IMAGE1[1] > 150){$IM_IMAGE1[2]=$IM_IMAGE1[2]*150/$IM_IMAGE1[1]; $IM_IMAGE1[1]=150;}
 }
 
 if(isset($V_IMAGE2))
 {
    $IM_IMAGE2=split('#',$V_IMAGE2);
-   if(isset($IM_6[1]) && $IM_IMAGE2[1] > 150){$IM_IMAGE2[2]=$IM_IMAGE2[2]*150/$IM_IMAGE2[1]; $IM_IMAGE2[1]=150;}
+   if(isset($IM_5[1]) && $IM_IMAGE2[1] > 150){$IM_IMAGE2[2]=$IM_IMAGE2[2]*150/$IM_IMAGE2[1]; $IM_IMAGE2[1]=150;}
 }
 
 $V_STATUS=$V_STATUS?'checked':'';
@@ -368,7 +368,7 @@ $V_STATUS=$V_STATUS?'checked':'';
 
 
 <table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 500px" class="f">
-<form method="POST" action="SHOPUSER_DISCOUNTS.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(CLASS_NAME);">
+<form method="POST" action="SHOPUSER_DISCOUNTS.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(COLOR);">
 <input type="hidden" name="id" value="{$_REQUEST['id']}" />
 <input type="hidden" name="type" value="9" />
 <input type="hidden" name="p" value="{$_REQUEST['p']}" />
@@ -384,10 +384,6 @@ $V_STATUS=$V_STATUS?'checked':'';
 <tr bgcolor="#FFFFFF"><th width="1%"><b>Название:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
 <input type="text" name="NAME" value="$V_NAME" size="90" /><br />
-
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Название лкасса:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
-
-<input type="text" name="CLASS_NAME" value="$V_CLASS_NAME" size="90" /><br />
 
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Min значение:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
@@ -459,6 +455,10 @@ print <<<EOF
 <input type="checkbox" name="CLR_IMAGE2" value="1" />Сбросить карт.
 
 </td></tr></table>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Color CSS:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="COLOR" value="$V_COLOR" size="20" /><br />
+
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Статус:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
 
 
@@ -518,7 +518,7 @@ $visible=0;
 
 if($_REQUEST['e'] == 'Новый')
 {
-list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_CLASS_NAME,$V_MIN,$V_MAX,$V_IMAGE1,$V_IMAGE2,$V_STATUS,$V_ORDERING)=array('','','','','','','','','');
+list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_MIN,$V_MAX,$V_IMAGE1,$V_IMAGE2,$V_COLOR,$V_STATUS,$V_ORDERING)=array('','','','','','','','','');
 
 $IM_IMAGE1=array('','','');
 $IM_IMAGE2=array('','','');
@@ -526,7 +526,7 @@ $V_STATUS='checked';
 @print <<<EOF
 <h2 class="h2">Добавление - Скидка покупателя</h2>
 <table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 500px" class="f">
-<form method="POST" action="SHOPUSER_DISCOUNTS.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(CLASS_NAME);">
+<form method="POST" action="SHOPUSER_DISCOUNTS.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(COLOR);">
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
 <input type="submit" name="e" value="Добавить" class="gbt badd" /> 
 <input type="submit" name="e" value="Отменить" class="gbt bcancel" />
@@ -535,10 +535,6 @@ $V_STATUS='checked';
 <tr bgcolor="#FFFFFF"><th width="1%"><b>Название:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
 <input type="text" name="NAME" value="$V_NAME" size="90" /><br />
-
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Название лкасса:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
-
-<input type="text" name="CLASS_NAME" value="$V_CLASS_NAME" size="90" /><br />
 
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Min значение:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
@@ -610,6 +606,10 @@ print <<<EOF
 <input type="checkbox" name="CLR_IMAGE2" value="1" />Сбросить карт.
 
 </td></tr></table>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Color CSS:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="COLOR" value="$V_COLOR" size="20" /><br />
+
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Статус:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
@@ -654,7 +654,7 @@ EOF;
 }
 
 
-$sth=$cmf->execute('select A.SHOPUSER_DISCOUNTS_ID,A.NAME,A.MIN,A.MAX,A.STATUS from SHOPUSER_DISCOUNTS A where 1'.' order by A.ORDERING limit ?,?',$pagesize*($_REQUEST['p']-1),$pagesize);
+$sth=$cmf->execute('select A.SHOPUSER_DISCOUNTS_ID,A.NAME,A.MIN,A.MAX,A.COLOR,A.STATUS from SHOPUSER_DISCOUNTS A where 1'.' order by A.ORDERING limit ?,?',$pagesize*($_REQUEST['p']-1),$pagesize);
 
 
 
@@ -662,7 +662,7 @@ $sth=$cmf->execute('select A.SHOPUSER_DISCOUNTS_ID,A.NAME,A.MIN,A.MAX,A.STATUS f
 
 @print <<<EOF
 <img src="img/hi.gif" width="1" height="3" /><table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" class="l">
-<tr bgcolor="#F0F0F0"><td colspan="6">
+<tr bgcolor="#F0F0F0"><td colspan="7">
 EOF;
 
 if ($cmf->W)
@@ -683,19 +683,19 @@ if ($cmf->D)
 EOF;
 
 print <<<EOF
-<tr bgcolor="#FFFFFF"><td><input type="checkbox" onclick="return SelectAll(this.form,checked,'id[]');" /></td><th>N</th><th>Название</th><th>Min значение</th><th>Max значение</th><td></td></tr>
+<tr bgcolor="#FFFFFF"><td><input type="checkbox" onclick="return SelectAll(this.form,checked,'id[]');" /></td><th>N</th><th>Название</th><th>Min значение</th><th>Max значение</th><th>Color CSS</th><td></td></tr>
  
 EOF;
 
 if(is_resource($sth))
-while(list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_MIN,$V_MAX,$V_STATUS)=mysql_fetch_array($sth, MYSQL_NUM))
+while(list($V_SHOPUSER_DISCOUNTS_ID,$V_NAME,$V_MIN,$V_MAX,$V_COLOR,$V_STATUS)=mysql_fetch_array($sth, MYSQL_NUM))
 {
 if($V_STATUS){$V_STATUS='#FFFFFF';} else {$V_STATUS='#a0a0a0';}
 
 print <<<EOF
 <tr bgcolor="$V_STATUS">
 <td><input type="checkbox" name="id[]" value="$V_SHOPUSER_DISCOUNTS_ID" /></td>
-<td>$V_SHOPUSER_DISCOUNTS_ID</td><td>$V_NAME</td><td>$V_MIN</td><td>$V_MAX</td><td nowrap="">
+<td>$V_SHOPUSER_DISCOUNTS_ID</td><td>$V_NAME</td><td>$V_MIN</td><td>$V_MAX</td><td>$V_COLOR</td><td nowrap="">
 <a href="SHOPUSER_DISCOUNTS.php?e=UP&amp;id=$V_SHOPUSER_DISCOUNTS_ID"><img src="i/up.gif" border="0" /></a>
 <a href="SHOPUSER_DISCOUNTS.php?e=DN&amp;id=$V_SHOPUSER_DISCOUNTS_ID"><img src="i/dn.gif" border="0" /></a>
 EOF;

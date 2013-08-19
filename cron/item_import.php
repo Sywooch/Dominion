@@ -26,7 +26,7 @@ require_once ROOT_PATH . '/include/class.item_import.php';
 require_once ROOT_PATH . '/include/class.item_image_convert.php';
 require_once ROOT_PATH . '/include/class.sitemap.php';
 require_once ROOT_PATH . '/include/imageResize/config_mage.ini.php';
-require_once ROOT_PATH . '/include/imageResize/imageResizer.php';
+require_once ROOT_PATH . '/include/imageResize/ImageResize.php';
 require_once ROOT_PATH . "/include/generateDescription.php";
 
 require_once SITE_PATH . "/lib/CreateSEFU.class.php";

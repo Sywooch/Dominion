@@ -1,8 +1,10 @@
 <?php
 
-class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
+class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
+{
 
-    public function getCatTree($parentId = 0) {
+    public function getCatTree($parentId = 0)
+    {
         $Item = new models_Item();
 
         $pathIDs = array();
@@ -30,9 +32,9 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
 
                 $this->domXml->create_element('cattree', '', 2);
                 $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
-                    , 'parent_id' => $cat['PARENT_ID']
-                    , 'is_index' => $cat['IS_INDEX']
-                    , 'on_path' => $select
+                , 'parent_id' => $cat['PARENT_ID']
+                , 'is_index' => $cat['IS_INDEX']
+                , 'on_path' => $select
                 ));
 
 
@@ -46,9 +48,9 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
                     $tmp = explode('#', $cat['IMAGE1']);
                     $this->domXml->create_element('image', '', 2);
                     $this->domXml->set_attribute(array('src' => $tmp[0],
-                        'w' => $tmp[1],
-                        'h' => $tmp[2]
-                            )
+                            'w' => $tmp[1],
+                            'h' => $tmp[2]
+                        )
                     );
                     $this->domXml->go_to_parent();
                 }
@@ -60,7 +62,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getCatSubTree($parentId = 0) {
+    public function getCatSubTree($parentId = 0)
+    {
         $cats = $this->work_model->getIndexTree($parentId, $this->lang_id);
 
         // Если список для подкаталога пуст - выходим
@@ -73,7 +76,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
 
             $this->domXml->create_element('sub_cattree', '', 2);
             $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
-                , 'parent_id' => $cat['PARENT_ID']
+            , 'parent_id' => $cat['PARENT_ID']
             ));
 
             $href = $cat['REALCATNAME'];
@@ -85,9 +88,9 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
                 $tmp = explode('#', $cat['IMAGE1']);
                 $this->domXml->create_element('image', '', 2);
                 $this->domXml->set_attribute(array('src' => $tmp[0],
-                    'w' => $tmp[1],
-                    'h' => $tmp[2]
-                        )
+                        'w' => $tmp[1],
+                        'h' => $tmp[2]
+                    )
                 );
                 $this->domXml->go_to_parent();
             }
@@ -98,7 +101,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    private function getCatBrands($id) {
+    private function getCatBrands($id)
+    {
         $AnotherPages = new models_AnotherPages();
         $result = $this->work_model->getBrands($id);
 
@@ -125,25 +129,27 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getCatInfo($id) {
-      $catinfo = $this->work_model->getCatInfo($id, $this->lang_id);
+    public function getCatInfo($id)
+    {
+        $catinfo = $this->work_model->getCatInfo($id, $this->lang_id);
 
-      if (!empty($catinfo)) {
-        $this->domXml->create_element('docinfo', '', 2);
+        if (!empty($catinfo)) {
+            $this->domXml->create_element('docinfo', '', 2);
 
-        $this->domXml->create_element('name', $catinfo['NAME']);
+            $this->domXml->create_element('name', $catinfo['NAME']);
 
-        $this->domXml->create_element('title', $catinfo['TITLE']);
-        $this->domXml->create_element('keywords', $catinfo['KEYWORD_META']);
-        $this->domXml->create_element('description', $catinfo['DESC_META']);
-        
-        $this->setXmlNode($catinfo['LONG_TEXT'], 'long_text');
+            $this->domXml->create_element('title', $catinfo['TITLE']);
+            $this->domXml->create_element('keywords', $catinfo['KEYWORD_META']);
+            $this->domXml->create_element('description', $catinfo['DESC_META']);
 
-        $this->domXml->go_to_parent();
-      }
+            $this->setXmlNode($catinfo['LONG_TEXT'], 'long_text');
+
+            $this->domXml->go_to_parent();
+        }
     }
 
-    public function getCatalogPath($id, $item_name = '') {
+    public function getCatalogPath($id, $item_name = '')
+    {
         $childs = array();
         $childs[count($childs)] = $id;
         $parent = $id;
@@ -158,8 +164,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
 
         $this->domXml->create_element('breadcrumbs', '', 2);
         $this->domXml->set_attribute(array('id' => 0,
-            'parent_id' => 0
-                )
+                'parent_id' => 0
+            )
         );
         $href = '/cat/';
 
@@ -177,8 +183,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
                 if (!empty($parent)) {
                     $this->domXml->create_element('breadcrumbs', '', 2);
                     $this->domXml->set_attribute(array('id' => $parent['CATALOGUE_ID'],
-                        'parent_id' => $parent['PARENT_ID']
-                            )
+                            'parent_id' => $parent['PARENT_ID']
+                        )
                     );
                     $href = $this->lang . $parent['REALCATNAME'];
 
@@ -194,8 +200,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
             if (!empty($item_name)) {
                 $this->domXml->create_element('breadcrumbs', '', 2);
                 $this->domXml->set_attribute(array('id' => 0,
-                    'parent_id' => 0
-                        )
+                        'parent_id' => 0
+                    )
                 );
                 $this->domXml->create_element('name', trim($item_name));
                 $this->domXml->create_element('url', '');
@@ -204,7 +210,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getCompareItems($catalogue_id) {
+    public function getCompareItems($catalogue_id)
+    {
         $session = new Zend_Session_Namespace('compare');
 
         if (!empty($session->compare[$catalogue_id])) {
@@ -213,7 +220,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
 
                 $this->domXml->create_element('compare_list', '', 2);
                 $this->domXml->set_attribute(array('id' => $item['ITEM_ID']
-                        )
+                    )
                 );
                 $href = $this->lang . $item['CATALOGUE_REALCATNAME'] . $item['ITEM_ID'] . '-' . $item['CATNAME'] . '/';
 
@@ -226,7 +233,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    public function getAttrBrands($catalogue_id, $brand_id, $active_brands) {
+    public function getAttrBrands($catalogue_id, $brand_id, $active_brands)
+    {
 
         $cid = $this->work_model->getChildren($catalogue_id);
         $cid[count($cid)] = $catalogue_id;
@@ -249,8 +257,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
 
                 $this->domXml->create_element('attr_brands', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['BRAND_ID']
-                    , 'selected' => $selected
-                    , 'is_disabled' => $is_disabled
+                , 'selected' => $selected
+                , 'is_disabled' => $is_disabled
                 ));
 
                 $this->domXml->create_element('name', $view['NAME']);
@@ -260,7 +268,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
         }
     }
 
-    private function getSubCatalogPath($id, $parent_id) {
+    private function getSubCatalogPath($id, $parent_id)
+    {
         $result = $this->work_model->getTree($parent_id);
         if (!empty($result)) {
             foreach ($result as $view) {
@@ -268,8 +277,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract {
                     continue;
                 $this->domXml->create_element('breadcrumbs', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['CATALOGUE_ID'],
-                    'parent_id' => $view['PARENT_ID']
-                        )
+                        'parent_id' => $view['PARENT_ID']
+                    )
                 );
                 $href = $this->lang . $view['REALCATNAME'];
 

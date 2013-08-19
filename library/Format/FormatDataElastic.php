@@ -22,21 +22,22 @@ class Format_FormatDataElastic
      */
     public function formatDataForElastic(array $items)
     {
-        $formatArray = array();
-        foreach ($items as $item) {
-            $item['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-            $item['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
-            unset($item['REALCATNAME'], $item['CATNAME']);
-            $formatArray[] = $item;
+        foreach ($items as $key => $item) {
+            $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
+
+            $items[$key]['MAIN_ALTERNATIVE'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . preg_replace("/\s/", "", $item['NAME_PRODUCT'], 1);
+            $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
+
+            unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
         }
 
-        return $formatArray;
+        return $items;
     }
 
     /**
      * Format data for show in result search
      *
-     * @param helpers_Format_PricesObjectValue $pricesObjectValue
+     * @param Format_PricesObjectValue $pricesObjectValue
      *
      * @return array
      */
@@ -53,8 +54,8 @@ class Format_FormatDataElastic
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
 
-            $data['IMAGE1'] = !empty($data['IMAGE1']) ? $data['IMAGE1'] : '##';
-            $image = explode("#", $data['IMAGE1']);
+            $data['IMAGE0'] = !empty($data['IMAGE0']) ? $data['IMAGE0'] : '##';
+            $image = explode("#", $data['IMAGE0']);
 
             $goods[$key]['price'] = $price . " " . $unit;
 
@@ -65,6 +66,7 @@ class Format_FormatDataElastic
                 'height' => $image[2]
             );
 
+            $goods[$key]['value'] = "{$data['TYPENAME']} {$data['BRAND']} {$data['NAME_PRODUCT']}";
             $goods[$key] = $this->replaceValue($goods[$key], null, "");
             $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
         }
@@ -73,11 +75,29 @@ class Format_FormatDataElastic
     }
 
     /**
+     * Format data for search
+     *
+     * @param Format_PricesObjectValue $pricesObjectValue
+     * @return array
+     */
+    public function formatDataForSearchQuery(Format_PricesObjectValue $pricesObjectValue)
+    {
+        $dataResult = $pricesObjectValue->getData();
+        $this->formatPrices($pricesObjectValue);
+
+        $items = $pricesObjectValue->getItems();
+
+        foreach ($dataResult as $data) {
+            $items[$data['ITEM_ID']]['URL'] = $data['URL'];
+        }
+
+        return $items;
+    }
+
+    /**
      * Execute format and calculate logic prices
      *
-     * @param helpers_Format_PricesObjectValue $pricesObjectValue
-     *
-     * @return mixed
+     * @param Format_PricesObjectValue $pricesObjectValue
      */
     private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
@@ -95,7 +115,7 @@ class Format_FormatDataElastic
 
             $item = $pricesObjectValue->getDiscount()->calcDiscount($roundItem);
 
-            $pricesObjectValue->setItem($item);
+            $pricesObjectValue->setItem($item, $item['ITEM_ID']);
         }
     }
 
@@ -106,7 +126,7 @@ class Format_FormatDataElastic
      *
      * @return array
      */
-    private function getDataItems(array $dataResult)
+    private function getDataItems($dataResult)
     {
         $elasticSearch = new models_ElasticSearch();
         $itemsId = array();

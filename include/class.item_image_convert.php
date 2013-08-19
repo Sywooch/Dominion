@@ -32,7 +32,7 @@ class item_image_convert
                 $item_id = $img['ITEM_ID'];
                 $pictures['name'] = (substr($img['BASE_IMAGE'], 0, 1) =='/')  ? $img['BASE_IMAGE']:'/'.$img['BASE_IMAGE'];
                 $pictures['type'] = 'base';
-                if (!empty($pictures['name']) && file_exists(IMAGE_UPLOAD_PATH . $pictures['name'])) {
+                if (!empty($pictures['name']) && file_exists(UPLOAD_IMAGES . $pictures['name'])) {
 //          if(!$this->Item->itemHasImage($item_id)){
                     list($_data['IMAGE1'], $_data['IMAGE2'], $_data['IMAGE3']) = $this->convertItemImage($pictures,
                                                                                                          $item_id);
@@ -43,7 +43,7 @@ class item_image_convert
                     echo "Image {$pathToImage} for ID {$item_id} converted\r\n<br>";
                     unset($_data);
                 } else {
-                    echo "Image " . IMAGE_UPLOAD_PATH . $pictures['name'] . " for ID {$item_id} not found\r\n<br>";
+                    echo "Image " . UPLOAD_IMAGES . $pictures['name'] . " for ID {$item_id} not found\r\n<br>";
                 }
                 $this->getItemPhotos($item_id);
             }
@@ -58,7 +58,7 @@ class item_image_convert
                 $pictures['name'] = $img['NAME'];
                 $pictures['type'] = 'big';
 
-                if (!empty($pictures['name']) && file_exists(IMAGE_UPLOAD_PATH . $pictures['name'])) {
+                if (!empty($pictures['name']) && file_exists(UPLOAD_IMAGES . $pictures['name'])) {
                     list($_data['IMAGE1'], $_data['IMAGE2']) = $this->convertItemFotos($pictures,
                                                                                        $item_id,
                                                                                        $img['ITEM_ITEM_ID']);
@@ -70,7 +70,7 @@ class item_image_convert
                 }
 
 //                else {
-//                    echo "Image ".IMAGE_UPLOAD_PATH."{$pictures['name']} for ID {$item_id} not found\r\n<br>";
+//                    echo "Image ".UPLOAD_IMAGES."{$pictures['name']} for ID {$item_id} not found\r\n<br>";
 //                }
             }
         }
@@ -85,7 +85,7 @@ class item_image_convert
                 $pictures['name'] = $img['BASE_IMAGE'];
                 $pictures['type'] = 'base';
 
-                if (!empty($pictures['name']) && file_exists(IMAGE_UPLOAD_PATH . $pictures['name'])) {
+                if (!empty($pictures['name']) && file_exists(UPLOAD_IMAGES . $pictures['name'])) {
                     list($_goods_group_data['IMAGE']) = $this->convertGroupItemFotos($pictures,
                                                                                      $item_id);
                     $this->GoodsGroup->updateItemToGoodGroup($_goods_group_data,
@@ -108,7 +108,7 @@ class item_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(IMAGE_UPLOAD_PATH . $picture['name']);
+        $buf = file_get_contents(UPLOAD_IMAGES . $picture['name']);
 
         if (!$buf) {
             echo "Image " . $picture['name'] . " not founded \r\n<br>";
@@ -139,13 +139,13 @@ class item_image_convert
         try {
             $image1 = pathToImages . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_b_X, Size_b_Y);
+            $sizes = new SizePicture(Size_b_X, Size_b_Y);
 
             // Делаем большую картинку IMAGE3
             $newFile = $resizer->imageConvert($image1, pathToImages, $sizes,
@@ -198,10 +198,10 @@ class item_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(IMAGE_UPLOAD_PATH . $picture['name']);
+        $buf = file_get_contents(UPLOAD_IMAGES . $picture['name']);
 
         if (!$buf) {
-            echo "Image " . IMAGE_UPLOAD_PATH . $picture['name'] . " not founded \n<br>";
+            echo "Image " . UPLOAD_IMAGES . $picture['name'] . " not founded \n<br>";
             return $_image_name_result;
         }
 
@@ -229,13 +229,13 @@ class item_image_convert
         try {
             $image1 = pathToImages . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_gallery_X, Size_gallery_Y);
+            $sizes = new SizePicture(Size_gallery_X, Size_gallery_Y);
 
 
             // Делаем большую картинку IMAGE3
@@ -279,10 +279,10 @@ class item_image_convert
         $V_IMAGE1 = strtolower($V_IMAGE1);
 
         $image1 = $picture['type'] . $V_ITEM_ID . '.jpeg';
-        $buf = file_get_contents(IMAGE_UPLOAD_PATH . $picture['name']);
+        $buf = file_get_contents(UPLOAD_IMAGES . $picture['name']);
 
         if (!$buf) {
-            echo "Image " . IMAGE_UPLOAD_PATH . $picture['name'] . " not founded \n<br>";
+            echo "Image " . UPLOAD_IMAGES . $picture['name'] . " not founded \n<br>";
             return $_image_name_result;
         }
 
@@ -310,13 +310,13 @@ class item_image_convert
         try {
             $image1 = pathToImagesGroupItems . $image1;
 
-            $resizer = new imageResizer();
+            $resizer = new ImageResize();
 
 
             $options['strictSize'] = false;
             $options['pathToWatermark'] = pathToWatermark;
 
-            $sizes = new sizePicture(Size_gruop_X, Size_gruop_Y);
+            $sizes = new SizePicture(Size_gruop_X, Size_gruop_Y);
 
 
             // Делаем большую картинку IMAGE3
