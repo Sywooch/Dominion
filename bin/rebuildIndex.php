@@ -41,18 +41,25 @@ $data = array();
 
 while ($row = $query->fetch()) {
 
-    if (count($data) < 499) {
-        $data[$row['ITEM_ID']] = $row;
+    $data[$row['ITEM_ID']] = $row;
 
-        continue;
+    if (count($data) >= 500) {
+        $formatData = $helperFormatData->formatDataForElastic($data);
+
+        $elasticSearchPUT->addDocuments($formatData);
+
+        $data = array();
+    } else {
+        continue;  
     }
+}
 
+if (!empty($data)) {
     $formatData = $helperFormatData->formatDataForElastic($data);
 
     $elasticSearchPUT->addDocuments($formatData);
-
-    $data = null;
 }
+
 
 echo "Data add to index success";
 
