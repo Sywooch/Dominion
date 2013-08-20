@@ -28,8 +28,8 @@ $query = $db->query($sql);
 $helperFormatData = new Format_FormatDataElastic();
 
 $parameters = $config->toArray();
-$connect = new ContextSearch_ElasticSearch_Connect($parameters['search_engine']);
-
+$searchEngine = $parameters['search_engine'];
+$connect = new ContextSearch_ElasticSearch_Connect($searchEngine);
 $connect->setAction("PUT");
 
 $contextSearch = new ContextSearch_ContextSearchFactory();
@@ -43,14 +43,14 @@ while ($row = $query->fetch()) {
 
     $data[$row['ITEM_ID']] = $row;
 
-    if (count($data) >= 500) {
+    if (count($data) >= 499) {
         $formatData = $helperFormatData->formatDataForElastic($data);
 
         $elasticSearchPUT->addDocuments($formatData);
 
         $data = array();
     } else {
-        continue;  
+        continue;
     }
 }
 
@@ -59,7 +59,6 @@ if (!empty($data)) {
 
     $elasticSearchPUT->addDocuments($formatData);
 }
-
 
 echo "Data add to index success";
 
