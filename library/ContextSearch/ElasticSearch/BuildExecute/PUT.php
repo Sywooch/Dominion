@@ -40,14 +40,18 @@ class ContextSearch_ElasticSearch_BuildExecute_PUT extends ContextSearch_Elastic
      */
     public function addDocuments(array $data)
     {
+        $documents = array();
         foreach ($data as $key => $item) {
             $documents[] = new \Elastica\Document($key, $item);
 
             if (count($documents) === self::LIMIT_DOCS) {
                 $this->type->addDocuments($documents);
-//                $this->execute();
-                unset($documents);
+                $documents = array();
             }
+        }
+
+        if (!empty($documents)) {
+            $this->type->addDocuments($documents);
         }
     }
 

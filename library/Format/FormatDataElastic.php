@@ -25,7 +25,7 @@ class Format_FormatDataElastic
         foreach ($items as $key => $item) {
             $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
 
-            $items[$key]['MAIN_ALTERNATIVE'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . preg_replace("/\s/", "", $item['NAME_PRODUCT'], 1);
+            $items[$key]['MAIN_ALTERNATIVE'] = "{$item['TYPENAME']} {$item['BRAND']} " . str_replace(" ", "", $item['NAME_PRODUCT']);
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
 
             unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
@@ -78,6 +78,7 @@ class Format_FormatDataElastic
      * Format data for search
      *
      * @param Format_PricesObjectValue $pricesObjectValue
+     *
      * @return array
      */
     public function formatDataForSearchQuery(Format_PricesObjectValue $pricesObjectValue)
