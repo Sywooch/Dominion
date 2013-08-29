@@ -29,7 +29,7 @@ class itemCreate implements iItems {
      */
     private $_model;
     private $_catalogueId = null;
-    private $_colNames = array('Name', 'Brand', 'Status', 'URL', 'New items');
+    private $_colNames = array('Name', 'Brand', 'Status', 'URL', 'New items' , 'Item type', 'Article', 'Price');
 
     public function __construct(SCMF $cmf) {
         $this->_model = new modelPrice($cmf);
@@ -58,6 +58,9 @@ class itemCreate implements iItems {
                 $itemsNew[] = $this->getStatus($value);
                 $itemsNew[] = $this->clearURl($value);
                 $itemsNew[] = $this->getStatusNew($value['DAY_DIFF']);
+                $itemsNew[] = $value['TYPENAME'];
+                $itemsNew[] = $value['ARTICLE'];
+                $itemsNew[] = $value['PRICE'];
                 $itemsArray[] = $itemsNew;
             }
         }
