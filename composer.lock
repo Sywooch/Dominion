@@ -3,20 +3,70 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3ac27ae5f84aa9f6eb40734abe76746f",
+    "hash": "b92866738bd3024f7d4b8997492e6acf",
     "packages": [
+        {
+            "name": "codeplex/phpexcel",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/markushausammann/PHPExcel.git",
+                "reference": "7f72be58b4f0a136a4ee9997318d717ecb18abc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/markushausammann/PHPExcel/zipball/7f72be58b4f0a136a4ee9997318d717ecb18abc6",
+                "reference": "7f72be58b4f0a136a4ee9997318d717ecb18abc6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Erit Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet"
+            ],
+            "time": "2013-06-13 17:41:00"
+        },
         {
             "name": "imagine/imagine",
             "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f"
+                "reference": "d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/0af397b3b96aac5b11593ca9136ca43a55869c5f",
-                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8",
+                "reference": "d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8",
                 "shasum": ""
             },
             "require": {
@@ -60,55 +110,42 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2013-07-19 16:16:00"
+            "time": "2013-08-27 09:13:52"
         },
         {
-            "name": "kriswallsmith/buzz",
+            "name": "phpexcel/phpexcel",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "d7545a943496c401f7f5248f285e44b33c86905e"
+                "url": "https://github.com/ddeboer/phpexcel.git",
+                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/d7545a943496c401f7f5248f285e44b33c86905e",
-                "reference": "d7545a943496c401f7f5248f285e44b33c86905e",
+                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
+                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-curl": "*"
+                "php": ">5.2.0"
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Buzz": "lib/"
+                    "PHPExcel": "Classes"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "GNU"
             ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
             "keywords": [
-                "curl",
-                "http client"
+                "excel",
+                "xls"
             ],
-            "time": "2013-06-04 15:32:22"
+            "time": "2012-09-04 18:29:37"
         },
         {
             "name": "ruflin/elastica",
@@ -116,12 +153,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4"
+                "reference": "1475906ac4179f792d264d4dee2dcc6d2b0dfc82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/e600c3e2520ff550b927464a762e482cd0d225c4",
-                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/1475906ac4179f792d264d4dee2dcc6d2b0dfc82",
+                "reference": "1475906ac4179f792d264d4dee2dcc6d2b0dfc82",
                 "shasum": ""
             },
             "require": {
@@ -164,7 +201,7 @@
                 "client",
                 "search"
             ],
-            "time": "2013-08-08 08:36:24"
+            "time": "2013-08-27 18:25:25"
         },
         {
             "name": "symfony/class-loader",
@@ -173,12 +210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1"
+                "reference": "7809fd30ec2731cb12334f78351817013090c955"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
-                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/7809fd30ec2731cb12334f78351817013090c955",
+                "reference": "7809fd30ec2731cb12334f78351817013090c955",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +251,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-24 05:36:23"
+            "time": "2013-08-24 06:54:37"
         },
         {
             "name": "symfony/console",
@@ -223,12 +260,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.3"
+                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
+                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +304,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-08-17 16:34:49"
         },
         {
             "name": "zendframework/zendframework1",
@@ -275,12 +312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "6efbf4631cc47b2c5c1c5fee87c2f6191f255e70"
+                "reference": "47cb01e3ab68fc06302ca09c267625ba2552b235"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/6efbf4631cc47b2c5c1c5fee87c2f6191f255e70",
-                "reference": "6efbf4631cc47b2c5c1c5fee87c2f6191f255e70",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/47cb01e3ab68fc06302ca09c267625ba2552b235",
+                "reference": "47cb01e3ab68fc06302ca09c267625ba2552b235",
                 "shasum": ""
             },
             "require": {
@@ -310,7 +347,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2013-08-05 16:58:54"
+            "time": "2013-08-28 15:04:38"
         }
     ],
     "packages-dev": [
@@ -326,7 +363,8 @@
         "symfony/class-loader": 20,
         "symfony/console": 20,
         "imagine/imagine": 20,
-        "kriswallsmith/buzz": 20
+        "phpexcel/phpexcel": 20,
+        "codeplex/phpexcel": 20
     },
     "platform": {
         "php": ">=5.3.3"
