@@ -1,33 +1,37 @@
-#!/usr/bin/env php
-
 <?php
 /**
  * User: Rus
- * Date: 10.08.13
- * Time: 19:27
+ * Date: 24.08.13
+ * Time: 21:48
  */
-require_once __DIR__ . '../../application/configs/config.php';
 
-use Buzz\Client\Curl;
-use Buzz\Message\Request;
-use Buzz\Message\Response;
-
-$curl = new Curl();
-
-$request = new Request('POST', '/auth', 'http://api.brain.com.ua');
-
-$response = new Response();
+require_once __DIR__ . "/../application/configs/config.php";
 
 
-$options = array(
-    CURLOPT_POSTFIELDS => array(
-        'login' => 'Dominion',
-        'password' => md5('barcelona')
-    )
-);
+$curl = new Buzz\Client\Curl();
+
+$request = new Buzz\Message\Request();
+
+$response = new Buzz\Message\Response();
+
+
+$request->setHost('http://api.brain.com.ua');
+$request->setMethod('POST');
+$request->setResource('/auth');
+
+$options = array();
+
+$options[CURLOPT_POSTFIELDS] = array('login' => 'adlabs', 'password' => md5('Ru$LAN'));
 
 $curl->send($request, $response, $options);
 
+$authToken = json_decode($response->getContent());
 
-$json = $response->getContent();
-$g = 0;
+
+
+$request->setResource("/categories/{$authToken->result}");
+$request->setMethod('GET');
+
+$curl->send($request, $response, $options);
+
+$g = 88;
