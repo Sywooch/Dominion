@@ -74,6 +74,9 @@
                             select="nat_sname"/>
                     </div>
                 </xsl:when>
+                <xsl:when test="@real_price = 0">
+                    <span class="price">нет в наличии</span>
+                </xsl:when>
                 <xsl:otherwise>
                     <div class="price_box">
                         <span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of
