@@ -8,16 +8,22 @@
 require_once __DIR__ . "/../application/configs/config.php";
 
 
-$curl = new Buzz\Client\Curl();
+$application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
+//
+//$registry = Zend_Registry::getInstance();
 
-$request = new Buzz\Message\Request();
+$export = new BrainPriceImport_Connect(
+    new Buzz\Client\Curl(), new Buzz\Message\Request(), new Buzz\Message\Response(),
+    'adlabs',
+    'Ru$LAN'
+);
 
-$response = new Buzz\Message\Response();
+
+$export->setHost('http://api.brain.com.ua');
+
+$sid =  $export->getAuthSID();
 
 
-$request->setHost('http://api.brain.com.ua');
-$request->setMethod('POST');
-$request->setResource('/auth');
 
 $options = array();
 
@@ -32,6 +38,6 @@ $authToken = json_decode($response->getContent());
 $request->setResource("/categories/{$authToken->result}");
 $request->setMethod('GET');
 
-$curl->send($request, $response, $options);
+$curl->send($request, $response);
 
 $g = 88;
