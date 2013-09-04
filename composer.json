@@ -15,6 +15,7 @@
         "imagine/imagine": "dev-develop",
         "phpexcel/phpexcel": "dev-master",
         "kriswallsmith/buzz": "dev-master"
+        "codeplex/phpexcel": "dev-master"
 
     }
 }
