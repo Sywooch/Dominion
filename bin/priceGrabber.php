@@ -21,23 +21,68 @@ $export = new BrainPriceImport_Connect(
 
 $export->setHost('http://api.brain.com.ua');
 
-$sid =  $export->getAuthSID();
+$sid = $export->getAuthSID();
 
 
+$grabber = new BrainPriceImport_PriceDataGrabber($export);
 
-$options = array();
-
-$options[CURLOPT_POSTFIELDS] = array('login' => 'adlabs', 'password' => md5('Ru$LAN'));
-
-$curl->send($request, $response, $options);
-
-$authToken = json_decode($response->getContent());
+$categories = $grabber->getCategories();
 
 
+$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><price></price>');
 
-$request->setResource("/categories/{$authToken->result}");
-$request->setMethod('GET');
+$categoryRoot = $xml->addChild('categories');
 
-$curl->send($request, $response);
 
-$g = 88;
+$vendors = $grabber->getVendors();
+
+
+foreach ($grabber->getCategories() as $value) {
+
+
+    if (1 == $value->categoryID) {
+        continue;
+    }
+
+    echo "Add category {$value->name}\r\n";
+
+    $categoryXmlElement = $categoryRoot->addChild('category');
+    $categoryXmlElement->addAttribute('id', $value->categoryID);
+    $categoryXmlElement->addAttribute('name', $value->name);
+
+    $products = $grabber->getProducts($value->categoryID);
+
+    echo "adding " . count($products) . " items for {$value->name}...\r\n";
+
+    foreach ($products as $productItem) {
+        $productXmlElement = $categoryXmlElement->addChild('product');
+
+        foreach ($vendors as $vendor) {
+            if ($vendor['vendorID'] == $productItem->vendorID  && $vendor['categoryID'] == $productItem->categoryID) {
+                $vendorName = $vendor['name'];
+                break;
+            }
+        }
+
+        $productXmlElement->addChild('name', str_replace("&", "&amp;", $productItem->name));
+
+        $stocks = implode(',', $productItem->stocks);
+
+        $productXmlElement->addChild('stocks', str_replace("&", "&amp;", $stocks));
+        $productXmlElement->addChild('product_code', str_replace("&", "&amp;", $productItem->product_code));
+        $productXmlElement->addChild('warranty', str_replace("&", "&amp;", $productItem->warranty));
+        $productXmlElement->addChild('is_archive', str_replace("&", "&amp;", (int) $productItem->is_archive));
+        $productXmlElement->addChild('vendor', str_replace("&", "&amp;", $vendorName));
+        $productXmlElement->addChild('articul', str_replace("&", "&amp;", $productItem->articul));
+        $productXmlElement->addChild('volume', str_replace("&", "&amp;", $productItem->volume));
+        $productXmlElement->addChild('is_new', str_replace("&", "&amp;", (int) $productItem->is_new));
+        $productXmlElement->addChild('categoryID', str_replace("&", "&amp;", $productItem->categoryID));
+        $productXmlElement->addChild('price', str_replace("&", "&amp;", $productItem->price));
+
+    }
+
+    echo "finished\r\n";
+
+}
+
+$xmlString = $xml->saveXML('test.xml');

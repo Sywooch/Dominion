@@ -5,7 +5,7 @@
  * Time: 23:05
  */
 
-class BrainPriceImport_Connect
+class BrainPriceImport_Connect implements BrainPriceImport_ConnectorInterface
 {
 
     /**
@@ -51,6 +51,29 @@ class BrainPriceImport_Connect
 
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getCurl()
+    {
+        return $this->curl;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
 
     public function setHost($host)
     {
