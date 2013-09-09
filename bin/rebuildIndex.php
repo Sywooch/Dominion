@@ -6,6 +6,8 @@ require_once __DIR__ . "/../application/configs/config.php";
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
+define("LIMIT_DOCUMENTS", 500);
+
 $loader = new UniversalClassLoader();
 
 $loader->registerPrefixes(
@@ -40,18 +42,21 @@ $elasticSearchPUT = $queryBuilder->createQuery($connect);
 $data = array();
 
 while ($row = $query->fetch()) {
+    $data[$row['ITEM_ID']] = $row;
 
-    if (count($data) < 500) {
-        $data[$row['ITEM_ID']] = $row;
+    echo "add item element " . $row['ITEM_ID'] . " - " . $row["NAME_PRODUCT"] . "\r\n\n";
+    if (count($data) != LIMIT_DOCUMENTS) {
 
         continue;
     }
 
-    $formatData = $helperFormatData->formatDataForElastic($data);
+    $elasticSearchPUT->addDocuments($helperFormatData->formatDataForElastic($data));
 
-    $elasticSearchPUT->addDocuments($formatData);
+    $data = array();
+}
 
-    $data = null;
+if (count($data)) {
+    $elasticSearchPUT->addDocuments($helperFormatData->formatDataForElastic($data));
 }
 
 echo "Data add to index success";
