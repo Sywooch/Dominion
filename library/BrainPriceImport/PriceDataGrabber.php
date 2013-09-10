@@ -8,6 +8,8 @@
 class BrainPriceImport_PriceDataGrabber
 {
 
+    static private $stocks = array();
+
     /**
      * @var Buzz\Client\Curl
      */
@@ -67,6 +69,18 @@ class BrainPriceImport_PriceDataGrabber
 
     }
 
+    public function getBaseCategory()
+    {
+        $result = new stdClass();
+        $result->categoryID = 1;
+        $result->name = 'Без указания каталога';
+
+        $result = Array($result);
+
+        return $result;
+
+    }
+
     /**
      * @param int $categoryID
      *
@@ -80,21 +94,49 @@ class BrainPriceImport_PriceDataGrabber
         $limit = 100;
         $offset = null;
 
+        $this->getStocks();
+
+
         while (true) {
             $result = $this->getProductIterator($categoryID, $limit, $offset);
 
 
-            $allProducts = array_merge($allProducts, $result->list);
+            $restateStocks = array_filter($result->list, "self::setStocksForItem");
 
-            if ($result->count <= $limit || $result->count <= count($allProducts)) {
+//            if ($restateStocks)
+
+            $allProducts = array_merge($allProducts, $restateStocks);
+
+            if ($result->count <= $limit || empty($result->list)) {
                 break;
             }
 
             $offset += $limit;
 
+            echo "offset = $offset \r\n";
+
         }
 
         return $allProducts;
+    }
+
+    static private function setStocksForItem($product)
+    {
+
+        if (!empty($product->is_archive)) {
+            return false;
+        }
+
+
+        if (empty($product->stocks)) {
+            return false;
+        }
+
+        foreach ($product->stocks as $key => $value) {
+            $product->stocks[$key] = self::$stocks[$value];
+        }
+
+        return $product;
     }
 
     /**
@@ -125,6 +167,28 @@ class BrainPriceImport_PriceDataGrabber
         }
 
         return $response->result;
+
+    }
+
+
+    private function getStocks()
+    {
+
+        $resource = "/stocks/{$this->authSID}";
+        $this->request->setResource($resource);
+
+        $this->curl->send($this->request, $this->response);
+
+        $response = json_decode($this->response->getContent());
+
+        if ($response->status != 1) {
+            throw new RuntimeException($response->error_message, $response->error_code);
+        }
+
+
+        foreach ($response->result as $value) {
+            self::$stocks[$value->stockID] = $value->name;
+        }
 
     }
 

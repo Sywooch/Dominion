@@ -26,9 +26,6 @@ $sid = $export->getAuthSID();
 
 $grabber = new BrainPriceImport_PriceDataGrabber($export);
 
-$categories = $grabber->getCategories();
-
-
 $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><price></price>');
 
 $categoryRoot = $xml->addChild('categories');
@@ -37,12 +34,12 @@ $categoryRoot = $xml->addChild('categories');
 $vendors = $grabber->getVendors();
 
 
-foreach ($grabber->getCategories() as $value) {
+foreach ($grabber->getBaseCategory() as $value) {
 
 
-    if (1 == $value->categoryID) {
-        continue;
-    }
+//    if (1 == $value->categoryID) {
+//        continue;
+//    }
 
     echo "Add category {$value->name}\r\n";
 
