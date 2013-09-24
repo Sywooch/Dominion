@@ -15,6 +15,7 @@ autoloaderNamespaces[] = "StrategyCurrencyRound_"
 autoloaderNamespaces[] = "Format_"
 autoloaderNamespaces[] = "ZendCustomExtend_"
 autoloaderNamespaces[] = "ImageResize_"
+autoloaderNamespaces[] = "BrainPriceImport_"
 
 ; initialize database
 resources.db.adapter = "PDO_MYSQL"
