@@ -41,14 +41,15 @@ class modelPrice {
                     , I.PRICE
                     , I.STATUS
                     , B.NAME AS BRAND_NAME
+                    , I.TYPENAME
+                    , I.ARTICLE
+                    , I.PRICE
                     , day(now()) - day(DATE_INSERT) AS 'DAY_DIFF'
                 FROM
-                ITEM I
-                , CATALOGUE C
-                , BRAND B
-                WHERE C.IN_ADV = 1
-                AND I.CATALOGUE_ID = C.CATALOGUE_ID
-                AND I.BRAND_ID = B.BRAND_ID
+                    CATALOGUE C JOIN  ITEM I USING (CATALOGUE_ID)
+                    LEFT JOIN  BRAND B USING (BRAND_ID)
+                WHERE 1
+                #AND C.IN_ADV = 1
                 #AND I.STATUS =1
                 AND I.CATALOGUE_ID = ?";
 

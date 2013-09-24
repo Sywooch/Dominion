@@ -158,8 +158,10 @@ class models_ElasticSearch extends ZendDBEntity
             left join DELIVERY DL on (DL.DELIVERY_ID=I.DELIVERY_ID)
             left join CREDIT CR on (CR.CREDIT_ID=I.CREDIT_ID)
             left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID) where
-            I.PRICE > 0" . $where;
+            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)
+            where 1
+            #I.PRICE > 0
+            " . $where;
 
         return $this->_db->fetchAll($sql);
     }
