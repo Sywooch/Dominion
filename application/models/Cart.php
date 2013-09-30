@@ -82,7 +82,8 @@ class models_Cart extends ZendDBEntity
         $sql = "SELECT sum(ZI.COST)
           FROM ZAKAZ_ITEM ZI
           INNER JOIN ZAKAZ Z ON (Z.ZAKAZ_ID = ZI.ZAKAZ_ID)
-          WHERE Z.USER_ID = ?";
+          WHERE Z.USER_ID = ?
+          AND Z.STATUS = 3 ";
 
         return $this->_db->fetchOne($sql, $id);
     }
