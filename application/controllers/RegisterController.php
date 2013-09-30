@@ -204,7 +204,7 @@ class RegisterController extends App_Controller_Frontend_Action
     {
         $auth = Zend_Auth::getInstance();
         if (!$auth->hasIdentity())
-            $this->_redirect('/');
+            $this->redirect('/');
 
         $AnotherPages = new models_AnotherPages();
         $Cart = new models_Cart();
