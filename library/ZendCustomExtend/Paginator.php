@@ -27,13 +27,6 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
     private $elasticSearch;
 
     /**
-     * Count elements
-     *
-     * @var integer
-     */
-    private $count;
-
-    /**
      * Search text
      *
      * @var string
@@ -88,7 +81,7 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
     {
         $this->elasticSearch->setParameters($this->config);
         $this->elasticSearch->setType($this->config['type']['products']);
-        
+
         return $this->elasticSearch->runElasticGET(
             $this->searchText,
             $this->config['total_hits'],
