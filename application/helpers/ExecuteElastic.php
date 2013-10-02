@@ -23,6 +23,13 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     private $parameters = array();
 
     /**
+     * Type of index elastic search
+     *
+     * @var string
+     */
+    private $type;
+
+    /**
      * Object Elastic Search GET
      *
      * @var ContextSearch_ElasticSearch_BuildExecute_GET
@@ -40,13 +47,23 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     }
 
     /**
+     * Set type
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
      * Run elastic search
      *
      * @param string $term
      * @param string $formatResult
      * @param string $nameMethod
-     * @param int    $from
-     * @param int    $size
+     * @param int $from
+     * @param int $size
      *
      * @return mixed
      * @throws Exception
@@ -59,6 +76,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $connect = new ContextSearch_ElasticSearch_Connect($this->parameters);
         $connect->setAction("GET");
+        $connect->setType($this->type);
 
         $contextSearch = new ContextSearch_ContextSearchFactory();
 
@@ -105,9 +123,9 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Execute Query
      *
-     * @param string                                       $term
-     * @param string                                       $from
-     * @param integer                                      $size
+     * @param string $term
+     * @param string $from
+     * @param integer $size
      *
      * @return \Elastica\ResultSet
      */
@@ -152,11 +170,11 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
     /**
      * Business logic for execute format data
      *
-     * @param  array                  $items
-     * @param string                  $currencyStrategy
-     * @param Helpers_Prices_Recount  $recount
+     * @param  array $items
+     * @param string $currencyStrategy
+     * @param Helpers_Prices_Recount $recount
      * @param Helpers_Prices_Discount $discount
-     * @param bool                    $formatItem
+     * @param bool $formatItem
      *
      * @return array
      */

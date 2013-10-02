@@ -66,6 +66,8 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
     public function getItems($offset, $itemCountPerPage)
     {
         $this->elasticSearch->setParameters($this->config);
+        $this->elasticSearch->setType($this->config['type']['products']);
+
         $results = $this->elasticSearch->runElasticGET(
             $this->searchText,
             $this->config['convert_to_array'],
@@ -85,7 +87,8 @@ class ZendCustomExtend_Paginator implements Zend_Paginator_Adapter_Interface
     public function count()
     {
         $this->elasticSearch->setParameters($this->config);
-
+        $this->elasticSearch->setType($this->config['type']['products']);
+        
         return $this->elasticSearch->runElasticGET(
             $this->searchText,
             $this->config['total_hits'],
