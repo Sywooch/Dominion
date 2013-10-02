@@ -438,47 +438,47 @@ class CartController extends App_Controller_Frontend_Action
             $messageAmin = str_replace("##surname##", '', $messageAmin);
         }
 
-        if (!empty($postData['_payment'])) {
+        if (!empty($postData['PAYMENT'])) {
             $messageAmin = str_replace(
                 "##payment##",
-                $postData['_payment'],
+                $postData['PAYMENT'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##payment##", '', $messageAmin);
         }
 
-        if (!empty($postData['telmob'])) {
+        if (!empty($postData['TELMOB'])) {
             $messageAmin = str_replace(
                 "##phone##",
-                $postData['telmob'],
+                $postData['TELMOB'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##phone##", '', $messageAmin);
         }
 
-        if (!empty($postData['info'])) {
+        if (!empty($postData['INFO'])) {
             $messageAmin = str_replace(
                 "##info##",
-                $postData['info'],
+                $postData['INFO'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##info##", '', $messageAmin);
         }
 
-        if (!empty($postData['name'])) {
+        if (!empty($postData['NAME'])) {
             $messageAmin = str_replace(
                 "##name##",
-                $postData['name'],
+                $postData['NAME'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##name##", '', $messageAmin);
         }
 
-        if (!empty($postData['address'])) {
+        if (!empty($postData['ADDRESS'])) {
             $messageAmin = str_replace(
                 "##address##",
                 $postData['address'],
@@ -488,10 +488,10 @@ class CartController extends App_Controller_Frontend_Action
             $messageAmin = str_replace("##address##", '', $messageAmin);
         }
 
-        if (!empty($postData['email'])) {
+        if (!empty($postData['EMAIL'])) {
             $messageAmin = str_replace(
                 "##email##",
-                $postData['email'],
+                $postData['EMAIL'],
                 $messageAmin
             );
         } else {
