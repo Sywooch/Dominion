@@ -82,34 +82,15 @@ class CreateEnvironment
 
     /**
      * Build new index
-     *
-     * @param Zend_Db_Statement_Interface $query
-     * @param Format_FormatDataElastic $formatDataElastic
      */
-    public function buildIndex(Zend_Db_Statement_Interface $query, Format_FormatDataElastic $formatDataElastic = null)
+    public function buildIndex()
     {
         $this->contextSearchConnect->setType($this->type);
         $this->contextSearchConnect->setAction("PUT");
 
         $queryBuilder = $this->contextSearchFactory->getQueryBuilderElasticSearch();
 
-        $elasticSearchPUT = $queryBuilder->createQuery($this->contextSearchConnect);
-
-        $data = array();
-        while ($row = $query->fetch()) {
-            $data[$row['ITEM_ID']] = $row;
-
-            echo "add item element " . $row['ITEM_ID'] . " - " . $row["NAME_PRODUCT"] . "\r\n\n";
-
-            if (count($data) != self::LIMIT_DOCUMENTS) continue;
-
-            /** @var $elasticSearchPUT ContextSearch_ElasticSearch_BuildExecute_PUT */
-            $elasticSearchPUT->addDocuments($this->checkFormatDataElastic($formatDataElastic, $data));
-
-            $data = array();
-        }
-
-        if (count($data)) $elasticSearchPUT->addDocuments($this->checkFormatDataElastic($formatDataElastic, $data));
+        return $queryBuilder->createQuery($this->contextSearchConnect);
     }
 
     /**
@@ -125,16 +106,13 @@ class CreateEnvironment
         $elasticSearchDELETE->execute();
     }
 
-
     /**
-     * Check format data
+     * Get limit
      *
-     * @param Format_FormatDataElastic $formatDataElastic
-     * @param array $data
-     * @return array
+     * @return int
      */
-    public function checkFormatDataElastic(Format_FormatDataElastic $formatDataElastic = null, array $data)
+    public function getLimit()
     {
-        return !empty($formatDataElastic) ? $formatDataElastic->formatDataForElastic($data) : $data;
+        return self::LIMIT_DOCUMENTS;
     }
 }
