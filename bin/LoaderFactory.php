@@ -74,7 +74,33 @@ class LoaderFactory
         return new ContextSearch_ContextSearchFactory();
     }
 
+    /**
+     * Builder
+     *
+     * @return \Elastica\Query\Builder
+     */
+    public function getBuilder($jsonQuery)
+    {
+        return new \Elastica\Query\Builder($jsonQuery);
+    }
 
+    /**
+     * Query
+     *
+     * @return \Elastica\Query
+     */
+    public function getQuery(\Elastica\Query\Builder $builder)
+    {
+        return new \Elastica\Query($builder->toArray());
+    }
 
-
+    /**
+     * Get search
+     *
+     * @return \Elastica\Search
+     */
+    public function getSearch()
+    {
+        return new \Elastica\Search(new \Elastica\Client());
+    }
 }

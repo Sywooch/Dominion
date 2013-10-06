@@ -17,7 +17,8 @@ $data = array();
 while ($row = $queryAllItems->fetch()) {
     $data[$row['ITEM_ID']] = $row;
 
-    $data[$row['ITEM_ID']]['ATTRIBUTES'] = $elasticSearchModel->getAttributesByItemID($row['ITEM_ID']);
+    $data[$row['ITEM_ID']]['ATTRIBUTES'] = $formatDataElastic->formatDataForSelection($elasticSearchModel->getAttributesByItemID($row['ITEM_ID']), $row['PRICE']);
+    unset($data[$row['ITEM_ID']]['PRICE']);
 
     echo "add item element " . $row['ITEM_ID'] . " catalogue_id- " . $row["CATALOGUE_ID"] . "\r\n\n";
 
