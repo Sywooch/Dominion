@@ -67,7 +67,6 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
 
         $this->querySearch = new Query($builder);
 
-
         return $this;
 
     }
@@ -141,9 +140,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function convertToJson(ResultSet $resultSet)
     {
-        $arr = $this->convertToArray($resultSet);
-
-        return json_encode($arr);
+        return json_encode($this->convertToArray($resultSet));
     }
 
     /**

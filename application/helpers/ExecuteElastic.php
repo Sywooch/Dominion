@@ -190,7 +190,6 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $formatDataElastic = new Format_FormatDataElastic();
 
-        $resultData = array();
         if (empty($items)) {
             $resultData = $items;
         } else if ($formatItem) {

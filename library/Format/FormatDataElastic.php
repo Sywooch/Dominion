@@ -35,6 +35,26 @@ class Format_FormatDataElastic
     }
 
     /**
+     * Format Data for build index
+     *
+     * @param array $attributes
+     * @param integer $price
+     * @return array
+     */
+    public function formatDataForSelection(array $attributes, $price)
+    {
+        if (empty($attributes)) return $attributes;
+
+        $formatArray = array();
+        foreach ($attributes as $value) {
+            $formatArray[$value['ATTRIBUT_ID']] = $value['VALUE'];
+        }
+        $formatArray['price'] = $price;
+
+        return $formatArray;
+    }
+
+    /**
      * Format data for show in result search
      *
      * @param Format_PricesObjectValue $pricesObjectValue
