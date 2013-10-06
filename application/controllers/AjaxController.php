@@ -417,6 +417,15 @@ class AjaxController extends Zend_Controller_Action
         exit;
     }
 
+    public function getcountattributesAction()
+    {
+        $params = $this->getRequest()->getQuery();
+
+
+
+
+    }
+
     public function attritemcountAction()
     {
         $request = $this->getRequest();

@@ -84,6 +84,8 @@ selection.prototype.doUrl = function () {
     $('#catalog_compare_products_form').attr({'action': this.page_url});
 }
 
+
+
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/attritemcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max}, function (data) {
         if (data.brands_count > 0) {
@@ -127,12 +129,12 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
             podbor_popup('Ничего не найдено', evnt);
         }
 
-        if (data.current_min_price > 0 && data.current_max_price) {
-//        $('#price_input_min').val(data.current_min_price);
-//        $('#price_input_max').val(data.current_max_price);
-
-//        $(".jquery_slider").slider( "option", "values", [data.current_min_price, data.current_max_price] );
-        }
+//        if (data.current_min_price > 0 && data.current_max_price) {
+////        $('#price_input_min').val(data.current_min_price);
+////        $('#price_input_max').val(data.current_max_price);
+//
+////        $(".jquery_slider").slider( "option", "values", [data.current_min_price, data.current_max_price] );
+//        }
     });
 }
 
