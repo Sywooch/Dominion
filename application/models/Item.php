@@ -658,15 +658,10 @@ class models_Item extends ZendDBEntity
         return $new_price;
     }
 
-    public function getAttributes(
-        $catalogueId = 0,
-        $tableName = 'ATTR_CATALOG_LINK',
-        $limit = '',
-        $show = 0
-    )
+    public function getAttributes($catalogueId = 0, $tableName = 'ATTR_CATALOG_LINK', $limit = '', $show = 0)
     {
         if (!$catalogueId) {
-            return;
+            return false;
         }
 
         $where = '';
