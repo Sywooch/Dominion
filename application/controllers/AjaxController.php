@@ -430,11 +430,11 @@ class AjaxController extends Zend_Controller_Action
 
         $brands = $this->getArrayBrand($params['br']);
         $attributes = $this->getArrayAttributes($params['at']);
-        $formatParams = $this->formatArrayForElasticSelection(array_merge($brands, $attributes));
+        $formatParams = array_merge($brands, $attributes);
         $formatParams['CATALOGUE_ID'] = $params['catalogue_id'];
 
         /** @var $objectValueSelection ObjectValueSelection */
-        $objectValueSelection = $this->_helper->helperLoader("ObjectValueSelection");
+        $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
         $objectValueSelection->setDataSample($formatParams);
 
         return $formatParams;
@@ -472,7 +472,7 @@ class AjaxController extends Zend_Controller_Action
 
         $resultArray = array();
         foreach ($formatArray[1] as $key => $value) {
-            $resultArray[][$value] = $value;
+            $resultArray[]["ATTRIBUTES." . $value] = $value;
         }
 
         return $resultArray;
@@ -497,7 +497,7 @@ class AjaxController extends Zend_Controller_Action
                 continue;
             }
 
-            $resultFormat[][$tmpAttrId] = substr($value, 1, strlen($value));
+            $resultFormat[]["ATTRIBUTES." . $tmpAttrId] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;

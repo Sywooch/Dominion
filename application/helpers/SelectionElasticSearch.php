@@ -3,7 +3,7 @@
 /**
  * Class SelectionElasticSearch
  */
-class SelectionElasticSearch extends App_Controller_Helper_HelperAbstract
+class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstract
 {
     /**
      * Elastic search get curl

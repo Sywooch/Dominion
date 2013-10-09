@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ObjectValueSelection extends App_Controller_Helper_HelperAbstract
+class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_HelperAbstract
 {
     /**
      * Scroll data
