@@ -47,7 +47,7 @@ class SelectionElasticSearch extends App_Controller_Helper_HelperAbstract
     public function selection(ObjectValueSelection $objectValueSelection)
     {
         $filterFormat = new ContextSearch_ElasticSearch_FormatFilter();
-        $filterFormat->setBool("must");
+        $filterFormat->setBool("should");
 
         if ($dataSlider = $objectValueSelection->getDataSlider()) {
             foreach ($dataSlider as $key => $value) {
@@ -56,8 +56,10 @@ class SelectionElasticSearch extends App_Controller_Helper_HelperAbstract
         }
 
         if ($dataSample = $objectValueSelection->getDataSample()) {
-            foreach ($dataSample as $key => $value) {
-                $filterFormat->setTerms($key, $value);
+            foreach ($dataSample as $value) {
+                foreach ($value as $key => $val) {
+                    $filterFormat->setTerms($key, $value);
+                }
             }
         }
 
@@ -65,9 +67,7 @@ class SelectionElasticSearch extends App_Controller_Helper_HelperAbstract
             throw new Exception("Error, data sample and dataslider are empty");
         }
 
-        $resultQuery = $filterFormat->buildQuery();
-
-        $this->resultSet = $this->elasticSearchGET->buildQuery($resultQuery)->execute();
+        $this->resultSet = $this->elasticSearchGET->buildQuery($filterFormat->buildQuery())->execute();
     }
 
     /**

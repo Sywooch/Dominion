@@ -127,7 +127,7 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllItemID()
     {
-        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE FROM item i";
+        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM item i";
     }
 
     /**

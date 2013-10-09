@@ -417,13 +417,90 @@ class AjaxController extends Zend_Controller_Action
         exit;
     }
 
-    public function getcountattributesAction()
+    /**
+     * Get count attributes
+     *
+     * @return array
+     */
+    public function getattrcountAction()
     {
         $params = $this->getRequest()->getQuery();
 
+        if (empty($params) || empty($params['catalogue_id'])) return;
+
+        $brands = $this->getArrayBrand($params['br']);
+        $attributes = $this->getArrayAttributes($params['at']);
+        $formatParams = $this->formatArrayForElasticSelection(array_merge($brands, $attributes));
+        $formatParams['CATALOGUE_ID'] = $params['catalogue_id'];
+
+        /** @var $objectValueSelection ObjectValueSelection */
+        $objectValueSelection = $this->_helper->helperLoader("ObjectValueSelection");
+        $objectValueSelection->setDataSample($formatParams);
+
+        return $formatParams;
+    }
+
+    /**
+     * Format array
+     *
+     * @param array $formatParams
+     * @return array
+     */
+    private function formatArrayForElasticSelection(array $formatParams)
+    {
+        $resultArray = array();
+        foreach ($formatParams as $key => $value) {
+            foreach ($value as $key => $val) {
+                $resultArray[]["ATTRIBUTES." . $key] = $val;
+            }
+        }
+
+        return $resultArray;
+    }
 
 
+    /**
+     * Get fromat array brands
+     *
+     * @param string $brands
+     * @return mixed
+     */
+    private function getArrayBrand($brands)
+    {
+        $formatArray = array();
+        preg_match_all('/b(\d+)/', $brands, $formatArray);
 
+        $resultArray = array();
+        foreach ($formatArray[1] as $key => $value) {
+            $resultArray[][$value] = $value;
+        }
+
+        return $resultArray;
+    }
+
+    /**
+     * Get array attributes
+     *
+     * @param array $attributes
+     * @return array
+     */
+    private function getArrayAttributes($attributes)
+    {
+        preg_match_all("/[a-z]\d+/", $attributes, $result);
+
+        $resultFormat = array();
+        $tmpAttrId = "";
+        foreach ($result[0] as $key => $value) {
+            if (strstr($value, "a")) {
+                $tmpAttrId = substr($value, 1, strlen($value));
+
+                continue;
+            }
+
+            $resultFormat[][$tmpAttrId] = substr($value, 1, strlen($value));
+        }
+
+        return $resultFormat;
     }
 
     public function attritemcountAction()

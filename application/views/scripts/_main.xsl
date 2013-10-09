@@ -463,6 +463,7 @@
                 <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
 
                 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+                <script type='text/javascript' src='/js/jquery.cookie.js'></script>
                 <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
 
                 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
