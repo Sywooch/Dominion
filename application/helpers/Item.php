@@ -9,7 +9,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
     , 'characteristics' => 'Характеристики'
     , 'video' => 'Видеообзор'
     , 'items' => 'С этим товаром покупают'
-    , 'comments' => 'Отзывы'
+//    , 'comments' => 'Отзывы'
     );
 
     public function getIndexItems()
@@ -240,7 +240,7 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
 
             $this->getItemMedia($item['ITEM_ID']);
 
-            $this->getItemComments($item['ITEM_ID']);
+//            $this->getItemComments($item['ITEM_ID']);
         }
 
         $this->domXml->go_to_parent();
@@ -390,9 +390,10 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
 
                 $this->domXml->go_to_parent();
             }
+
+            $this->tabs['comments'] .= ' (' . count($responses) . ')';
         }
 
-        $this->tabs['comments'] .= ' (' . count($responses) . ')';
     }
 
     /**
