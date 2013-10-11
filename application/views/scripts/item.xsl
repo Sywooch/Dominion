@@ -51,6 +51,12 @@
 <script type="text/javascript" src="/js/jquery.jcarousel.js"/>
 <script type="text/javascript" src="/js/attributs.js"/>
 <script type="text/javascript" src="http://js.testfreaks.com/badge/7560000.com.ua/head.js"/>
+    <script>
+        (function(d,t,p){
+        var e = d.createElement(t); e.charset = "utf-8"; e.src = p;
+        var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(e,s)
+        })(document,"script","http://js.testfreaks.com/onpage/7560000.com.ua/prd.js")
+    </script>
 </xsl:template>
 
 <xsl:template match="attributes">
@@ -548,7 +554,7 @@ $().ready(function() {
 			<xsl:apply-templates select="tabs[name='characteristics']" mode="charcter"/>
 			<xsl:apply-templates select="tabs[name='video']" mode="video"/>
 			<xsl:apply-templates select="tabs[name='items']" mode="items"/>
-			<xsl:apply-templates select="tabs[name='comments']" mode="comments"/>
+			<!--<xsl:apply-templates select="tabs[name='comments']" mode="comments"/>-->
 		</div>
 	</div>
 </xsl:template>
