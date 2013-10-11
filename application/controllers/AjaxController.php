@@ -428,76 +428,42 @@ class AjaxController extends Zend_Controller_Action
 
         if (empty($params) || empty($params['catalogue_id'])) return;
 
-        $brands = $this->getArrayBrand($params['br']);
-        $attributes = $this->getArrayAttributes($params['at']);
-        $formatParams = array_merge($brands, $attributes);
+        $formatParams = Format_ConvertDataElasticSelection::getArrayAttributes($params['at'], $params['br']);
         $formatParams['CATALOGUE_ID'] = $params['catalogue_id'];
 
         /** @var $objectValueSelection ObjectValueSelection */
         $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
         $objectValueSelection->setDataSample($formatParams);
 
+        
+
         return $formatParams;
-    }
-
-    /**
-     * Format array
-     *
-     * @param array $formatParams
-     * @return array
-     */
-    private function formatArrayForElasticSelection(array $formatParams)
-    {
-        $resultArray = array();
-        foreach ($formatParams as $key => $value) {
-            foreach ($value as $key => $val) {
-                $resultArray[]["ATTRIBUTES." . $key] = $val;
-            }
-        }
-
-        return $resultArray;
-    }
-
-
-    /**
-     * Get fromat array brands
-     *
-     * @param string $brands
-     * @return mixed
-     */
-    private function getArrayBrand($brands)
-    {
-        $formatArray = array();
-        preg_match_all('/b(\d+)/', $brands, $formatArray);
-
-        $resultArray = array();
-        foreach ($formatArray[1] as $key => $value) {
-            $resultArray[]["ATTRIBUTES." . $value] = $value;
-        }
-
-        return $resultArray;
     }
 
     /**
      * Get array attributes
      *
-     * @param array $attributes
+     * @param string $attributes
+     * @param string $brands
      * @return array
      */
-    private function getArrayAttributes($attributes)
+    private function getArrayAttributes($attributes, $brands)
     {
         preg_match_all("/[a-z]\d+/", $attributes, $result);
+        preg_match_all('/b(\d+)/', $brands, $resultBrands);
 
         $resultFormat = array();
-        $tmpAttrId = "";
-        foreach ($result[0] as $key => $value) {
-            if (strstr($value, "a")) {
-                $tmpAttrId = substr($value, 1, strlen($value));
+        $parseArray = array_merge($result[0], $resultBrands[1]);
+        foreach ($parseArray as $key => $value) {
+
+            if (!strstr($value, "v") && !strstr($value, "a")) {
+                $resultFormat[]["ATTRIBUTES." . $value] = $value;
 
                 continue;
-            }
+            } else if (strstr($value, "a")) continue;
 
-            $resultFormat[]["ATTRIBUTES." . $tmpAttrId] = substr($value, 1, strlen($value));
+            $preKey = $parseArray[$key - 1];
+            $resultFormat[]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;
