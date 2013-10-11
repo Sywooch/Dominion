@@ -30,6 +30,20 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
     private $bool = array();
 
     /**
+     * Size
+     *
+     * @var integer
+     */
+    private $size;
+
+    /**
+     * From
+     *
+     * @var integer
+     */
+    private $from;
+
+    /**
      * Set Term
      *
      * @param string $columnName
@@ -38,6 +52,17 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
     public function setTerms($columnName, $value)
     {
         $this->terms[]['term'][$columnName] = $value;
+    }
+
+    /**
+     * Setter for from
+     *
+     * @param integer $from
+     * @return mixed|void
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
     }
 
     /**
@@ -67,8 +92,42 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      *
      * @return array
      */
-    public function buildQuery()
+    public function getFormatQuery()
     {
-        return array("bool" => array($this->bool => array($this->terms, $this->query)));
+        $query['bool'][$this->bool][] = $this->terms;
+        $query['bool'][$this->bool][] = $this->query;
+
+        return $query;
+    }
+
+    /**
+     * get from
+     *
+     * @return mixed
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * Setter fro size
+     *
+     * @param $size
+     * @return mixed
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * Getter size
+     *
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 }

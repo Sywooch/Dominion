@@ -20,12 +20,12 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     private $resultSet;
 
     /**
-     * Set connect to elastic search
+     * Connect to elastic search
      *
      * @param array $parameters
-     * @param string $type
+     * @param $type
      */
-    public function __construct(array $parameters, $type)
+    public function connect(array $parameters, $type)
     {
         $connect = new ContextSearch_ElasticSearch_Connect($parameters);
         $connect->setAction("GET");
@@ -41,33 +41,35 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Selection
      *
-     * @param ObjectValueSelection $objectValueSelection
+     * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
      * @throws Exception
      */
-    public function selection(ObjectValueSelection $objectValueSelection)
+    public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
     {
         $filterFormat = new ContextSearch_ElasticSearch_FormatFilter();
         $filterFormat->setBool("should");
 
-        if ($dataSlider = $objectValueSelection->getDataSlider()) {
-            foreach ($dataSlider as $key => $value) {
-                $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key));
-            }
-        }
-
-        if ($dataSample = $objectValueSelection->getDataSample()) {
-            foreach ($dataSample as $value) {
-                foreach ($value as $key => $val) {
-                    $filterFormat->setTerms($key, $value);
-                }
-            }
-        }
+        $dataSlider = $objectValueSelection->getDataSlider();
+        $dataSample = $objectValueSelection->getDataSample();
 
         if (empty($dataSample) && empty($dataSlider)) {
             throw new Exception("Error, data sample and dataslider are empty");
         }
 
-        $this->resultSet = $this->elasticSearchGET->buildQuery($filterFormat->buildQuery())->execute();
+        foreach ($dataSlider as $key => $value) {
+            $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key));
+        }
+
+        foreach ($dataSample as $value) {
+            foreach ($value as $key => $val) {
+                $filterFormat->setTerms($key, $val);
+            }
+        }
+
+        $filterFormat->setFrom(0);
+        $filterFormat->setSize($this->elasticSearchGET->getTotalHits($this->elasticSearchGET->buildQueryFilter($filterFormat)->execute()));
+
+        $this->resultSet = $this->elasticSearchGET->buildQuery($filterFormat)->execute();
     }
 
     /**
@@ -89,5 +91,4 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         return $this->elasticSearchGET->convertToArray($this->resultSet);
     }
-
 }

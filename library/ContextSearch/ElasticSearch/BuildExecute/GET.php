@@ -71,6 +71,19 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
     }
 
     /**
+     * Build query filter
+     *
+     * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     * @return $this
+     */
+    public function buildQueryFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
+    {
+        $this->querySearch = new Query(new Builder(json_encode($formatData->getFormatQuery())));
+
+        return $this;
+    }
+
+    /**
      * Filter builder query
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData

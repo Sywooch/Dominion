@@ -52,7 +52,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataSlider()
     {
-        return $this->dataSlider;
+        return (!empty($this->dataSlider)) ? $this->dataSlider : null;
     }
 
     /**
@@ -62,7 +62,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataSample()
     {
-        return $this->dataSample;
+        return (!empty($this->dataSample)) ? $this->dataSample : null;
     }
 
     /**

@@ -9,6 +9,9 @@
 
 class Format_ConvertDataElasticSelection
 {
+
+    const CURRENCY_ID = 2;
+
     /**
      * Convert string to array for selection of ElasticSearch
      *
@@ -36,5 +39,18 @@ class Format_ConvertDataElasticSelection
         }
 
         return $resultFormat;
+    }
+
+    /**
+     * Get format recount price
+     *
+     * @param integer $minPrice
+     * @param integer $maxPrice
+     * @param string $real_currency
+     * @return array
+     */
+    public static function getFormatRecountPrice($minPrice, $maxPrice, $real_currency)
+    {
+        return array("currency" => array("currency_id" => self::CURRENCY_ID, "real_currency_id" => $real_currency), "prices" => array("min_price" => $minPrice, "max_price" => $maxPrice));
     }
 }

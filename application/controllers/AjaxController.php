@@ -431,42 +431,26 @@ class AjaxController extends Zend_Controller_Action
         $formatParams = Format_ConvertDataElasticSelection::getArrayAttributes($params['at'], $params['br']);
         $formatParams['CATALOGUE_ID'] = $params['catalogue_id'];
 
-        /** @var $objectValueSelection ObjectValueSelection */
+        $isp_helper = $this->_helper->helperLoader('ItemSelectionPrice');
+        $formatRecountPrices = Format_ConvertDataElasticSelection::getFormatRecountPrice($params['pmin'], $params['pmax'], $this->currency);
+
+        list($minPrice, $maxPrice) = $isp_helper->recountPrice($formatRecountPrices['prices'], $formatRecountPrices['currency']);
+
+        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
         $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
         $objectValueSelection->setDataSample($formatParams);
+        $objectValueSelection->setDataSlider("ATTRIBUTES.prices", $minPrice, $maxPrice);
 
-        
+        $parameters = Zend_Registry::get("config")->toArray();
+
+        /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
+        $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
+        $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
+        $helpersSelectionElasticSearch->selection($objectValueSelection);
+
+        $resultArray = $helpersSelectionElasticSearch->getElements();
 
         return $formatParams;
-    }
-
-    /**
-     * Get array attributes
-     *
-     * @param string $attributes
-     * @param string $brands
-     * @return array
-     */
-    private function getArrayAttributes($attributes, $brands)
-    {
-        preg_match_all("/[a-z]\d+/", $attributes, $result);
-        preg_match_all('/b(\d+)/', $brands, $resultBrands);
-
-        $resultFormat = array();
-        $parseArray = array_merge($result[0], $resultBrands[1]);
-        foreach ($parseArray as $key => $value) {
-
-            if (!strstr($value, "v") && !strstr($value, "a")) {
-                $resultFormat[]["ATTRIBUTES." . $value] = $value;
-
-                continue;
-            } else if (strstr($value, "a")) continue;
-
-            $preKey = $parseArray[$key - 1];
-            $resultFormat[]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
-        }
-
-        return $resultFormat;
     }
 
     public function attritemcountAction()
