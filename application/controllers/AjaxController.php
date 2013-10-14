@@ -428,18 +428,30 @@ class AjaxController extends Zend_Controller_Action
 
         if (empty($params) || empty($params['catalogue_id'])) return;
 
-        $formatParams = Format_ConvertDataElasticSelection::getArrayAttributes($params['at'], $params['br']);
-        $formatParams['CATALOGUE_ID'] = $params['catalogue_id'];
-
-        $isp_helper = $this->_helper->helperLoader('ItemSelectionPrice');
-        $formatRecountPrices = Format_ConvertDataElasticSelection::getFormatRecountPrice($params['pmin'], $params['pmax'], $this->currency);
-
-        list($minPrice, $maxPrice) = $isp_helper->recountPrice($formatRecountPrices['prices'], $formatRecountPrices['currency']);
-
         /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
         $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
-        $objectValueSelection->setDataSample($formatParams);
-        $objectValueSelection->setDataSlider("ATTRIBUTES.prices", $minPrice, $maxPrice);
+
+        if (!empty($params['pmin']) && !empty($params['pmax'])) {
+            list($minPrice, $maxPrice) = Format_ConvertDataElasticSelection::getFormatRecountPrice
+                (
+                    $params['pmin'],
+                    $params['pmax'],
+                    $this->currency,
+                    $this->_helper->helperLoader('ItemSelectionPrice')
+                );
+            $objectValueSelection->setDataSlider("ATTRIBUTES.prices", $minPrice, $maxPrice);
+        }
+
+        if (!empty($params['br']) || !empty($params['at'])) {
+            $objectValueSelection->setDataSample(
+                Format_ConvertDataElasticSelection::getArrayAttributes(
+                    $params['at'],
+                    $params['br']
+                )
+            );
+        }
+
+        $objectValueSelection->setCatalogueID($params['catalogue_id']);
 
         $parameters = Zend_Registry::get("config")->toArray();
 
@@ -450,7 +462,8 @@ class AjaxController extends Zend_Controller_Action
 
         $resultArray = $helpersSelectionElasticSearch->getElements();
 
-        return $formatParams;
+
+        return $resultArray;
     }
 
     public function attritemcountAction()

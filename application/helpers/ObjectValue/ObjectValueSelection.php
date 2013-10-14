@@ -10,18 +10,22 @@
 class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_HelperAbstract
 {
     /**
-     * Scroll data
-     *
-     * @var array
+     * CATALOGUE_ID
      */
-    private $dataSlider = array();
-
+    const CATALOGUE_ID = "CATALOGUE_ID";
     /**
      * Data sample
      *
      * @var array
      */
     private $dataSample = array();
+
+    /**
+     * Data slider
+     *
+     * @var array
+     */
+    private $dataSlider = array();
 
     /**
      * Set dataSlider
@@ -46,13 +50,13 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
     }
 
     /**
-     * Getter for dataSlider
+     * Set catalogue id
      *
-     * @return array
+     * @param integer $catalogueID
      */
-    public function getDataSlider()
+    public function setCatalogueID($catalogueID)
     {
-        return (!empty($this->dataSlider)) ? $this->dataSlider : null;
+        $this->dataSample['CATALOGUE_ID'] = $catalogueID;
     }
 
     /**
@@ -62,7 +66,18 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataSample()
     {
-        return (!empty($this->dataSample)) ? $this->dataSample : null;
+       return array_merge($this->dataSample, $this->dataSlider);
+    }
+
+    /**
+     * Check catalogueID
+     *
+     * @param integer $key
+     * @return bool
+     */
+    public function getCatalogueID($key)
+    {
+        return (self::CATALOGUE_ID === $key) ? $this->dataSample[$key] : false;
     }
 
     /**
@@ -73,7 +88,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataSliderMin($nameColumn)
     {
-        return $this->dataSlider[$nameColumn]['min'];
+        return isset($this->dataSlider[$nameColumn]['min']) ? $this->dataSlider[$nameColumn]['min'] : false;
     }
 
     /**
@@ -84,6 +99,6 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataSliderMax($nameColumn)
     {
-        return $this->dataSlider[$nameColumn]['max'];
+        return isset($this->dataSlider[$nameColumn]['max']) ? $this->dataSlider[$nameColumn]['max'] : false;
     }
 }

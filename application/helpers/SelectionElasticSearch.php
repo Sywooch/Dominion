@@ -49,20 +49,23 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
         $filterFormat = new ContextSearch_ElasticSearch_FormatFilter();
         $filterFormat->setBool("should");
 
-        $dataSlider = $objectValueSelection->getDataSlider();
         $dataSample = $objectValueSelection->getDataSample();
 
-        if (empty($dataSample) && empty($dataSlider)) {
+        if (empty($dataSample)) {
             throw new Exception("Error, data sample and dataslider are empty");
         }
 
-        foreach ($dataSlider as $key => $value) {
-            $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key));
-        }
+        foreach ($dataSample as $key => $value) {
+            if ($objectValueSelection->getDataSliderMin($key)) {
+                $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key));
 
-        foreach ($dataSample as $value) {
-            foreach ($value as $key => $val) {
-                $filterFormat->setTerms($key, $val);
+                continue;
+            } else if ($objectValueSelection->getCatalogueID($key)) {
+                $filterFormat->setTerms($key, $value);
+            }
+
+            foreach ($value as $subKey => $val) {
+                $filterFormat->setTerms($subKey, $val);
             }
         }
 

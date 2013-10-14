@@ -47,10 +47,18 @@ class Format_ConvertDataElasticSelection
      * @param integer $minPrice
      * @param integer $maxPrice
      * @param string $real_currency
+     * @param Helpers_ItemSelectionPrice $isp_helper
+     *
      * @return array
      */
-    public static function getFormatRecountPrice($minPrice, $maxPrice, $real_currency)
+    public static function getFormatRecountPrice($minPrice, $maxPrice, $real_currency,Helpers_ItemSelectionPrice $isp_helper)
     {
-        return array("currency" => array("currency_id" => self::CURRENCY_ID, "real_currency_id" => $real_currency), "prices" => array("min_price" => $minPrice, "max_price" => $maxPrice));
+        return $isp_helper->recountPrice(
+            array(
+                "min_price" => $minPrice, "max_price" => $maxPrice
+            ),
+            array(
+                "currency_id" => self::CURRENCY_ID, "real_currency_id" => $real_currency)
+        );
     }
 }
