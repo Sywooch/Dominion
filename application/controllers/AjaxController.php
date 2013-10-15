@@ -460,10 +460,7 @@ class AjaxController extends Zend_Controller_Action
         $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
         $helpersSelectionElasticSearch->selection($objectValueSelection);
 
-        $resultArray = $helpersSelectionElasticSearch->getElements();
-
-
-        return $resultArray;
+        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData($helpersSelectionElasticSearch->getElements()));
     }
 
     public function attritemcountAction()

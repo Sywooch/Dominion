@@ -51,7 +51,7 @@ class Format_FormatDataElastic
             $formatArray[$value['ATTRIBUT_ID']] = $value['VALUE'];
         }
         $formatArray['price'] = $price;
-        $formatArray['brand'] = $brandId;
+        $formatArray[$brandId] = $brandId;
 
         return $formatArray;
     }

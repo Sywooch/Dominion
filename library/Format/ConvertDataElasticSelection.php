@@ -51,7 +51,7 @@ class Format_ConvertDataElasticSelection
      *
      * @return array
      */
-    public static function getFormatRecountPrice($minPrice, $maxPrice, $real_currency,Helpers_ItemSelectionPrice $isp_helper)
+    public static function getFormatRecountPrice($minPrice, $maxPrice, $real_currency, Helpers_ItemSelectionPrice $isp_helper)
     {
         return $isp_helper->recountPrice(
             array(
@@ -60,5 +60,42 @@ class Format_ConvertDataElasticSelection
             array(
                 "currency_id" => self::CURRENCY_ID, "real_currency_id" => $real_currency)
         );
+    }
+
+    /**
+     * Convert data to return in ajax
+     *
+     * @param array $dataResult
+     * @return array
+     */
+    public static function getFormatResultData(array $dataResult)
+    {
+        function array_recursive_unique(&$value)
+        {
+            $value = array_unique($value);
+        }
+
+        $formatData['attrib'] = array();
+        foreach ($dataResult as $value) {
+            unset($value['ATTRIBUTES']['price']);
+
+            foreach ($value['ATTRIBUTES'] as $key => $value) {
+                if ($key == $value) {
+                    $formatData['brands'][] = $value;
+
+                    continue;
+                }
+
+                $formatData['attrib'][$key][] = $value;
+            }
+        }
+
+        $formatData['brands'] = array_unique($formatData['brands']);
+        array_walk($formatData['attrib'], "array_recursive_unique");
+        $formatData['brands_count'] = count($formatData['brands']);
+        $formatData['attrib_count'] = count($formatData['attrib']);
+        $formatData['items_count'] = count($dataResult);
+
+        return $formatData;
     }
 }

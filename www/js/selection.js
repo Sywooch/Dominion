@@ -85,7 +85,6 @@ selection.prototype.doUrl = function () {
 }
 
 
-
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max}, function (data) {
         if (data.brands_count > 0) {
