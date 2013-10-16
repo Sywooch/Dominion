@@ -50,7 +50,7 @@ class Format_FormatDataElastic
         foreach ($attributes as $value) {
             $formatArray[$value['ATTRIBUT_ID']] = $value['VALUE'];
         }
-        $formatArray['price'] = $price;
+        $formatArray['price'] = round($price, 1);
         $formatArray[$brandId] = $brandId;
 
         return $formatArray;

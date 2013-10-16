@@ -31,7 +31,6 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
         $connect->setAction("GET");
         $connect->setType($type);
 
-
         $contextSearch = new ContextSearch_ContextSearchFactory();
 
         $this->elasticSearchGET = $contextSearch->getQueryBuilderElasticSearch()->createQuery($connect);
@@ -47,9 +46,10 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
     {
         $filterFormat = new ContextSearch_ElasticSearch_FormatFilter();
-        $filterFormat->setBool("should");
+        $filterFormat->setBool("must");
 
         $dataSample = $objectValueSelection->getDataSample();
+
 
         if (empty($dataSample)) {
             throw new Exception("Error, data sample and dataslider are empty");
