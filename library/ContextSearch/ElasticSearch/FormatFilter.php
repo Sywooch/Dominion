@@ -84,7 +84,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function setFromTo($columnName, $min, $max)
     {
-        $this->query[]['range'][$columnName] = array("from" => $min, "to" => $max, "include_lower" => true, "include_upper" => true);
+        $this->query['range'][$columnName] = array("gt" => $min, "lt" => $max);
     }
 
     /**

@@ -439,7 +439,7 @@ class AjaxController extends Zend_Controller_Action
                     $this->currency,
                     $this->_helper->helperLoader('ItemSelectionPrice')
                 );
-            $objectValueSelection->setDataSlider("ATTRIBUTES.prices", $minPrice, $maxPrice);
+            $objectValueSelection->setDataSlider("ATTRIBUTES.price", $minPrice, $maxPrice);
         }
 
         if (!empty($params['br']) || !empty($params['at'])) {
