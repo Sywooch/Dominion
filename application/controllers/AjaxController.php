@@ -445,8 +445,7 @@ class AjaxController extends Zend_Controller_Action
         if (!empty($params['br']) || !empty($params['at'])) {
             $objectValueSelection->setDataSample(
                 Format_ConvertDataElasticSelection::getArrayAttributes(
-                    $params['at'],
-                    $params['br']
+                    $params['at'] . $params['br']
                 )
             );
         }

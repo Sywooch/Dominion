@@ -112,7 +112,6 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
                         ;
                     });
                 }
-
             });
         }
         else {

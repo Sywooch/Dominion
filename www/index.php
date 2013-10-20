@@ -5,7 +5,7 @@
  * сюда переводятся все запросы с помощью .htaccess
  */
 require_once realpath(dirname(__FILE__) . '/../application/configs/') . '/config.php';
-error_reporting(0);
+error_reporting(1);
 /** Zend_Application */
 //require_once 'Zend/Application.php';
 

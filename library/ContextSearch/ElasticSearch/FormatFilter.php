@@ -27,7 +27,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      *
      * @var array
      */
-    private $bool = array();
+    private $bool;
 
     /**
      * Size
@@ -51,7 +51,15 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function setTerms($columnName, $value)
     {
-        $this->terms[]['term'][$columnName] = $value;
+        if (!is_array($value)) {
+            $this->terms[]['term'][$columnName] = $value;
+
+            return;
+        }
+
+        foreach ($value as $val) {
+            $this->terms[]['term'][$columnName] = $val;
+        }
     }
 
     /**
@@ -84,7 +92,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function setFromTo($columnName, $min, $max)
     {
-        $this->query['range'][$columnName] = array("gt" => $min, "lt" => $max);
+        $this->query[]['range'][$columnName] = array("gt" => $min, "lt" => $max);
     }
 
     /**
@@ -94,8 +102,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function getFormatQuery()
     {
-        $query['bool'][$this->bool][] = $this->terms;
-        $query['bool'][$this->bool][] = $this->query;
+        $query['bool'][$this->bool] = array_merge($this->terms, $this->query);
 
         return $query;
     }

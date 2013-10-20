@@ -19,22 +19,22 @@ class Format_ConvertDataElasticSelection
      * @param string $brands
      * @return array
      */
-    public static function getArrayAttributes($attributes, $brands)
+    public static function getArrayAttributes($parameters)
     {
-        preg_match_all("/[a-z]\d+/", $attributes, $result);
-        preg_match_all('/b(\d+)/', $brands, $resultBrands);
+        preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
 
         $resultFormat = array();
-        $parseArray = array_merge($result[0], $resultBrands[1]);
-        foreach ($parseArray as $key => $value) {
+
+        foreach ($result[0] as $key => $value) {
 
             if (!strstr($value, "v") && !strstr($value, "a")) {
+                $value = substr($value, 1, strlen($value));
                 $resultFormat[]["ATTRIBUTES." . $value] = $value;
 
                 continue;
             } else if (strstr($value, "a")) continue;
 
-            $preKey = $parseArray[$key - 1];
+            $preKey = $result[0][$key - 1];
             $resultFormat[]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
         }
 
@@ -79,14 +79,14 @@ class Format_ConvertDataElasticSelection
         foreach ($dataResult as $value) {
             unset($value['ATTRIBUTES']['price']);
 
-            foreach ($value['ATTRIBUTES'] as $key => $value) {
-                if ($key == $value) {
-                    $formatData['brands'][] = $value;
+            foreach ($value['ATTRIBUTES'] as $key => $val) {
+                if ($key == $val) {
+                    $formatData['brands'][] = $val;
 
                     continue;
                 }
 
-                $formatData['attrib'][$key][] = $value;
+                $formatData['attrib'][$key][] = $val;
             }
         }
 

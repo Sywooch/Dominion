@@ -168,6 +168,32 @@ class models_ElasticSearch extends ZendDBEntity
         return $this->_db->fetchAll($sql);
     }
 
+//    public function getAttributesByItemID($itemID)
+//    {
+//        $sql = "SELECT
+//                  i.ATTRIBUT_ID,
+//                  al.ATTRIBUT_LIST_ID AS VALUE
+//                FROM item0 i
+//                  JOIN attribut_list al USING (ATTRIBUT_ID)
+//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}
+//                UNION
+//                SELECT
+//                  i.ATTRIBUT_ID,
+//                   al.ATTRIBUT_LIST_ID AS VALUE
+//                FROM item1 i
+//                  JOIN attribut_list al
+//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}
+//                UNION
+//                SELECT
+//                  i.ATTRIBUT_ID,
+//                   al.ATTRIBUT_LIST_ID AS VALUE
+//                FROM item2 i
+//                  JOIN attribut_list al
+//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}";
+//
+//        return $this->_db->fetchAll($sql);
+//    }
+
 
     /**
      * Get connect DB
