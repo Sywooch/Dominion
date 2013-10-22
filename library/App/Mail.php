@@ -3,6 +3,8 @@
 class App_Mail
 {
 
+    static private $emailSendersParams = array();
+
     /*
     * @params to - send email
     *         message - mail message
@@ -13,12 +15,14 @@ class App_Mail
     */
     static function send($params)
     {
-        //FIXME: Это мега костыль! Исправить! Вынести в настройки сайта
+
+        $paramsSender = self::getEmailSenderParams();
+
         $mail_transport_config = array(
-            'port' => 25,
-            'auth' => 'login',
-            'username' => 'noreply@7560000.com.ua',
-            'password' => ',fhctkjyf'
+            'port' => $paramsSender['port'],
+            'auth' => $paramsSender['auth'],
+            'username' => $paramsSender['username'],
+            'password' => $paramsSender['password']
         );
 
         Zend_Loader::loadClass('Zend_Mail');
@@ -49,12 +53,48 @@ class App_Mail
         }
         try {
 
-
-            $transport = new Zend_Mail_Transport_Smtp('smtp.yandex.ru', $mail_transport_config);
+            $transport = new Zend_Mail_Transport_Smtp($paramsSender['transport'], $mail_transport_config);
             $mailer->send($transport);
         } catch (Exception $ex) {
             echo "Ошибка отправки электронного письма на ящик " . $params['to'];
 //            exit;
         }
+    }
+
+    /**
+     * Setup and return singltone mailer params
+     *
+     * @return array
+     */
+    static private function  getEmailSenderParams()
+    {
+        if (!empty(self::$emailSendersParams)) {
+            return self::$emailSendersParams;
+        }
+
+        Zend_Loader::loadClass('models_SystemSets');
+
+        $model = new models_SystemSets();
+
+        $params = $model->getSettingValue('EMAIL_SENDER');
+
+        $params = explode("\n", $params);
+
+//        array_walk($params, function (&$arrayElement) {
+//            $arrayElement = trim($arrayElement);
+//        });
+
+        $paramsEmail = array();
+        foreach ($params as $value) {
+            $clearData = explode(':', $value);
+            $clearData[0] = trim($clearData[0]);
+            $paramsEmail["{$clearData[0]}"] = trim($clearData[1]);
+        }
+
+
+        //TODO: Написать проверку всех параметров - если хоть один не корректный - исключение
+        self::$emailSendersParams = $paramsEmail;
+
+        return self::$emailSendersParams;
     }
 }
