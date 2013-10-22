@@ -443,11 +443,12 @@ class AjaxController extends Zend_Controller_Action
         }
 
         if (!empty($params['br']) || !empty($params['at'])) {
-            $objectValueSelection->setDataSample(
-                Format_ConvertDataElasticSelection::getArrayAttributes(
-                    $params['at'] . $params['br']
-                )
+            $resultAttributes = Format_ConvertDataElasticSelection::getArrayAttributes(
+                $params['at'] . $params['br']
             );
+
+            $objectValueSelection->setDataBrands($resultAttributes['brands']);
+            $objectValueSelection->setDataAttributes($resultAttributes['attributes']);
         }
 
         $objectValueSelection->setCatalogueID($params['catalogue_id']);
@@ -459,7 +460,10 @@ class AjaxController extends Zend_Controller_Action
         $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
         $helpersSelectionElasticSearch->selection($objectValueSelection);
 
-        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData($helpersSelectionElasticSearch->getElements()));
+        $resultForActiveBrands = $helpersSelectionElasticSearch->getElements("brands");
+        $resultForAttributesActive = $helpersSelectionElasticSearch->getElements("attributes");
+
+        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData($resultForAttributesActive, $resultForActiveBrands));
     }
 
     public function attritemcountAction()

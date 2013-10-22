@@ -45,23 +45,42 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      */
     public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
     {
-        $filterFormat = new ContextSearch_ElasticSearch_FormatFilter();
-        $filterFormat->setBool("must");
+        $dataAttributes = $objectValueSelection->getDataAttributes();
 
-        $dataSample = $objectValueSelection->getDataSample();
-
-
-        if (empty($dataSample)) {
+        if (empty($dataAttributes)) {
             throw new Exception("Error, data sample and dataslider are empty");
         }
 
-        foreach ($dataSample as $key => $value) {
+        $dataWithBrands = $objectValueSelection->getDataAttributesWithBrands();
+        if (!empty($dataWithBrands)) {
+            $filterFormat = $this->formatDataSelect($dataWithBrands, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
+
+            $this->resultSet['brands'] = $this->executeElastic($filterFormat);
+        }
+
+        if ($this->resultSet['brands'] instanceof \Elastica\ResultSet && !$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
+
+        $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
+        $this->resultSet['attributes'] = $this->executeElastic($filterFormat);
+    }
+
+    /**
+     * Format data selection
+     *
+     * @param array $dataAttributes
+     * @param ContextSearch_ElasticSearch_FormatFilter $filterFormat
+     * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
+     * @return ContextSearch_ElasticSearch_FormatFilter
+     */
+    private function formatDataSelect(array $dataAttributes, ContextSearch_ElasticSearch_FormatFilter $filterFormat, Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
+    {
+        foreach ($dataAttributes as $key => $value) {
             if ($objectValueSelection->getDataSliderMin($key)) {
-                $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key));
+                $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key), "must");
 
                 continue;
             } else if ($objectValueSelection->getCatalogueID($key)) {
-                $filterFormat->setTerms($key, $value);
+                $filterFormat->setTerms($key, $value, "must");
             }
 
             foreach ($value as $subKey => $val) {
@@ -69,10 +88,21 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
             }
         }
 
+        return $filterFormat;
+    }
+
+    /**
+     * Execute elastic
+     *
+     * @param ContextSearch_ElasticSearch_FormatFilter $filterFormat
+     * @return mixed
+     */
+    private function executeElastic(ContextSearch_ElasticSearch_FormatFilter $filterFormat)
+    {
         $filterFormat->setFrom(0);
         $filterFormat->setSize($this->elasticSearchGET->getTotalHits($this->elasticSearchGET->buildQueryFilter($filterFormat)->execute()));
 
-        $this->resultSet = $this->elasticSearchGET->buildQuery($filterFormat)->execute();
+        return $this->elasticSearchGET->buildQuery($filterFormat)->execute();
     }
 
     /**
@@ -88,10 +118,13 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Get elements
      *
+     * @param string $modified
      * @return mixed
      */
-    public function getElements()
+    public function getElements($modified)
     {
-        return $this->elasticSearchGET->convertToArray($this->resultSet);
+        if (!isset($this->resultSet[$modified])) return array();
+
+        return $this->elasticSearchGET->convertToArray($this->resultSet[$modified]);
     }
 }

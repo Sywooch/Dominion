@@ -15,27 +15,25 @@ class Format_ConvertDataElasticSelection
     /**
      * Convert string to array for selection of ElasticSearch
      *
-     * @param string $attributes
-     * @param string $brands
+     * @param $parameters
      * @return array
      */
     public static function getArrayAttributes($parameters)
     {
         preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
 
-        $resultFormat = array();
-
+        $resultFormat['attributes'] = array();
         foreach ($result[0] as $key => $value) {
 
             if (!strstr($value, "v") && !strstr($value, "a")) {
                 $value = substr($value, 1, strlen($value));
-                $resultFormat[]["ATTRIBUTES." . $value] = $value;
+                $resultFormat['brands'][]["ATTRIBUTES." . $value] = $value;
 
                 continue;
             } else if (strstr($value, "a")) continue;
 
             $preKey = $result[0][$key - 1];
-            $resultFormat[]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
+            $resultFormat['attributes'][]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;
@@ -65,18 +63,43 @@ class Format_ConvertDataElasticSelection
     /**
      * Convert data to return in ajax
      *
-     * @param array $dataResult
-     * @return array
+     * @param array $dataAttributesResult
+     * @param array $dataBrandsWithAttributesResult
+     * @return mixed
      */
-    public static function getFormatResultData(array $dataResult)
+    public static function getFormatResultData(array $dataAttributesResult, array $dataBrandsWithAttributesResult)
     {
         function array_recursive_unique(&$value)
         {
             $value = array_unique($value);
         }
 
+        $formatDataBrands = self::formatResult($dataBrandsWithAttributesResult);
+        $formatDataAttributes = self::formatResult($dataAttributesResult);
+
+        if (!empty($formatDataAttributes['brands']) && !empty($formatDataBrands)) $formatDataBrands['brands'] = $formatDataAttributes['brands'];
+
+        $formatData['brands'] = array_unique($formatDataAttributes['brands']);
+        $formatData['attrib'] = $formatDataBrands['attrib'];
+        array_walk($formatData['attrib'], "array_recursive_unique");
+        $formatData['brands_count'] = count($formatDataBrands['brands']);
+        $formatData['attrib_count'] = count($formatData['attrib']);
+        $formatData['items_count'] = count(empty($dataBrandsWithAttributesResult) ? $dataAttributesResult : $dataBrandsWithAttributesResult);
+
+        return $formatData;
+    }
+
+    /**
+     * Format Data
+     *
+     * @param array $data
+     * @return mixed
+     */
+    private static function formatResult(array $data)
+    {
         $formatData['attrib'] = array();
-        foreach ($dataResult as $value) {
+        $formatData['brands'] = array();
+        foreach ($data as $value) {
             unset($value['ATTRIBUTES']['price']);
 
             foreach ($value['ATTRIBUTES'] as $key => $val) {
@@ -89,12 +112,6 @@ class Format_ConvertDataElasticSelection
                 $formatData['attrib'][$key][] = $val;
             }
         }
-
-        $formatData['brands'] = array_unique($formatData['brands']);
-        array_walk($formatData['attrib'], "array_recursive_unique");
-        $formatData['brands_count'] = count($formatData['brands']);
-        $formatData['attrib_count'] = count($formatData['attrib']);
-        $formatData['items_count'] = count($dataResult);
 
         return $formatData;
     }

@@ -6,7 +6,9 @@
  * Time: 23:25
  * To change this template use File | Settings | File Templates.
  */
-
+/**
+ * Class ContextSearch_ElasticSearch_FormatFilter
+ */
 class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticSearch_FormatInterface
 {
     /**
@@ -49,16 +51,16 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param string $columnName
      * @param string $value
      */
-    public function setTerms($columnName, $value)
+    public function setTerms($columnName, $value, $bool)
     {
         if (!is_array($value)) {
-            $this->terms[]['term'][$columnName] = $value;
+            $this->terms['bool'][$bool][]['term'][$columnName] = $value;
 
             return;
         }
 
         foreach ($value as $val) {
-            $this->terms[]['term'][$columnName] = $val;
+            $this->terms['bool'][$bool][]['term'][$columnName] = $val;
         }
     }
 
@@ -89,10 +91,11 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param string $columnName
      * @param integer $min
      * @param integer $max
+     * @param $bool
      */
-    public function setFromTo($columnName, $min, $max)
+    public function setFromTo($columnName, $min, $max, $bool)
     {
-        $this->query[]['range'][$columnName] = array("gt" => $min, "lt" => $max);
+        $this->terms['bool'][$bool][]['range'][$columnName] = array("gt" => $min, "lt" => $max);
     }
 
     /**
@@ -102,9 +105,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function getFormatQuery()
     {
-        $query['bool'][$this->bool] = array_merge($this->terms, $this->query);
-
-        return $query;
+        return $this->terms;
     }
 
     /**

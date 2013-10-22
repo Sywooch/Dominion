@@ -6,7 +6,9 @@
  * Time: 16:52
  * To change this template use File | Settings | File Templates.
  */
-
+/**
+ * Class Helpers_ObjectValue_ObjectValueSelection
+ */
 class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_HelperAbstract
 {
     /**
@@ -44,9 +46,19 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      *
      * @param array $dataSample
      */
-    public function setDataSample(array $dataSample)
+    public function setDataAttributes(array $dataSample)
     {
-        $this->dataSample = $dataSample;
+        $this->dataSample['attributes'] = $dataSample;
+    }
+
+    /**
+     * Set data brands
+     *
+     * @param array $brands
+     */
+    public function setDataBrands(array $brands)
+    {
+        $this->dataSample['brands'] = $brands;
     }
 
     /**
@@ -56,7 +68,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function setCatalogueID($catalogueID)
     {
-        $this->dataSample['CATALOGUE_ID'] = $catalogueID;
+        $this->dataSample['attributes']['CATALOGUE_ID'] = $catalogueID;
     }
 
     /**
@@ -64,9 +76,19 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      *
      * @return array
      */
-    public function getDataSample()
+    public function getDataAttributes()
     {
-       return array_merge($this->dataSample, $this->dataSlider);
+        return array_merge($this->dataSample['attributes'], $this->dataSlider);
+    }
+
+    /**
+     * Get data attributes with brands
+     *
+     * @return array
+     */
+    public function getDataAttributesWithBrands()
+    {
+        return array_merge($this->dataSample['attributes'], $this->dataSample['brands'], $this->dataSlider);
     }
 
     /**
@@ -77,7 +99,9 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getCatalogueID($key)
     {
-        return (self::CATALOGUE_ID === $key) ? $this->dataSample[$key] : false;
+        $rr = self::CATALOGUE_ID;
+        $status = self::CATALOGUE_ID === $key;
+        return (self::CATALOGUE_ID === $key) ? $this->dataSample['attributes'][$key] : false;
     }
 
     /**
