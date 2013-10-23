@@ -133,13 +133,15 @@ class models_ElasticSearch extends ZendDBEntity
     /**
      * Get attributes by itemID
      *
-     * @return string
+     * @param integer $itemID
+     * @return array
      */
     public function getAttributesByItemID($itemID)
     {
         $sql = "SELECT
                 A.ATTRIBUT_ID,
-                AL.ATTRIBUT_LIST_ID AS `VALUE`
+                AL.ATTRIBUT_LIST_ID AS `VALUE`,
+                A.TYPE
               FROM  ITEM I
                 JOIN ITEM0 I1 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)
@@ -149,51 +151,24 @@ class models_ElasticSearch extends ZendDBEntity
             union
             SELECT
                 A.ATTRIBUT_ID,
-                AL.ATTRIBUT_LIST_ID AS `VALUE`
+                I0.VALUE,
+              A.TYPE
               FROM ITEM I
                 JOIN ITEM0 I0 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                JOIN attribut_list AL USING (ATTRIBUT_ID)
               WHERE I.ITEM_ID = {$itemID}
             union
             SELECT
                 A.ATTRIBUT_ID,
-                AL.ATTRIBUT_LIST_ID AS `VALUE`
+                I0.VALUE,
+                A.TYPE
               FROM ITEM I
                 JOIN ITEM2 I0 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                JOIN attribut_list AL USING (ATTRIBUT_ID)
               WHERE  I.ITEM_ID = {$itemID}";
 
         return $this->_db->fetchAll($sql);
     }
-
-//    public function getAttributesByItemID($itemID)
-//    {
-//        $sql = "SELECT
-//                  i.ATTRIBUT_ID,
-//                  al.ATTRIBUT_LIST_ID AS VALUE
-//                FROM item0 i
-//                  JOIN attribut_list al USING (ATTRIBUT_ID)
-//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}
-//                UNION
-//                SELECT
-//                  i.ATTRIBUT_ID,
-//                   al.ATTRIBUT_LIST_ID AS VALUE
-//                FROM item1 i
-//                  JOIN attribut_list al
-//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}
-//                UNION
-//                SELECT
-//                  i.ATTRIBUT_ID,
-//                   al.ATTRIBUT_LIST_ID AS VALUE
-//                FROM item2 i
-//                  JOIN attribut_list al
-//                WHERE al.ATTRIBUT_LIST_ID = i.VALUE AND i.ITEM_ID = {$itemID}";
-//
-//        return $this->_db->fetchAll($sql);
-//    }
-
 
     /**
      * Get connect DB
