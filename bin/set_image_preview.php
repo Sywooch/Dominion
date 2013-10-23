@@ -2,6 +2,8 @@
 
 <?php
 /**
+ * Конвертация картинок в самые маленькие для поиска
+ *
  * User: Rus
  * Date: 15.07.13
  * Time: 0:06
@@ -29,7 +31,7 @@ $db->getConnection();
 $registry->set('db_connect', $db);
 
 $saveImagePath = SITE_PATH . "/images/it";
-$baseImagePath = UPLOAD_PATH;
+$baseImagePath = UPLOAD_IMAGES;
 
 $settingsModel = new models_SystemSets();
 $width = $settingsModel->getSettingValue('item_main_icon_x_small');
