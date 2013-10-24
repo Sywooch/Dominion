@@ -15,12 +15,6 @@ class ImageResize_Resize
 {
 
     /**
-     * Путь к картинки из которой ресайзим
-     * @var string
-     */
-    private $filePath;
-
-    /**
      * Требуемая ширина картинки
      * @var int
      */
@@ -76,7 +70,7 @@ class ImageResize_Resize
     /**
      * Вычисляем процентное отношение между новой картинкой и текущей
      *
-     * @param float $square  Площадь изменяемой картинки
+     * @param float $square Площадь изменяемой картинки
      *
      * @return bool
      */
