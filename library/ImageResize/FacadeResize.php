@@ -20,7 +20,7 @@ class ImageResize_FacadeResize
      *
      * @return ImageResize_ImageParams
      */
-    static public function resizeOrSave($newImageName, $filePath, $fileSaveDir, $needWidth, $needHeight, $diffSquare = 20)
+    static public function resizeOrSave($newImageName, $filePath, $fileSaveDir, $needWidth, $needHeight, $diffSquare = 10)
     {
         try {
             $imagine = new Imagine();

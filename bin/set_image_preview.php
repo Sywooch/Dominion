@@ -33,27 +33,33 @@ $registry->set('db_connect', $db);
 $saveImagePath = SITE_PATH . "/images/it";
 $baseImagePath = UPLOAD_IMAGES;
 
-$settingsModel = new models_SystemSets();
-$width = $settingsModel->getSettingValue('item_main_icon_x_small');
-if (!$width) {
-    throw new Exception('Should new width size. Set up into database in settings on name "item_main_icon_x_small"');
-}
+$params = new ImageResize_PictureSizeParams(new models_SystemSets());
 
-$height = $settingsModel->getSettingValue('item_main_icon_y_small');
-if (!$width) {
-    throw new Exception('Should new height size. Set up into database in settings on name "item_main_icon_y_small"');
-}
+// Сетим размеры для иконок
+$params->setKey('small_icon', 'item_main_icon_x_small', 'item_main_icon_y_small');
+
+// Размер самой большой картинки
+$params->setKey('big', 'item_main_big_x', 'item_main_big_y');
+
+// Средняя картинка которая показывается на странице по умолчанию
+$params->setKey('medium', 'item_main_small_x', 'item_main_small_y');
+
+// Картинка превью в каталоге
+$params->setKey('small', 'item_main_icon_x', 'item_main_icon_y');
 
 
 $itemsModels = new models_Item();
 
-$stm = $itemsModels->getAllImageBase();
+$stm = $itemsModels->geImagesNeedResize();
 
 while ($row = $stm->fetch()) {
 
     // Проверяем наличие картинки BASE
     // Если картинка существует - конвертим из ней
     // Если нет - конвертим из IMAGE3
+
+    $row['BASE_IMAGE'] = str_replace('\\', '', $row['BASE_IMAGE']);
+    $row['BASE_IMAGE'] = str_replace('/', '', $row['BASE_IMAGE']);
 
     $baseImage = "{$baseImagePath}/{$row['BASE_IMAGE']}";
 
@@ -66,6 +72,7 @@ while ($row = $stm->fetch()) {
 
     if (!file_exists($baseImage) && !file_exists($bigImage)) {
         // Картинок для конвертации совсем нет - следуюущая итерация
+        echo "Cant find a base picture $baseImage \n";
         continue;
     } elseif (file_exists($baseImage)) {
         // nothing to do
@@ -73,20 +80,73 @@ while ($row = $stm->fetch()) {
         $baseImage = $bigImage;
     }
 
-
+    $updateData = array();
+    // Генерим самую маленькую картинку для поиска
+    $params = ImageResize_PictureSizeParams::getSizes('small_icon');
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
         "small_{$row['ITEM_ID']}",
         $baseImage,
         $saveImagePath,
-        $width,
-        $height
+        $params['width'],
+        $params['height']
     );
 
     if ($pictureTransformed) {
+        $updateData['IMAGE0'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
+    }
+
+    // Генерим самую большую картинку
+    $params = ImageResize_PictureSizeParams::getSizes('big');
+    $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+        "b_{$row['ITEM_ID']}",
+        $baseImage,
+        $saveImagePath,
+        $params['width'],
+        $params['height']
+    );
+
+    if ($pictureTransformed) {
+        $updateData['IMAGE3'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
+    }
+
+
+    // Генерим среднюю картинку
+    $params = ImageResize_PictureSizeParams::getSizes('medium');
+    $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+        "{$row['ITEM_ID']}",
+        $baseImage,
+        $saveImagePath,
+        $params['width'],
+        $params['height']
+    );
+
+    if ($pictureTransformed) {
+        $updateData['IMAGE2'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
+    }
+
+    // Генерим среднюю картинку
+    $params = ImageResize_PictureSizeParams::getSizes('small');
+    $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+        "s_{$row['ITEM_ID']}",
+        $baseImage,
+        $saveImagePath,
+        $params['width'],
+        $params['height']
+    );
+
+    if ($pictureTransformed) {
+        $updateData['IMAGE1'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
+    }
+
+    if (!empty($updateData)) {
+        $updateData['NEED_RESIZE'] = 0;
+
         $itemsModels->updateGlobalItem(
-            array('IMAGE0' => "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}"),
+            $updateData,
             "ITEM_ID = {$row['ITEM_ID']}");
     }
+
+
 }
 
 echo "All small items converted";
