@@ -39,14 +39,11 @@ class ImageResize_FacadeResize
             // Проверяем надо ли ресайзит пиктчу
             if ($imageResizeItem->isNeedResize($imageSize->square())) {
                 $image = $imageResizeItem->resize($image)->save($newItemName);
-            } elseif ($needSaveNewSize) {
+            } else {
                 if (!copy($filePath, $newItemName)) {
                     throw new Exception('Can\'t save file: ' . $newItemName);
                 }
-            } else {
-                return false;
             }
-
         } catch (Exception $e) {
             echo $e->getMessage();
             echo "\n" . $e->getFile() . "; Line:" . $e->getLine();
