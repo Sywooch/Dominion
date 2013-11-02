@@ -47,13 +47,23 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
     }
 
     /**
-     * Set data sample
+     * Set data attributes unique
      *
-     * @param array $dataSample
+     * @param array $attributesUnique
      */
-    public function setDataAttributes(array $dataSample)
+    public function setDataAttributesUnique(array $attributesUnique)
     {
-        $this->dataSample['attributes'] = $dataSample;
+        $this->dataSample['attributes_unique'] = $attributesUnique;
+    }
+
+    /**
+     * Set data attributes double
+     *
+     * @param array $attributesDouble
+     */
+    public function setDataAttributesDouble(array $attributesDouble)
+    {
+        $this->dataSample['attributes_double'] = $attributesDouble;
     }
 
     /**
@@ -73,17 +83,60 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function setCatalogueID($catalogueID)
     {
-        $this->dataSample['attributes']['CATALOGUE_ID'] = $catalogueID;
+        $this->dataSample['attributes_unique']['CATALOGUE_ID'] = $catalogueID;
     }
 
     /**
-     * Getter for data sample
+     * Get attributes
      *
-     * @return array
+     * @return mixed
      */
     public function getDataAttributes()
     {
-        return array_merge($this->dataSample['attributes'], $this->dataSlider);
+        return array_merge($this->dataSample['attributes_unique'], $this->dataSample['attributes_double'], $this->dataSlider);
+    }
+
+    /**
+     * Isset attributes unique
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function issetAttributesUnique($key)
+    {
+        return isset($this->dataSample['attributes_unique'][$key]);
+    }
+
+    /**
+     * Isset attributes unique
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function issetAttributesDouble($key)
+    {
+        return isset($this->dataSample['attributes_double'][$key]);
+    }
+
+    /**
+     * Get data attributes unique
+     *
+     * @return mixed
+     */
+    public function getDataAttributesUnique()
+    {
+        return $this->dataSample['attributes_unique'];
+    }
+
+    /**
+     * Get data attributes double
+     *
+     * @return mixed
+     */
+    public function getDataAttributesDouble()
+    {
+        return $this->dataSample['attributes_double'];
     }
 
     /**
@@ -93,7 +146,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataAttributesWithBrands()
     {
-        return array_merge($this->dataSample['attributes'], $this->dataSample['brands'], $this->dataSlider);
+        return array_merge($this->dataSample['attributes_unique'],$this->dataSample['attributes_double'], $this->dataSample['brands'], $this->dataSlider);
     }
 
     /**
@@ -114,7 +167,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getCatalogueID($key)
     {
-        return (self::CATALOGUE_ID === $key) ? $this->dataSample['attributes'][$key] : false;
+        return (self::CATALOGUE_ID === $key) ? $this->dataSample['attributes_unique'][$key] : false;
     }
 
     /**
@@ -124,7 +177,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function issetAttributes()
     {
-        return count($this->dataSample['attributes'] + $this->dataSlider) > self::COUNT_ATTRIBUTES;
+        return count($this->dataSample['attributes_double'] + $this->dataSample['attributes_unique'] + $this->dataSlider) > self::COUNT_ATTRIBUTES;
     }
 
     /**

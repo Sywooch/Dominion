@@ -448,7 +448,8 @@ class AjaxController extends Zend_Controller_Action
             );
 
             $objectValueSelection->setDataBrands($resultAttributes['brands']);
-            $objectValueSelection->setDataAttributes($resultAttributes['attributes']);
+            $objectValueSelection->setDataAttributesDouble($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATTRIBUTES_DOUBLE]);
+            $objectValueSelection->setDataAttributesUnique($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATRIBUTES_UNIQUE]);
         }
 
         $objectValueSelection->setCatalogueID($params['catalogue_id']);

@@ -71,10 +71,11 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param integer $minValue
      * @param integer $maxValue
      * @param string $bool
+     * @param integer $position
      */
-    public function addFilterRange($column, $minValue, $maxValue, $bool = self::BOOL_AND)
+    public function addFilterRange($column, $minValue, $maxValue, $position = 0, $bool = self::BOOL_AND)
     {
-        $this->filter[$bool][] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
+        $this->filter[$bool][$position] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
     }
 
     /**
@@ -95,12 +96,18 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param string $value
      * @param string $parentBool
      * @param string $childBool
+     * @param integer $position
+     * @param string $childBoolTree
      */
-    public function addFilterTermChild($column, $value, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR)
+    public function addFilterTermChild($column, $value, $position = 0, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR, $childBoolTree = null)
     {
-        $this->positionElement = is_null($this->positionElement) ? count($this->filter[$parentBool]) : $this->positionElement;
+        if (!is_null($childBoolTree)) {
+            $this->filter[$parentBool][$position][$childBool][$childBoolTree][] = array("term" => array($column => $value));
 
-        $this->filter[$parentBool][$this->positionElement][$childBool][] = array("term" => array($column => $value));
+            return;
+        }
+
+        $this->filter[$parentBool][$position][$childBool][] = array("term" => array($column => $value));
     }
 
     /**
