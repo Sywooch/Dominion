@@ -66,7 +66,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
             $this->resultSet['brands'] = $this->executeElastic($filterFormat);
 
-            if(!$this->elasticSearchGET->getTotalHits($this->resultSet['brands']) || !$objectValueSelection->issetAttributes()) return;
+            if(!$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
         }
 
         $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
