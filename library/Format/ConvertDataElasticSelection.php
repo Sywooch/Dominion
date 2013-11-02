@@ -11,6 +11,7 @@ class Format_ConvertDataElasticSelection
 {
 
     const CURRENCY_ID = 2;
+    const TYPE_ATTRIBUTE_STRING = 2;
 
     /**
      * Convert string to array for selection of ElasticSearch
@@ -33,7 +34,7 @@ class Format_ConvertDataElasticSelection
             } else if (strstr($value, "a")) continue;
 
             $preKey = $result[0][$key - 1];
-            $resultFormat['attributes'][]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
+            $resultFormat['attributes'][]["ATTRIBUTES.VALUE." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;
@@ -80,9 +81,9 @@ class Format_ConvertDataElasticSelection
         if (!empty($formatDataAttributes['brands']) && !empty($formatDataBrands)) $formatDataBrands['brands'] = $formatDataAttributes['brands'];
 
         $formatData['brands'] = array_unique($formatDataAttributes['brands']);
-        $formatData['attrib'] = $formatDataBrands['attrib'];
+        $formatData['attrib'] = !empty($formatDataBrands['attrib']) ? $formatDataBrands['attrib'] : $formatDataAttributes['attrib'];
         array_walk($formatData['attrib'], "array_recursive_unique");
-        $formatData['brands_count'] = count($formatDataBrands['brands']);
+        $formatData['brands_count'] = count($formatData['brands']);
         $formatData['attrib_count'] = count($formatData['attrib']);
         $formatData['items_count'] = count(empty($dataBrandsWithAttributesResult) ? $dataAttributesResult : $dataBrandsWithAttributesResult);
 
@@ -103,13 +104,16 @@ class Format_ConvertDataElasticSelection
             unset($value['ATTRIBUTES']['price']);
 
             foreach ($value['ATTRIBUTES'] as $key => $val) {
+
+                if ($val["TYPE"] == self::TYPE_ATTRIBUTE_STRING) continue;
+
                 if ($key == $val) {
                     $formatData['brands'][] = $val;
 
                     continue;
                 }
 
-                $formatData['attrib'][$key][] = $val;
+                $formatData['attrib'][$key][] = $val['VALUE'];
             }
         }
 

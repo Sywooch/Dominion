@@ -20,6 +20,12 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     private $resultSet;
 
     /**
+     * Brands and attributes constant
+     */
+    const BRANDS = "brands";
+    const ATTRIBUTES = "attributes";
+
+    /**
      * Connect to elastic search
      *
      * @param array $parameters
@@ -58,7 +64,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
             $this->resultSet['brands'] = $this->executeElastic($filterFormat);
         }
 
-        if ($this->resultSet['brands'] instanceof \Elastica\ResultSet && !$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
+        if ($this->resultSet['brands'] instanceof \Elastica\ResultSet && !$this->elasticSearchGET->getTotalHits($this->resultSet['brands']) || !$objectValueSelection->issetAttributes()) return;
 
         $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
         $this->resultSet['attributes'] = $this->executeElastic($filterFormat);
@@ -76,15 +82,29 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         foreach ($dataAttributes as $key => $value) {
             if ($objectValueSelection->getDataSliderMin($key)) {
-                $filterFormat->setFromTo($key, $objectValueSelection->getDataSliderMin($key), $objectValueSelection->getDataSliderMax($key), "must");
+                $filterFormat->addFilterRange(
+                    $key,
+                    $objectValueSelection->getDataSliderMin($key),
+                    $objectValueSelection->getDataSliderMax($key)
+                );
 
                 continue;
             } else if ($objectValueSelection->getCatalogueID($key)) {
-                $filterFormat->setTerms($key, $value, "must");
+                $filterFormat->addQueryTerm($key, $value);
             }
 
             foreach ($value as $subKey => $val) {
-                $filterFormat->setTerms($subKey, $val);
+                if ($objectValueSelection->isBrand($subKey, $val)) {
+                    if (!$objectValueSelection->issetAttributes()) {
+                        $filterFormat->addFilterTerm($subKey, $val, ContextSearch_ElasticSearch_FormatFilter::BOOL_OR);
+                    } else {
+                        $filterFormat->addFilterTermChild($subKey, $val);
+                    }
+
+                    continue;
+                }
+
+                $filterFormat->addFilterTerm($subKey, $val);
             }
         }
 
@@ -116,12 +136,32 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     }
 
     /**
+     * Get brands
+     *
+     * @return mixed
+     */
+    public function getBrands()
+    {
+        return $this->getElements(self::BRANDS);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return mixed
+     */
+    public function getAttributes()
+    {
+        return $this->getElements(self::ATTRIBUTES);
+    }
+
+    /**
      * Get elements
      *
      * @param string $modified
      * @return mixed
      */
-    public function getElements($modified)
+    private function getElements($modified)
     {
         if (!isset($this->resultSet[$modified])) return array();
 

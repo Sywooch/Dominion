@@ -1,42 +1,29 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
+ * Created by PhpStorm.
  * User: Константин
- * Date: 05.10.13
- * Time: 23:25
- * To change this template use File | Settings | File Templates.
+ * Date: 29.10.13
+ * Time: 21:58
  */
+
 /**
  * Class ContextSearch_ElasticSearch_FormatFilter
  */
 class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticSearch_FormatInterface
 {
     /**
-     * Terms
+     * Query builder array of Elastic search
      *
      * @var array
      */
-    private $terms = array();
+    private $filter = array();
 
     /**
-     * Setter query
+     * Query
      *
      * @var array
      */
     private $query = array();
-    /**
-     * Format bool
-     *
-     * @var array
-     */
-    private $bool;
-
-    /**
-     * Size
-     *
-     * @var integer
-     */
-    private $size;
 
     /**
      * From
@@ -46,66 +33,89 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
     private $from;
 
     /**
-     * Set Term
+     * Size elements
      *
-     * @param string $columnName
-     * @param string $value
+     * @var integer
      */
-    public function setTerms($columnName, $value, $bool)
+    private $size;
+
+    /**
+     * Bool operator for filter build
+     */
+    const BOOL_OR = "or";
+    const BOOL_AND = "and";
+
+    /**
+     * Add term element for filter build
+     *
+     * @param string $column
+     * @param string $value
+     * @param string $bool
+     */
+    public function addFilterTerm($column, $value, $bool = self::BOOL_AND)
     {
-        if (!is_array($value)) {
-            $this->terms['bool'][$bool][]['term'][$columnName] = $value;
-
-            return;
-        }
-
-        foreach ($value as $val) {
-            $this->terms['bool'][$bool][]['term'][$columnName] = $val;
-        }
+        $this->filter[$bool][] = array("term" => array($column => $value));
     }
 
     /**
-     * Setter for from
+     * Add range
      *
-     * @param integer $from
-     * @return mixed|void
+     * @param string $column
+     * @param integer $minValue
+     * @param integer $maxValue
+     * @param string $bool
+     */
+    public function addFilterRange($column, $minValue, $maxValue, $bool = self::BOOL_AND)
+    {
+        $this->filter[$bool][] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
+    }
+
+    /**
+     * Add query term
+     *
+     * @param string $column
+     * @param string $value
+     */
+    public function addQueryTerm($column, $value)
+    {
+        $this->query["term"] = array($column => $value);
+    }
+
+    /**
+     * Add child bool element
+     *
+     * @param string $column
+     * @param string $value
+     * @param string $parentBool
+     * @param string $childBool
+     */
+    public function addFilterTermChild($column, $value, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR)
+    {
+        $this->filter[$parentBool][$childBool][] = array("term" => array($column => $value));
+    }
+
+    /**
+     * Get query
+     *
+     * @return mixed
+     */
+    public function getFormatQuery()
+    {
+        $resultQuery["filtered"]["query"] = $this->query;
+        $resultQuery["filtered"]["filter"] = $this->filter;
+
+        return $resultQuery;
+    }
+
+    /**
+     * Set from
+     *
+     * @param $from
+     * @return mixed
      */
     public function setFrom($from)
     {
         $this->from = $from;
-    }
-
-    /**
-     * Set parameter must
-     *
-     * @param string $bool
-     */
-    public function setBool($bool)
-    {
-        $this->bool = $bool;
-    }
-
-    /**
-     * Set range
-     *
-     * @param string $columnName
-     * @param integer $min
-     * @param integer $max
-     * @param $bool
-     */
-    public function setFromTo($columnName, $min, $max, $bool)
-    {
-        $this->terms['bool'][$bool][]['range'][$columnName] = array("gt" => $min, "lt" => $max);
-    }
-
-    /**
-     * Build query
-     *
-     * @return array
-     */
-    public function getFormatQuery()
-    {
-        return $this->terms;
     }
 
     /**

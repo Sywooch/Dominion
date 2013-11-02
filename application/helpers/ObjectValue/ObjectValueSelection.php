@@ -99,9 +99,17 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getCatalogueID($key)
     {
-        $rr = self::CATALOGUE_ID;
-        $status = self::CATALOGUE_ID === $key;
         return (self::CATALOGUE_ID === $key) ? $this->dataSample['attributes'][$key] : false;
+    }
+
+    /**
+     * Isset attributes
+     *
+     * @return bool
+     */
+    public function issetAttributes()
+    {
+        return count($this->dataSample['attributes']) > 1;
     }
 
     /**
@@ -113,6 +121,18 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
     public function getDataSliderMin($nameColumn)
     {
         return isset($this->dataSlider[$nameColumn]['min']) ? $this->dataSlider[$nameColumn]['min'] : false;
+    }
+
+    /**
+     * Check is brand column
+     *
+     * @param integer $nameColumn
+     * @param integer $value
+     * @return bool
+     */
+    public function isBrand($nameColumn, $value)
+    {
+        return substr(strstr($nameColumn, "."), 1) == $value;
     }
 
     /**
