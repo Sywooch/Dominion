@@ -40,6 +40,13 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
     private $size;
 
     /**
+     *Current position element
+     *
+     * @var integer
+     */
+    private $positionElement;
+
+    /**
      * Bool operator for filter build
      */
     const BOOL_OR = "or";
@@ -91,7 +98,9 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function addFilterTermChild($column, $value, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR)
     {
-        $this->filter[$parentBool][$childBool][] = array("term" => array($column => $value));
+        $this->positionElement = is_null($this->positionElement) ? count($this->filter[$parentBool]) : $this->positionElement;
+
+        $this->filter[$parentBool][$this->positionElement][$childBool][] = array("term" => array($column => $value));
     }
 
     /**

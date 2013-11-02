@@ -16,6 +16,11 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     const CATALOGUE_ID = "CATALOGUE_ID";
     /**
+     * Count attributes
+     */
+    const COUNT_ATTRIBUTES = 1;
+
+    /**
      * Data sample
      *
      * @var array
@@ -92,6 +97,16 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
     }
 
     /**
+     * Is brands empty
+     *
+     * @return bool
+     */
+    public function isBrandsEmpty()
+    {
+        return empty($this->dataSample['brands']);
+    }
+
+    /**
      * Check catalogueID
      *
      * @param integer $key
@@ -109,7 +124,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function issetAttributes()
     {
-        return count($this->dataSample['attributes']) > 1;
+        return count($this->dataSample['attributes'] + $this->dataSlider) > self::COUNT_ATTRIBUTES;
     }
 
     /**

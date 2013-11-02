@@ -103,7 +103,6 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
             var hidden_attr_gr_id = $.cookie('attr_gr_id');
             $.each(data.attrib, function (key, value) {
                 if (key != attr_gr_id) {
-//            $('input[rel=attr_value][atg='+key+']:not(:checked)').attr({'disabled':'disabled'});
                     $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
                     ;
                     $.each(value, function (i, attr) {
@@ -126,13 +125,6 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
             $('.applay_filters').hide();
             podbor_popup('Ничего не найдено', evnt);
         }
-
-//        if (data.current_min_price > 0 && data.current_max_price) {
-////        $('#price_input_min').val(data.current_min_price);
-////        $('#price_input_max').val(data.current_max_price);
-//
-////        $(".jquery_slider").slider( "option", "values", [data.current_min_price, data.current_max_price] );
-//        }
     });
 }
 

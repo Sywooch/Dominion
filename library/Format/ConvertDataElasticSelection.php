@@ -24,6 +24,7 @@ class Format_ConvertDataElasticSelection
         preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
 
         $resultFormat['attributes'] = array();
+        $resultFormat['brands'] = array();
         foreach ($result[0] as $key => $value) {
 
             if (!strstr($value, "v") && !strstr($value, "a")) {
@@ -34,7 +35,7 @@ class Format_ConvertDataElasticSelection
             } else if (strstr($value, "a")) continue;
 
             $preKey = $result[0][$key - 1];
-            $resultFormat['attributes'][]["ATTRIBUTES.VALUE." . substr($preKey, 1, strlen($preKey))] = substr($value, 1, strlen($value));
+            $resultFormat['attributes'][]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey)) . ".VALUE"] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;
@@ -70,7 +71,7 @@ class Format_ConvertDataElasticSelection
      */
     public static function getFormatResultData(array $dataAttributesResult, array $dataBrandsWithAttributesResult)
     {
-        function array_recursive_unique(&$value)
+        function array_recursive_unique(&$value, $key)
         {
             $value = array_unique($value);
         }

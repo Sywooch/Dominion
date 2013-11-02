@@ -57,14 +57,17 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
             throw new Exception("Error, data sample and dataslider are empty");
         }
 
-        $dataWithBrands = $objectValueSelection->getDataAttributesWithBrands();
-        if (!empty($dataWithBrands)) {
-            $filterFormat = $this->formatDataSelect($dataWithBrands, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
+        if (!$objectValueSelection->isBrandsEmpty()) {
+            $filterFormat = $this->formatDataSelect(
+                $objectValueSelection->getDataAttributesWithBrands(),
+                new ContextSearch_ElasticSearch_FormatFilter(),
+                $objectValueSelection
+            );
 
             $this->resultSet['brands'] = $this->executeElastic($filterFormat);
-        }
 
-        if ($this->resultSet['brands'] instanceof \Elastica\ResultSet && !$this->elasticSearchGET->getTotalHits($this->resultSet['brands']) || !$objectValueSelection->issetAttributes()) return;
+            if(!$this->elasticSearchGET->getTotalHits($this->resultSet['brands']) || !$objectValueSelection->issetAttributes()) return;
+        }
 
         $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
         $this->resultSet['attributes'] = $this->executeElastic($filterFormat);

@@ -91,21 +91,18 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function buildFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
     {
-        $fields = $formatData->getFields();
         $this->querySearch = new Prefix();
         $this->querySearch->setPrefix($formatData->getValue());
 
         $this->size = $formatData->getSize();
         $this->from = $formatData->getFrom();
 
-        foreach ($fields as $field) {
+        foreach ($formatData->getFields() as $field) {
             $this->querySearch->setField($field);
             $response = $this->execute();
             $results = $response->getResults();
-            if (!empty($results)) {
 
-                return $response;
-            }
+            if (!empty($results)) return $response;
         }
 
         return null;
