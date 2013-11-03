@@ -113,11 +113,15 @@ while ($row = $stm->fetch()) {
         $baseImage,
         $saveImagePath,
         $params['width'],
-        $params['height']
+        $params['height'],
+        10,
+        false
     );
 
     if ($pictureTransformed) {
         $updateData['IMAGE3'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
+    } else {
+        $updateData['IMAGE3'] = null;
     }
 
 
@@ -149,14 +153,16 @@ while ($row = $stm->fetch()) {
         $updateData['IMAGE1'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
     }
 
+    // Записываем в базу иноформацию о конвертированных картинках
     if (!empty($updateData)) {
-        $updateData['NEED_RESIZE'] = 0;
+        $updateData['NEED_RESIZE'] = null;
 
         $itemsModels->updateGlobalItem(
             $updateData,
             "ITEM_ID = {$row['ITEM_ID']}");
-    }
 
+        echo "Saved data for item ID {$row['ITEM_ID']} has been successfully\n";
+    }
 
     // Конверим дополнительные фотки
     $finder = new Finder();
