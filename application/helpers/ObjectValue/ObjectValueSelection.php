@@ -25,7 +25,11 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      *
      * @var array
      */
-    private $dataSample = array();
+    private $dataSample = array(
+        "brands" => array(),
+        "attributes_unique" => array(),
+        "attributes_double" => array()
+    );
 
     /**
      * Data slider
@@ -116,7 +120,11 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function issetAttributesDouble($key)
     {
-        return isset($this->dataSample['attributes_double'][$key]);
+        foreach ($this->dataSample["attributes_double"] as $value) {
+            if (isset($value[$key])) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -146,7 +154,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      */
     public function getDataAttributesWithBrands()
     {
-        return array_merge($this->dataSample['attributes_unique'],$this->dataSample['attributes_double'], $this->dataSample['brands'], $this->dataSlider);
+        return array_merge($this->dataSample['attributes_unique'], $this->dataSample['attributes_double'], $this->dataSample['brands'], $this->dataSlider);
     }
 
     /**

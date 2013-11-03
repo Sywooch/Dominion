@@ -104,7 +104,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
                     if (!$objectValueSelection->issetAttributes()) {
                         $filterFormat->addFilterTerm($subKey, $val, ContextSearch_ElasticSearch_FormatFilter::BOOL_OR);
                     } else {
-                        $filterFormat->addFilterTermChild($subKey, $val, self::POSITION_BRANDS);
+                        $filterFormat->addFilterTermChild($subKey, $val);
                     }
 
                     continue;
@@ -113,10 +113,9 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
                 $filterFormat->addFilterTermChild(
                     $subKey,
                     $val,
-                    self::POSITION_ATTRIBUTES,
                     ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
                     ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
-                    $objectValueSelection->issetAttributesDouble($key) ? ContextSearch_ElasticSearch_FormatFilter::BOOL_OR : null
+                    $objectValueSelection->issetAttributesDouble($subKey) ? ContextSearch_ElasticSearch_FormatFilter::BOOL_OR : null
                 );
             }
         }

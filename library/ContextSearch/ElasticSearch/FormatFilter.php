@@ -44,7 +44,14 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      *
      * @var integer
      */
-    private $positionElement;
+    private $positionElement = array();
+
+    /**
+     * Check position
+     *
+     * @var array
+     */
+    private $positionElementChild = array();
 
     /**
      * Bool operator for filter build
@@ -61,7 +68,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function addFilterTerm($column, $value, $bool = self::BOOL_AND)
     {
-        $this->filter[$bool][] = array("term" => array($column => $value));
+        $this->filter[$bool][$this->checkPosition($bool)] = array("term" => array($column => $value));
     }
 
     /**
@@ -71,11 +78,10 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param integer $minValue
      * @param integer $maxValue
      * @param string $bool
-     * @param integer $position
      */
-    public function addFilterRange($column, $minValue, $maxValue, $position = 0, $bool = self::BOOL_AND)
+    public function addFilterRange($column, $minValue, $maxValue, $bool = self::BOOL_AND)
     {
-        $this->filter[$bool][$position] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
+        $this->filter[$bool][$this->checkPosition("range")] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
     }
 
     /**
@@ -96,18 +102,43 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      * @param string $value
      * @param string $parentBool
      * @param string $childBool
-     * @param integer $position
      * @param string $childBoolTree
      */
-    public function addFilterTermChild($column, $value, $position = 0, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR, $childBoolTree = null)
+    public function addFilterTermChild($column, $value, $parentBool = self::BOOL_AND, $childBool = self::BOOL_OR, $childBoolTree = null)
     {
         if (!is_null($childBoolTree)) {
-            $this->filter[$parentBool][$position][$childBool][$childBoolTree][] = array("term" => array($column => $value));
+            $this->filter[$parentBool][$this->checkPosition($childBool)][$childBool][$this->checkPositionChild($childBoolTree)][$childBoolTree][] = array("term" => array($column => $value));
 
             return;
         }
 
-        $this->filter[$parentBool][$position][$childBool][] = array("term" => array($column => $value));
+        $this->filter[$parentBool][$this->checkPosition($childBool)][$childBool][$this->checkPositionChild($childBoolTree)] = array("term" => array($column => $value));
+    }
+
+    /**
+     * Check position element
+     *
+     * @param string $keyPosition
+     * @return mixed
+     */
+    private function checkPosition($keyPosition)
+    {
+        if (!isset($this->positionElement[$keyPosition])) $this->positionElement[$keyPosition] = count($this->positionElement);
+
+        return $this->positionElement[$keyPosition];
+    }
+
+    /**
+     * Check position element
+     *
+     * @param string $subKeyPosition
+     * @return mixed
+     */
+    private function checkPositionChild($subKeyPosition)
+    {
+        if (!isset($this->positionElementChild[$subKeyPosition])) $this->positionElementChild[$subKeyPosition] = count($this->positionElementChild);
+
+        return $this->positionElementChild[$subKeyPosition];
     }
 
     /**
