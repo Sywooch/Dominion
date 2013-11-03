@@ -87,6 +87,14 @@ selection.prototype.doUrl = function () {
 
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max}, function (data) {
+        if (data == null) {
+            $('input[rel=attr_brand_id]').removeAttr("disabled");
+            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
+            $('input[rel=attr_value]').parent().removeClass("noactive");
+            $('input[rel=attr_value]').removeAttr('disabled');
+
+        }
+
         if (data.brands_count > 0) {
             $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
             $('input[rel=attr_brand_id]').parent().addClass('noactive');
@@ -100,17 +108,15 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
         }
 
         if (data.attrib_count > 0) {
-            var hidden_attr_gr_id = $.cookie('attr_gr_id');
             $.each(data.attrib, function (key, value) {
-                if (key != attr_gr_id) {
-                    $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-                    ;
-                    $.each(value, function (i, attr) {
-                        $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-                        $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-                        ;
-                    });
-                }
+                if (key == attr_gr_id)  return;
+
+                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
+
+                $.each(value, function (i, attr) {
+                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
+                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
+                });
             });
         }
         else {

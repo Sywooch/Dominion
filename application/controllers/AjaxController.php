@@ -426,7 +426,8 @@ class AjaxController extends Zend_Controller_Action
     {
         $params = $this->getRequest()->getQuery();
 
-        if (empty($params) || empty($params['catalogue_id'])) return;
+        if (empty($params['at']) && empty($params['br']) && empty($params['pmin']) && empty($params['pmax']) || empty($params['catalogue_id'])) return;
+
 
         /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
         $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
