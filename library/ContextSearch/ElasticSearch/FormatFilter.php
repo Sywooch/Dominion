@@ -112,7 +112,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
             return;
         }
 
-        $this->filter[$parentBool][$this->checkPosition($childBool)][$childBool][$this->checkPositionChild($childBoolTree)] = array("term" => array($column => $value));
+        $this->filter[$parentBool][$this->checkPosition($childBool)][$childBool][] = array("term" => array($column => $value));
     }
 
     /**
