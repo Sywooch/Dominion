@@ -24,6 +24,9 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      */
     const BRANDS = "brands";
     const ATTRIBUTES = "attributes";
+    const POSITION_PRICES = 2;
+    const POSITION_ATTRIBUTES = 0;
+    const POSITION_BRANDS = 1;
 
     /**
      * Connect to elastic search
@@ -66,7 +69,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
             $this->resultSet['brands'] = $this->executeElastic($filterFormat);
 
-            if(!$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
+            if (!$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
         }
 
         $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
@@ -107,7 +110,13 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
                     continue;
                 }
 
-                $filterFormat->addFilterTerm($subKey, $val);
+                $filterFormat->addFilterTermChild(
+                    $subKey,
+                    $val,
+                    ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
+                    ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
+                    $objectValueSelection->issetAttributesDouble($subKey) ? ContextSearch_ElasticSearch_FormatFilter::BOOL_OR : null
+                );
             }
         }
 

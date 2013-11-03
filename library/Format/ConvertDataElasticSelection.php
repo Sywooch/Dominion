@@ -12,6 +12,8 @@ class Format_ConvertDataElasticSelection
 
     const CURRENCY_ID = 2;
     const TYPE_ATTRIBUTE_STRING = 2;
+    const NAME_ATRIBUTES_UNIQUE = "attributes_unique";
+    const NAME_ATTRIBUTES_DOUBLE = "attributes_double";
 
     /**
      * Convert string to array for selection of ElasticSearch
@@ -23,7 +25,9 @@ class Format_ConvertDataElasticSelection
     {
         preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
 
-        $resultFormat['attributes'] = array();
+
+        $resultFormat[self::NAME_ATRIBUTES_UNIQUE] = array();
+        $resultFormat[self::NAME_ATTRIBUTES_DOUBLE] = array();
         $resultFormat['brands'] = array();
         foreach ($result[0] as $key => $value) {
 
@@ -35,7 +39,10 @@ class Format_ConvertDataElasticSelection
             } else if (strstr($value, "a")) continue;
 
             $preKey = $result[0][$key - 1];
-            $resultFormat['attributes'][]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey)) . ".VALUE"] = substr($value, 1, strlen($value));
+
+            $nameKey = count(array_keys($result[0], $preKey)) > 1 ? self::NAME_ATTRIBUTES_DOUBLE : self::NAME_ATRIBUTES_UNIQUE;
+
+            $resultFormat[$nameKey][]["ATTRIBUTES." . substr($preKey, 1, strlen($preKey)) . ".VALUE"] = substr($value, 1, strlen($value));
         }
 
         return $resultFormat;
