@@ -127,7 +127,7 @@ class CreateElementInsideTree extends DomXMLTemplate implements DOMCreateStrateg
     function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0) {
         try {
             if (empty($cdata))
-                $this->Dom->root = &$this->Dom->root->appendChild($this->Dom->xml->createElement($tag_name, $xml));
+                $this->Dom->root = $this->Dom->root->appendChild($this->Dom->xml->createElement($tag_name, $xml));
             else
                 $this->AddCdataSection($tag_name, $xml);
 
