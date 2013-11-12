@@ -37,50 +37,6 @@ class models_ElasticSearch extends ZendDBEntity
     }
 
     /**
-     * Get model from itemsPrices
-     *
-     * @param array $itemsId
-     *
-     * @return array
-     */
-//    public function getItemsForPrices(array $itemsId)
-//    {
-//        $_items = implode(", ", $itemsId);
-//
-//        $where = "";
-//        $where .= " and I.ITEM_ID IN ({$_items}) ";
-//
-//        $sql = "select I.ITEM_ID
-//                ,I.CATALOGUE_ID
-//                ,I.NAME
-//                ,I.ARTICLE
-//                ,I.CURRENCY_ID
-//                ,I.PRICE
-//                ,I.PRICE1
-//                ,I.IMAGE1
-//                ,I.IMAGE2
-//                ,I.IMAGE3
-//                ,I.DESCRIPTION
-//                ,I.SEO_BOTTOM
-//                ,I.CATNAME
-//                ,I.IS_ACTION
-//                ,I.STATUS
-//                ,D.IMAGE as DISCOUNTS_IMAGE
-//                ,B.NAME as BRAND_NAME
-//                ,C.REALCATNAME as CATALOGUE_REALCATNAME
-//                ,CR.SNAME
-//          from ITEM I
-//          left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-//          left join CURRENCY CR on (CR.CURRENCY_ID = I.CURRENCY_ID)
-//          left join DISCOUNTS D on (D.DISCOUNT_ID = I.DISCOUNT_ID)
-//          left join BRAND B on (B.BRAND_ID = I.BRAND_ID)
-//          where
-//            I.PRICE > 0 " . $where;
-//
-//        return $this->_db->fetchAll($sql);
-//    }
-
-    /**
      * Get all data from database about item or products
      *
      * @return array
@@ -93,7 +49,7 @@ class models_ElasticSearch extends ZendDBEntity
                   ,I.CATNAME
                   ,I.TYPENAME
                   ,I.ARTICLE
-                  ,I.IMAGE1
+                  ,I.IMAGE3
                   ,B.NAME AS BRAND
                   ,C.REALCATNAME
                   ,C.NAME AS CATALOGUE_NAME
@@ -164,6 +120,55 @@ class models_ElasticSearch extends ZendDBEntity
         return $this->_db->fetchAll($sql);
     }
 
+    /**
+     * Get all items id
+     *
+     * @return string
+     */
+    public function getAllItemID()
+    {
+        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM item i";
+    }
+
+    /**
+     * Get attributes by itemID
+     *
+     * @param integer $itemID
+     * @return array
+     */
+    public function getAttributesByItemID($itemID)
+    {
+        $sql = "SELECT
+                A.ATTRIBUT_ID,
+                AL.ATTRIBUT_LIST_ID AS `VALUE`,
+                A.TYPE
+              FROM  ITEM I
+                JOIN ITEM0 I1 USING (ITEM_ID)
+                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
+                JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
+              WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
+              AND I.ITEM_ID = {$itemID}
+            union
+            SELECT
+                A.ATTRIBUT_ID,
+                I0.VALUE,
+              A.TYPE
+              FROM ITEM I
+                JOIN ITEM0 I0 USING (ITEM_ID)
+                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
+              WHERE I.ITEM_ID = {$itemID}
+            union
+            SELECT
+                A.ATTRIBUT_ID,
+                I0.VALUE,
+                A.TYPE
+              FROM ITEM I
+                JOIN ITEM2 I0 USING (ITEM_ID)
+                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
+              WHERE  I.ITEM_ID = {$itemID}";
+
+        return $this->_db->fetchAll($sql);
+    }
 
     /**
      * Get connect DB

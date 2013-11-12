@@ -51,13 +51,12 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
 
 
     /**
-     * Build Query
+     *  Build Query
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatData
-     *
+     * @param ContextSearch_ElasticSearch_FormatInterface $formatData
      * @return $this
      */
-    public function buildQuery(ContextSearch_ElasticSearch_FormatQuery $formatData)
+    public function buildQuery(ContextSearch_ElasticSearch_FormatInterface $formatData)
     {
         $this->size = $formatData->getSize();
         $this->from = $formatData->getFrom();
@@ -67,35 +66,43 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
 
         $this->querySearch = new Query($builder);
 
-
         return $this;
 
     }
 
     /**
+     * Build query filter
+     *
+     * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     * @return $this
+     */
+    public function buildQueryFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
+    {
+        $this->querySearch = new Query(new Builder(json_encode($formatData->getFormatQuery())));
+
+        return $this;
+    }
+
+    /**
      * Filter builder query
      *
-     * @param ContextSearch_ElasticSearch_FormatQuery $formatData
-     *
-     * @return \Elastica\ResultSet|mixed
+     * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     * @return ResultSet|mixed|null
      */
-    public function buildFilter(ContextSearch_ElasticSearch_FormatQuery $formatData)
+    public function buildFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
     {
-        $fields = $formatData->getFields();
         $this->querySearch = new Prefix();
         $this->querySearch->setPrefix($formatData->getValue());
 
         $this->size = $formatData->getSize();
         $this->from = $formatData->getFrom();
 
-        foreach ($fields as $field) {
+        foreach ($formatData->getFields() as $field) {
             $this->querySearch->setField($field);
             $response = $this->execute();
             $results = $response->getResults();
-            if (!empty($results)) {
 
-                return $response;
-            }
+            if (!empty($results)) return $response;
         }
 
         return null;
@@ -141,9 +148,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function convertToJson(ResultSet $resultSet)
     {
-        $arr = $this->convertToArray($resultSet);
-
-        return json_encode($arr);
+        return json_encode($this->convertToArray($resultSet));
     }
 
     /**

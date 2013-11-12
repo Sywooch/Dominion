@@ -49,7 +49,7 @@ class modelPrice {
                 WHERE C.IN_ADV = 1
                 AND I.CATALOGUE_ID = C.CATALOGUE_ID
                 AND I.BRAND_ID = B.BRAND_ID
-                AND I.STATUS =1
+                #AND I.STATUS =1
                 AND I.CATALOGUE_ID = ?";
 
         return $this->_cmf->select($sql, $cataloguesID);

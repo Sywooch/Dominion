@@ -27,11 +27,34 @@ class Format_FormatDataElastic
 
             $items[$key]['MAIN_ALTERNATIVE'] = "{$item['TYPENAME']} {$item['BRAND']} " . str_replace(" ", "", $item['NAME_PRODUCT']);
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-
             unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
         }
 
         return $items;
+    }
+
+    /**
+     * Format Data for build index
+     *
+     * @param array $attributes
+     * @param $price
+     * @param $brandId
+     * @return array
+     */
+    public function formatDataForSelection(array $attributes, $price, $brandId)
+    {
+        if (empty($attributes)) return $attributes;
+
+        $formatArray = array();
+        foreach ($attributes as $value) {
+            $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value['VALUE'];
+            $formatArray[$value['ATTRIBUT_ID']]['TYPE'] = $value['TYPE'];
+
+        }
+        $formatArray['price'] = round($price, 1);
+        $formatArray[$brandId] = $brandId;
+
+        return $formatArray;
     }
 
     /**

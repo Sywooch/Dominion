@@ -158,9 +158,8 @@ class Format_PricesObjectValue
 
         foreach ($this->items as $key => $item) {
             $subKey = array_search($valueID, $item);
-            if (!empty($subKey)) {
-                break;
-            }
+
+            if (!empty($subKey)) break;
         }
 
         return $this->items[$key][$findElement];

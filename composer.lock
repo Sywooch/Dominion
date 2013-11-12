@@ -3,20 +3,70 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5b85e3456a5b11e31f560b1a8ec50808",
+    "hash": "b92866738bd3024f7d4b8997492e6acf",
     "packages": [
+        {
+            "name": "codeplex/phpexcel",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/markushausammann/PHPExcel.git",
+                "reference": "7f72be58b4f0a136a4ee9997318d717ecb18abc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/markushausammann/PHPExcel/zipball/7f72be58b4f0a136a4ee9997318d717ecb18abc6",
+                "reference": "7f72be58b4f0a136a4ee9997318d717ecb18abc6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Erit Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet"
+            ],
+            "time": "2013-06-13 17:41:00"
+        },
         {
             "name": "imagine/imagine",
             "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "45aba323391fc079e25382b83561919db117ff51"
+                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/45aba323391fc079e25382b83561919db117ff51",
-                "reference": "45aba323391fc079e25382b83561919db117ff51",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/0af397b3b96aac5b11593ca9136ca43a55869c5f",
+                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +110,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2013-08-15 23:32:14"
+            "time": "2013-07-19 16:16:00"
         },
         {
             "name": "phpexcel/phpexcel",
@@ -68,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ddeboer/phpexcel.git",
-                "reference": "v1.7.7"
+                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/v1.7.7",
-                "reference": "v1.7.7",
+                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
+                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
                 "shasum": ""
             },
             "require": {
@@ -103,12 +153,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "976d67f2ac89798e657d942348eb3adf7bf6dc7f"
+                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/976d67f2ac89798e657d942348eb3adf7bf6dc7f",
-                "reference": "976d67f2ac89798e657d942348eb3adf7bf6dc7f",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/e600c3e2520ff550b927464a762e482cd0d225c4",
+                "reference": "e600c3e2520ff550b927464a762e482cd0d225c4",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +201,7 @@
                 "client",
                 "search"
             ],
-            "time": "2013-08-17 12:07:09"
+            "time": "2013-08-08 08:36:24"
         },
         {
             "name": "symfony/class-loader",
@@ -160,12 +210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "7239180fee1194f58b6741e47574f7ce3274d0c3"
+                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/7239180fee1194f58b6741e47574f7ce3274d0c3",
-                "reference": "7239180fee1194f58b6741e47574f7ce3274d0c3",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
+                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +251,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-14 13:08:25"
+            "time": "2013-07-24 05:36:23"
         },
         {
             "name": "symfony/console",
@@ -210,12 +260,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -254,7 +304,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-17 16:34:49"
+            "time": "2013-07-21 12:12:18"
         },
         {
             "name": "zendframework/zendframework1",
@@ -313,7 +363,8 @@
         "symfony/class-loader": 20,
         "symfony/console": 20,
         "imagine/imagine": 20,
-        "phpexcel/phpexcel": 20
+        "phpexcel/phpexcel": 20,
+        "codeplex/phpexcel": 20
     },
     "platform": {
         "php": ">=5.3.3"

@@ -13,7 +13,8 @@
         "symfony/class-loader": "2.4.*@dev",
         "symfony/console": "2.3.*@dev",
         "imagine/imagine": "dev-develop",
-        "phpexcel/phpexcel": "dev-master"
+        "phpexcel/phpexcel": "dev-master",
+        "codeplex/phpexcel": "dev-master"
 
     }
 }
