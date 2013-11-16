@@ -280,6 +280,7 @@ class CatController extends App_Controller_Frontend_Action
             $attributs_params['Item'] = $Item;
             $attributs_params['Catalogue'] = $Catalogue;
 
+            /** @var $at_helper Helpers_Attributs*/
             $at_helper = $this->_helper->helperLoader('Attributs',
                 $attributs_params);
             $at_helper->setLang($this->lang, $this->lang_id);
@@ -288,6 +289,7 @@ class CatController extends App_Controller_Frontend_Action
             $at_helper->getMinMaxPrice($this->catalogue_id);
             $at_helper->getAttributs($this->catalogue_id, $attr, $active_attrib);
             $this->domXml = $at_helper->getDomXml();
+            $xml = $at_helper->getDomXml()->getXML();
         }
     }
 
