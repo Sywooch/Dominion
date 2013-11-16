@@ -99,6 +99,22 @@ class Format_ConvertDataElasticSelection
     }
 
     /**
+     * Get items
+     *
+     * @param array $attributes
+     * @return array
+     */
+    public static function getItems(array $attributes)
+    {
+        $resultData = array();
+        foreach ($attributes as $value) {
+            $resultData[] = $value["ITEM_ID"];
+        }
+
+        return $resultData;
+    }
+
+    /**
      * Format Data
      *
      * @param array $data

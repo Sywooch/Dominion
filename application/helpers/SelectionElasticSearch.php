@@ -24,6 +24,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      */
     const BRANDS = "brands";
     const ATTRIBUTES = "attributes";
+    const ITEMS = "item_id";
     const POSITION_PRICES = 2;
     const POSITION_ATTRIBUTES = 0;
     const POSITION_BRANDS = 1;
@@ -150,7 +151,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Get brands
      *
-     * @return mixed
+     * @return array
      */
     public function getBrands()
     {
@@ -160,11 +161,21 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Get attributes
      *
-     * @return mixed
+     * @return array
      */
     public function getAttributes()
     {
         return $this->getElements(self::ATTRIBUTES);
+    }
+
+    /**
+     * Get items id
+     *
+     * @return array
+     */
+    public function getItemsID()
+    {
+        return $this->getElements(self::ITEMS);
     }
 
     /**
