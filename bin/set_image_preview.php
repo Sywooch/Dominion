@@ -11,6 +11,8 @@
 
 require_once __DIR__ . '../../application/configs/config.php';
 
+use Symfony\Component\Finder\Finder;
+
 $application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
 
 $registry = Zend_Registry::getInstance();
@@ -21,7 +23,8 @@ $db_config = array(
     'host' => $config->resources->db->params->host,
     'username' => $config->resources->db->params->username,
     'password' => $config->resources->db->params->password,
-    'dbname' => $config->resources->db->params->dbname);
+    'dbname' => $config->resources->db->params->dbname
+);
 
 $adapter = $config->resources->db->adapter;
 
@@ -46,6 +49,12 @@ $params->setKey('medium', 'item_main_small_x', 'item_main_small_y');
 
 // Картинка превью в каталоге
 $params->setKey('small', 'item_main_icon_x', 'item_main_icon_y');
+
+// Картинка превью доп фотки
+$params->setKey('additional_small', 'item_small_x', 'item_small_y');
+
+// Картинка большая доп. фотки
+$params->setKey('additional_big', 'item_big_x', 'item_big_y');
 
 
 $itemsModels = new models_Item();
@@ -74,9 +83,11 @@ while ($row = $stm->fetch()) {
         // Картинок для конвертации совсем нет - следуюущая итерация
         echo "Cant find a base picture $baseImage \n";
         continue;
-    } elseif (file_exists($baseImage)) {
+    }
+    elseif (file_exists($baseImage)) {
         // nothing to do
-    } elseif (file_exists($bigImage)) {
+    }
+    elseif (file_exists($bigImage)) {
         $baseImage = $bigImage;
     }
 
@@ -151,6 +162,42 @@ while ($row = $stm->fetch()) {
             "ITEM_ID = {$row['ITEM_ID']}");
 
         echo "Saved data for item ID {$row['ITEM_ID']} has been successfully\n";
+    }
+
+    // Конверим дополнительные фотки
+    $finder = new Finder();
+
+    $iterator = $finder
+      ->files()
+      ->name("/{$row['ITEM_ID']}_[1-5]/")
+      ->depth(0)
+      ->in($baseImagePath);
+
+    //TODO: Надо заполучить ITEM_ITEM_ID в таблице ITEM_PHOTO из сиквенцов
+    $itemItemId = 0;
+
+    /**@var \Symfony\Component\Finder\SplFileInfo $file */
+    foreach ($iterator as $file) {
+        // Генерим превью картинку доп фото
+        $params = ImageResize_PictureSizeParams::getSizes('additional_small');
+        $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+            "{$row['ITEM_ID']}_{$itemItemId}_img_sm",
+            $file->getRealpath(),
+            $saveImagePath,
+            $params['width'],
+            $params['height']
+        );
+
+        // Генерим большую картинку доп фото
+        $params = ImageResize_PictureSizeParams::getSizes('additional_big');
+        $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
+            "{$row['ITEM_ID']}_{$itemItemId}_img_lrg",
+            $file->getRealpath(),
+            $saveImagePath,
+            $params['width'],
+            $params['height']
+        );
+
     }
 
 }
