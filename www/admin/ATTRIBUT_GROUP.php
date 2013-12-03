@@ -61,7 +61,7 @@ $cmf->execute('delete from ATTRIBUT_GROUP where ATTRIBUT_GROUP_ID=?',$id);
 
 if($_REQUEST['e'] == 'UP')
 {
-list($ORDERING)=$cmf->selectrow_array('select ORDERING from ATTRIBUT_GROUP where ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
+$ORDERING= (int) $cmf->selectrow_array('select ORDERING from ATTRIBUT_GROUP where ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
 if($ORDERING>1)
 {
 $cmf->execute('update ATTRIBUT_GROUP set ORDERING=ORDERING+1 where ORDERING=?',$ORDERING-1);
@@ -71,7 +71,7 @@ $cmf->execute('update ATTRIBUT_GROUP set ORDERING=ORDERING-1 where ATTRIBUT_GROU
 
 if($_REQUEST['e'] == 'DN')
 {
-list($ORDERING)=$cmf->selectrow_array('select ORDERING from ATTRIBUT_GROUP where ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
+$ORDERING= (int) $cmf->selectrow_array('select ORDERING from ATTRIBUT_GROUP where ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
 $MAXORDERING=$cmf->selectrow_array('select max(ORDERING) from ATTRIBUT_GROUP');
 if($ORDERING<$MAXORDERING)
 {
