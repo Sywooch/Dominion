@@ -1,316 +1,369 @@
 /* Classes */
 a.more {
-	font-weight:bold;
-	text-decoration: none;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 a.more:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
+
 a.close_icon, a.delete_icon, a.delete_compare {
-	position: absolute;
-	text-indent: -9999px;
+    position: absolute;
+    text-indent: -9999px;
 }
+
 a.close_icon {
-	background: url(../i/close_icon.png);
-	height: 8px;
-	right: 5px;
-	top: 10px;
-	width: 8px;
+    background: url(../i/close_icon.png);
+    height: 8px;
+    right: 5px;
+    top: 10px;
+    width: 8px;
 }
 
 a.delete_compare {
-  background: url(../i/close_icon.png);
-  height: 8px;
-  right: 5px;
-  top: 10px;
-  width: 8px;
+    background: url(../i/close_icon.png);
+    height: 8px;
+    right: 5px;
+    top: 10px;
+    width: 8px;
 }
 
 a.delete_icon {
-	background:#f7f7f7 url(../i/close_icon.png) no-repeat center;
-	border:1px solid #dadada;
-	border-radius: 8px;
-	height:27px;
-	right:0;
-	width:27px;
-	behavior:url(PIE.htc);
-}
-a.button_link {
-	background: #f9f9f9;
-	border: 1px solid #e0e0e0;
-	border-radius: 10px;
-	color: #009933;
-	font-weight: bold;
-	padding:5px 10px;
-	text-decoration: none;
-	behavior:url(PIE.htc);
-}
-a.pseudo {
-	background: url(../i/pointer.png) no-repeat 0 center;
-	display:block;
-	float:left;
-	font-weight:bold;
-	padding: 0 0 4px 15px;
-	text-decoration: none;
-}
-a.pseudo span {
-	border-bottom: 1px dashed;
-	padding: 0 0 2px 0;
-}
-a.pseudo:hover span {
-	border:0;
+    background: #f7f7f7 url(../i/close_icon.png) no-repeat center;
+    border: 1px solid #dadada;
+    border-radius: 8px;
+    height: 27px;
+    right: 0;
+    width: 27px;
+    behavior: url(PIE.htc);
 }
 
-a.orange{
+a.button_link {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    color: #009933;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-decoration: none;
+    behavior: url(PIE.htc);
+}
+
+a.pseudo {
+    background: url(../i/pointer.png) no-repeat 0 center;
+    display: block;
+    float: left;
+    font-weight: bold;
+    padding: 0 0 4px 15px;
+    text-decoration: none;
+}
+
+a.pseudo span {
+    border-bottom: 1px dashed;
+    padding: 0 0 2px 0;
+}
+
+a.pseudo:hover span {
+    border: 0;
+}
+
+a.orange {
     color: #f6a600;
     background: none;
 }
 
 a.what_is_it {
-	background: url(../i/what_is_it_icon.png) no-repeat bottom;
-	float:left;
-	height: 11px;
-	text-indent: -9999px;
-	width:11px;
+    background: url(../i/what_is_it_icon.png) no-repeat bottom;
+    float: left;
+    height: 11px;
+    text-indent: -9999px;
+    width: 11px;
 }
+
 .phone_icon {
-	background:url(../i/phones.png);
-	height:28px;
-	left:0;
-	position:absolute;
-	text-indent:-9999px;
-	width:19px;
+    background: url(../i/phones.png);
+    height: 28px;
+    left: 0;
+    position: absolute;
+    text-indent: -9999px;
+    width: 19px;
 }
+
 span.phone_icon {
-	background-position: 0 -43px;
-	height: 32px;
-  cursor: pointer;
+    background-position: 0 -43px;
+    height: 32px;
+    cursor: pointer;
 }
+
 .last .phone_icon {
-	background-position:0 -95px;
-	height: 26px;
+    background-position: 0 -95px;
+    height: 26px;
 }
+
 a.product_button {
-	border:1px solid #e0e0e0;
-	border-radius:10px;
-	display: block;
-	float:left;
-	padding: 2px;
-	text-decoration: none;
-	behavior:url(PIE.htc);
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    display: block;
+    float: left;
+    padding: 2px;
+    text-decoration: none;
+    behavior: url(PIE.htc);
 }
+
 a.product_button > span {
-	background: url(../i/product_button.jpg) repeat-x;
-	border-radius:8px;
-	color:#fff;
-	cursor:pointer;
-	display: block;
-	font-weight:bold;
-	height: 22px;
-	line-height:22px;
-	padding: 0 10px;
-	behavior:url(PIE.htc);
+    background: url(../i/product_button.jpg) repeat-x;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 10px;
+    behavior: url(PIE.htc);
 }
+
 ul.menu, ul.breadcrumb {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
 ul.breadcrumb {
-	margin:0 0 12px;
+    margin: 0 0 12px;
 }
+
 ul.breadcrumb > li {
-	background: url(../i/breadcrumb_li.png) no-repeat right;
-	float:left;
-	margin:0 6px 0 0;
-	padding: 0 12px 0 0;
-	position:relative;
+    background: url(../i/breadcrumb_li.png) no-repeat right;
+    float: left;
+    margin: 0 6px 0 0;
+    padding: 0 12px 0 0;
+    position: relative;
 }
+
 .slider_buttons {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
 .slider_buttons li {
-	float: left;
-	margin: 0 5px 0 0;
+    float: left;
+    margin: 0 5px 0 0;
 }
+
 .slider_buttons a {
-	background: url(../i/slider_button.png) right top;
-	display: block;
-	height: 10px;
-	overflow:hidden;
-	text-indent: -9999px;
-	width: 10px;
+    background: url(../i/slider_button.png) right top;
+    display: block;
+    height: 10px;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 10px;
 }
+
 .slider_buttons a:hover, .slider_buttons a.active {
-	background-position: left top;
+    background-position: left top;
 }
+
 .dialog_box {
-	background: url(../i/login_form_box.png) no-repeat center top;
-	display:none;
-	padding: 4px 0 0;
-	position: absolute;
-	right:0;
-	z-index: 50;
+    background: url(../i/login_form_box.png) no-repeat center top;
+    display: none;
+    padding: 4px 0 0;
+    position: absolute;
+    right: 0;
+    z-index: 50;
 }
+
 .dialog_content {
-	background: #fff;
-	border: 1px solid #d9d9d9;
-	border-top-width: 2px;
-	padding:12px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-top-width: 2px;
+    padding: 12px;
 }
+
 ul.breadcrumb .dialog_box {
-	background:url(../i/dialog_box_green.png) no-repeat center top;
-	background-position:28px 0;
-	left:0;
-	top:18px;
-	width:300px;
+    background: url(../i/dialog_box_green.png) no-repeat center top;
+    background-position: 28px 0;
+    left: 0;
+    top: 18px;
+    width: 300px;
 }
+
 ul.breadcrumb .dialog_content {
-	border: 1px solid #009933;
-	border-top-width: 2px;
-	padding: 12px;
+    border: 1px solid #009933;
+    border-top-width: 2px;
+    padding: 12px;
 }
+
 ul.breadcrumb ul.menu li {
-	margin:0 0 10px;
+    margin: 0 0 10px;
 }
+
 ul.breadcrumb ul.menu a {
-	color:#009933;
-	font-weight:bold;
-	text-decoration: none;
+    color: #009933;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 ul.breadcrumb ul.menu a:hover {
-	text-decoration:underline;
+    text-decoration: underline;
 }
+
 ul.pager {
-	list-style: none;
-	margin:0;
-	padding: 0;
-	text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
+
 ul.pager li {
-	border-left:1px solid #000;
-	display: inline;
-	padding:0 6px;
+    border-left: 1px solid #000;
+    display: inline;
+    padding: 0 6px;
 }
+
 ul.pager li.prev + li {
-	border:0;
+    border: 0;
 }
+
 ul.pager li.prev, ul.pager li.next {
-	border:0;
-	padding: 0;
+    border: 0;
+    padding: 0;
 }
+
 ul.pager a {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 ul.pager li.prev a, ul.pager li.next a {
-	text-decoration:none;
-	text-indent:-9999px;
+    text-decoration: none;
+    text-indent: -9999px;
 }
+
 ul.pager li.prev a:hover, ul.pager li.next a:hover {
-	text-decoration: underline !important;
+    text-decoration: underline !important;
 }
+
 .sidebar_block {
-	/*background: #e1e1e1;*/
-	/*height: 150px;*/
-	margin: 20px 0 0;
-	width: 180px;
+    /*background: #e1e1e1;*/
+    /*height: 150px;*/
+    margin: 20px 0 0;
+    width: 180px;
 }
+
 .asterisk {
-	color:#ed1c24;
+    color: #ed1c24;
 }
+
 .price {
-	color:#ed1c24;
-	font-weight:bold;
+    color: #ed1c24;
+    font-weight: bold;
+    font-size: 1.3em;
 }
+
 .price.old {
-	text-decoration:line-through;
+    text-decoration: line-through;
 }
 
 .price_usd {
-  color:#000;
-  font-weight:bold;
+    color: #000;
+    font-weight: bold;
 }
+
 .price_usd.old {
-  text-decoration:line-through;
+    text-decoration: line-through;
 }
+
 .product_features dt {
-	float:left;
-	padding:0 0 0 10px;
-	width:340px;
+    float: left;
+    padding: 0 0 0 10px;
+    width: 340px;
 }
+
 .product_features dt, dd {
-/*	height: 20px;*/
-	line-height: 20px;
+    /*	height: 20px;*/
+    line-height: 20px;
 }
+
 .product_features .odd {
-	background-color:#f2f2f2;
+    background-color: #f2f2f2;
 }
+
 .personal_product_status {
-	background:url(../i/status_big_icons.png);
-	height:49px;
-	left:50%;
-	margin:0 0 0 -18px;
-	position:absolute;
-	text-indent:-9999px;
-	top:0;
-	width:37px;
+    background: url(../i/status_big_icons.png);
+    height: 49px;
+    left: 50%;
+    margin: 0 0 0 -18px;
+    position: absolute;
+    text-indent: -9999px;
+    top: 0;
+    width: 37px;
 }
+
 /* Clearfix */
 .clearfix {
-	overflow:hidden;
+    overflow: hidden;
 }
+
 /* Contnet */
 .content_block {
-	background: url(../i/text_block.png) center bottom no-repeat;
-	color:#000;
-	margin:0 0 20px;
-	padding:0 30px 20px 0;
+    background: url(../i/text_block.png) center bottom no-repeat;
+    color: #000;
+    margin: 0 0 20px;
+    padding: 0 30px 20px 0;
 }
+
 .teaser {
-	position:relative;
+    position: relative;
 }
+
 .teaser a.img_box {
-	float:left;
+    float: left;
 }
+
 .tabs {
-	border-bottom:2px solid #d9d9d9;
-	list-style:none;
-	margin:0 0 15px;
-	overflow:hidden;
-	padding:0;
+    border-bottom: 2px solid #d9d9d9;
+    list-style: none;
+    margin: 0 0 15px;
+    overflow: hidden;
+    padding: 0;
 }
+
 .tabs li {
-	float:left;
-	height: 30px;
-	line-height: 30px;
-	padding: 0 12px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 12px;
 }
+
 .tabs li.active {
-	border:1px solid #d9d9d9;
-	border-bottom:0;
-	border-top-left-radius:8px;
-	border-top-right-radius:8px;
-	color:#000;
-	behavior:url(PIE.htc);
+    border: 1px solid #d9d9d9;
+    border-bottom: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: #000;
+    behavior: url(PIE.htc);
 }
+
 .tabs li a {
-	color:#009933;
-	font-weight:bold;
-	text-decoration: none;
+    color: #009933;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 .tabs li.active a {
-  color:#000;
-  font-weight:normal;
-  text-decoration: none;
+    color: #000;
+    font-weight: normal;
+    text-decoration: none;
 }
+
 .tabs li a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 dl.hka h3 {
-  background: url(../i/text_block.png) center bottom no-repeat;
-  color:#000;
-  padding:10px 30px 10px 0;
+    background: url(../i/text_block.png) center bottom no-repeat;
+    color: #000;
+    padding: 10px 30px 10px 0;
 }

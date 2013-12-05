@@ -440,7 +440,8 @@ $().ready(function() {
 							</xsl:when>
 							<xsl:otherwise>
 								<div class="price_box">
-									<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span> | <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>
+									<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span>
+                                    <!--| <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>-->
 								</div>
 							</xsl:otherwise>
 						</xsl:choose>
