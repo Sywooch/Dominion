@@ -68,7 +68,7 @@
                 <xsl:value-of select="name"/>
             </a>
         </h3>
-        <div class="fieldgroup">
+        <div class="fieldgroup" xid="{@id}" style="display:block;">
             <xsl:if test="count(//attr_range_mm[@id = $atid]) &gt; 0">
                 <xsl:attribute name="style">display: block;</xsl:attribute>
             </xsl:if>
@@ -76,11 +76,11 @@
                    value="{//attr_range_view_url[@id = $atid]/@url}"/>
             <label for="input_min_{@id}">От&#160;</label>
             <input type="text" id="input_min_{@id}" name="attr_range_min[{@id}]" xid="{@id}"
-                   value="{//attr_range_mm[@id = $atid]/@min}"/>
+                   value=""/>
             <label for="input_max_{@id}">&#160;до&#160;</label>
             <input type="text" id="input_max_{@id}" name="attr_range_max[{@id}]" xid="{@id}"
-                   value="{//attr_range_mm[@id = $atid]/@max}"/>
-            &#160;<xsl:value-of select="uname"/>
+                   value=""/>
+            &#160;<xsl:value-of select="attr_value[position()=1]/@unit_name"/>
             <script type="text/javascript">
                 var min_val = parseFloat(<xsl:value-of select="attr_value[position()=1]/name"/>);
                 var max_val = parseFloat(<xsl:value-of select="attr_value[position()=last()]/name"/>);
@@ -115,7 +115,7 @@
                 attr_range_view[<xsl:value-of select="@id"/>][1] = parseFloat(<xsl:value-of
                     select="attr_value[position()=last()]/name"/>);
             </script>
-            <div class='attr_range_view' xid="{@id}"></div>
+            <div class='attr_range_view'></div>
         </div>
     </xsl:template>
 

@@ -143,4 +143,71 @@ class Format_ConvertDataElasticSelection
 
         return $formatData;
     }
+
+    /**
+     * Convert to valid format data array with attributes
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    static function formatDataRange(array $attributes)
+    {
+        $attributesFormat = array();
+
+        foreach ($attributes as $value) {
+            $attributesFormat[$value["ATTRIBUT_ID"]][] = Format_ConvertDataElasticSelection::getInt($value["NAME"]);
+        }
+
+        return self::getAttributesLine(Format_ConvertDataElasticSelection::getMaxMinValue($attributesFormat));
+    }
+
+    /**
+     * Get attributes line
+     *
+     * @param array $attributesMinMax
+     * @return array
+     */
+    static private function getAttributesLine(array $attributesMinMax)
+    {
+        if (empty($attributesMinMax)) return $attributesMinMax;
+
+        foreach ($attributesMinMax as $key => $value) {
+            $attributesMinMax[$key]["left_side"] = round($value["min"] * 100 / 130);
+            $attributesMinMax[$key]["right_side"] = round($value["max"] * 110 / 100);
+        }
+
+        return $attributesMinMax;
+    }
+
+    /**
+     * Get integer
+     *
+     * @param string $value
+     * @return integer
+     */
+    private static function getInt($value)
+    {
+        preg_match_all("/(\d+)|(\d+\.\d+)(?=\s[A-Za-zA-Яа-я]+)/", $value, $match);
+
+        return array_shift($match[0]);
+    }
+
+    /**
+     * Get max min value
+     *
+     * @param array $attributes
+     * @return array
+     */
+    private static function getMaxMinValue(array $attributes)
+    {
+        $attributesMinMax = array();
+        foreach ($attributes as $key => $value) {
+            sort($attributes[$key]);
+            $attributesMinMax[$key]["min"] = array_shift($attributes[$key]);
+            $attributesMinMax[$key]["max"] = array_pop($attributes[$key]);
+        }
+
+        return $attributesMinMax;
+    }
 }

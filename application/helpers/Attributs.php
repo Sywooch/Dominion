@@ -88,10 +88,14 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
         $min_key = null;
         $max_key = null;
         $result_attr = array();
-
+        $unitName = null;
         foreach ($attr as $key => $val) {
             if (preg_match('/\d{1,}/', $val['val'], $out)) {
-                $_val = (double) $val['val'];
+                if (empty($unitName)) {
+                    preg_match_all("/^(?:\d+\s)([A-ZА-Яа-яa-z]+)/", $val["val"], $resultUnit);
+                    $unitName = $resultUnit[1][0];
+                }
+                $_val = (double)$val['val'];
                 if ($_val > $max_val) {
                     $max_val = $_val;
                     $max_key = $key;
@@ -128,11 +132,14 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 }
 
                 $this->domXml->create_element('attr_value', '', 2);
-                $this->domXml->set_attribute(array('id' => $val['id']
-                , 'parent_id' => $attribut_id
-                , 'selected' => $selected
-                , 'is_disabled' => $is_disabled
-                ));
+                $this->domXml->set_attribute(array(
+                        'id' => $val['id']
+                    , 'parent_id' => $attribut_id
+                    , 'selected' => $selected
+                    , 'is_disabled' => $is_disabled
+                    , "unit_name" => $unitName
+                    )
+                );
 
                 $this->domXml->create_element('name', $val['val']);
                 $this->domXml->go_to_parent();

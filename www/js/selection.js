@@ -41,7 +41,6 @@ selection.prototype.doUrl = function () {
 
     if ($('input[id*="attr_range_view_url_"]').length > 0) {
         $('input[id*="attr_range_view_url_"]').each(function (index) {
-//      attr_value_count++;
             var val = $(this).val();
             action_attr += val;
 

@@ -468,6 +468,23 @@ class AjaxController extends Zend_Controller_Action
         );
     }
 
+    /**
+     * Get attributes is range status in db
+     *
+     * @return json
+     */
+    public function getattrisrangeviewAction()
+    {
+        $catalogId = $this->getRequest()->getParam("catalogue_id");
+
+        $attributesModel = new models_Attributs();
+
+        $attributes = $attributesModel->getAttributesIsRangeView($catalogId);
+        $formatAttributes = Format_ConvertDataElasticSelection::formatDataRange($attributes);
+
+        return $this->_helper->json($formatAttributes);
+    }
+
     public function goAction()
     {
         $request = $this->getRequest();
@@ -534,6 +551,7 @@ class AjaxController extends Zend_Controller_Action
 
         echo $_url;
     }
+
 
     private function sendMenegerComment($itm, $data)
     {
