@@ -12,9 +12,24 @@ function selection() {
     this.action_attr = '';
     this.attr_brand_count = 0;
     this.attr_value_count = 0;
+    this.attribute_range = {};
 
     this.price_min = $('#price_input_min').val();
     this.price_max = $('#price_input_max').val();
+
+    var tempRange = {};
+    $("div.attr_range_view").each(function (index) {
+        var min = $(this).parent().find("input[type=text][id^=input_min]");
+        var max = $(this).parent().find("input[type=text][id^=input_max]");
+
+        if(!min.val().length && !max.val().length) return;
+
+        var id = $(this).parent().find("input[type=text][id^=input_min]").attr("xid");
+
+        tempRange[id] = {min: min.val(), max: max.val()};
+    });
+
+    this.attribute_range = tempRange;
 }
 
 selection.prototype.doUrl = function () {
@@ -85,7 +100,7 @@ selection.prototype.doUrl = function () {
 
 
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
-    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max}, function (data) {
+    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
         if (data == null) {
             $('input[rel=attr_brand_id]').removeAttr("disabled");
             $('input[rel=attr_brand_id]').parent().removeClass('noactive');
