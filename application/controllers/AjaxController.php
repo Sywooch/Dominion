@@ -355,6 +355,14 @@ class AjaxController extends Zend_Controller_Action
         }
     }
 
+    public function getcalculatorAction(){
+        $Article = new models_Article();
+
+
+        $this->domXml = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE xsl:stylesheet SYSTEM "symbols.ent"><page/>';
+
+    }
+
     public function popupAction()
     {
         $Article = new models_Article();

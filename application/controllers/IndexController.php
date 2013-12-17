@@ -52,5 +52,3 @@ class IndexController extends App_Controller_Frontend_Action
         $this->domXml = $bn_helper->getDomXml();
     }
 }
-
-?>
