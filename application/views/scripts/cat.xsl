@@ -68,7 +68,7 @@
                 <xsl:value-of select="name"/>
             </a>
         </h3>
-        <div class="fieldgroup" xid="{@id}" style="display:block;">
+        <div class="fieldgroup" xid="{@id}">
             <xsl:if test="count(//attr_range_mm[@id = $atid]) &gt; 0">
                 <xsl:attribute name="style">display: block;</xsl:attribute>
             </xsl:if>
