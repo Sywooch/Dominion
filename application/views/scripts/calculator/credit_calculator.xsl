@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xsl:stylesheet SYSTEM "../symbols.ent">
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:import href="../_base.xsl"/>
+    <!--<xsl:output encoding="UTF-8" indent="yes" omit-xml-declaration="yes" method="xml"/>-->
     <xsl:template match="credit_calculator[@bank = 'renesans']">
-
         <link href="/css/renesans.css" rel="stylesheet" type="text/css"/>
         <script src="/js/renesans.js" type="text/javascript"/>
 
-        <!--Base-->
         <div class="calculator">
+            <div class="agree">
+                <div>
+                    <input type="checkbox" name="checkme" id="agree"/>
+                    <p>Разрешаю использование своих данных в
+                        <a href="assignment.pdf" target="_blank" class="marketing">маркетинговых целях.</a>
+                    </p>
+                </div>
+            </div>
             <h1>Кредитный калькулятор</h1>
             <a href="#">
                 <img src="logo.jpg" width="215" height="30" alt=""/>
             </a>
-            <div style="clear: both "/>
-            <form action="/ajax/send/bank/renesans/" class="form1" id="form1">
+            <div style="clear: both "></div>
+            <form action="#" class="form1" id="form1">
                 <div class="column">
                     <label>Цена товара:</label>
-                    <input type="text" name="price" id="price" size="28" maxlength="256" value=""
-                           onChange="return Pay();"/>
+                    <input type="text" name="price" id="price" size="28" maxlength="256" value="{@price}" readonly="readonly"/>
                 </div>
                 <div class="column w175">
                     <label>Срок кредита:</label>
@@ -34,44 +41,48 @@
                 </div>
                 <div class="column w90">
                     <label>Вид кредита:</label>
-                    <label class="italic" id="type">Легкий</label>
+                    <label class="italic" id="type">Доступный</label>
                 </div>
-                <div style="clear: both; border-bottom:1px solid #cccccc"/>
+                <div style="clear: both; border-bottom:1px solid #cccccc"></div>
                 <div class="column">
                     <label class="f12">% ставка:</label>
-                    <label class="italic" id="rate"/>
+                    <label class="italic" id="rate"></label>
                 </div>
                 <div class="column w175">
                     <label class="f12">Ежемесячная комиссия:</label>
-                    <label class="italic" id="fee"/>
+                    <label class="italic" id="fee"></label>
                 </div>
                 <div class="column w90">
                     <label class="f12">Страховка:</label>
-                    <label class="italic" id="belay"/>
+                    <label class="italic" id="belay"></label>
                 </div>
-                <div style="clear: both; border-bottom:1px solid #cccccc"/>
+                <div style="clear: both; border-bottom:1px solid #cccccc"></div>
                 <div>
                     <h4>Ваш ежемесячный платеж:</h4>
-                    <label class="price" id="pay"/>
+                    <label class="price" id="pay"></label>
                     <span id="cash" style="display:none;">грн/месяц</span>
                     <input type="button" class="button" name="application" size="28" maxlength="256"
                            value="Подать заявку" onClick="return SendForm();"/>
                 </div>
             </form>
+
             <script type="text/javascript">
                 Pay();
             </script>
-            <div style="clear: both;"/>
+
+            <div style="clear: both;"></div>
             <div class="info">
                 <p>Расчеты калькулятора являются справочными.</p>
                 <p>Точная сумма может незначительно отличатся от рассчитанной на сайте.</p>
+                <p>АТ "БАНК РЕНЕСАНС КАПІТАЛ" Ліцензія НБУ №222 від 17.10.2011.</p>
             </div>
             <form action="#" class="form2" style="display:none;" id="sendForm">
                 <label>ФИО:</label>
                 <input type="text" name="name" size="28" maxlength="256" value="" id="name"/>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
                 <label>Дата рождения:</label>
-                <select name="year" style="width:85px;" id="year"/>
+                <select name="year" style="width:85px;" id="year"></select>
+
                 <select name="month" style="width:110px;" id="month">
                     <option value="01">Январь</option>
                     <option value="02">Февраль</option>
@@ -119,23 +130,24 @@
                     <option>30</option>
                     <option>31</option>
                 </select>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
                 <label>Идентификационный код:</label>
                 <input type="text" name="code" size="28" maxlength="256" value="" id="inn"/>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
                 <label>Адрес:</label>
                 <input type="text" name="address" size="28" maxlength="256" value="" id="address"/>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
                 <label>Номер телефона:</label>
                 <input type="text" name="phone" size="28" maxlength="256" value="" id="phone"/>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
                 <label>Электронная почта:</label>
                 <input type="text" name="email" size="28" maxlength="256" value="" id="email"/>
-                <div style="clear: both;"/>
-                <input type="submit" value="Отправить заявку" name="but" class="button"
+                <div style="clear: both;"></div>
+                <input type="submit" value="Отправить заявку" name="but" id="goButton" class="button"
                        onClick="return SendMail(this.form)"/>
-                <div style="clear: both;"/>
+                <div style="clear: both;"></div>
             </form>
         </div>
+
     </xsl:template>
 </xsl:stylesheet>

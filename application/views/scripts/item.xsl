@@ -488,7 +488,7 @@ $().ready(function() {
 			</xsl:choose>
 			<xsl:if test="@price &gt; 0 and @active=1">
 				<xsl:if test="credit_description!=''">
-				  <a class="popup pseudo orange" href="/ajax/popup/mode/credit/id/{@credit_id}/"><span>Купить в кредит</span></a>
+				  <a class="popup pseudo orange" href="/calculator/get/item_id/{@item_id}/"><span>Купить в кредит</span></a>
 				  </xsl:if>
 			</xsl:if>
 		</div>
