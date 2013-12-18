@@ -151,7 +151,7 @@ class Format_ConvertDataElasticSelection
      *
      * @return array
      */
-    static function formatDataRange(array $attributes)
+    static public function formatDataRange(array $attributes)
     {
         $attributesFormat = array();
 
@@ -161,6 +161,25 @@ class Format_ConvertDataElasticSelection
 
         return self::getAttributesLine(Format_ConvertDataElasticSelection::getMaxMinValue($attributesFormat));
     }
+
+    /**
+     * Format attributes range
+     *
+     * @param array $attributesRange
+     *
+     * @return array
+     */
+    static public function formatAttributesRange(array $attributesRange)
+    {
+        $attributesFormat = array();
+
+        foreach ($attributesRange as $key => $value) {
+            $attributesFormat["ATTRIBUTES." . $key . ".VALUE"] = $value;
+        }
+
+        return $attributesFormat;
+    }
+
 
     /**
      * Get attributes line

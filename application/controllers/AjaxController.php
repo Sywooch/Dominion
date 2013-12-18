@@ -442,6 +442,12 @@ class AjaxController extends Zend_Controller_Action
             $objectValueSelection->setDataSlider("ATTRIBUTES.price", $minPrice, $maxPrice);
         }
 
+        if (!empty($params["attribute_range"])) {
+            $objectValueSelection->setAllDataSlider(
+                Format_ConvertDataElasticSelection::formatAttributesRange($params["attribute_range"])
+            );
+        }
+
         if (!empty($params['br']) || !empty($params['at'])) {
             $resultAttributes = Format_ConvertDataElasticSelection::getArrayAttributes(
                 $params['at'] . $params['br']

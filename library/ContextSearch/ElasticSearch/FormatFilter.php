@@ -81,7 +81,7 @@ class ContextSearch_ElasticSearch_FormatFilter implements ContextSearch_ElasticS
      */
     public function addFilterRange($column, $minValue, $maxValue, $bool = self::BOOL_AND)
     {
-        $this->filter[$bool][$this->checkPosition("range")] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
+        $this->filter[$bool][$this->checkPosition("range" . $column)] = array("range" => array($column => array("gt" => $minValue, "lt" => $maxValue)));
     }
 
     /**

@@ -51,6 +51,16 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
     }
 
     /**
+     * Set all data slider
+     *
+     * @param array $dataRange
+     */
+    public function setAllDataSlider(array $dataRange)
+    {
+        $this->dataSlider += $dataRange;
+    }
+
+    /**
      * Set data attributes unique
      *
      * @param array $attributesUnique

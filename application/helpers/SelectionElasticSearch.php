@@ -83,6 +83,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      * @param array $dataAttributes
      * @param ContextSearch_ElasticSearch_FormatFilter $filterFormat
      * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
+     *
      * @return ContextSearch_ElasticSearch_FormatFilter
      */
     private function formatDataSelect(array $dataAttributes, ContextSearch_ElasticSearch_FormatFilter $filterFormat, Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
