@@ -92,7 +92,7 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
         foreach ($attr as $key => $val) {
             if (preg_match('/\d{1,}/', $val['val'], $out)) {
                 if (empty($unitName)) {
-                    preg_match_all("/^(?:\d+\s)([A-ZА-Яа-яa-z]+)/", $val["val"], $resultUnit);
+                    preg_match_all("/(?:\d+\s)(.+)?/", $val["val"], $resultUnit);
                     $unitName = $resultUnit[1][0];
                 }
                 $_val = (double)$val['val'];
