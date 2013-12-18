@@ -488,7 +488,7 @@ $().ready(function() {
 			</xsl:choose>
 			<xsl:if test="@price &gt; 0 and @active=1">
 				<xsl:if test="credit_description!=''">
-				  <a class="popup pseudo orange" href="/calculator/get/item_id/{@item_id}/"><span>Купить в кредит</span></a>
+				  <a class="popup pseudo orange" href="/calculator/get/item_id/{@item_id}/" width="528px" offset="250"><span>Купить в кредит</span></a>
 				  </xsl:if>
 			</xsl:if>
 		</div>
@@ -496,7 +496,7 @@ $().ready(function() {
 			<xsl:if test="warranty_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="product_block_icon warranty popup">Гарантия</a>
-					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="pseudo popup"><span>Гарантия</span></a>
+					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="pseudo popup" width="370px" offset="200"><span>Гарантия</span></a>
 					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="warranty_description"/>
@@ -506,7 +506,7 @@ $().ready(function() {
 			<xsl:if test="delivery_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="product_block_icon delivery popup">Доставка</a>
-					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="pseudo popup"><span>Доставка</span></a>
+					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="pseudo popup" width="370px" offset="200"><span>Доставка</span></a>
 					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="delivery_description"/>
@@ -516,7 +516,7 @@ $().ready(function() {
 			<xsl:if test="credit_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="product_block_icon credit popup">Кредит</a>
-					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup"><span>Кредит</span></a>
+					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup" width="370px"><span>Кредит</span></a>
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="credit_description"/>

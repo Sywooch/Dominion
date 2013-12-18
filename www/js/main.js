@@ -370,7 +370,7 @@ $(document).ready(function () {
             }
         },
         messages: {
-            forgot_email: "Поле E-mail пустое",
+            forgot_email: "Поле E-mail пустое"
         },
         onkeyup: false
     });
@@ -419,15 +419,18 @@ $(document).ready(function () {
             //selector = $(this).parent();
 
             var clickElement = $(this);
+            var positionElement = $(this).parent().find(".pseudo");
 
             ajaxlink = $(this).attr("href");
             $.get(ajaxlink, function (data) {
-                $("body").append('<div class="warranty_popup"><div class="dialog_box warranty"><a href="#" class="close_icon">Close</a><div class="dialog_content"></div></div></div>');
+                $("body").append(
+                    '<div class="warranty_popup"><div class="dialog_box warranty"><a href="#" class="close_icon">Закрыть</a><div class="dialog_content"/></div></div>'
+                );
                 $(".warranty_popup .dialog_box").css({
-                    left: clickElement.offset().left - 202,
-                    top: clickElement.offset().top + clickElement.height(),
+                    left: positionElement.offset().left - positionElement.attr("offset"),
+                    top: positionElement.offset().top + positionElement.height()+ 3,
                     'background-position': '65% 0',
-                    width: '370px'
+                    width: positionElement.attr("width")
                 });
                 $(".warranty_popup .dialog_box .dialog_content").html(data);
                 $(".warranty_popup .dialog_box").show();
