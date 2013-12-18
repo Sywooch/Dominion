@@ -36,8 +36,7 @@ $(document).ready(function () {
         ).done(function (data) {
                 $('div.fieldgroup[xid]').each(function (index) {
                     var xid = $(this).attr('xid');
-                    var slide_name = $(this);
-                    $(".attr_range_view", slide_name).slider({
+                    $(".attr_range_view", $(this)).slider({
                         range: true,
                         min: data[xid]["left_side"],
                         max: data[xid]["right_side"],
@@ -48,8 +47,6 @@ $(document).ready(function () {
                             $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
                         },
                         stop: function (event, ui) {
-                            var xid = $(this).attr('xid');
-
                             rn_sel = new selection();
                             rn_sel.doUrl();
                             rn_sel.getRequest(event, 0);

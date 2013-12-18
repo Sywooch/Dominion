@@ -106,7 +106,6 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
             $('input[rel=attr_brand_id]').parent().removeClass('noactive');
             $('input[rel=attr_value]').parent().removeClass("noactive");
             $('input[rel=attr_value]').removeAttr('disabled');
-
         }
 
         if (data.brands_count > 0) {
