@@ -15,17 +15,16 @@ class CalculatorController extends App_Controller_Frontend_Action
         /** @var DomXML domXml */
         $this->domXml = $this->view->serializer;
 
-        $this->domXml->create_element('page',"",1);
+        $this->domXml->create_element('page', "", 1);
         $this->domXml->set_tag('//page', true);
 
-//        $this->currency = 1;
+        $this->currency = 1;
 
 //        $this->getHelpers();
 //        $this->getAuthSession();
 //        $this->getCart();
 
         $this->template = "calculator/credit_calculator.xsl";
-        $Item = new models_Item();
 //        $Catalogue = new models_Catalogue();
 //
 //        $this->item_id = $this->_getParam('id');
@@ -45,16 +44,36 @@ class CalculatorController extends App_Controller_Frontend_Action
 
     public function getAction()
     {
-//        $Article = new models_Article();
+
+        $itemModel = new models_Item();
+
+        $item = $itemModel->getItemInfo($this->_getParam('item_id'));
+
+        $PriceObjectValue = new Format_PricesObjectValue();
+
+        $PriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
+        $PriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
+
+        /**@var Helpers_Prices_Recount $recount */
+        $recount = $PriceObjectValue->getRecount();
+        $recount->setItemModel($itemModel);
+        $recount->setCurrency($this->currency);
+
+        $recountItem = $recount->calcRecount($item);
+
+        $nameStrategyRound = "StrategyCurrencyRound_" . $recount->getNameRoundStrategy();
+        $strategyRound = new $nameStrategyRound();
+        $roundItem = $strategyRound->roundCurrency($recountItem, $recountItem['NEW_PRICE'], $recountItem['OLD_PRICE']);
+
+        $item = $PriceObjectValue->getDiscount()->calcDiscount($roundItem);
+
+        $this->domXml->create_element('credit_calculator', '', 1, array('bank' => 'renesans', 'price' => $item['DISCOUNT_PRICE']));
 
 
-        $itemId = $this->_getParam('item_id');
-        $priceItem = $this->_getParam('item_id');
+    }
 
-        $Item = new models_Item();
-        $this->domXml->create_element('credit_calculator','',1, array('bank' => 'renesans', 'price' => 23424));
-
-
+    public function sendAction()
+    {
 
     }
 }

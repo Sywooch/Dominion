@@ -43,7 +43,7 @@
                     <label>Вид кредита:</label>
                     <label class="italic" id="type">Доступный</label>
                 </div>
-                <div style="clear: both; border-bottom:1px solid #cccccc"></div>
+                <div style="clear: both; border-bottom:1px solid #cccccc; margin:0"></div>
                 <div class="column">
                     <label class="f12">% ставка:</label>
                     <label class="italic" id="rate"></label>
@@ -56,7 +56,7 @@
                     <label class="f12">Страховка:</label>
                     <label class="italic" id="belay"></label>
                 </div>
-                <div style="clear: both; border-bottom:1px solid #cccccc"></div>
+                <div style="clear: both; border-bottom:1px solid #cccccc; margin:0"></div>
                 <div>
                     <h4>Ваш ежемесячный платеж:</h4>
                     <label class="price" id="pay"></label>

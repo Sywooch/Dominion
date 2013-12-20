@@ -48,6 +48,7 @@ div.calculator div.column {
     width: 190px;
     float: left;
     margin-top: 7px;
+    margin-bottom: 0;
 }
 
 div.calculator div.w90 {
@@ -62,6 +63,7 @@ div.calculator div.w175 {
 div.calculator div.column label {
     font-size: 13px;
     font-weight: 600;
+    float: none;
 }
 
 div.calculator div.column input,
@@ -71,9 +73,10 @@ div.calculator div.column select {
     margin: 10px 0;
     font-size: 13px;
     float: none;
+    border: 1px inset;
 }
 
-div.column label.italic {
+div.calculator div.column label.italic {
     font-weight: 500;
     font-size: 12px;
     font-style: italic;
@@ -82,7 +85,7 @@ div.column label.italic {
     margin-bottom: 10px;
 }
 
-label.price,
+div.calculator label.price,
 div.calculator span {
     font-size: 16px;
     color: #cc0066;
@@ -99,8 +102,8 @@ div.calculator span {
     margin-top: 14px;
 }
 
-form.form1 input.button,
-form.form2 input.button {
+div.calculator form.form1 input.button,
+div.calculator form.form2 input.button {
     width: 130px;
     height: 20px;
     background: #398a13;
@@ -114,12 +117,14 @@ form.form2 input.button {
     cursor: pointer;
 }
 
-form.form2 input.button {
+div.calculator form.form2 input.button {
     background: #df0771;
+    font-weight: normal;
+    border-radius: 0;
 }
 
-form.form1 input.button:hover,
-form.form2 input.button:hover {
+div.calculator form.form1 input.button:hover,
+div.calculator form.form2 input.button:hover {
     text-decoration: none;
 }
 
@@ -131,7 +136,7 @@ div.calculator div.info {
     padding-top: 5px;
 }
 
-div.calculator.form.form2 input {
+div.calculator form.form2 input {
     width: 273px;
     font-size: 13px;
     padding: 0px;
@@ -140,7 +145,7 @@ div.calculator.form.form2 input {
     float: right;
 }
 
-form.form2 select {
+div.calculator form.form2 select {
     font-size: 13px;
     padding: 0 10px;
     margin-left: 9px;
@@ -150,13 +155,18 @@ form.form2 select {
     float: right;
 }
 
-form.form2 label {
+div.calculator form.form2 div{
+    margin-bottom: 0;
+}
+
+
+div.calculator form.form2 label {
     display: block;
     width: 185px;
     text-align: right;
     float: left;
     margin-top: 11px;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -168,11 +178,11 @@ body.ie7 form.form2 input {
     margin-top: 0;
 }
 
-.f12 {
+div.calculator .f12 {
     font-size: 12px !important;
 }
 
-.agree {
+div.calculator .agree {
     padding: 5px 5px 5px 25px;
     background-color: #8CC53E;
     color: #fff;
@@ -180,24 +190,25 @@ body.ie7 form.form2 input {
     margin: 0 0 10px 0;
 }
 
-.agree p {
+div.calculator .agree p {
     color: #fff;
     font-size: 12px;
 }
 
-.agree input {
+div.calculator .agree input {
     position: absolute;
     left: 2px;
     top: 3px;
+    margin: 3px;
 }
 
-.marketing {
+div.calculator .marketing {
     color: #fff;
     padding: 0 13px 0 0;
-    background: url("/renesans/link-icon.jpg") right center no-repeat;
+    background: url("link-icon.jpg") right center no-repeat;
 }
 
-.opacity {
+div.calculator .opacity {
     opacity: 0.5;
     text-decoration: none !important;
 }

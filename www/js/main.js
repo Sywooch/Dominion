@@ -445,7 +445,6 @@ $(document).ready(function () {
             'transitionOut': 'elastic'
         });
     }
-    ;
 
     $('#content_cart a.product_button').click(function (ev) {
         ev.preventDefault();
