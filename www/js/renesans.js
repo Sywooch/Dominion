@@ -32,7 +32,7 @@ function SendMail(f) {
     f.but.disabled = true;
 
     $.ajax({
-        url: 'submit.php',
+        url: '/calculator/send/',
         type: "POST",
         data: ({
             price: price,

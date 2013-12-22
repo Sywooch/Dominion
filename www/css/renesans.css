@@ -130,10 +130,8 @@ div.calculator form.form2 input.button:hover {
 
 div.calculator div.info {
     width: 470px;
-    height: 30px;
     background: #e3e3e3;
     padding-left: 10px;
-    padding-top: 5px;
 }
 
 div.calculator form.form2 input {

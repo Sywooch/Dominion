@@ -4,6 +4,7 @@ class CalculatorController extends App_Controller_Frontend_Action
 
     private $item_id;
 
+    private $itemHelper;
 
     function init()
     {
@@ -16,7 +17,7 @@ class CalculatorController extends App_Controller_Frontend_Action
         $this->domXml = $this->view->serializer;
 
         $this->domXml->create_element('page', "", 1);
-        $this->domXml->set_tag('//page', true);
+        $this->domXml->set_tag('//page', TRUE);
 
         $this->currency = 1;
 
@@ -25,55 +26,36 @@ class CalculatorController extends App_Controller_Frontend_Action
 //        $this->getCart();
 
         $this->template = "calculator/credit_calculator.xsl";
-//        $Catalogue = new models_Catalogue();
-//
-//        $this->item_id = $this->_getParam('id');
-//        $catalogue_id = $Item->getItemCatalog($this->item_id);
-//        $parent_active = $Catalogue->getatalogActive($catalogue_id);
-//        if ($this->item_id == 0 || !$parent_active) {
-//            $this->page_404();
-//        }
-//
-//        $res = '';
-//        if (!empty($this->item_id)) $res = $Item->getItemInfo($this->item_id);
-//
-//        if ($this->item_id === false || ($this->item_id > 0 && empty($res))) {
-//            $this->page_404();
-//        }
+
+        /** @var Helpers_Prices_Item $itemHelper */
+        $this->itemHelper = $this->_helper->helperLoader("Prices_Item");
+
+        $this->itemHelper->setModel(new models_Item());
+
     }
 
     public function getAction()
     {
 
-        $itemModel = new models_Item();
+        $itemId = $this->_getParam('item_id');
 
-        $item = $itemModel->getItemInfo($this->_getParam('item_id'));
-
-        $PriceObjectValue = new Format_PricesObjectValue();
-
-        $PriceObjectValue->setRecount($this->_helper->helperLoader("Prices_Recount"));
-        $PriceObjectValue->setDiscount($this->_helper->helperLoader("Prices_Discount"));
-
-        /**@var Helpers_Prices_Recount $recount */
-        $recount = $PriceObjectValue->getRecount();
-        $recount->setItemModel($itemModel);
-        $recount->setCurrency($this->currency);
-
-        $recountItem = $recount->calcRecount($item);
-
-        $nameStrategyRound = "StrategyCurrencyRound_" . $recount->getNameRoundStrategy();
-        $strategyRound = new $nameStrategyRound();
-        $roundItem = $strategyRound->roundCurrency($recountItem, $recountItem['NEW_PRICE'], $recountItem['OLD_PRICE']);
-
-        $item = $PriceObjectValue->getDiscount()->calcDiscount($roundItem);
-
-        $this->domXml->create_element('credit_calculator', '', 1, array('bank' => 'renesans', 'price' => $item['DISCOUNT_PRICE']));
-
+        $itemPrice = $this->itemHelper->getItemPrice($itemId, $this->currency);
+        $itemPrice = $this->itemHelper->getCreditPrice($itemPrice);
+        $this->domXml->create_element('credit_calculator', '', 1, array(
+            'bank' => 'renesans',
+            'price' => $itemPrice,
+            'item_id' => $itemId
+        ));
 
     }
 
     public function sendAction()
     {
+
+        $itemId = $this->_getParam('item_id');
+
+        $itemPrice = $this->itemHelper->getItemPrice($this->_getParam('item_id'), $this->currency);
+        $itemPrice = $this->itemHelper->getCreditPrice($itemPrice);
 
     }
 }

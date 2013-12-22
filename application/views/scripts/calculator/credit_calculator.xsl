@@ -12,16 +12,16 @@
                 <div>
                     <input type="checkbox" name="checkme" id="agree"/>
                     <p>Разрешаю использование своих данных в
-                        <a href="assignment.pdf" target="_blank" class="marketing">маркетинговых целях.</a>
+                        <a href="/images/article/assignment.pdf" target="_blank" class="marketing">маркетинговых целях.</a>
                     </p>
                 </div>
             </div>
             <h1>Кредитный калькулятор</h1>
             <a href="#">
-                <img src="logo.jpg" width="215" height="30" alt=""/>
+                <img src="/images/renesans_logo.jpg" width="215" height="30" alt=""/>
             </a>
             <div style="clear: both "></div>
-            <form action="#" class="form1" id="form1">
+            <form action="#" class="form1" id="form1" method="post">
                 <div class="column">
                     <label>Цена товара:</label>
                     <input type="text" name="price" id="price" size="28" maxlength="256" value="{@price}" readonly="readonly"/>
@@ -77,6 +77,7 @@
                 <p>АТ "БАНК РЕНЕСАНС КАПІТАЛ" Ліцензія НБУ №222 від 17.10.2011.</p>
             </div>
             <form action="#" class="form2" style="display:none;" id="sendForm">
+                <input type="hidden" name="item_id" value="{@item_id}"/>
                 <label>ФИО:</label>
                 <input type="text" name="name" size="28" maxlength="256" value="" id="name"/>
                 <div style="clear: both;"></div>
