@@ -54,8 +54,54 @@ class CalculatorController extends App_Controller_Frontend_Action
 
         $itemId = $this->_getParam('item_id');
 
-        $itemPrice = $this->itemHelper->getItemPrice($this->_getParam('item_id'), $this->currency);
-        $itemPrice = $this->itemHelper->getCreditPrice($itemPrice);
+//        $itemPrice = $this->itemHelper->getItemPrice($this->_getParam('item_id'), $this->currency);
+        $itemPrice = $this->itemHelper->getCreditPrice($this->itemHelper->getItemPrice($itemId, $this->currency));
+
+
+        $creditCode = 'renesans';
+
+
+        $creditModel = new models_Credit();
+        $emailMessage = $creditModel->getEmailTemplate($creditCode);
+
+        foreach ($this->getAllParams() as $key => $value) {
+            $emailMessage = str_replace("##{$key}##", $value, $emailMessage);
+        }
+
+        $itemModel = new models_Item();
+
+        $item = $itemModel->getItemInfo($itemId);
+
+        $emailMessage = str_replace("##item_name##", "{$item['TYPENAME']} {$item['BRAND_NAME']} {$item['NAME']}", $emailMessage);
+        $emailMessage = str_replace("##url##", "{$item['CATALOGUE_REALCATNAME']}{$item['ITEM_ID']}-{$item['CATNAME']}/", $emailMessage);
+
+
+        $emailMessage = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
+            . $emailMessage . '</body></html>';
+
+        $email = $creditModel->getManagerEmail($creditCode);
+        $params['to'] = $email;
+        $params['message'] = $emailMessage;
+
+        $params['subject'] = "Новая заявка на кредит {$item['TYPENAME']} {$item['BRAND_NAME']} {$item['NAME']}";
+
+        $email_from = $this->getSettingValue('email_from');
+        $patrern = '/(.*)<?([a-zA-Z0-9\-\_]+\@[a-zA-Z0-9\-\_]+(\.[a-zA-Z0-9]+?)+?)>?/U';
+        preg_match_all($patrern, $email_from, $arr);
+
+        $params['mailerFrom'] = empty($arr[2][0]) ? '' : trim($arr[2][0]);
+        $params['mailerFromName'] = empty($arr[1][0]) ? '' : trim($arr[1][0]);
+
+        App_Mail::send($params);
+
+
+        // Send managers emails
+
+        $managersEmails = explode(';', $this->getSettingValue('manager_emails'));
+
+//        foreach ($manager_emails as $mm) {
+//
+//        }
 
     }
 }

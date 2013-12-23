@@ -515,7 +515,7 @@ class models_Item extends ZendDBEntity
 
     public function getCartItemName($id)
     {
-        $sql = "SELECT concat(B.NAME,' ',I.NAME)
+        $sql = "SELECT concat(I.TYPENAME, ' ',B.NAME,' ',I.NAME)
           FROM ITEM I
           LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
           WHERE I.ITEM_ID=?";

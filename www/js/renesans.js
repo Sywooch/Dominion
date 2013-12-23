@@ -37,6 +37,7 @@ function SendMail(f) {
         data: ({
             price: price,
             term: term,
+            item_id: f.item_id.value,
             name: f.name.value,
             code: f.code.value,
             address: f.address.value,

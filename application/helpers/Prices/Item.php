@@ -5,7 +5,7 @@ class Helpers_Prices_Item extends App_Controller_Helper_HelperAbstract
 
 
     public function getCreditPrice($itemPrice){
-        return $itemPrice * 1.2;
+        return round($itemPrice * 1.02);
     }
 
     public function getItemPrice($itemId, $currencyId)

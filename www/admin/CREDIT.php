@@ -66,7 +66,11 @@ $_REQUEST['id']=$cmf->GetSequence('CREDIT');
 
 
 
-$cmf->execute('insert into CREDIT (CREDIT_ID,NAME,DESCRIPTION,LONG_TEXT) values (?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['LONG_TEXT']));
+
+
+
+
+$cmf->execute('insert into CREDIT (CREDIT_ID,NAME,CODE,DESCRIPTION,LONG_TEXT,COEF,EMAIL,EMAIL_TEMPLATE) values (?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CODE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['LONG_TEXT']),stripslashes($_REQUEST['COEF']),stripslashes($_REQUEST['EMAIL']),stripslashes($_REQUEST['EMAIL_TEMPLATE']));
 
 
 $_REQUEST['e']='ED';
@@ -81,15 +85,19 @@ if($_REQUEST['e'] == 'Изменить')
 
 
 
-$cmf->execute('update CREDIT set NAME=?,DESCRIPTION=?,LONG_TEXT=? where CREDIT_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['LONG_TEXT']),$_REQUEST['id']);
+
+
+
+
+$cmf->execute('update CREDIT set NAME=?,CODE=?,DESCRIPTION=?,LONG_TEXT=?,COEF=?,EMAIL=?,EMAIL_TEMPLATE=? where CREDIT_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CODE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['LONG_TEXT']),stripslashes($_REQUEST['COEF']),stripslashes($_REQUEST['EMAIL']),stripslashes($_REQUEST['EMAIL_TEMPLATE']),$_REQUEST['id']);
 $_REQUEST['e']='ED';
 
 };
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_CREDIT_ID,$V_NAME,$V_DESCRIPTION,$V_LONG_TEXT)=
-$cmf->selectrow_arrayQ('select CREDIT_ID,NAME,DESCRIPTION,LONG_TEXT from CREDIT where CREDIT_ID=?',$_REQUEST['id']);
+list($V_CREDIT_ID,$V_NAME,$V_CODE,$V_DESCRIPTION,$V_LONG_TEXT,$V_COEF,$V_EMAIL,$V_EMAIL_TEMPLATE)=
+$cmf->selectrow_arrayQ('select CREDIT_ID,NAME,CODE,DESCRIPTION,LONG_TEXT,COEF,EMAIL,EMAIL_TEMPLATE from CREDIT where CREDIT_ID=?',$_REQUEST['id']);
 
 
 
@@ -97,8 +105,8 @@ $cmf->selectrow_arrayQ('select CREDIT_ID,NAME,DESCRIPTION,LONG_TEXT from CREDIT 
 <h2 class="h2">Редактирование - Кредит</h2>
 
 
-<table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 100%" class="f">
-<form method="POST" action="CREDIT.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(DESCRIPTION) &amp;&amp; checkXML(LONG_TEXT);">
+<table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 500px" class="f">
+<form method="POST" action="CREDIT.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(CODE) &amp;&amp; checkXML(DESCRIPTION) &amp;&amp; checkXML(LONG_TEXT) &amp;&amp; checkXML(COEF) &amp;&amp; checkXML(EMAIL) &amp;&amp; checkXML(EMAIL_TEMPLATE);">
 <input type="hidden" name="id" value="{$_REQUEST['id']}" />
 <input type="hidden" name="p" value="{$_REQUEST['p']}" />
 <input type="hidden" name="s" value="{$REQUEST['s']}" />
@@ -112,6 +120,10 @@ $cmf->selectrow_arrayQ('select CREDIT_ID,NAME,DESCRIPTION,LONG_TEXT from CREDIT 
 <tr bgcolor="#FFFFFF"><th width="1%"><b>Название:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
 <input type="text" name="NAME" value="$V_NAME" size="90" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Код банка:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="CODE" value="$V_CODE" size="90" /><br />
 
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Краткое описание:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
@@ -145,6 +157,35 @@ echo $V_LONG_TEXT;
 
 <script type="text/javascript">
   CKEDITOR.replace( 'LONG_TEXT', {
+      customConfig : 'ckeditor/light_config.js',
+      filebrowserBrowseUrl : 'ckeditor/ckfinder/ckfinder.html',
+      filebrowserImageBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Images',
+      filebrowserFlashBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Flash',
+      filebrowserUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Files',
+      filebrowserImageUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Images',
+      filebrowserFlashUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Flash'
+      });
+</script>
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Коэф. цены:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="COEF" value="$V_COEF" size="5" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Email менеджера банка:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="EMAIL" value="$V_EMAIL" size="90" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Шаблон письма:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<textarea id="EMAIL_TEMPLATE" name="EMAIL_TEMPLATE" rows="20" cols="90">
+EOF;
+$V_EMAIL_TEMPLATE = htmlspecialchars_decode($V_EMAIL_TEMPLATE);
+echo $V_EMAIL_TEMPLATE;
+@print <<<EOF
+</textarea>
+
+<script type="text/javascript">
+  CKEDITOR.replace( 'EMAIL_TEMPLATE', {
       customConfig : 'ckeditor/light_config.js',
       filebrowserBrowseUrl : 'ckeditor/ckfinder/ckfinder.html',
       filebrowserImageBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Images',
@@ -175,12 +216,12 @@ $visible=0;
 
 if($_REQUEST['e'] == 'Новый')
 {
-list($V_CREDIT_ID,$V_NAME,$V_DESCRIPTION,$V_LONG_TEXT)=array('','','','');
+list($V_CREDIT_ID,$V_NAME,$V_CODE,$V_DESCRIPTION,$V_LONG_TEXT,$V_COEF,$V_EMAIL,$V_EMAIL_TEMPLATE)=array('','','','','','','','');
 
 @print <<<EOF
 <h2 class="h2">Добавление - Кредит</h2>
-<table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 100%" class="f">
-<form method="POST" action="CREDIT.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(DESCRIPTION) &amp;&amp; checkXML(LONG_TEXT);">
+<table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" style="width: 500px" class="f">
+<form method="POST" action="CREDIT.php" ENCTYPE="multipart/form-data" onsubmit="return true  &amp;&amp; checkXML(NAME) &amp;&amp; checkXML(CODE) &amp;&amp; checkXML(DESCRIPTION) &amp;&amp; checkXML(LONG_TEXT) &amp;&amp; checkXML(COEF) &amp;&amp; checkXML(EMAIL) &amp;&amp; checkXML(EMAIL_TEMPLATE);">
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
 <input type="submit" name="e" value="Добавить" class="gbt badd" /> 
 <input type="submit" name="e" value="Отменить" class="gbt bcancel" />
@@ -189,6 +230,10 @@ list($V_CREDIT_ID,$V_NAME,$V_DESCRIPTION,$V_LONG_TEXT)=array('','','','');
 <tr bgcolor="#FFFFFF"><th width="1%"><b>Название:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
 <input type="text" name="NAME" value="$V_NAME" size="90" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Код банка:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="CODE" value="$V_CODE" size="90" /><br />
 
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Краткое описание:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
 
@@ -222,6 +267,35 @@ echo $V_LONG_TEXT;
 
 <script type="text/javascript">
   CKEDITOR.replace( 'LONG_TEXT', {
+      customConfig : 'ckeditor/light_config.js',
+      filebrowserBrowseUrl : 'ckeditor/ckfinder/ckfinder.html',
+      filebrowserImageBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Images',
+      filebrowserFlashBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Flash',
+      filebrowserUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Files',
+      filebrowserImageUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Images',
+      filebrowserFlashUploadUrl : 'ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Flash'
+      });
+</script>
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Коэф. цены:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="COEF" value="$V_COEF" size="5" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Email менеджера банка:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<input type="text" name="EMAIL" value="$V_EMAIL" size="90" /><br />
+
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Шаблон письма:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%">
+
+<textarea id="EMAIL_TEMPLATE" name="EMAIL_TEMPLATE" rows="20" cols="90">
+EOF;
+$V_EMAIL_TEMPLATE = htmlspecialchars_decode($V_EMAIL_TEMPLATE);
+echo $V_EMAIL_TEMPLATE;
+@print <<<EOF
+</textarea>
+
+<script type="text/javascript">
+  CKEDITOR.replace( 'EMAIL_TEMPLATE', {
       customConfig : 'ckeditor/light_config.js',
       filebrowserBrowseUrl : 'ckeditor/ckfinder/ckfinder.html',
       filebrowserImageBrowseUrl : 'ckeditor/ckfinder/ckfinder.html?Type=Images',
@@ -253,8 +327,8 @@ print '<h2 class="h2">Кредит</h2><form action="CREDIT.php" method="POST">'
 
 
 $_REQUEST['s']+=0;
-$SORTNAMES=array('N','Название');
-$SORTQUERY=array('order by A.CREDIT_ID ','order by A.CREDIT_ID desc ','order by A.NAME ','order by A.NAME desc ');
+$SORTNAMES=array('N','Название','Код банка','Коэф. цены','Email менеджера банка');
+$SORTQUERY=array('order by A.CREDIT_ID ','order by A.CREDIT_ID desc ','order by A.NAME ','order by A.NAME desc ','order by A.CODE ','order by A.CODE desc ','order by A.COEF ','order by A.COEF desc ','order by A.EMAIL ','order by A.EMAIL desc ');
 list ($HEADER,$i)=array('',0);
 
 foreach ($SORTNAMES as $tmp)
@@ -283,7 +357,7 @@ EOF;
 
 
 
-$sth=$cmf->execute('select A.CREDIT_ID,A.NAME from CREDIT A where 1'.' '.$SORTQUERY[$_REQUEST['s']]);
+$sth=$cmf->execute('select A.CREDIT_ID,A.NAME,A.CODE,A.COEF,A.EMAIL from CREDIT A where 1'.' '.$SORTQUERY[$_REQUEST['s']]);
 
 
 
@@ -291,7 +365,7 @@ $sth=$cmf->execute('select A.CREDIT_ID,A.NAME from CREDIT A where 1'.' '.$SORTQU
 
 @print <<<EOF
 <img src="img/hi.gif" width="1" height="3" /><table bgcolor="#CCCCCC" border="0" cellpadding="5" cellspacing="1" class="l">
-<tr bgcolor="#F0F0F0"><td colspan="4">
+<tr bgcolor="#F0F0F0"><td colspan="7">
 EOF;
 
 if ($cmf->W)
@@ -317,14 +391,14 @@ print <<<EOF
 EOF;
 
 if(is_resource($sth))
-while(list($V_CREDIT_ID,$V_NAME)=mysql_fetch_array($sth, MYSQL_NUM))
+while(list($V_CREDIT_ID,$V_NAME,$V_CODE,$V_COEF,$V_EMAIL)=mysql_fetch_array($sth, MYSQL_NUM))
 {
 
 
 print <<<EOF
 <tr bgcolor="#FFFFFF">
 <td><input type="checkbox" name="id[]" value="$V_CREDIT_ID" /></td>
-<td>$V_CREDIT_ID</td><td>$V_NAME</td><td nowrap="">
+<td>$V_CREDIT_ID</td><td>$V_NAME</td><td>$V_CODE</td><td>$V_COEF</td><td>$V_EMAIL</td><td nowrap="">
 
 EOF;
 
