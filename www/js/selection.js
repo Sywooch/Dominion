@@ -22,7 +22,7 @@ function selection() {
         var min = $(this).parent().find("input[type=text][id^=input_min]");
         var max = $(this).parent().find("input[type=text][id^=input_max]");
 
-        if(!min.val().length && !max.val().length) return;
+        if (!min.val().length && !max.val().length) return;
 
         var id = $(this).parent().find("input[type=text][id^=input_min]").attr("xid");
 
@@ -101,56 +101,46 @@ selection.prototype.doUrl = function () {
 
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
-        if (data.items_count > 0) {
-            $('.applay_filters').show();
-            podbor_popup('Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>', evnt);
-        }
-        else if (data.items_count == 0) {
-            $('.applay_filters').hide();
-            podbor_popup('Ничего не найдено', evnt);
-        }
+        podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
         if (data == null) {
             $('input[rel=attr_brand_id]').removeAttr("disabled");
             $('input[rel=attr_brand_id]').parent().removeClass('noactive');
             $('input[rel=attr_value]').parent().removeClass("noactive");
             $('input[rel=attr_value]').removeAttr('disabled');
-            }
+        }
 
-            if (data.brands_count > 0) {
-                $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
-                $('input[rel=attr_brand_id]').parent().addClass('noactive');
-                $.each(data.brands, function (key, value) {
-                    $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
-                    $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
+        if (data.brands_count > 0) {
+            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
+            $('input[rel=attr_brand_id]').parent().addClass('noactive');
+            $.each(data.brands, function (key, value) {
+                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
+                $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
+            });
+        }
+        else {
+            $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
+        }
+
+        if (data.attrib_count > 0) {
+            $.each(data.attrib, function (key, value) {
+                if (key == attr_gr_id)  return;
+
+                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
+
+                $.each(value, function (i, attr) {
+                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
+                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
                 });
-            }
-            else {
-                $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
-            }
-
-            if (data.attrib_count > 0) {
-                $.each(data.attrib, function (key, value) {
-                    if (key == attr_gr_id)  return;
-
-                    $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-
-                    $.each(value, function (i, attr) {
-                        $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-                        $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-                    });
-                });
-            }
-            else {
-                $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
-            }
-
-
-        });
+            });
+        }
+        else {
+            $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
+        }
+    });
 }
 
 
 function podbor_popup(popup_text, evnt) {
-    var winWidth = $("body").width();
     if ($('div.podbor_popup').length > 0) {
         $('div.podbor_popup').remove();
     }
@@ -185,7 +175,7 @@ function podbor_popup(popup_text, evnt) {
 
     $(".podbor_popup").prepend(popup_text);
     setTimeout(function () {
-        $(".podbor_popup").animate({"opacity": 0}, 200).remove;
+        $(".podbor_popup").animate({"opacity": 0}, 300).remove;
     }, TIME_OUT);
 }
 
