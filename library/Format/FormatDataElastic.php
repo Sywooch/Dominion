@@ -49,7 +49,7 @@ class Format_FormatDataElastic
         foreach ($attributes as $value) {
             $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value['VALUE'];
             $formatArray[$value['ATTRIBUT_ID']]['TYPE'] = $value['TYPE'];
-
+            $formatArray[$value['ATTRIBUT_ID']]['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
         }
         $formatArray['price'] = round($price, 1);
         $formatArray[$brandId] = $brandId;

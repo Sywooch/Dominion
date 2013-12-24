@@ -141,7 +141,8 @@ class models_ElasticSearch extends ZendDBEntity
         $sql = "SELECT
                 A.ATTRIBUT_ID,
                 AL.ATTRIBUT_LIST_ID AS `VALUE`,
-                A.TYPE
+                A.TYPE,
+                A.IS_RANGE_VIEW
               FROM  ITEM I
                 JOIN ITEM0 I1 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)
@@ -152,7 +153,8 @@ class models_ElasticSearch extends ZendDBEntity
             SELECT
                 A.ATTRIBUT_ID,
                 I0.VALUE,
-              A.TYPE
+              A.TYPE,
+              A.IS_RANGE_VIEW
               FROM ITEM I
                 JOIN ITEM0 I0 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)
@@ -161,7 +163,8 @@ class models_ElasticSearch extends ZendDBEntity
             SELECT
                 A.ATTRIBUT_ID,
                 I0.VALUE,
-                A.TYPE
+                A.TYPE,
+              A.IS_RANGE_VIEW
               FROM ITEM I
                 JOIN ITEM2 I0 USING (ITEM_ID)
                 JOIN ATTRIBUT A USING (ATTRIBUT_ID)

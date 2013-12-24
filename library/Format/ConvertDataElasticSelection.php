@@ -25,7 +25,6 @@ class Format_ConvertDataElasticSelection
     {
         preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
 
-
         $resultFormat[self::NAME_ATRIBUTES_UNIQUE] = array();
         $resultFormat[self::NAME_ATTRIBUTES_DOUBLE] = array();
         $resultFormat['brands'] = array();
@@ -128,7 +127,6 @@ class Format_ConvertDataElasticSelection
             unset($value['ATTRIBUTES']['price']);
 
             foreach ($value['ATTRIBUTES'] as $key => $val) {
-
                 if ($val["TYPE"] == self::TYPE_ATTRIBUTE_STRING) continue;
 
                 if ($key == $val) {
