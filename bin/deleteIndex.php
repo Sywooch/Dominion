@@ -4,7 +4,7 @@
 require_once "CreateEnvironment.php";
 
 $createEnvironment = new CreateEnvironment();
-$createEnvironment->setType("selection");
+$createEnvironment->setType("products");
 
 $createEnvironment->deleteIndex();
 

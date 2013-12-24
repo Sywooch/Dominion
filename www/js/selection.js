@@ -101,41 +101,6 @@ selection.prototype.doUrl = function () {
 
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
-        if (data == null) {
-            $('input[rel=attr_brand_id]').removeAttr("disabled");
-            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
-            $('input[rel=attr_value]').parent().removeClass("noactive");
-            $('input[rel=attr_value]').removeAttr('disabled');
-        }
-
-        if (data.brands_count > 0) {
-            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
-            $('input[rel=attr_brand_id]').parent().addClass('noactive');
-            $.each(data.brands, function (key, value) {
-                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
-                $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
-            });
-        }
-        else {
-            $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
-        }
-
-        if (data.attrib_count > 0) {
-            $.each(data.attrib, function (key, value) {
-                if (key == attr_gr_id)  return;
-
-                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-
-                $.each(value, function (i, attr) {
-                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-                });
-            });
-        }
-        else {
-            $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
-        }
-
         if (data.items_count > 0) {
             $('.applay_filters').show();
             podbor_popup('Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>', evnt);
@@ -144,7 +109,43 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
             $('.applay_filters').hide();
             podbor_popup('Ничего не найдено', evnt);
         }
-    });
+        if (data == null) {
+            $('input[rel=attr_brand_id]').removeAttr("disabled");
+            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
+            $('input[rel=attr_value]').parent().removeClass("noactive");
+            $('input[rel=attr_value]').removeAttr('disabled');
+            }
+
+            if (data.brands_count > 0) {
+                $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
+                $('input[rel=attr_brand_id]').parent().addClass('noactive');
+                $.each(data.brands, function (key, value) {
+                    $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
+                    $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
+                });
+            }
+            else {
+                $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
+            }
+
+            if (data.attrib_count > 0) {
+                $.each(data.attrib, function (key, value) {
+                    if (key == attr_gr_id)  return;
+
+                    $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
+
+                    $.each(value, function (i, attr) {
+                        $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
+                        $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
+                    });
+                });
+            }
+            else {
+                $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
+            }
+
+
+        });
 }
 
 
