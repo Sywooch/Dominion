@@ -54,7 +54,6 @@ class CalculatorController extends App_Controller_Frontend_Action
 
         $itemId = $this->_getParam('item_id');
 
-//        $itemPrice = $this->itemHelper->getItemPrice($this->_getParam('item_id'), $this->currency);
         $itemPrice = $this->itemHelper->getCreditPrice($this->itemHelper->getItemPrice($itemId, $this->currency));
 
 
@@ -63,6 +62,9 @@ class CalculatorController extends App_Controller_Frontend_Action
 
         $creditModel = new models_Credit();
         $emailMessage = $creditModel->getEmailTemplate($creditCode);
+
+        // Устанавливаем цену из базы - нет доверия тому что пришло  с сайта!
+        $emailMessage = str_replace("##price##", $itemPrice, $emailMessage);
 
         foreach ($this->getAllParams() as $key => $value) {
             $emailMessage = str_replace("##{$key}##", $value, $emailMessage);
@@ -92,16 +94,14 @@ class CalculatorController extends App_Controller_Frontend_Action
         $params['mailerFrom'] = empty($arr[2][0]) ? '' : trim($arr[2][0]);
         $params['mailerFromName'] = empty($arr[1][0]) ? '' : trim($arr[1][0]);
 
+        // Отправляем сперва в банк
         App_Mail::send($params);
 
-
         // Send managers emails
+        $params['to'] = explode(';', $this->getSettingValue('manager_emails'));
 
-        $managersEmails = explode(';', $this->getSettingValue('manager_emails'));
-
-//        foreach ($manager_emails as $mm) {
-//
-//        }
+        // Теперь манагерам
+        App_Mail::send($params);
 
     }
 }
