@@ -54,6 +54,7 @@ function SendMail(f) {
             f.reset();
             alert('Данные отправлены!');
             document.getElementById('sendForm').style.display = "none";
+            $(".warranty_popup").remove();
         },
         dataType: 'html'
     });
