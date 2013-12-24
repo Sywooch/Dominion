@@ -127,13 +127,13 @@ class Format_ConvertDataElasticSelection
             unset($value['ATTRIBUTES']['price']);
 
             foreach ($value['ATTRIBUTES'] as $key => $val) {
-                if ($val["TYPE"] == self::TYPE_ATTRIBUTE_STRING) continue;
-
                 if ($key == $val) {
                     $formatData['brands'][] = $val;
 
                     continue;
                 }
+
+                if ($val["TYPE"] == self::TYPE_ATTRIBUTE_STRING || $val["IS_RANGE_VIEW"] != 0) continue;
 
                 $formatData['attrib'][$key][] = $val['VALUE'];
             }
