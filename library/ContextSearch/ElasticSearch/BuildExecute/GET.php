@@ -54,6 +54,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      *  Build Query
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     *
      * @return $this
      */
     public function buildQuery(ContextSearch_ElasticSearch_FormatInterface $formatData)
@@ -67,13 +68,13 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $this->querySearch = new Query($builder);
 
         return $this;
-
     }
 
     /**
      * Build query filter
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     *
      * @return $this
      */
     public function buildQueryFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
@@ -87,6 +88,7 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      * Filter builder query
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData
+     *
      * @return ResultSet|mixed|null
      */
     public function buildFilter(ContextSearch_ElasticSearch_FormatInterface $formatData)
@@ -113,7 +115,12 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
      */
     public function execute()
     {
-        $search = new Search(new Client);
+        $client = new Client();
+        $connection = new \Elastica\Connection();
+        $connection->setHost($this->getHost());
+        $rr = $client->setConnections(array($connection));
+
+        $search = new Search($client);
         $search->setOption("from", $this->from);
         $search->setOption("size", $this->size);
 

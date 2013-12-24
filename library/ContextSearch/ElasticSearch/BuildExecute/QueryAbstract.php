@@ -67,6 +67,15 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
         return self::$parameters;
     }
 
+    /**
+     * Get host
+     *
+     * @return string
+     */
+    protected function getHost()
+    {
+        return self::$parameters->getHost();
+    }
 
     /**
      * Abstract method for few classes

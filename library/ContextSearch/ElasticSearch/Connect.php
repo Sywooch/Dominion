@@ -102,6 +102,16 @@ class ContextSearch_ElasticSearch_Connect
     }
 
     /**
+     * Getter for host
+     *
+     * @return string
+     */
+    public function getHost()
+    {
+        return (isset($this->config['host'])) ? $this->config['host'] : "localhost";
+    }
+
+    /**
      * Getter for config parameters connect to Elastic Search
      *
      * @return array
