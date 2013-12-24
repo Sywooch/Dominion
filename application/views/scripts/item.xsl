@@ -516,7 +516,7 @@ $().ready(function() {
 			<xsl:if test="credit_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="product_block_icon credit popup">Кредит</a>
-					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup" width="370px"><span>Кредит</span></a>
+					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup" width="370px" offset="200"><span>Кредит</span></a>
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="credit_description"/>

@@ -25,7 +25,7 @@ div.calculator h1 {
     line-height: 17px;
     margin: 0;
     padding: 0;
-    width: 230px;
+    width: 234px;
 }
 
 div.calculator h4 {
@@ -91,7 +91,7 @@ div.calculator span {
     color: #cc0066;
     font-weight: bold;
     margin-left: 10px;
-    margin-top: 12px;
+    margin-top: 15px;
     display: block;
     float: left;
 }
@@ -99,13 +99,13 @@ div.calculator span {
 div.calculator span {
     font-size: 14px;
     margin-left: 8px;
-    margin-top: 14px;
+    margin-top: 15px;
 }
 
 div.calculator form.form1 input.button,
 div.calculator form.form2 input.button {
     width: 130px;
-    height: 20px;
+    height: 25px;
     background: #398a13;
     color: #fff;
     text-decoration: underline;
@@ -115,6 +115,7 @@ div.calculator form.form2 input.button {
     margin-right: 5px;
     padding-bottom: 4px;
     cursor: pointer;
+    padding: 0;
 }
 
 div.calculator form.form2 input.button {
@@ -203,7 +204,7 @@ div.calculator .agree input {
 div.calculator .marketing {
     color: #fff;
     padding: 0 13px 0 0;
-    background: url("link-icon.jpg") right center no-repeat;
+    background: url("/images/link-icon.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
 }
 
 div.calculator .opacity {
