@@ -203,7 +203,7 @@ class Format_ConvertDataElasticSelection
      * @param string $value
      * @return integer
      */
-    private static function getInt($value)
+    public static function getInt($value)
     {
         preg_match_all("/(\d+)|(\d+\.\d+)(?=\s[A-Za-zA-Яа-я]+)/", $value, $match);
 

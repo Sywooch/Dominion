@@ -47,7 +47,7 @@ class Format_FormatDataElastic
 
         $formatArray = array();
         foreach ($attributes as $value) {
-            $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value['VALUE'];
+            $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value["IS_RANGE_VIEW"] ? (int)Format_ConvertDataElasticSelection::getInt($value["VALUE"]) : $value["VALUE"];
             $formatArray[$value['ATTRIBUT_ID']]['TYPE'] = $value['TYPE'];
             $formatArray[$value['ATTRIBUT_ID']]['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
         }

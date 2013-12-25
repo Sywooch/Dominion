@@ -139,36 +139,72 @@ class models_ElasticSearch extends ZendDBEntity
     public function getAttributesByItemID($itemID)
     {
         $sql = "SELECT
-                A.ATTRIBUT_ID,
-                AL.ATTRIBUT_LIST_ID AS `VALUE`,
-                A.TYPE,
-                A.IS_RANGE_VIEW
-              FROM  ITEM I
-                JOIN ITEM0 I1 USING (ITEM_ID)
-                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-              WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
-              AND I.ITEM_ID = {$itemID}
-            union
-            SELECT
-                A.ATTRIBUT_ID,
-                I0.VALUE,
-              A.TYPE,
-              A.IS_RANGE_VIEW
-              FROM ITEM I
-                JOIN ITEM0 I0 USING (ITEM_ID)
-                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-              WHERE I.ITEM_ID = {$itemID}
-            union
-            SELECT
-                A.ATTRIBUT_ID,
-                I0.VALUE,
-                A.TYPE,
-              A.IS_RANGE_VIEW
-              FROM ITEM I
-                JOIN ITEM2 I0 USING (ITEM_ID)
-                JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-              WHERE  I.ITEM_ID = {$itemID}";
+                      A.ATTRIBUT_ID,
+                      AL.ATTRIBUT_LIST_ID AS `VALUE`,
+                      A.TYPE,
+                      A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item0 I1 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                  JOIN attribut_list AL USING (ATTRIBUT_ID)
+                WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
+                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
+                UNION
+                SELECT
+                  A.ATTRIBUT_ID,
+                  I0.VALUE,
+                  A.TYPE,
+                  A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item0 I0 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                WHERE I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
+                UNION
+                SELECT
+                  A.ATTRIBUT_ID,
+                  I0.VALUE,
+                  A.TYPE,
+                  A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item2 I0 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                WHERE I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
+                  UNION
+                SELECT
+                  A.ATTRIBUT_ID,
+                  AL.NAME `VALUE`,
+                  A.TYPE,
+                  A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item0 I3 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                  JOIN attribut_list AL USING (ATTRIBUT_ID)
+                WHERE I3.VALUE = AL.ATTRIBUT_LIST_ID
+                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1
+                    UNION
+                SELECT
+                  A.ATTRIBUT_ID,
+                  AL.NAME `VALUE`,
+                  A.TYPE,
+                  A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item1 I4 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                  JOIN attribut_list AL USING (ATTRIBUT_ID)
+                WHERE I4.VALUE = AL.ATTRIBUT_LIST_ID
+                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1
+                      UNION
+                SELECT
+                  A.ATTRIBUT_ID,
+                  AL.NAME `VALUE`,
+                  A.TYPE,
+                  A.IS_RANGE_VIEW
+                FROM item I
+                  JOIN item2 I5 USING (ITEM_ID)
+                  JOIN attribut A USING (ATTRIBUT_ID)
+                  JOIN attribut_list AL USING (ATTRIBUT_ID)
+                WHERE I5.VALUE = AL.ATTRIBUT_LIST_ID
+                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1";
 
         return $this->_db->fetchAll($sql);
     }
