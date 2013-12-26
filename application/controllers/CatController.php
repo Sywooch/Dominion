@@ -302,8 +302,7 @@ class CatController extends App_Controller_Frontend_Action
             $attributs_params['Catalogue'] = $Catalogue;
 
             /** @var $at_helper Helpers_Attributs */
-            $at_helper = $this->_helper->helperLoader('Attributs',
-                $attributs_params);
+            $at_helper = $this->_helper->helperLoader('Attributs', $attributs_params);
             $at_helper->setLang($this->lang, $this->lang_id);
             $at_helper->setModel($Attributs);
             $at_helper->setDomXml($this->domXml);
