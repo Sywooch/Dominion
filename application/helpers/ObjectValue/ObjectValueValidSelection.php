@@ -59,6 +59,16 @@ class Helpers_ObjectValue_ObjectValueValidSelection extends App_Controller_Helpe
     }
 
     /**
+     * Set attributes range
+     *
+     * @param string $attributes
+     */
+    public function setAttributesRange($attributes)
+    {
+        $this->data["attributes_range"] = Format_ConvertDataElasticSelection::parseRangeAttributes($attributes);
+    }
+
+    /**
      * Create object Selection value
      *
      * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
@@ -73,6 +83,7 @@ class Helpers_ObjectValue_ObjectValueValidSelection extends App_Controller_Helpe
             $objectValueSelection->setDataAttributesUnique($this->data["attributes"][Format_ConvertDataElasticSelection::NAME_ATRIBUTES_UNIQUE]);
         }
 
+        $objectValueSelection->setAllDataSlider($this->data["attributes_range"]);
         $objectValueSelection->setDataBrands($this->data["attributes"]["brands"]);
         $objectValueSelection->setDataSlider("ATTRIBUTES.price", $this->data["price_min"], $this->data["price_max"]);
 

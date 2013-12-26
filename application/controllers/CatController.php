@@ -183,7 +183,8 @@ class CatController extends App_Controller_Frontend_Action
         $is_params['currency_id'] = $this->currency;
 
         if ($is_sel_item) {
-            $params = $this->getRequest()->getQuery();
+            $params = $this->getRequest()->getParams();
+
 //            $is_helper = $this->_helper->helperLoader('ItemSelection', $is_params);
 //            $is_helper->getItemSelection($attr);
 //            list($active_brands, $active_attrib) = $is_helper->getAttributsForActive();
@@ -193,17 +194,19 @@ class CatController extends App_Controller_Frontend_Action
             $objectValueValidSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueValidSelection");
             $objectValueValidSelection->setCatalogueID($this->catalogue_id);
             $objectValueValidSelection->setAttributes($params["at"], $params["br"]);
+            $objectValueValidSelection->setAttributesRange($ar);
             $objectValueValidSelection->setPrice($isp_price["min_price"], $isp_price["max_price"], $this->currency, $this->_helper->helperLoader('ItemSelectionPrice'));
-
-            $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
-
-            $objectValueSelection = $objectValueValidSelection->getObjectValueSelection($objectValueSelection);
             $parameters = Zend_Registry::get("config")->toArray();
 
             /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
             $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
             $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
-            $helpersSelectionElasticSearch->selection($objectValueSelection);
+            $helpersSelectionElasticSearch->selection(
+                $objectValueValidSelection->getObjectValueSelection(
+                    $this->_helper->helperLoader("ObjectValue_ObjectValueSelection")
+                )
+            );
+
             $resultData = Format_ConvertDataElasticSelection::getFormatResultData($helpersSelectionElasticSearch->getAttributes(), array());
             $active_brands = $resultData["brands"];
             $active_attrib = $resultData["attrib"];
