@@ -103,17 +103,17 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
     $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
         podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
         if (data == null) {
-            $('input[rel=attr_brand_id]').removeAttr("disabled");
+//            $('input[rel=attr_brand_id]').removeAttr("disabled");
             $('input[rel=attr_brand_id]').parent().removeClass('noactive');
             $('input[rel=attr_value]').parent().removeClass("noactive");
-            $('input[rel=attr_value]').removeAttr('disabled');
+//            $('input[rel=attr_value]').removeAttr('disabled');
         }
 
         if (data.brands_count > 0) {
-            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
+//            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
             $('input[rel=attr_brand_id]').parent().addClass('noactive');
             $.each(data.brands, function (key, value) {
-                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
+//                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
                 $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
             });
         }
@@ -179,8 +179,12 @@ function podbor_popup(popup_text, evnt) {
     }, TIME_OUT);
 }
 
-$(document).ready(function () {
-
+$(document).ready(function (evnt) {
+//    if(this.catalogue_id != undefined){
+//        var selection = new selection();
+//        selection.doUrl();
+//        selection.getRequest(evnt, 0);
+//    }
     if ($(".jquery_slider").length > 0) {
         $(".jquery_slider").slider({
             range: true,
@@ -293,6 +297,12 @@ $(document).ready(function () {
             }
         }
     });
+
+    $("input[name^=attr_range_min]").click(function (evnt) {
+        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
+
+        }
+    })
 
     $(".applay_filters a.product_button").click(function (ev) {
         ev.preventDefault();
