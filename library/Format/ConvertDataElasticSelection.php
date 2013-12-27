@@ -23,7 +23,7 @@ class Format_ConvertDataElasticSelection
      */
     public static function getArrayAttributes($parameters)
     {
-        preg_match_all("/([a-z]\d+|b\d+)/", $parameters, $result);
+        preg_match_all("/([a-z]\d+)/", $parameters, $result);
 
         $resultFormat[self::NAME_ATRIBUTES_UNIQUE] = array();
         $resultFormat[self::NAME_ATTRIBUTES_DOUBLE] = array();
@@ -226,5 +226,27 @@ class Format_ConvertDataElasticSelection
         }
 
         return $attributesMinMax;
+    }
+
+    /**
+     * Parse range attributes
+     *
+     * @param string $attributesRange
+     * @return array
+     */
+    static public function parseRangeAttributes($attributesRange)
+    {
+        $formatResult = array();
+
+        preg_match_all("/(?<=[a-z])(\d+)(?:[a-z])(\d+)-(\d+)/", $attributesRange, $match);
+
+        array_shift($match);
+        list($attributes, $min, $max) = $match;
+        foreach ($attributes as $key => $value) {
+            $formatResult[$attributes[$key]]["min"] = $min[$key];
+            $formatResult[$attributes[$key]]["max"] = $max[$key];
+        }
+
+        return self::formatAttributesRange($formatResult);
     }
 }
