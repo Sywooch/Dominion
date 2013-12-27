@@ -427,89 +427,78 @@ class AjaxController extends Zend_Controller_Action
         exit;
     }
 
-    public function attritemcountAction()
+    /**
+     * Get count attributes
+     *
+     * @return array
+     */
+    public function getattrcountAction()
     {
-        $request = $this->getRequest();
-        $attr = array();
-        $brands = array();
-        $result['brands_count'] = 0;
-        $result['attrib_count'] = 0;
-        $result['items_count'] = 0;
+        $params = $this->getRequest()->getQuery();
 
-        $result['current_min_price'] = 0;
-        $result['current_max_price'] = 0;
+        if (empty($params) || empty($params['catalogue_id'])) return;
 
-        if ($request->isGet()) {
-            $postData = $request->getQuery();
+        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
+        $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
 
-            if (!empty($postData['br'])) {
-                preg_match_all('/b(\d+)/', $postData['br'], $out);
-                if (!empty($out[1])) {
-                    $brands = $out[1];
-                }
-            }
-
-            if (!empty($postData['at'])) {
-                $Attributs = new models_Attributs();
-                $Item = new models_Item();
-                $Catalogue = new models_Catalogue();
-
-                $_catalogue_id = $Catalogue->getChildren($postData['catalogue_id']);
-                $_catalogue_id[count($_catalogue_id)] = $postData['catalogue_id'];
-                $_items = $Item->getCatalogItemsID($_catalogue_id);
-
-                $params['at'] = $postData['at'];
-                $params['items'] = $_items;
-
-                $attr = $Attributs->getAllAttrForSelection($params);
-
-                unset($params);
-            }
-
-            $params['catalogue_id'] = $postData['catalogue_id'];
-            $params['brands'] = $brands;
-
-            $isp_params['currency_id'] = 2;
-            $isp_params['real_currency_id'] = $this->currency;
-            $isp_price['min_price'] = $postData['pmin'];
-            $isp_price['max_price'] = $postData['pmax'];
-
-            // Перерасчет цен в валюту товаров
-            $isp_helper = $this->_helper->helperLoader('ItemSelectionPrice');
-            list($params['pmin'], $params['pmax']) = $isp_helper->recountPrice($isp_price, $isp_params);
-
-
-            $params['nat_pmin'] = $postData['pmin'];
-            $params['nat_pmax'] = $postData['pmax'];
-            $params['currency_id'] = $this->currency;
-
-            $is_helper = $this->_helper->helperLoader('ItemSelection', $params);
-            $is_helper->getItemSelection($attr);
-            list($result['brands'], $result['attrib']) = $is_helper->getAttributsForActive();
-//        list($active_brands, $active_attrib) = $is_helper->getAttributsForActive();
-            $active_brands = $result['brands'];
-            $active_attrib = $result['attrib'];
-
-            $active_items = $is_helper->getItemsResultId();
-
-            $result['items_count'] = $is_helper->getItemsResultCount();
-            $result['brands_count'] = count($result['brands']);
-            $result['attrib_count'] = count($result['attrib']);
-
-            $isp_params['currency_id'] = $this->currency;
-            $isp_params['real_currency_id'] = 2;
-            $isp_params['catalogue_id'] = $postData['catalogue_id'];
-            $isp_params['brands'] = $active_brands;
-            $isp_params['items_id'] = $active_items;
-
-            $isp_helper = $this->_helper->helperLoader('ItemSelectionPrice');
-            $current_min_max_price = $isp_helper->getPrices($isp_params);
-
-            $result['current_min_price'] = $current_min_max_price['min_price'];
-            $result['current_max_price'] = $current_min_max_price['max_price'];
+        if (!empty($params['pmin']) && !empty($params['pmax'])) {
+            list($minPrice, $maxPrice) = Format_ConvertDataElasticSelection::getFormatRecountPrice
+                (
+                    $params['pmin'],
+                    $params['pmax'],
+                    $this->currency,
+                    $this->_helper->helperLoader('ItemSelectionPrice')
+                );
+            $objectValueSelection->setDataSlider("ATTRIBUTES.price", $minPrice, $maxPrice);
         }
 
-        $this->_helper->json($result);
+        if (!empty($params["attribute_range"])) {
+            $objectValueSelection->setAllDataSlider(
+                Format_ConvertDataElasticSelection::formatAttributesRange($params["attribute_range"])
+            );
+        }
+
+        if (!empty($params['br']) || !empty($params['at'])) {
+            $resultAttributes = Format_ConvertDataElasticSelection::getArrayAttributes(
+                $params['at'] . $params['br']
+            );
+
+            $objectValueSelection->setDataBrands($resultAttributes['brands']);
+            $objectValueSelection->setDataAttributesDouble($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATTRIBUTES_DOUBLE]);
+            $objectValueSelection->setDataAttributesUnique($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATRIBUTES_UNIQUE]);
+        }
+
+        $objectValueSelection->setCatalogueID($params['catalogue_id']);
+
+        $parameters = Zend_Registry::get("config")->toArray();
+
+        /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
+        $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
+        $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
+        $helpersSelectionElasticSearch->selection($objectValueSelection);
+
+        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData(
+                $helpersSelectionElasticSearch->getAttributes(),
+                $helpersSelectionElasticSearch->getBrands()
+            )
+        );
+    }
+
+    /**
+     * Get attributes is range status in db
+     *
+     * @return json
+     */
+    public function getattrisrangeviewAction()
+    {
+        $catalogId = $this->getRequest()->getParam("catalogue_id");
+
+        $attributesModel = new models_Attributs();
+
+        $attributes = $attributesModel->getAttributesIsRangeView($catalogId);
+        $formatAttributes = Format_ConvertDataElasticSelection::formatDataRange($attributes);
+
+        return $this->_helper->json($formatAttributes);
     }
 
     public function goAction()
@@ -578,6 +567,7 @@ class AjaxController extends Zend_Controller_Action
 
         echo $_url;
     }
+
 
     private function sendMenegerComment($itm, $data)
     {

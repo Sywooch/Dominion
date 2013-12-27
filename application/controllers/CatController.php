@@ -183,10 +183,34 @@ class CatController extends App_Controller_Frontend_Action
         $is_params['currency_id'] = $this->currency;
 
         if ($is_sel_item) {
-            $is_helper = $this->_helper->helperLoader('ItemSelection', $is_params);
-            $is_helper->getItemSelection($attr);
-            list($active_brands, $active_attrib) = $is_helper->getAttributsForActive();
-            $active_items = $is_helper->getItemsResultId();
+            $params = $this->getRequest()->getParams();
+
+//            $is_helper = $this->_helper->helperLoader('ItemSelection', $is_params);
+//            $is_helper->getItemSelection($attr);
+//            list($active_brands, $active_attrib) = $is_helper->getAttributsForActive();
+//            $active_items = $is_helper->getItemsResultId();
+
+            /** @var $objectValueValidSelection Helpers_ObjectValue_ObjectValueValidSelection */
+            $objectValueValidSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueValidSelection");
+            $objectValueValidSelection->setCatalogueID($this->catalogue_id);
+            $objectValueValidSelection->setAttributes($params["at"], $params["br"]);
+            $objectValueValidSelection->setAttributesRange($ar);
+            $objectValueValidSelection->setPrice($isp_price["min_price"], $isp_price["max_price"], $this->currency, $this->_helper->helperLoader('ItemSelectionPrice'));
+            $parameters = Zend_Registry::get("config")->toArray();
+
+            /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
+            $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
+            $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
+            $helpersSelectionElasticSearch->selection(
+                $objectValueValidSelection->getObjectValueSelection(
+                    $this->_helper->helperLoader("ObjectValue_ObjectValueSelection")
+                )
+            );
+
+            $resultData = Format_ConvertDataElasticSelection::getFormatResultData($helpersSelectionElasticSearch->getAttributes(), array());
+            $active_brands = $resultData["brands"];
+            $active_attrib = $resultData["attrib"];
+            $active_items = Format_ConvertDataElasticSelection::getItems($helpersSelectionElasticSearch->getAttributes());
         }
 
         $isp_params['currency_id'] = $this->currency;
@@ -280,14 +304,15 @@ class CatController extends App_Controller_Frontend_Action
             $attributs_params['Item'] = $Item;
             $attributs_params['Catalogue'] = $Catalogue;
 
-            $at_helper = $this->_helper->helperLoader('Attributs',
-                $attributs_params);
+            /** @var $at_helper Helpers_Attributs */
+            $at_helper = $this->_helper->helperLoader('Attributs', $attributs_params);
             $at_helper->setLang($this->lang, $this->lang_id);
             $at_helper->setModel($Attributs);
             $at_helper->setDomXml($this->domXml);
             $at_helper->getMinMaxPrice($this->catalogue_id);
             $at_helper->getAttributs($this->catalogue_id, $attr, $active_attrib);
             $this->domXml = $at_helper->getDomXml();
+            $xml = $at_helper->getDomXml()->getXML();
         }
     }
 

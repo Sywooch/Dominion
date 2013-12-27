@@ -42,22 +42,17 @@ class ElasticsearchController extends App_Controller_Frontend_Action
     {
         $term = $this->_getParam("term");
 
-        if (empty($term)) {
-            $this->_helper->json($term);
-        }
+        if (empty($term)) $this->_helper->json($term);
+
         $parameters = $this->config->toArray();
 
         /** @var $helpersElasticExecute Helpers_ExecuteElastic */
         $helpersElasticExecute = $this->_helper->helperLoader("ExecuteElastic");
         $helpersElasticExecute->setParameters($parameters['search_engine']);
+        $helpersElasticExecute->setType($parameters['search_engine']['type']['products']);
         $results = $helpersElasticExecute->runElasticGET($term);
 
-        if (empty($results)) {
-            $this->_helper->json($results);
-        }
-//
-//        /* @var $executeElastic Helpers_ExecuteElastic */
-//        $executeElastic = $this->_helper->helperLoader("ExecuteElastic");
+        if (empty($results)) $this->_helper->json($results);
 
         $results = $helpersElasticExecute->executeFormatData(
             $results, $this->currency,

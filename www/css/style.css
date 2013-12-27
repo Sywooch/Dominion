@@ -178,7 +178,7 @@ form div.fieldgroup {
     overflow: visible;
 }
 
-form div.jquery_slider {
+form div.jquery_slider, form div.attr_range_view {
     overflow: visible;
 }
 

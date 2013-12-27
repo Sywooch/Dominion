@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ContextSearch_ElasticSearch_FormatQuery
+class ContextSearch_ElasticSearch_FormatQuery implements ContextSearch_ElasticSearch_FormatInterface
 {
     /**
      * FormatQuery
