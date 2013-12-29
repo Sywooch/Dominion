@@ -12,9 +12,24 @@ function selection() {
     this.action_attr = '';
     this.attr_brand_count = 0;
     this.attr_value_count = 0;
+    this.attribute_range = {};
 
     this.price_min = $('#price_input_min').val();
     this.price_max = $('#price_input_max').val();
+
+    var tempRange = {};
+    $("div.attr_range_view").each(function (index) {
+        var min = $(this).parent().find("input[type=text][id^=input_min]");
+        var max = $(this).parent().find("input[type=text][id^=input_max]");
+
+        if (!min.val().length && !max.val().length) return;
+
+        var id = $(this).parent().find("input[type=text][id^=input_min]").attr("xid");
+
+        tempRange[id] = {min: min.val(), max: max.val()};
+    });
+
+    this.attribute_range = tempRange;
 }
 
 selection.prototype.doUrl = function () {
@@ -41,7 +56,6 @@ selection.prototype.doUrl = function () {
 
     if ($('input[id*="attr_range_view_url_"]').length > 0) {
         $('input[id*="attr_range_view_url_"]').each(function (index) {
-//      attr_value_count++;
             var val = $(this).val();
             action_attr += val;
 
@@ -84,13 +98,22 @@ selection.prototype.doUrl = function () {
     $('#catalog_compare_products_form').attr({'action': this.page_url});
 }
 
+
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
-    $.getJSON('/ajax/attritemcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max}, function (data) {
+    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
+        podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
+        if (data == null) {
+//            $('input[rel=attr_brand_id]').removeAttr("disabled");
+            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
+            $('input[rel=attr_value]').parent().removeClass("noactive");
+//            $('input[rel=attr_value]').removeAttr('disabled');
+        }
+
         if (data.brands_count > 0) {
-            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
+//            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
             $('input[rel=attr_brand_id]').parent().addClass('noactive');
             $.each(data.brands, function (key, value) {
-                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
+//                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
                 $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
             });
         }
@@ -99,46 +122,25 @@ selection.prototype.getRequest = function (evnt, attr_gr_id) {
         }
 
         if (data.attrib_count > 0) {
-            var hidden_attr_gr_id = $.cookie('attr_gr_id');
             $.each(data.attrib, function (key, value) {
-                if (key != attr_gr_id) {
-//            $('input[rel=attr_value][atg='+key+']:not(:checked)').attr({'disabled':'disabled'});
-                    $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-                    ;
-                    $.each(value, function (i, attr) {
-                        $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-                        $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-                        ;
-                    });
-                }
+                if (key == attr_gr_id)  return;
 
+                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
+
+                $.each(value, function (i, attr) {
+                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
+                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
+                });
             });
         }
         else {
             $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
-        }
-
-        if (data.items_count > 0) {
-            $('.applay_filters').show();
-            podbor_popup('Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>', evnt);
-        }
-        else if (data.items_count == 0) {
-            $('.applay_filters').hide();
-            podbor_popup('Ничего не найдено', evnt);
-        }
-
-        if (data.current_min_price > 0 && data.current_max_price) {
-//        $('#price_input_min').val(data.current_min_price);
-//        $('#price_input_max').val(data.current_max_price);
-
-//        $(".jquery_slider").slider( "option", "values", [data.current_min_price, data.current_max_price] );
         }
     });
 }
 
 
 function podbor_popup(popup_text, evnt) {
-    var winWidth = $("body").width();
     if ($('div.podbor_popup').length > 0) {
         $('div.podbor_popup').remove();
     }
@@ -173,12 +175,16 @@ function podbor_popup(popup_text, evnt) {
 
     $(".podbor_popup").prepend(popup_text);
     setTimeout(function () {
-        $(".podbor_popup").animate({"opacity": 0}, 200).remove;
+        $(".podbor_popup").animate({"opacity": 0}, 300).remove;
     }, TIME_OUT);
 }
 
-$(document).ready(function () {
-
+$(document).ready(function (evnt) {
+//    if(this.catalogue_id != undefined){
+//        var selection = new selection();
+//        selection.doUrl();
+//        selection.getRequest(evnt, 0);
+//    }
     if ($(".jquery_slider").length > 0) {
         $(".jquery_slider").slider({
             range: true,
@@ -291,6 +297,12 @@ $(document).ready(function () {
             }
         }
     });
+
+    $("input[name^=attr_range_min]").click(function (evnt) {
+        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
+
+        }
+    })
 
     $(".applay_filters a.product_button").click(function (ev) {
         ev.preventDefault();

@@ -25,13 +25,36 @@ class Format_FormatDataElastic
         foreach ($items as $key => $item) {
             $items[$key]['MAIN'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . $item['NAME_PRODUCT'];
 
-            $items[$key]['MAIN_ALTERNATIVE'] = $item['TYPENAME'] . " " . $item['BRAND'] . " " . preg_replace("/\s/", "", $item['NAME_PRODUCT'], 1);
+            $items[$key]['MAIN_ALTERNATIVE'] = "{$item['TYPENAME']} {$item['BRAND']} " . str_replace(" ", "", $item['NAME_PRODUCT']);
             $items[$key]['URL'] = $item['REALCATNAME'] . $item['ITEM_ID'] . "-" . $item['CATNAME'] . "/";
-
             unset($items[$key]['REALCATNAME'], $items[$key]['CATNAME']);
         }
 
         return $items;
+    }
+
+    /**
+     * Format Data for build index
+     *
+     * @param array $attributes
+     * @param $price
+     * @param $brandId
+     * @return array
+     */
+    public function formatDataForSelection(array $attributes, $price, $brandId)
+    {
+        if (empty($attributes)) return $attributes;
+
+        $formatArray = array();
+        foreach ($attributes as $value) {
+            $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value["IS_RANGE_VIEW"] ? (int)Format_ConvertDataElasticSelection::getInt($value["VALUE"]) : $value["VALUE"];
+            $formatArray[$value['ATTRIBUT_ID']]['TYPE'] = $value['TYPE'];
+            $formatArray[$value['ATTRIBUT_ID']]['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
+        }
+        $formatArray['price'] = round($price, 1);
+        $formatArray[$brandId] = $brandId;
+
+        return $formatArray;
     }
 
     /**
@@ -78,6 +101,7 @@ class Format_FormatDataElastic
      * Format data for search
      *
      * @param Format_PricesObjectValue $pricesObjectValue
+     *
      * @return array
      */
     public function formatDataForSearchQuery(Format_PricesObjectValue $pricesObjectValue)
