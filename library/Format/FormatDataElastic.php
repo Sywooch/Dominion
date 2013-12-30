@@ -37,13 +37,16 @@ class Format_FormatDataElastic
      * Format Data for build index
      *
      * @param array $attributes
-     * @param $price
-     * @param $brandId
+     * @param       $price
+     * @param       $brandId
+     *
      * @return array
      */
     public function formatDataForSelection(array $attributes, $price, $brandId)
     {
-        if (empty($attributes)) return $attributes;
+        if (empty($attributes)) {
+            return $attributes;
+        }
 
         $formatArray = array();
         foreach ($attributes as $value) {

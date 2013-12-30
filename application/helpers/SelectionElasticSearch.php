@@ -99,6 +99,11 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
                 continue;
             } else if ($objectValueSelection->getCatalogueID($key)) {
                 $filterFormat->addQueryTerm($key, $value);
+
+            }
+
+            if (!is_array($value)){
+                continue;
             }
 
             foreach ($value as $subKey => $val) {
