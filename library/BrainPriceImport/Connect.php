@@ -99,6 +99,7 @@ class BrainPriceImport_Connect implements BrainPriceImport_ConnectorInterface
 
         $this->request->setMethod('POST');
         $this->request->setResource('/auth');
+        $this->curl->setTimeout(20);
 
         $options = array();
 

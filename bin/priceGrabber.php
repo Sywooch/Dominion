@@ -55,26 +55,26 @@ foreach ($grabber->getBaseCategory() as $value) {
         $productXmlElement = $categoryXmlElement->addChild('product');
 
         foreach ($vendors as $vendor) {
-            if ($vendor['vendorID'] == $productItem->vendorID  && $vendor['categoryID'] == $productItem->categoryID) {
+            if ($vendor['vendorID'] == $productItem['vendorID']  && $vendor['categoryID'] == $productItem['categoryID']) {
                 $vendorName = $vendor['name'];
                 break;
             }
         }
 
-        $productXmlElement->addChild('name', str_replace("&", "&amp;", $productItem->name));
+        $productXmlElement->addChild('name', str_replace("&", "&amp;", $productItem['name']));
 
-        $stocks = implode(',', $productItem->stocks);
+        $stocks = implode(',', $productItem['stocks']);
 
         $productXmlElement->addChild('stocks', str_replace("&", "&amp;", $stocks));
-        $productXmlElement->addChild('product_code', str_replace("&", "&amp;", $productItem->product_code));
-        $productXmlElement->addChild('warranty', str_replace("&", "&amp;", $productItem->warranty));
-        $productXmlElement->addChild('is_archive', str_replace("&", "&amp;", (int) $productItem->is_archive));
+        $productXmlElement->addChild('product_code', str_replace("&", "&amp;", $productItem['product_code']));
+        $productXmlElement->addChild('warranty', str_replace("&", "&amp;", $productItem['warranty']));
+        $productXmlElement->addChild('is_archive', str_replace("&", "&amp;", (int) $productItem['is_archive']));
         $productXmlElement->addChild('vendor', str_replace("&", "&amp;", $vendorName));
-        $productXmlElement->addChild('articul', str_replace("&", "&amp;", $productItem->articul));
-        $productXmlElement->addChild('volume', str_replace("&", "&amp;", $productItem->volume));
-        $productXmlElement->addChild('is_new', str_replace("&", "&amp;", (int) $productItem->is_new));
-        $productXmlElement->addChild('categoryID', str_replace("&", "&amp;", $productItem->categoryID));
-        $productXmlElement->addChild('price', str_replace("&", "&amp;", $productItem->price));
+        $productXmlElement->addChild('articul', str_replace("&", "&amp;", $productItem['articul']));
+        $productXmlElement->addChild('volume', str_replace("&", "&amp;", $productItem['volume']));
+        $productXmlElement->addChild('is_new', str_replace("&", "&amp;", (int) $productItem['is_new']));
+        $productXmlElement->addChild('categoryID', str_replace("&", "&amp;", $productItem['categoryID']));
+        $productXmlElement->addChild('price', str_replace("&", "&amp;", $productItem['price']));
 
     }
 
@@ -82,4 +82,4 @@ foreach ($grabber->getBaseCategory() as $value) {
 
 }
 
-$xmlString = $xml->saveXML('test.xml');
+$xmlString = $xml->saveXML('priceBrain.xml');

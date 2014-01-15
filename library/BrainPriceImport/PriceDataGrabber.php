@@ -1,10 +1,10 @@
 <?php
+
 /**
  * User: Ruslan
  * Date: 04.09.13
  * Time: 12:10
  */
-
 class BrainPriceImport_PriceDataGrabber
 {
 
@@ -41,7 +41,7 @@ class BrainPriceImport_PriceDataGrabber
 
         $this->curl = $connect->getCurl();
 
-        $this->curl->setTimeout(30000);
+        $this->curl->setTimeout(30);
 
         $this->request = $connect->getRequest();
 
@@ -96,44 +96,60 @@ class BrainPriceImport_PriceDataGrabber
 
         $this->getStocks();
 
-
         while (true) {
-            $result = $this->getProductIterator($categoryID, $limit, $offset);
 
+            $shouldIterate = true;
+            $i = 0;
+            while ($shouldIterate) {
+                $result = $this->getProductIterator($categoryID, $limit, $offset);
 
-            $restateStocks = array_filter($result->list, "self::setStocksForItem");
+                if (false === $result) {
+                    ++$i;
+                    echo "Item List is empty try again\n";
+                    if ($i >= 3) {
+                        $shouldIterate = false;
+                    }
 
-//            if ($restateStocks)
+                } else {
+                    $shouldIterate = false;
+                }
 
-            $allProducts = array_merge($allProducts, $restateStocks);
+            }
 
-            if ($result->count <= $limit || empty($result->list)) {
+            if (empty($result)) {
+                echo "Finally can't gat a content\n";
+                continue;
+            }
+
+            $allProducts = array_merge($allProducts, array_filter( $result['list'], "self::setStocksForItem"));
+
+            if ($result['count'] <= $limit || empty($result['list'])) {
                 break;
             }
 
             $offset += $limit;
 
-            echo "offset = $offset \r\n";
+            echo "offset = $offset \n";
 
         }
 
         return $allProducts;
     }
 
-    static private function setStocksForItem($product)
+    static private function setStocksForItem(&$product)
     {
 
-        if (!empty($product->is_archive)) {
+        if (!empty($product['is_archive'])) {
             return false;
         }
 
 
-        if (empty($product->stocks)) {
+        if (empty($product['stocks'])) {
             return false;
         }
 
-        foreach ($product->stocks as $key => $value) {
-            $product->stocks[$key] = self::$stocks[$value];
+        foreach ($product['stocks'] as $key => $value) {
+            $product['stocks'][$key] = self::$stocks[$value];
         }
 
         return $product;
@@ -156,38 +172,25 @@ class BrainPriceImport_PriceDataGrabber
             $resource .= "&offset=$offset";
         }
 
-        $this->request->setResource($resource);
+        $products = $this->getResponse($resource);
 
-        $this->curl->send($this->request, $this->response);
-
-        $response = json_decode($this->response->getContent());
-
-        if ($response->status != 1) {
-            throw new RuntimeException($response->error_message, $response->error_code);
+        if (empty($products)) {
+            return false;
+        } else {
+            return $products;
         }
-
-        return $response->result;
 
     }
 
 
     private function getStocks()
     {
-
         $resource = "/stocks/{$this->authSID}";
-        $this->request->setResource($resource);
 
-        $this->curl->send($this->request, $this->response);
+        $result = $this->getResponse($resource);
 
-        $response = json_decode($this->response->getContent());
-
-        if ($response->status != 1) {
-            throw new RuntimeException($response->error_message, $response->error_code);
-        }
-
-
-        foreach ($response->result as $value) {
-            self::$stocks[$value->stockID] = $value->name;
+        foreach ($result as $value) {
+            self::$stocks[$value['stockID']] = $value['name'];
         }
 
     }
@@ -195,20 +198,32 @@ class BrainPriceImport_PriceDataGrabber
 
     public function getVendors()
     {
-
-
-        $this->request->setResource("/vendors/{$this->authSID}");
-
-        $this->curl->send($this->request, $this->response);
-
-        $response = json_decode($this->response->getContent(), true);
-
-        if ($response['status'] != 1) {
-            throw new RuntimeException($response->error_message, $response->error_code);
-        }
-
-        return $response['result'];
-
+        return $this->getResponse("/vendors/{$this->authSID}");
     }
 
+
+    private function getResponse($request)
+    {
+
+        try {
+            $this->request->setResource($request);
+            $this->curl->send($this->request, $this->response);
+
+            if ($this->response->isSuccessful()) {
+                $response = json_decode($this->response->getContent(), true);
+            } else {
+                throw new \Buzz\Exception\RuntimeException("Cant get content on $request", $this->response->getStatusCode());
+            }
+
+            if (empty($response['status'])) {
+                throw new RuntimeException("Content with error {$response['status']}", $response['error_code']);
+            }
+
+            return $response['result'];
+
+        } catch (Exception $e) {
+            echo "Error {$e->getMessage()} with code: {$e->getCode()} on {$e->getFile()}:{$e->getLine()}";
+        }
+
+    }
 }
