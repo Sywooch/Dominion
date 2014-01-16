@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0c14479918e047b2af63626d5a78ce04",
+    "hash": "6f6e805afd1c8512232cfab53ca396a0",
     "packages": [
         {
             "name": "codeplex/phpexcel",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8"
+                "reference": "5e013323dacbb7d6ab0c0d55692e6b75d1fb30d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8",
-                "reference": "d7a4ee663a32db80d8c9eeede5f7bcbfaa6dbbf8",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/5e013323dacbb7d6ab0c0d55692e6b75d1fb30d2",
+                "reference": "5e013323dacbb7d6ab0c0d55692e6b75d1fb30d2",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2013-08-27 09:13:52"
+            "time": "2013-12-23 10:54:18"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -118,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "d7545a943496c401f7f5248f285e44b33c86905e"
+                "reference": "805272acb603161f0bc92380bbd801d5ffabf89d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/d7545a943496c401f7f5248f285e44b33c86905e",
-                "reference": "d7545a943496c401f7f5248f285e44b33c86905e",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/805272acb603161f0bc92380bbd801d5ffabf89d",
+                "reference": "805272acb603161f0bc92380bbd801d5ffabf89d",
                 "shasum": ""
             },
             "require": {
@@ -158,7 +158,7 @@
                 "curl",
                 "http client"
             ],
-            "time": "2013-06-04 15:32:22"
+            "time": "2013-09-12 13:09:33"
         },
         {
             "name": "phpexcel/phpexcel",
@@ -166,12 +166,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ddeboer/phpexcel.git",
-                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2"
+                "reference": "8a3f7a02cfbb0c34b06d66b614762ebe52423dc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
-                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
+                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/8a3f7a02cfbb0c34b06d66b614762ebe52423dc9",
+                "reference": "8a3f7a02cfbb0c34b06d66b614762ebe52423dc9",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +193,7 @@
                 "excel",
                 "xls"
             ],
-            "time": "2012-09-04 18:29:37"
+            "time": "2013-09-10 18:57:03"
         },
         {
             "name": "ruflin/elastica",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "1475906ac4179f792d264d4dee2dcc6d2b0dfc82"
+                "reference": "48afd2fa9578d3ff1d11c30aa3034f58be891c23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/1475906ac4179f792d264d4dee2dcc6d2b0dfc82",
-                "reference": "1475906ac4179f792d264d4dee2dcc6d2b0dfc82",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/48afd2fa9578d3ff1d11c30aa3034f58be891c23",
+                "reference": "48afd2fa9578d3ff1d11c30aa3034f58be891c23",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,8 @@
             },
             "require-dev": {
                 "munkie/elasticsearch-thrift-php": "1.4.*",
-                "psr/log": "~1.0"
+                "psr/log": "~1.0",
+                "satooshi/php-coveralls": "dev-master"
             },
             "suggest": {
                 "monolog/monolog": "Logging request",
@@ -222,11 +223,6 @@
                 "psr/log": "for logging"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.20.5.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Elastica": "lib/",
@@ -244,26 +240,26 @@
                 }
             ],
             "description": "Elasticsearch Client",
-            "homepage": "http://ruflin.github.com/Elastica/",
+            "homepage": "http://elastica.io/",
             "keywords": [
                 "client",
                 "search"
             ],
-            "time": "2013-08-27 18:25:25"
+            "time": "2014-01-15 09:45:39"
         },
         {
             "name": "symfony/class-loader",
-            "version": "dev-master",
+            "version": "2.4.x-dev",
             "target-dir": "Symfony/Component/ClassLoader",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "7809fd30ec2731cb12334f78351817013090c955"
+                "reference": "6a2ebedbc780130f07b3a15363743d08eb46820c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/7809fd30ec2731cb12334f78351817013090c955",
-                "reference": "7809fd30ec2731cb12334f78351817013090c955",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/6a2ebedbc780130f07b3a15363743d08eb46820c",
+                "reference": "6a2ebedbc780130f07b3a15363743d08eb46820c",
                 "shasum": ""
             },
             "require": {
@@ -299,7 +295,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-24 06:54:37"
+            "time": "2013-11-26 16:40:27"
         },
         {
             "name": "symfony/console",
@@ -308,12 +304,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3"
+                "reference": "3945ca8c938a370580c5041166a1dcc38a9783a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
-                "reference": "db78f8ff7fc9e28d25ff9a0bf6ddf9f0e35fbbe3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/3945ca8c938a370580c5041166a1dcc38a9783a4",
+                "reference": "3945ca8c938a370580c5041166a1dcc38a9783a4",
                 "shasum": ""
             },
             "require": {
@@ -352,7 +348,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-17 16:34:49"
+            "time": "2013-12-27 15:08:19"
         },
         {
             "name": "zendframework/zendframework1",
@@ -360,12 +356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "47cb01e3ab68fc06302ca09c267625ba2552b235"
+                "reference": "3a97e02a7708087abe2787e176171b8e2387520f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/47cb01e3ab68fc06302ca09c267625ba2552b235",
-                "reference": "47cb01e3ab68fc06302ca09c267625ba2552b235",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/3a97e02a7708087abe2787e176171b8e2387520f",
+                "reference": "3a97e02a7708087abe2787e176171b8e2387520f",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +391,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2013-08-28 15:04:38"
+            "time": "2013-12-20 17:37:17"
         }
     ],
     "packages-dev": [
