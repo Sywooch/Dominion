@@ -31,6 +31,8 @@ class BrainPriceImport_PriceDataGrabber
     private $authSID;
 
 
+    static private $validStocks = array();
+
     /**
      * @param BrainPriceImport_ConnectorInterface $connect api.brain connector
      */
@@ -49,6 +51,11 @@ class BrainPriceImport_PriceDataGrabber
 
         $this->request->setMethod('GET');
 
+    }
+
+    public static function  setValidStocks(array $stocks)
+    {
+        self::$validStocks = $stocks;
     }
 
     public function getCategories()
@@ -121,7 +128,7 @@ class BrainPriceImport_PriceDataGrabber
                 continue;
             }
 
-            $allProducts = array_merge($allProducts, array_filter( $result['list'], "self::setStocksForItem"));
+            $allProducts = array_merge($allProducts, array_filter($result['list'], "self::setStocksForItem"));
 
             if ($result['count'] <= $limit || empty($result['list'])) {
                 break;
@@ -149,7 +156,16 @@ class BrainPriceImport_PriceDataGrabber
         }
 
         foreach ($product['stocks'] as $key => $value) {
-            $product['stocks'][$key] = self::$stocks[$value];
+            if (in_array($key, self::$validStocks)) {
+                $product['stocks'][$key] = self::$stocks[$value];
+            } else {
+                unset($product['stocks'][$key]);
+            }
+        }
+
+        // Проверяем снова стоки - если не остался ни один из доступных - выкидываем false
+        if (empty($product['stocks'])) {
+            return false;
         }
 
         return $product;

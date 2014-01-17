@@ -74,6 +74,10 @@ search_engine.name_fields[] = MAIN_ALTERNATIVE
 fast_filter.type = filter
 fast_filter.name_fields[] = ITEM_ID
 
+price_braine.stock_available[] = 1
+price_braine.stock_available[] = 172
+price_braine.stock_available[] = 6
+price_braine.stock_available[] = 121
 
 [staging : production]
 

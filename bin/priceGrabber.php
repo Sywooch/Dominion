@@ -23,6 +23,13 @@ $export->setHost('http://api.brain.com.ua');
 
 $sid = $export->getAuthSID();
 
+$registry = Zend_Registry::getInstance();
+
+$config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'production');
+
+
+// Сетим ID складов с которых можем откгружать продукцию - только они попадут в прайс
+BrainPriceImport_PriceDataGrabber::setValidStocks($config->price_braine->stock_available->toArray());
 
 $grabber = new BrainPriceImport_PriceDataGrabber($export);
 
@@ -32,7 +39,6 @@ $categoryRoot = $xml->addChild('categories');
 
 
 $vendors = $grabber->getVendors();
-
 
 foreach ($grabber->getBaseCategory() as $value) {
 
