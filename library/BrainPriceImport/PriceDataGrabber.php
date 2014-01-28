@@ -156,7 +156,7 @@ class BrainPriceImport_PriceDataGrabber
         }
 
         foreach ($product['stocks'] as $key => $value) {
-            if (in_array($key, self::$validStocks)) {
+            if (in_array($value, self::$validStocks)) {
                 $product['stocks'][$key] = self::$stocks[$value];
             } else {
                 unset($product['stocks'][$key]);
