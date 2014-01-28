@@ -220,7 +220,7 @@ class CartController extends App_Controller_Frontend_Action
             }
         }
 
-        $this->_redirect('/cart/thanks/');
+        $this->redirect("/cart/thanks/$zakaz_id");
     }
 
     public function thanksAction()

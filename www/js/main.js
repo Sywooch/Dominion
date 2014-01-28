@@ -213,6 +213,7 @@ $(document).ready(function () {
         xid = $(this).attr('xid');
 
         $.getJSON('/ajax/addcart/', {id: xid, count: count}, function (data) {
+            GIHhtQfW_AtmPixel("http://7560000.com.ua/cart/");
             $("#cart").html(data.html);
             by_popup(data.add_cart_message, ev);
         });
