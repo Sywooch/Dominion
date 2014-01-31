@@ -69,6 +69,7 @@ class CartController extends App_Controller_Frontend_Action
             $_SESSION['ses_zakaz_id'] = $zakaz_id;
 
             $session = new Zend_Session_Namespace('cart');
+            $session->order_id = $zakaz_id;
 
             if (!empty($session->item)) {
                 $curr_info = $Item->getCurrencyInfo($this->currency);
@@ -220,11 +221,15 @@ class CartController extends App_Controller_Frontend_Action
             }
         }
 
-        $this->redirect("/cart/thanks/$zakaz_id");
+        $this->redirect("/cart/thanks/");
     }
 
+    /**
+     * Страница благодарности за заказ
+     */
     public function thanksAction()
     {
+
         $AnotherPages = new models_AnotherPages();
 
         $doc_id = $AnotherPages->getDocByUrl('/cart/thanks/');
@@ -235,11 +240,22 @@ class CartController extends App_Controller_Frontend_Action
 
         $this->getDocPath($doc_id);
 
+        /** @var Helpers_AnotherPages $ap_helper */
         $ap_helper = $this->_helper->helperLoader('AnotherPages');
         $ap_helper->setModel($AnotherPages);
         $ap_helper->setDomXml($this->domXml);
         $ap_helper->getDocInfo($doc_id);
         $this->domXml = $ap_helper->getDomXml();
+
+
+        /** @var Helpers_Cart $cr_helper */
+        $cr_helper = $this->_helper->helperLoader('Cart');
+        $cr_helper->setDomXml($this->domXml);
+
+        $session = new Zend_Session_Namespace('cart', true);
+        if (isset($session->order_id)) {
+            $cr_helper->setOrderId($session->order_id);
+        }
 
         // Собираем меню каталога
         $sesVcene = new Zend_Session_Namespace('metriks');
@@ -249,6 +265,9 @@ class CartController extends App_Controller_Frontend_Action
             // Удаляем из сессии чтобы при обновлении страницы счётчик не срабатывал по сто раз
             unset($sesVcene->vcene);
         }
+
+        // Удаляем все из сесси что связано с Cart
+        Zend_Session::namespaceUnset('cart');
     }
 
     public function successAction()

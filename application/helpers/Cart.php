@@ -1,4 +1,5 @@
 <?php
+
 class Helpers_Cart extends App_Controller_Helper_HelperAbstract
 {
 
@@ -120,6 +121,15 @@ class Helpers_Cart extends App_Controller_Helper_HelperAbstract
         }
     }
 
+    /**
+     * Set order id for thanks page
+     *
+     * @param int $orderId Order ID
+     */
+    public function setOrderId($orderId)
+    {
+        $this->domXml->create_element('order', $orderId);
+    }
 
     private function getCartItem($item_id, $data, $curr_info)
     {

@@ -38,6 +38,8 @@ class App_Controller_Router_Bootstrap
 
         $this->_initAliasingRegister();
 
+//        $this->_initAliasingCartThanks();
+
         if ($this->_is301) {
             return;
         }
@@ -454,6 +456,23 @@ class App_Controller_Router_Bootstrap
                 ),
                 array(
                     1 => 'id'
+                )
+            )
+        );
+    }
+
+    private function _initAliasingCartThanks()
+    {
+        $this->_router->addRoute(
+            'cart_thanks',
+            new Zend_Controller_Router_Route_Regex(
+                'cart/thanks/([^/]\d*)',
+                array(
+                    'controller' => 'cart',
+                    'action' => 'thanks'
+                ),
+                array(
+                    1 => 'order_id'
                 )
             )
         );
