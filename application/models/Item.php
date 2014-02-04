@@ -32,6 +32,21 @@ class models_Item extends ZendDBEntity
 
 
     /**
+     * Получить путь к базовым картинкам
+     *
+     * @return Zend_Db_Statement_Interface
+     */
+    public function geImagesNeedResize()
+    {
+        return $this->_db->query(
+            "SELECT I.ITEM_ID, I.BASE_IMAGE, IMAGE3
+                FROM ITEM I
+                WHERE I.BASE_IMAGE <> ''
+                AND I.NEED_RESIZE =1
+                AND (I.IMAGE2 = '' OR I.IMAGE2 IS null)");
+    }
+
+    /**
      * Обновить ITEM - любое поле
      *
      * @param array $data  Данные которые сетим

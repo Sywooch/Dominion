@@ -11,16 +11,17 @@ use Imagine\Gd\Imagine;
 class ImageResize_FacadeResize
 {
     /**
-     * @param int    $newImageName      Id товара в БД
-     * @param string $filePath          Абсолютный путь к картинке
-     * @param string $fileSaveDir       Имя каталога где хотим сохранить
-     * @param int    $needWidth         требуемая ширина
-     * @param int    $needHeight        требуемая высота
-     * @param int    $diffSquare        допустимая разница в площадях картинок для ресайзинга
+     * @param int    $newImageName    Id товара в БД
+     * @param string $filePath        Абсолютный путь к картинке
+     * @param string $fileSaveDir     Имя каталога где хотим сохранить
+     * @param int    $needWidth       требуемая ширина
+     * @param int    $needHeight      требуемая высота
+     * @param int    $diffSquare      допустимая разница в площадях картинок для ресайзинга
+     * @param        $needSaveNewSize Нужно или нет записывать картинку если она не может быть создана в нужном размере
      *
      * @return ImageResize_ImageParams
      */
-    static public function resizeOrSave($newImageName, $filePath, $fileSaveDir, $needWidth, $needHeight, $diffSquare = 20)
+    static public function resizeOrSave($newImageName, $filePath, $fileSaveDir, $needWidth, $needHeight, $diffSquare = 10, $needSaveNewSize = true)
     {
         try {
             $imagine = new Imagine();
@@ -43,7 +44,6 @@ class ImageResize_FacadeResize
                     throw new Exception('Can\'t save file: ' . $newItemName);
                 }
             }
-
         } catch (Exception $e) {
             echo $e->getMessage();
             echo "\n" . $e->getFile() . "; Line:" . $e->getLine();

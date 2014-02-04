@@ -15,12 +15,6 @@ class ImageResize_Resize
 {
 
     /**
-     * Путь к картинки из которой ресайзим
-     * @var string
-     */
-    private $filePath;
-
-    /**
      * Требуемая ширина картинки
      * @var int
      */
@@ -76,15 +70,22 @@ class ImageResize_Resize
     /**
      * Вычисляем процентное отношение между новой картинкой и текущей
      *
-     * @param float $square  Площадь изменяемой картинки
+     * @param float $square Площадь изменяемой картинки
      *
      * @return bool
      */
     public function isNeedResize($square)
     {
-        if (($this->width * $this->height) / $square * 100 < $this->diffSquare) {
+
+        $diff = 100 - ($this->width * $this->height / $square * 100);
+
+        if ($diff > $this->diffSquare){
             return true;
         }
+
+//        if (($this->width * $this->height) / $square * 100 < $this->diffSquare) {
+//            return true;
+//        }
 
         return false;
     }

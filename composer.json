@@ -15,7 +15,8 @@
         "imagine/imagine": "dev-develop",
         "phpexcel/phpexcel": "dev-master",
         "codeplex/phpexcel": "dev-master",
-        "kriswallsmith/buzz": "dev-master"
+        "kriswallsmith/buzz": "dev-master",
+        "symfony/finder": "2.4.*@dev"
 
     }
 }
