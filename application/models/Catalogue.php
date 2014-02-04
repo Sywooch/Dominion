@@ -146,7 +146,7 @@ class models_Catalogue extends ZendDBEntity
 
         $sql = "SELECT count(*)
             FROM ITEM
-            WHERE PRICE > 0 " .
+            WHERE PRICE > 0 AND STATUS = 1 " .
             $where;
 
         return $this->_db->fetchOne($sql);

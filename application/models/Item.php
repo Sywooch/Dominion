@@ -370,7 +370,7 @@ class models_Item extends ZendDBEntity
           LEFT JOIN CURRENCY CR ON (CR.CURRENCY_ID = I.CURRENCY_ID)
           LEFT JOIN DISCOUNTS D ON (D.DISCOUNT_ID = I.DISCOUNT_ID)
           LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
-          WHERE I.PRICE > 0
+          WHERE I.PRICE > 0 AND I.STATUS = 1
             {$where}
           ORDER BY {$order_by} {$asc}
           LIMIT {$params['start']},{$params['per_page']}";
