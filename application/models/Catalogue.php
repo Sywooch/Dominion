@@ -414,6 +414,7 @@ class models_Catalogue extends ZendDBEntity
                   , if(I.PRICE1>0,I.PRICE1,I.PRICE) AS ITEM_PRICE
                   , I.PRICE1 AS ITEM_PRICE1
                   , I.IMAGE1
+                  , I.IMAGE2
                   , I.CURRENCY_ID
                   , I.NAME
                   , I.CATNAME
