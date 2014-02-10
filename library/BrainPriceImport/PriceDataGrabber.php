@@ -155,13 +155,14 @@ class BrainPriceImport_PriceDataGrabber
             return false;
         }
 
+        $stocksStrings = array();
         foreach ($product['stocks'] as $key => $value) {
             if (in_array($value, self::$validStocks)) {
-                $product['stocks'][$key] = self::$stocks[$value];
-            } else {
-                unset($product['stocks'][$key]);
+                $stocksStrings[$value] = self::$stocks[$value];
             }
         }
+
+        $product['stocks'] = $stocksStrings;
 
         // Проверяем снова стоки - если не остался ни один из доступных - выкидываем false
         if (empty($product['stocks'])) {
