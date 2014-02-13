@@ -89,37 +89,40 @@ class App_Controller_Router_Bootstrap
     {
 
         $AnotherPages = new models_AnotherPages();
-        $req = new Zend_Controller_Request_Http();
-        $uri = $req->getRequestUri();
+        $request = new Zend_Controller_Request_Http();
+        $uri = $request->getRequestUri();
 
         $paramsUrl = '';
 
-        $pattern_page = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*)?$/Uis';
+//        $pattern_page = '/^(.*)(?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*$/Uis';
+
+        $pattern_page = '/^(.*)(?:&|\?)(.*)$/Uis';
 
         if (preg_match($pattern_page, $uri, $out)) {
 
             $uri = $out[1];
-            if (!empty($out[2])) {
-
-                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
-                $g = substr($out[2], 0, 1);
-                if ('/' === substr($out[2], 0, 1)) {
-                    $paramsUrl = substr($out[2], 1, strlen($out[2]) - 1);
-                } else {
-                    $paramsUrl = $out[2];
-                }
-
-            }
+//            $paramsUrl = $out[2];
+//            if (!empty($out[2])) {
+//
+//                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
+//                $g = substr($out[2], 0, 1);
+//                if ('/' === substr($out[2], 0, 1)) {
+//                    $paramsUrl = substr($out[2], 1, strlen($out[2]) - 1);
+//                } else {
+//                    $paramsUrl = $out[2];
+//                }
+//
+//            }
         }
 
         $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
 
         if (!empty($siteURLbySEFU)) {
-            $req->setRequestUri($siteURLbySEFU . $paramsUrl);
+            $request->setRequestUri($siteURLbySEFU);
         }
 
         $front = Zend_Controller_Front::getInstance();
-        $front->setRequest($req);
+        $front->setRequest($request);
     }
 
     private function _initAliasingRegister()
