@@ -93,31 +93,26 @@ class App_Controller_Router_Bootstrap
         $uri = $request->getRequestUri();
 
         $paramsUrl = '';
+        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
 
-//        $pattern_page = '/^(.*)(?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*$/Uis';
-
-        $pattern_page = '/^(.*)(?:&|\?)(.*)$/Uis';
-
-        if (preg_match($pattern_page, $uri, $out)) {
+        if (preg_match($patternPage, $uri, $out)) {
 
             $uri = $out[1];
-//            $paramsUrl = $out[2];
-//            if (!empty($out[2])) {
-//
-//                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
-//                $g = substr($out[2], 0, 1);
-//                if ('/' === substr($out[2], 0, 1)) {
-//                    $paramsUrl = substr($out[2], 1, strlen($out[2]) - 1);
-//                } else {
-//                    $paramsUrl = $out[2];
-//                }
-//
-//            }
+            $paramsUrl = $out[2];
+            if (!empty($paramsUrl)) {
+                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
+                if ('/' === substr($paramsUrl, 0, 1)) {
+                    $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
+                } else {
+                    $paramsUrl = $paramsUrl;
+                }
+            }
         }
 
         $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
 
         if (!empty($siteURLbySEFU)) {
+            $siteURLbySEFU .= $paramsUrl;
             $request->setRequestUri($siteURLbySEFU);
         }
 
