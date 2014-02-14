@@ -62,14 +62,18 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         }
     }
 
+    /**
+     * Вывести спсиок подкаталогов с брендами
+     *
+     * @param int $parentId Id родтеля для которго выводим список подкаталогов
+     */
     public function getCatSubTree($parentId = 0)
     {
-        $cats = $this->work_model->getIndexTree($parentId, $this->lang_id);
-
-        // Если список для подкаталога пуст - выходим
-        // Требуется рефакторинг - модульное тестирование никак не провести с такой струтктурой
+        $cats = $this->work_model->getCatalogsIncludeBrandsList($parentId);
         if (empty($cats)) return;
 
+
+        $AnotherPages = new models_AnotherPages();
 
         foreach ($cats as $cat) {
 
@@ -78,10 +82,10 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             , 'parent_id' => $cat['PARENT_ID']
             ));
 
-            $href = $cat['REALCATNAME'];
+            $catalogHref = $cat['REALCATNAME'];
 
             $this->domXml->create_element('name', $cat['NAME']);
-            $this->domXml->create_element('href', $href);
+            $this->domXml->create_element('href', $catalogHref);
 
             if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
                 $tmp = explode('#', $cat['IMAGE1']);
@@ -94,36 +98,28 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
                 $this->domXml->go_to_parent();
             }
 
-            $this->getCatBrands($cat['CATALOGUE_ID']);
+
+            if ($cat['BRANDS']) {
+                $tmp = explode(',', $cat['BRANDS']);
+                foreach ($tmp as $view) {
+                    list($brand, $altName) = explode('#', $view);
+                    $this->domXml->create_element('brand_view', '', 2);
+                    $this->domXml->create_element('name', $brand);
+
+                    $href = "$catalogHref$altName/";
+
+
+                    // Этот кусок жутко тормозит работу
+//                    $_href = $AnotherPages->getSefURLbyOldURL($href);
+//                    if (!empty($_href)) $href = $_href;
+
+                    $this->domXml->create_element('href', $href);
+
+                    $this->domXml->go_to_parent();
+                }
+            }
 
             $this->domXml->go_to_parent();
-        }
-    }
-
-    private function getCatBrands($id)
-    {
-        $AnotherPages = new models_AnotherPages();
-        $result = $this->work_model->getBrands($id);
-
-        $realcatname = $this->work_model->getCatRealCat($id);
-
-        if (!empty($result)) {
-            foreach ($result as $view) {
-                $this->domXml->create_element('brand_view', '', 2);
-                $this->domXml->set_attribute(array('brand_id' => $view['BRAND_ID']
-                ));
-
-
-                $href = $realcatname . $view['ALT_NAME'] . '/';
-
-                $_href = $AnotherPages->getSefURLbyOldURL($href);
-                if (!empty($_href)) $href = $_href;
-
-                $this->domXml->create_element('name', $view['NAME']);
-                $this->domXml->create_element('href', $href);
-
-                $this->domXml->go_to_parent();
-            }
         }
     }
 
