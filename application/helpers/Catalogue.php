@@ -68,8 +68,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
 
         // Если список для подкаталога пуст - выходим
         // Требуется рефакторинг - модульное тестирование никак не провести с такой струтктурой
-        if (empty($cats))
-            return;
+        if (empty($cats)) return;
 
 
         foreach ($cats as $cat) {
@@ -118,8 +117,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
                 $href = $realcatname . $view['ALT_NAME'] . '/';
 
                 $_href = $AnotherPages->getSefURLbyOldURL($href);
-                if (!empty($_href))
-                    $href = $_href;
+                if (!empty($_href)) $href = $_href;
 
                 $this->domXml->create_element('name', $view['NAME']);
                 $this->domXml->create_element('href', $href);
