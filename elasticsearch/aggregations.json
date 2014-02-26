@@ -1,0 +1,94 @@
+PUT /authors/nested_author/3
+{
+"name": "Multi G. Enre",
+"books": [
+{
+"name": "Guns and lasers-1",
+"genre": "scifi",
+"publisher": "orbit",
+"price": 11
+},
+{
+"name": "Dead in the night-1",
+"genre": "thriller",
+"publisher": "penguin",
+"price": 5
+}
+]
+}
+
+PUT /authors/nested_author/1
+{
+"name": "Alastair Reynolds",
+"books": [
+{
+"name": "Revelation Space",
+"genre": "scifi",
+"publisher": "penguin",
+"price": 35
+}
+]
+}
+
+DELETE /authors/nested_author/
+
+POST /authors/nested_author/_mapping
+{
+"nested_author": {
+"properties": {
+"books": {
+"type": "nested"
+}
+}
+}
+}
+
+GET /authors/nested_author/_search
+{
+"query": {
+"match_all": {}
+},
+"aggs": {
+"resellers": {
+"nested": {
+"path": "books"
+},
+"aggs": {
+"grades_stats": {
+"stats": {
+"script": "_value"
+}
+}
+}
+}
+}
+}
+
+
+GET /authors/nested_author/_search
+{
+"query": {
+"match_all": {}
+},
+"aggs": {
+"resellers": {
+"nested": {
+"path": "books"
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "publisher"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "price"
+}
+}
+}
+}
+}
+}
+}
+}

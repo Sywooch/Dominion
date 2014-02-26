@@ -1,0 +1,28 @@
+curl -XPOST localhost:9200/authors/nested_author/_mapping -d '{"nested_author":{"properties":{"books": {"type": "nested"}}}}'
+
+
+curl -XPUT localhost:9200/authors/nested_author/1 -d'{"name": "Multi G. Enre","books": [{"name": "Guns and lasers","genre": "scifi","publisher": "orbit"},{"name": "Dead in the night","genre": "thriller","publisher": "penguin"}]}'
+
+curl -XPUT localhost:9200/authors/nested_author/2 -d'{"name": "Alastair Reynolds","books": [{"name": "Revelation Space","genre": "scifi","publisher": "penguin"}]}'
+
+
+
+{
+"query": {
+"match_all": {}
+},
+"aggs": {
+"resellers": {
+"nested": {
+"path": "books"
+},
+"aggs": {
+"min_price": {
+"max": {
+"field": "books.price"
+}
+}
+}
+}
+}
+}
