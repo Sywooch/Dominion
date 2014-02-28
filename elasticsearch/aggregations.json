@@ -92,3 +92,175 @@ GET /authors/nested_author/_search
 }
 }
 }
+
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_index": {
+"filter": {
+"term": {
+"TYPE": 2
+}
+},
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 1000
+}
+}
+}
+}
+}
+},
+"price": {
+"terms": {
+"field": "PRICE",
+"size": 2
+}
+}
+}
+}
+
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_filter": {
+"filter": {
+"term": {
+"TYPE": 3
+}
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 10000
+}
+}
+}
+}
+}
+}
+}
+},
+"price": {
+"terms": {
+"field": "PRICE",
+"size": 20
+}
+}
+}
+}
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_filter": {
+"filter": {
+"term": {
+"TYPE": 3
+}
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 10000
+}
+}
+}
+}
+}
+}
+}
+},
+"prices": {
+"range": {
+"field": "PRICE",
+"ranges": [
+{
+"to": 50
+},
+{
+"from": 50,
+"to": 100
+},
+{
+"from": 100
+}
+]
+}
+},
+"prices_max": {
+"max": {
+"field": "PRICE"
+}
+},
+"prices_min": {
+"min": {
+"field": "PRICE"
+}
+}
+}
+}

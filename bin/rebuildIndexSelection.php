@@ -3,7 +3,7 @@ require_once "CreateEnvironment.php";
 require_once "LoaderFactory.php";
 
 $createEnvironment = new CreateEnvironment();
-$createEnvironment->setType("selection");
+$createEnvironment->setType("products");
 
 $loaderFactory = new LoaderFactory();
 
@@ -19,7 +19,7 @@ while ($row = $queryAllItems->fetch()) {
 
     $data[$row['ITEM_ID']]['ATTRIBUTES'] = $formatDataElastic->formatDataForSelection($elasticSearchModel->getAttributesByItemID($row['ITEM_ID']), $row['PRICE'], $row['BRAND_ID']);
 
-    unset($data[$row['ITEM_ID']]['PRICE'], $data[$row['ITEM_ID']]['BRAND_ID']);
+//    unset($data[$row['ITEM_ID']]['PRICE'], $data[$row['ITEM_ID']]['BRAND_ID']);
 
     echo "add item element " . $row['ITEM_ID'] . " catalogue_id- " . $row["CATALOGUE_ID"] . "\r\n\n";
 
@@ -27,6 +27,7 @@ while ($row = $queryAllItems->fetch()) {
 
     $elasticSearchPUT->addDocuments($data);
 
+//    exit();
     $data = array();
 }
 
