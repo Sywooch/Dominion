@@ -2501,31 +2501,37 @@ while($rw = mysql_fetch_array($sth))
 }
 }
 
-if(($_REQUEST['e'] =='Добавить') || ($_REQUEST['e'] =='Изменить'))
-{
-if($cmf->Param('id'))
-{
-$cmf->execute('delete from ITEM0 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM1 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM2 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM7 where ITEM_ID=?',$_REQUEST['id']);
-}
-foreach ($_REQUEST as $param=>$val)
- {
-  if(preg_match('/ATTR_(.)_(.+)/',$param,$m))
-  {
-   list($tbl,$attr)=array($m[1],$m[2]);
-   if(trim($val)!='')
-   {
-   $val=trim($val);
-   if($tbl==1)  $val=preg_replace('/,/','.',$val);
-   if($tbl>2 && $tbl!=7) $tbl=0;
-   if($tbl==2 || $tbl==7) $cmf->execute('insert into ITEM'.$tbl.' (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   elseif($tbl==7) $cmf->execute('insert into ITEM64K (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   else $cmf->execute('insert into ITEM'.$tbl.'(ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   }
-  }
- }
+if (($_REQUEST['e'] == 'Добавить') || ($_REQUEST['e'] == 'Изменить')) {
+    if ($cmf->Param('id')) {
+        $cmf->execute('delete from ITEM0 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM1 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM2 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM7 where ITEM_ID=?', $_REQUEST['id']);
+    }
+    foreach ($_REQUEST as $param => $val) {
+        if (preg_match('/ATTR_(.)_(.+)/', $param, $m)) {
+            list($tbl, $attr) = array($m[1], $m[2]);
+
+            $val = trim($val);
+            if ($val != '') {
+                if ($tbl == 1) {
+                    $val = preg_replace('/,/', '.', $val);
+                }
+                if ($tbl > 2 && $tbl != 7) {
+                    $tbl = 0;
+                }
+                if ($tbl == 2 || $tbl == 7) {
+                    $cmf->execute('insert into ITEM' . $tbl . ' (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+                elseif ($tbl == 7) {
+                    $cmf->execute('insert into ITEM64K (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+                else {
+                    $cmf->execute('insert into ITEM' . $tbl . '(ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+            }
+        }
+    }
 }
 ]]></extraevents>
 		<extrasubs><![CDATA[

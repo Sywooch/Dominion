@@ -92,3 +92,300 @@ GET /authors/nested_author/_search
 }
 }
 }
+
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_index": {
+"filter": {
+"term": {
+"TYPE": 2
+}
+},
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 1000
+}
+}
+}
+}
+}
+},
+"price": {
+"terms": {
+"field": "PRICE",
+"size": 2
+}
+}
+}
+}
+
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_filter": {
+"filter": {
+"term": {
+"TYPE": 3
+}
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 10000
+}
+}
+}
+}
+}
+}
+}
+},
+"price": {
+"terms": {
+"field": "PRICE",
+"size": 20
+}
+}
+}
+}
+
+
+GET /test/products/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 21
+}
+}
+}
+},
+"aggs": {
+"attributs": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_filter": {
+"filter": {
+"term": {
+"TYPE": 3
+}
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "ATTRIBUT_ID"
+},
+"aggs": {
+"attributs_value": {
+"terms": {
+"field": "VALUE",
+"size": 10000
+}
+}
+}
+}
+}
+}
+}
+},
+"prices": {
+"range": {
+"field": "PRICE",
+"ranges": [
+{
+"to": 50
+},
+{
+"from": 50,
+"to": 100
+},
+{
+"from": 100
+}
+]
+}
+},
+"prices_max": {
+"max": {
+"field": "PRICE"
+}
+},
+"prices_min": {
+"min": {
+"field": "PRICE"
+}
+}
+}
+}
+
+DELETE /dominion/selection/
+
+POST /dominion/selection/_mapping
+{
+"selection": {
+"properties": {
+"ATTRIBUTES": {
+"type": "nested",
+"properties": {
+"ATTRIBUT_ID": {
+"type": "integer"
+},
+"FLOAT_VALUE": {
+"type": "float"
+},
+"INT_VALUE": {
+"type": "integer"
+},
+"IS_RANGEABLE": {
+"type": "boolean"
+}
+}
+},
+"PRICE": {
+"type": "float"
+},
+"ITEM_ID": {
+"type": "integer"
+},
+"CATALOGUE_ID": {
+"type": "integer"
+},
+"BRAND_ID": {
+"type": "integer"
+}
+}
+}
+}
+
+GET /dominion/selection/_search
+{
+"query": {
+"filtered": {
+"query": {
+"term": {
+"CATALOGUE_ID": 103
+}
+}
+}
+},
+"aggs": {
+"attributes": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"attribits_index": {
+"terms": {
+"field": "ATTRIBUT_ID",
+"size": 10000
+},
+"aggs": {
+"size": 10000,
+"float_value": {
+"terms": {
+"field": "FLOAT_VALUE"
+}
+},
+"int_value": {
+"terms": {
+"field": "INT_VALUE"
+}
+},
+"ranges_value": {
+"filter": {
+"term": {
+"IS_RANGEABLE": true
+}
+},
+"aggs": {
+"max_float_value": {
+"max": {
+"field": "FLOAT_VALUE"
+}
+},
+"min_float_value": {
+"min": {
+"field": "FLOAT_VALUE"
+}
+},
+"max_int_value": {
+"max": {
+"field": "INT_VALUE"
+}
+},
+"min_int_value": {
+"min": {
+"field": "INT_VALUE"
+}
+}
+}
+}
+}
+}
+}
+},
+"price_min": {
+"min": {
+"field": "PRICE"
+}
+},
+"price_max": {
+"max": {
+"field": "PRICE"
+}
+},
+"brands": {
+"terms": {
+"field": "BRAND_ID",
+"size": 10000
+}
+}
+}
+}
