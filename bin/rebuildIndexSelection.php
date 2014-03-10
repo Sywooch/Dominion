@@ -3,7 +3,7 @@ require_once "CreateEnvironment.php";
 require_once "LoaderFactory.php";
 
 $createEnvironment = new CreateEnvironment();
-$createEnvironment->setType("selection");
+$createEnvironment->setType("products");
 
 $loaderFactory = new LoaderFactory();
 
