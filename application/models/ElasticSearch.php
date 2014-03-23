@@ -134,116 +134,43 @@ class models_ElasticSearch extends ZendDBEntity
     }
 
     /**
-     * Get attributes by itemID
+     * Get attributes for Elastic index
      *
-     * @param integer $itemID
+     * @param $itemID Item ID
      *
      * @return array
      */
-    public function getStringsAttributesByItemID($itemID)
+    public function getAttributesIndex($itemID)
     {
         $sql = "SELECT
-                  A.ATTRIBUT_ID,
-                  I0.VALUE,
-                  A.TYPE,
-                  A.IS_RANGEABLE
-                FROM ITEM I
-                  JOIN ITEM2 I0 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                WHERE I.ITEM_ID = ? AND (A.IS_RANGE_VIEW = 0  OR A.IS_RANGE_VIEW IS NULL)
-                UNION
+                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i0.VALUE
+                FROM ATTRIBUT a
+                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
+                WHERE i0.ITEM_ID = ?
+                AND (a.IS_RANGEABLE = 1 OR a.TYPE <> 0)
+                  UNION
                 SELECT
-                  A.ATTRIBUT_ID,
-                  AL.NAME `VALUE`,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM ITEM I
-                  JOIN ITEM2 I5 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                  JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-                WHERE I5.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = ? AND A.IS_RANGEABLE = ?";
-
-        $result = $this->_db->fetchAll($sql, array($itemID, $itemID, 1));
+                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i1.VALUE
+                FROM ATTRIBUT a
+                  JOIN ITEM1 i1 USING (ATTRIBUT_ID)
+                WHERE i1.ITEM_ID = ?
+                AND a.IS_RANGEABLE = 1";
 
         return array_map(function ($result) {
             $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
-            $el['STRING_VALUE'] = $result['VALUE'];
+            $el['NAME'] = $result['NAME'];
+            $el['TYPE'] = (int) $result['TYPE'];
             $el['IS_RANGEABLE'] = (bool) $result['IS_RANGEABLE'];
 
-            return $el;
-        }, $result);
-    }
-
-    public function getFloatsAttributesByItemID($itemID)
-    {
-        $sql = "SELECT
-                  A.ATTRIBUT_ID,
-                  A.TYPE,
-                  I1.VALUE
-                FROM ITEM I
-                  JOIN ITEM1 I1 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                WHERE 1
-                AND I.ITEM_ID = ?
-                AND A.IS_RANGEABLE = ?";
-
-        $result = $this->_db->fetchAll($sql, array($itemID, 1));
-
-        return array_map(function ($result) {
-            $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
-            $el['FLOAT_VALUE'] = (float) $result['VALUE'];
-            $el['IS_RANGEABLE'] = TRUE;
+            if ($el['TYPE'] == 1 || $el['IS_RANGEABLE']) {
+                $el['FLOAT_VALUE'] = (float) $result['VALUE'];
+            }
+            else {
+                $el['INT_VALUE'] = (int) $result['VALUE'];
+            }
 
             return $el;
-        }, $result);
-    }
-
-    public function getIntegerAttributesByItemID($itemID)
-    {
-        $sql = "SELECT
-                  A.ATTRIBUT_ID,
-                  AL.ATTRIBUT_LIST_ID AS `VALUE`,
-                  A.TYPE,
-                  A.IS_RANGEABLE
-                FROM ITEM I
-                  JOIN ITEM0 I1 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                  JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-                WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = {$itemID} AND (A.IS_RANGE_VIEW = 0 OR A.IS_RANGEABLE IS NULL)
-                UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  I0.VALUE,
-                  A.TYPE,
-                  A.IS_RANGEABLE
-                FROM ITEM I
-                  JOIN ITEM0 I0 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                WHERE I.ITEM_ID = {$itemID} AND (A.IS_RANGEABLE = 0  OR A.IS_RANGEABLE IS NULL)
-                UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  I3.VALUE,
-                  A.TYPE,
-                  A.IS_RANGEABLE
-                FROM ITEM I
-                  JOIN ITEM0 I3 USING (ITEM_ID)
-                  JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                WHERE 1
-                AND I.ITEM_ID = {$itemID} AND A.IS_RANGEABLE = 1";
-
-
-        $result = $this->_db->fetchAll($sql);
-
-        return array_map(function ($result) {
-            $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
-            $el['INT_VALUE'] = (float) $result['VALUE'];
-            $el['IS_RANGEABLE'] = (bool) $result['IS_RANGEABLE'];
-
-            return $el;
-        }, $result);
+        }, $this->_db->fetchAll($sql, array($itemID, $itemID)));
     }
 
     /**
