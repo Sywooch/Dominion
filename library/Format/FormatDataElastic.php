@@ -77,7 +77,7 @@ class Format_FormatDataElastic
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
 
-            $data['IMAGE0'] = !empty($data['IMAGE0']) ? $data['IMAGE0'] : '##';
+            $data['IMAGE3'] = !empty($data['IMAGE3']) ? $data['IMAGE3'] : '##';
             $image = explode("#", $data['IMAGE0']);
 
             $goods[$key]['price'] = $price . " " . $unit;
