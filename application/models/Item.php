@@ -32,6 +32,21 @@ class models_Item extends ZendDBEntity
 
 
     /**
+     * Получить путь к базовым картинкам
+     *
+     * @return Zend_Db_Statement_Interface
+     */
+    public function geImagesNeedResize()
+    {
+        return $this->_db->query(
+            "SELECT I.ITEM_ID, I.BASE_IMAGE, IMAGE3
+                FROM ITEM I
+                WHERE I.BASE_IMAGE <> ''
+                AND I.NEED_RESIZE =1
+                AND (I.IMAGE2 = '' OR I.IMAGE2 IS null)");
+    }
+
+    /**
      * Обновить ITEM - любое поле
      *
      * @param array $data  Данные которые сетим
@@ -355,7 +370,7 @@ class models_Item extends ZendDBEntity
           LEFT JOIN CURRENCY CR ON (CR.CURRENCY_ID = I.CURRENCY_ID)
           LEFT JOIN DISCOUNTS D ON (D.DISCOUNT_ID = I.DISCOUNT_ID)
           LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
-          WHERE I.PRICE > 0
+          WHERE I.PRICE > 0 AND I.STATUS = 1
             {$where}
           ORDER BY {$order_by} {$asc}
           LIMIT {$params['start']},{$params['per_page']}";
@@ -514,7 +529,7 @@ class models_Item extends ZendDBEntity
 
     public function getCartItemName($id)
     {
-        $sql = "SELECT concat(B.NAME,' ',I.NAME)
+        $sql = "SELECT concat(I.TYPENAME, ' ',B.NAME,' ',I.NAME)
           FROM ITEM I
           LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
           WHERE I.ITEM_ID=?";
@@ -657,15 +672,10 @@ class models_Item extends ZendDBEntity
         return $new_price;
     }
 
-    public function getAttributes(
-        $catalogueId = 0,
-        $tableName = 'ATTR_CATALOG_LINK',
-        $limit = '',
-        $show = 0
-    )
+    public function getAttributes($catalogueId = 0, $tableName = 'ATTR_CATALOG_LINK', $limit = '', $show = 0)
     {
         if (!$catalogueId) {
-            return;
+            return false;
         }
 
         $where = '';

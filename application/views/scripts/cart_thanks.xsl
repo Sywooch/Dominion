@@ -3,7 +3,17 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="_main.xsl"/>
 
+<xsl:template match="data/order">
+    <script type="text/javascript">
+        window.GIHhtQfW_AtmUrl = '7560000.com.ua/cart/thanks/<xsl:value-of select="."/>';
+    </script>
+</xsl:template>
+
+
 <xsl:template match="data">
+
+    <xsl:apply-templates select="order"/>
+
 	<h1><xsl:apply-templates select="docinfo/name" /></h1>
 	<div class="content_block">
 		<xsl:apply-templates select="docinfo/txt" />

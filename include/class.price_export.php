@@ -258,8 +258,8 @@ class price_export {
                             $price1 = round($new_price1);
                         }
 
-                        if ($itm['IMAGE1']) {
-                            $IMAGE = explode("#", $itm['IMAGE1']);
+                        if ($itm['IMAGE2']) {
+                            $IMAGE = explode("#", $itm['IMAGE2']);
                             $imageUrl = $this->baseUrl . "/images/it/" . $IMAGE[0];
                         }
                         else

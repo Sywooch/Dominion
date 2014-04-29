@@ -3,6 +3,7 @@
 class AjaxController extends Zend_Controller_Action
 {
 
+    /** @var  models_AnotherPages */
     public $AnotherPages;
     public $Textes;
     public $SystemSets;
@@ -48,38 +49,46 @@ class AjaxController extends Zend_Controller_Action
     public function forgotAction()
     {
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $postData = $request->getPost();
 
-            $member_data = $this->Registration->check_email($postData['forgot_email']);
-            if (!empty($member_data)) {
-                $doc_id = $this->AnotherPages->getDocId('/forgot/');
-                $message = $this->AnotherPages->getDocXml($doc_id, 0);
-
-                if (!empty($member_data['email'])) $message = str_replace('##email##', $member_data['EMAIL'], $message);
-                else $message = str_replace('##email##', '', $message);
-
-                if (!empty($member_data['passwd'])) $message = str_replace('##passwd##', $member_data['PASSWORD'], $message);
-                else $message = str_replace('##passwd##', '', $message);
-
-                $message = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
-                    . $message . '</body></html>';
-
-                $email_from = $this->getSettingValue('email_from');
-                $patrern = '/(.*)<?([a-zA-Z0-9\-\_]+\@[a-zA-Z0-9\-\_]+(\.[a-zA-Z0-9]+?)+?)>?/U';
-                preg_match_all($patrern, $email_from, $arr);
-
-                $params['to'] = $postData['forgot_email'];
-                $params['message'] = $message;
-                $params['subject'] = 'Система напоминания пароля';
-                $params['mailerFrom'] = empty($arr[2][0]) ? '' : trim($arr[2][0]);
-                $params['mailerFromName'] = empty($arr[1][0]) ? '' : trim($arr[1][0]);
-
-                App_Mail::send($params);
-
-                echo 1;
-            } else echo 0;
+        if (!$request->isPost()) {
+            return false;
         }
+
+        $postData = $request->getPost();
+
+        if (empty($postData['forgot_email'])) {
+            return false;
+        }
+
+        $member_data = $this->Registration->check_email($postData['forgot_email']);
+        if (!empty($member_data)) {
+            $doc_id = $this->AnotherPages->getDocId('forgot');
+            $message = $this->AnotherPages->getDocXml($doc_id, 0);
+
+            if (!empty($member_data['EMAIL'])) $message = str_replace('##email##', $member_data['EMAIL'], $message);
+            else $message = str_replace('##email##', '', $message);
+
+            if (!empty($member_data['PASSWORD'])) $message = str_replace('##password##', $member_data['PASSWORD'], $message);
+            else $message = str_replace('##password##', '', $message);
+
+            $message = '<html><head><meta  http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body>'
+                . $message . '</body></html>';
+
+            $email_from = $this->getSettingValue('email_from');
+            $patrern = '/(.*)<?([a-zA-Z0-9\-\_]+\@[a-zA-Z0-9\-\_]+(\.[a-zA-Z0-9]+?)+?)>?/U';
+            preg_match_all($patrern, $email_from, $arr);
+
+            $params['to'] = $postData['forgot_email'];
+            $params['message'] = $message;
+            $params['subject'] = 'Система напоминания пароля магазина Доминион';
+            $params['mailerFrom'] = empty($arr[2][0]) ? '' : trim($arr[2][0]);
+            $params['mailerFromName'] = empty($arr[1][0]) ? '' : trim($arr[1][0]);
+
+            App_Mail::send($params);
+
+            echo 1;
+        } else echo 0;
+
     }
 
     public function getcallAction()
@@ -345,6 +354,7 @@ class AjaxController extends Zend_Controller_Action
 
         }
     }
+
 
     public function popupAction()
     {

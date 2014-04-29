@@ -1,0 +1,83 @@
+{"query": {
+    "filtered": {
+        "query": {
+            "term": {
+                "CATALOGUE_ID": 27
+            }
+        }
+    }
+},
+    "aggs": {
+        "attributes": {
+            "nested": {
+                "path": "ATTRIBUTES"
+            },
+            "aggs": {
+                "attribits_index": {
+                    "terms": {
+                        "field": "ATTRIBUT_ID",
+                        "size": 10000
+                    },
+                    "aggs": {
+                        "size": 10000,
+                        "float_value": {
+                            "terms": {
+                                "field": "FLOAT_VALUE"
+                            }
+                        },
+                        "int_value": {
+                            "terms": {
+                                "field": "INT_VALUE"
+                            }
+                        },
+                        "ranges_value": {
+                            "filter": {
+                                "term": {
+                                    "IS_RANGEABLE": true
+                                }
+                            },
+                            "aggs": {
+                                "max_float_value": {
+                                    "max": {
+                                        "field": "FLOAT_VALUE"
+                                    }
+                                },
+                                "min_float_value": {
+                                    "min": {
+                                        "field": "FLOAT_VALUE"
+                                    }
+                                },
+                                "max_int_value": {
+                                    "max": {
+                                        "field": "INT_VALUE"
+                                    }
+                                },
+                                "min_int_value": {
+                                    "min": {
+                                        "field": "INT_VALUE"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "price_min": {
+            "min": {
+                "field": "PRICE"
+            }
+        },
+        "price_max": {
+            "max": {
+                "field": "PRICE"
+            }
+        },
+        "brands": {
+            "terms": {
+                "field": "BRAND_ID",
+                "size": 10000
+            }
+        }
+    }
+}

@@ -146,7 +146,7 @@ class models_Catalogue extends ZendDBEntity
 
         $sql = "SELECT count(*)
             FROM ITEM
-            WHERE PRICE > 0 " .
+            WHERE PRICE > 0 AND STATUS = 1 " .
             $where;
 
         return $this->_db->fetchOne($sql);
@@ -414,6 +414,7 @@ class models_Catalogue extends ZendDBEntity
                   , if(I.PRICE1>0,I.PRICE1,I.PRICE) AS ITEM_PRICE
                   , I.PRICE1 AS ITEM_PRICE1
                   , I.IMAGE1
+                  , I.IMAGE2
                   , I.CURRENCY_ID
                   , I.NAME
                   , I.CATNAME
@@ -431,6 +432,35 @@ class models_Catalogue extends ZendDBEntity
                     AND I.CATALOGUE_ID={$id}";
 
         return $this->_db->fetchAll($sql);
+    }
+
+    /**
+     * Get Catalogs and brands List
+     *
+     * @param $catalogParentId ID каталога для которго выводим спсиок товаров с брендами
+     *
+     * @return array
+     */
+    public function getCatalogsIncludeBrandsList($catalogParentId)
+    {
+
+        $sql = "SELECT
+                  C.NAME,
+                  C.IMAGE1,
+                  C.REALCATNAME,
+                  GROUP_CONCAT(DISTINCT CONCAT(B.NAME, '#', B.ALT_NAME) ORDER BY B.NAME) AS BRANDS
+                FROM CATALOGUE C
+                  JOIN CATALOGUE_BRAND_VIEW CBV1 USING (CATALOGUE_ID)
+                  JOIN BRAND B USING (BRAND_ID)
+                  JOIN ITEM I
+                    ON (C.CATALOGUE_ID = I.CATALOGUE_ID AND B.BRAND_ID = I.BRAND_ID)
+                WHERE C.PARENT_ID = ?
+                AND I.STATUS = 1
+                GROUP BY C.CATALOGUE_ID
+                ORDER BY C.ORDERING";
+
+        return $this->_db->fetchAll($sql, array($catalogParentId));
+
     }
 
     public function getIndexTree($catalogueID = 0, $lang = 0)

@@ -38,6 +38,8 @@ class App_Controller_Router_Bootstrap
 
         $this->_initAliasingRegister();
 
+//        $this->_initAliasingCartThanks();
+
         if ($this->_is301) {
             return;
         }
@@ -87,37 +89,35 @@ class App_Controller_Router_Bootstrap
     {
 
         $AnotherPages = new models_AnotherPages();
-        $req = new Zend_Controller_Request_Http();
-        $uri = $req->getRequestUri();
+        $request = new Zend_Controller_Request_Http();
+        $uri = $request->getRequestUri();
 
         $paramsUrl = '';
+        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
 
-        $pattern_page = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).*)?$/Uis';
-
-        if (preg_match($pattern_page, $uri, $out)) {
+        if (preg_match($patternPage, $uri, $out)) {
 
             $uri = $out[1];
-            if (!empty($out[2])) {
-
+            $paramsUrl = $out[2];
+            if (!empty($paramsUrl)) {
                 // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
-                $g = substr($out[2], 0, 1);
-                if ('/' === substr($out[2], 0, 1)) {
-                    $paramsUrl = substr($out[2], 1, strlen($out[2]) - 1);
+                if ('/' === substr($paramsUrl, 0, 1)) {
+                    $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
                 } else {
-                    $paramsUrl = $out[2];
+                    $paramsUrl = $paramsUrl;
                 }
-
             }
         }
 
         $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
 
         if (!empty($siteURLbySEFU)) {
-            $req->setRequestUri($siteURLbySEFU . $paramsUrl);
+            $siteURLbySEFU .= $paramsUrl;
+            $request->setRequestUri($siteURLbySEFU);
         }
 
         $front = Zend_Controller_Front::getInstance();
-        $front->setRequest($req);
+        $front->setRequest($request);
     }
 
     private function _initAliasingRegister()
@@ -454,6 +454,23 @@ class App_Controller_Router_Bootstrap
                 ),
                 array(
                     1 => 'id'
+                )
+            )
+        );
+    }
+
+    private function _initAliasingCartThanks()
+    {
+        $this->_router->addRoute(
+            'cart_thanks',
+            new Zend_Controller_Router_Route_Regex(
+                'cart/thanks/([^/]\d*)',
+                array(
+                    'controller' => 'cart',
+                    'action' => 'thanks'
+                ),
+                array(
+                    1 => 'order_id'
                 )
             )
         );

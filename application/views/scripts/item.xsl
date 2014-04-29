@@ -51,6 +51,12 @@
 <script type="text/javascript" src="/js/jquery.jcarousel.js"/>
 <script type="text/javascript" src="/js/attributs.js"/>
 <script type="text/javascript" src="http://js.testfreaks.com/badge/7560000.com.ua/head.js"/>
+    <script>
+        (function(d,t,p){
+        var e = d.createElement(t); e.charset = "utf-8"; e.src = p;
+        var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(e,s)
+        })(document,"script","http://js.testfreaks.com/onpage/7560000.com.ua/prd.js")
+    </script>
 </xsl:template>
 
 <xsl:template match="attributes">
@@ -434,7 +440,8 @@ $().ready(function() {
 							</xsl:when>
 							<xsl:otherwise>
 								<div class="price_box">
-									<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span> | <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>
+									<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span>
+                                    <!--| <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>-->
 								</div>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -482,7 +489,7 @@ $().ready(function() {
 			</xsl:choose>
 			<xsl:if test="@price &gt; 0 and @active=1">
 				<xsl:if test="credit_description!=''">
-				  <a class="popup pseudo orange" href="/ajax/popup/mode/credit/id/{@credit_id}/"><span>Купить в кредит</span></a>
+				  <a class="popup pseudo orange" href="/calculator/get/item_id/{@item_id}/" width="528px" offset="250"><span>Купить в кредит</span></a>
 				  </xsl:if>
 			</xsl:if>
 		</div>
@@ -490,7 +497,7 @@ $().ready(function() {
 			<xsl:if test="warranty_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="product_block_icon warranty popup">Гарантия</a>
-					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="pseudo popup"><span>Гарантия</span></a>
+					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="pseudo popup" width="370px" offset="200"><span>Гарантия</span></a>
 					<a href="/ajax/popup/mode/warranty/id/{@warranty_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="warranty_description"/>
@@ -500,7 +507,7 @@ $().ready(function() {
 			<xsl:if test="delivery_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="product_block_icon delivery popup">Доставка</a>
-					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="pseudo popup"><span>Доставка</span></a>
+					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="pseudo popup" width="370px" offset="200"><span>Доставка</span></a>
 					<a href="/ajax/popup/mode/delivery/id/{@delivery_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="delivery_description"/>
@@ -510,7 +517,7 @@ $().ready(function() {
 			<xsl:if test="credit_description!=''">
 				<div class="info_box">
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="product_block_icon credit popup">Кредит</a>
-					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup"><span>Кредит</span></a>
+					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="pseudo popup" width="370px" offset="200"><span>Кредит</span></a>
 					<a href="/ajax/popup/mode/credit/id/{@credit_id}/" class="what_is_it popup">What is it?</a>
 					<div class="info">
 						<xsl:apply-templates select="credit_description"/>
@@ -548,7 +555,7 @@ $().ready(function() {
 			<xsl:apply-templates select="tabs[name='characteristics']" mode="charcter"/>
 			<xsl:apply-templates select="tabs[name='video']" mode="video"/>
 			<xsl:apply-templates select="tabs[name='items']" mode="items"/>
-			<xsl:apply-templates select="tabs[name='comments']" mode="comments"/>
+			<!--<xsl:apply-templates select="tabs[name='comments']" mode="comments"/>-->
 		</div>
 	</div>
 </xsl:template>

@@ -53,6 +53,7 @@ class Format_PricesObjectValue
      * Set item in array items
      *
      * @param mixed $item
+     * @param       $key
      */
     public function setItem($item, $key)
     {

@@ -6,6 +6,7 @@
  * Time: 12:31
  * To change this template use File | Settings | File Templates.
  */
+
 /**
  * Class model get data for put to elastic search in index
  *
@@ -114,8 +115,10 @@ class models_ElasticSearch extends ZendDBEntity
             left join DELIVERY DL on (DL.DELIVERY_ID=I.DELIVERY_ID)
             left join CREDIT CR on (CR.CREDIT_ID=I.CREDIT_ID)
             left join CATALOGUE C on (C.CATALOGUE_ID = I.CATALOGUE_ID)
-            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID) where
-            I.PRICE > 0" . $where;
+            left join CURRENCY CRN on (CRN.CURRENCY_ID = I.CURRENCY_ID)
+            where 1
+            #I.PRICE > 0
+            " . $where;
 
         return $this->_db->fetchAll($sql);
     }
@@ -127,86 +130,47 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllItemID()
     {
-        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM item i";
+        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM ITEM i WHERE i.STATUS = 1 AND i.PRICE > 0";
     }
 
     /**
-     * Get attributes by itemID
+     * Get attributes for Elastic index
      *
-     * @param integer $itemID
+     * @param $itemID Item ID
+     *
      * @return array
      */
-    public function getAttributesByItemID($itemID)
+    public function getAttributesIndex($itemID)
     {
         $sql = "SELECT
-                      A.ATTRIBUT_ID,
-                      AL.ATTRIBUT_LIST_ID AS `VALUE`,
-                      A.TYPE,
-                      A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item0 I1 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                  JOIN attribut_list AL USING (ATTRIBUT_ID)
-                WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
-                UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  I0.VALUE,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item0 I0 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                WHERE I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
-                UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  I0.VALUE,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item2 I0 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                WHERE I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 0
+                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i0.VALUE
+                FROM ATTRIBUT a
+                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
+                WHERE i0.ITEM_ID = ?
+                AND (a.IS_RANGEABLE = 1 OR a.TYPE <> 0)
                   UNION
                 SELECT
-                  A.ATTRIBUT_ID,
-                  AL.NAME `VALUE`,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item0 I3 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                  JOIN attribut_list AL USING (ATTRIBUT_ID)
-                WHERE I3.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1
-                    UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  AL.NAME `VALUE`,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item1 I4 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                  JOIN attribut_list AL USING (ATTRIBUT_ID)
-                WHERE I4.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1
-                      UNION
-                SELECT
-                  A.ATTRIBUT_ID,
-                  AL.NAME `VALUE`,
-                  A.TYPE,
-                  A.IS_RANGE_VIEW
-                FROM item I
-                  JOIN item2 I5 USING (ITEM_ID)
-                  JOIN attribut A USING (ATTRIBUT_ID)
-                  JOIN attribut_list AL USING (ATTRIBUT_ID)
-                WHERE I5.VALUE = AL.ATTRIBUT_LIST_ID
-                AND I.ITEM_ID = {$itemID} AND A.IS_RANGE_VIEW = 1";
+                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i1.VALUE
+                FROM ATTRIBUT a
+                  JOIN ITEM1 i1 USING (ATTRIBUT_ID)
+                WHERE i1.ITEM_ID = ?
+                AND a.IS_RANGEABLE = 1";
 
-        return $this->_db->fetchAll($sql);
+        return array_map(function ($result) {
+            $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
+            $el['NAME'] = $result['NAME'];
+            $el['TYPE'] = (int) $result['TYPE'];
+            $el['IS_RANGEABLE'] = (bool) $result['IS_RANGEABLE'];
+
+            if ($el['TYPE'] == 1 || $el['IS_RANGEABLE']) {
+                $el['FLOAT_VALUE'] = (float) $result['VALUE'];
+            }
+            else {
+                $el['INT_VALUE'] = (int) $result['VALUE'];
+            }
+
+            return $el;
+        }, $this->_db->fetchAll($sql, array($itemID, $itemID)));
     }
 
     /**

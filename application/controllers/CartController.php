@@ -69,6 +69,7 @@ class CartController extends App_Controller_Frontend_Action
             $_SESSION['ses_zakaz_id'] = $zakaz_id;
 
             $session = new Zend_Session_Namespace('cart');
+            $session->order_id = $zakaz_id;
 
             if (!empty($session->item)) {
                 $curr_info = $Item->getCurrencyInfo($this->currency);
@@ -220,11 +221,15 @@ class CartController extends App_Controller_Frontend_Action
             }
         }
 
-        $this->_redirect('/cart/thanks/');
+        $this->redirect("/cart/thanks/");
     }
 
+    /**
+     * Страница благодарности за заказ
+     */
     public function thanksAction()
     {
+
         $AnotherPages = new models_AnotherPages();
 
         $doc_id = $AnotherPages->getDocByUrl('/cart/thanks/');
@@ -235,11 +240,22 @@ class CartController extends App_Controller_Frontend_Action
 
         $this->getDocPath($doc_id);
 
+        /** @var Helpers_AnotherPages $ap_helper */
         $ap_helper = $this->_helper->helperLoader('AnotherPages');
         $ap_helper->setModel($AnotherPages);
         $ap_helper->setDomXml($this->domXml);
         $ap_helper->getDocInfo($doc_id);
         $this->domXml = $ap_helper->getDomXml();
+
+
+        /** @var Helpers_Cart $cr_helper */
+        $cr_helper = $this->_helper->helperLoader('Cart');
+        $cr_helper->setDomXml($this->domXml);
+
+        $session = new Zend_Session_Namespace('cart', true);
+        if (isset($session->order_id)) {
+            $cr_helper->setOrderId($session->order_id);
+        }
 
         // Собираем меню каталога
         $sesVcene = new Zend_Session_Namespace('metriks');
@@ -249,6 +265,9 @@ class CartController extends App_Controller_Frontend_Action
             // Удаляем из сессии чтобы при обновлении страницы счётчик не срабатывал по сто раз
             unset($sesVcene->vcene);
         }
+
+        // Удаляем все из сесси что связано с Cart
+        Zend_Session::namespaceUnset('cart');
     }
 
     public function successAction()
@@ -438,47 +457,47 @@ class CartController extends App_Controller_Frontend_Action
             $messageAmin = str_replace("##surname##", '', $messageAmin);
         }
 
-        if (!empty($postData['_payment'])) {
+        if (!empty($postData['PAYMENT'])) {
             $messageAmin = str_replace(
                 "##payment##",
-                $postData['_payment'],
+                $postData['PAYMENT'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##payment##", '', $messageAmin);
         }
 
-        if (!empty($postData['telmob'])) {
+        if (!empty($postData['TELMOB'])) {
             $messageAmin = str_replace(
                 "##phone##",
-                $postData['telmob'],
+                $postData['TELMOB'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##phone##", '', $messageAmin);
         }
 
-        if (!empty($postData['info'])) {
+        if (!empty($postData['INFO'])) {
             $messageAmin = str_replace(
                 "##info##",
-                $postData['info'],
+                $postData['INFO'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##info##", '', $messageAmin);
         }
 
-        if (!empty($postData['name'])) {
+        if (!empty($postData['NAME'])) {
             $messageAmin = str_replace(
                 "##name##",
-                $postData['name'],
+                $postData['NAME'],
                 $messageAmin
             );
         } else {
             $messageAmin = str_replace("##name##", '', $messageAmin);
         }
 
-        if (!empty($postData['address'])) {
+        if (!empty($postData['ADDRESS'])) {
             $messageAmin = str_replace(
                 "##address##",
                 $postData['address'],
@@ -488,10 +507,10 @@ class CartController extends App_Controller_Frontend_Action
             $messageAmin = str_replace("##address##", '', $messageAmin);
         }
 
-        if (!empty($postData['email'])) {
+        if (!empty($postData['EMAIL'])) {
             $messageAmin = str_replace(
                 "##email##",
-                $postData['email'],
+                $postData['EMAIL'],
                 $messageAmin
             );
         } else {

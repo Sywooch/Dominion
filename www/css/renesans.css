@@ -1,0 +1,213 @@
+div.calculator {
+    width: 480px;
+    height: 100%;
+    margin: 0 auto;
+    /*border: 1px solid #999999;*/
+    padding: 10px;
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.calculator p {
+    font-size: 10px;
+    color: #333333;
+    margin: 0;
+}
+
+div.calculator h1 {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #DE006C;
+    display: block;
+    float: left;
+    font-size: 21px;
+    font-weight: 400;
+    height: auto;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    width: 234px;
+}
+
+div.calculator h4 {
+    color: #398a13;
+    font-size: 12px;
+    font-weight: 600;
+    float: left;
+}
+
+body.ie7 h4 {
+    margin-top: 14px;
+}
+
+div.calculator a img {
+    float: right;
+    border: 0 none;
+}
+
+div.calculator div.column {
+    width: 190px;
+    float: left;
+    margin-top: 7px;
+    margin-bottom: 0;
+}
+
+div.calculator div.w90 {
+    float: right;
+    width: 90px;
+}
+
+div.calculator div.w175 {
+    width: 175px;
+}
+
+div.calculator div.column label {
+    font-size: 13px;
+    font-weight: 600;
+    float: none;
+}
+
+div.calculator div.column input,
+div.calculator div.column select {
+    width: 120px;
+    padding: 0px;
+    margin: 10px 0;
+    font-size: 13px;
+    float: none;
+    border: 1px inset;
+}
+
+div.calculator div.column label.italic {
+    font-weight: 500;
+    font-size: 12px;
+    font-style: italic;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.calculator label.price,
+div.calculator span {
+    font-size: 16px;
+    color: #cc0066;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 15px;
+    display: block;
+    float: left;
+}
+
+div.calculator span {
+    font-size: 14px;
+    margin-left: 8px;
+    margin-top: 15px;
+}
+
+div.calculator form.form1 input.button,
+div.calculator form.form2 input.button {
+    width: 130px;
+    height: 25px;
+    background: #398a13;
+    color: #fff;
+    text-decoration: underline;
+    border: 0 none;
+    margin-top: 13px;
+    float: right;
+    margin-right: 5px;
+    padding-bottom: 4px;
+    cursor: pointer;
+    padding: 0;
+}
+
+div.calculator form.form2 input.button {
+    background: #df0771;
+    font-weight: normal;
+    border-radius: 0;
+}
+
+div.calculator form.form1 input.button:hover,
+div.calculator form.form2 input.button:hover {
+    text-decoration: none;
+}
+
+div.calculator div.info {
+    width: 470px;
+    background: #e3e3e3;
+    padding-left: 10px;
+}
+
+div.calculator form.form2 input {
+    width: 273px;
+    font-size: 13px;
+    padding: 0px;
+    margin-top: 10px;
+    margin-right: 5px;
+    float: right;
+}
+
+div.calculator form.form2 select {
+    font-size: 13px;
+    padding: 0 10px;
+    margin-left: 9px;
+    margin-right: 5px;
+    margin-top: 10px;
+    padding: 0;
+    float: right;
+}
+
+div.calculator form.form2 div{
+    margin-bottom: 0;
+}
+
+
+div.calculator form.form2 label {
+    display: block;
+    width: 185px;
+    text-align: right;
+    float: left;
+    margin-top: 11px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+body.ie7 form.form2 label {
+    margin-top: 0;
+}
+
+body.ie7 form.form2 input {
+    margin-top: 0;
+}
+
+div.calculator .f12 {
+    font-size: 12px !important;
+}
+
+div.calculator .agree {
+    padding: 5px 5px 5px 25px;
+    background-color: #8CC53E;
+    color: #fff;
+    position: relative;
+    margin: 0 0 10px 0;
+}
+
+div.calculator .agree p {
+    color: #fff;
+    font-size: 12px;
+}
+
+div.calculator .agree input {
+    position: absolute;
+    left: 2px;
+    top: 3px;
+    margin: 3px;
+}
+
+div.calculator .marketing {
+    color: #fff;
+    padding: 0 13px 0 0;
+    background: url("/images/link-icon.jpg") no-repeat scroll right center rgba(0, 0, 0, 0);
+}
+
+div.calculator .opacity {
+    opacity: 0.5;
+    text-decoration: none !important;
+}

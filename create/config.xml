@@ -112,6 +112,10 @@
 			<name>Название</name>
 			<comment>Название</comment>
 		</col>
+        <col type="1" name="CODE" visuality="y" size="90">
+            <name>Код банка</name>
+            <comment>Не менять если не знаешь</comment>
+        </col>
 		<col type="2" name="DESCRIPTION" rows="7" cols="90" tabid="1" panelize="y" econfig="light_config.js">
 			<name>Краткое описание</name>
 			<comment>Краткое описание</comment>
@@ -120,6 +124,17 @@
 			<name>Описание</name>
 			<comment>Описание</comment>
 		</col>
+        <col type="1" name="COEF" size="5" visuality="y">
+            <name>Коэф. цены</name>
+        </col>
+        <col type="1" name="EMAIL" size="90" visuality="y">
+            <name>Email менеджера банка</name>
+        </col>
+        <col type="2" name="EMAIL_TEMPLATE" rows="20" cols="90" tabid="1" panelize="y" econfig="light_config.js">
+            <name>Шаблон письма</name>
+            <comment>Шаблон письма</comment>
+        </col>
+
 	</table>
 	<table name="SOCIALS" pagesize="120" ordering="ORDERING" imagepath="/social/">
 		<name>Социальные ссылки</name>
@@ -2486,31 +2501,37 @@ while($rw = mysql_fetch_array($sth))
 }
 }
 
-if(($_REQUEST['e'] =='Добавить') || ($_REQUEST['e'] =='Изменить'))
-{
-if($cmf->Param('id'))
-{
-$cmf->execute('delete from ITEM0 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM1 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM2 where ITEM_ID=?',$_REQUEST['id']);
-$cmf->execute('delete from ITEM7 where ITEM_ID=?',$_REQUEST['id']);
-}
-foreach ($_REQUEST as $param=>$val)
- {
-  if(preg_match('/ATTR_(.)_(.+)/',$param,$m))
-  {
-   list($tbl,$attr)=array($m[1],$m[2]);
-   if(trim($val)!='')
-   {
-   $val=trim($val);
-   if($tbl==1)  $val=preg_replace('/,/','.',$val);
-   if($tbl>2 && $tbl!=7) $tbl=0;
-   if($tbl==2 || $tbl==7) $cmf->execute('insert into ITEM'.$tbl.' (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   elseif($tbl==7) $cmf->execute('insert into ITEM64K (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   else $cmf->execute('insert into ITEM'.$tbl.'(ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)',$_REQUEST['id'],$attr,$val);
-   }
-  }
- }
+if (($_REQUEST['e'] == 'Добавить') || ($_REQUEST['e'] == 'Изменить')) {
+    if ($cmf->Param('id')) {
+        $cmf->execute('delete from ITEM0 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM1 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM2 where ITEM_ID=?', $_REQUEST['id']);
+        $cmf->execute('delete from ITEM7 where ITEM_ID=?', $_REQUEST['id']);
+    }
+    foreach ($_REQUEST as $param => $val) {
+        if (preg_match('/ATTR_(.)_(.+)/', $param, $m)) {
+            list($tbl, $attr) = array($m[1], $m[2]);
+
+            $val = trim($val);
+            if ($val != '') {
+                if ($tbl == 1) {
+                    $val = preg_replace('/,/', '.', $val);
+                }
+                if ($tbl > 2 && $tbl != 7) {
+                    $tbl = 0;
+                }
+                if ($tbl == 2 || $tbl == 7) {
+                    $cmf->execute('insert into ITEM' . $tbl . ' (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+                elseif ($tbl == 7) {
+                    $cmf->execute('insert into ITEM64K (ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+                else {
+                    $cmf->execute('insert into ITEM' . $tbl . '(ITEM_ID,ATTRIBUT_ID,VALUE) values(?,?,?)', $_REQUEST['id'], $attr, $val);
+                }
+            }
+        }
+    }
 }
 ]]></extraevents>
 		<extrasubs><![CDATA[

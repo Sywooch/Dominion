@@ -1,0 +1,31 @@
+User-agent: * 
+Disallow: */at/*
+Disallow: */price/*
+Disallow: */collect/*
+Disallow: */search/*
+Disallow: */ajax/*
+Disallow: /admin/
+Disallow: */sort/*
+#Disallow: */page/*
+Disallow: */collect/*
+Disallow: *Additional*
+Disallow: */br/*
+Disallow: */group/*
+Disallow: /*gclid
+
+User-agent: Yandex
+Disallow: */at/*
+Disallow: */price/*
+Disallow: */collect/*
+Disallow: */search/*
+Disallow: */ajax/*
+Disallow: /admin/
+Disallow: */sort/*
+#Disallow: */page/*
+Disallow: */collect/*
+Disallow: *Additional*
+Disallow: */br/*
+Disallow: */group/*
+Disallow: /*gclid
+
+Host: 7560000.com.ua

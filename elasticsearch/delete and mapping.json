@@ -1,0 +1,38 @@
+DELETE /dominion/selection/
+
+POST /dominion/selection/_mapping
+{
+    "selection": {
+        "properties": {
+            "ATTRIBUTES": {
+                "type": "nested",
+                "properties": {
+                    "ATTRIBUT_ID": {
+                        "type": "integer"
+                    },
+                    "FLOAT_VALUE": {
+                        "type": "float"
+                    },
+                    "INT_VALUE": {
+                        "type": "integer"
+                    },
+                    "IS_RANGEABLE": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PRICE": {
+                "type": "float"
+            },
+            "ITEM_ID": {
+                "type": "integer"
+            },
+            "CATALOGUE_ID": {
+                "type": "integer"
+            },
+            "BRAND_ID": {
+                "type": "integer"
+            }
+        }
+    }
+}

@@ -46,7 +46,7 @@ if(($_REQUEST['e']=='Удалить') and isset($_REQUEST['id']) and $cmf->D)
 
 foreach ($_REQUEST['id'] as $id)
  {
-list($ORDERING)=$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$id);
+$ORDERING=(int)$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$id);
 $cmf->execute('update VIEW_ATTRIBUT_GROUP set ORDERING=ORDERING-1 where ORDERING>?',$ORDERING);
 $cmf->execute('delete from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$id);
 
@@ -57,7 +57,7 @@ $cmf->execute('delete from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$
 
 if($_REQUEST['e'] == 'UP')
 {
-list($ORDERING)=$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
+$ORDERING=(int)$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
 if($ORDERING>1)
 {
 $cmf->execute('update VIEW_ATTRIBUT_GROUP set ORDERING=ORDERING+1 where ORDERING=?',$ORDERING-1);
@@ -67,7 +67,7 @@ $cmf->execute('update VIEW_ATTRIBUT_GROUP set ORDERING=ORDERING-1 where VIEW_ATT
 
 if($_REQUEST['e'] == 'DN')
 {
-list($ORDERING)=$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
+$ORDERING = (int)$cmf->selectrow_array('select ORDERING from VIEW_ATTRIBUT_GROUP where VIEW_ATTRIBUT_GROUP_ID=?',$_REQUEST['id']);
 $MAXORDERING=$cmf->selectrow_array('select max(ORDERING) from VIEW_ATTRIBUT_GROUP');
 if($ORDERING<$MAXORDERING)
 {

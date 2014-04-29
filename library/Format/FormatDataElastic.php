@@ -6,6 +6,7 @@
  * Time: 13:43
  * To change this template use File | Settings | File Templates.
  */
+
 /**
  * Business logic for generate url and format array to put in index elastic search
  *
@@ -37,22 +38,35 @@ class Format_FormatDataElastic
      * Format Data for build index
      *
      * @param array $attributes
-     * @param $price
-     * @param $brandId
+     * @param       $price
+     * @param       $brandId
+     *
      * @return array
      */
     public function formatDataForSelection(array $attributes, $price, $brandId)
     {
-        if (empty($attributes)) return $attributes;
+        if (empty($attributes)) {
+            return $attributes;
+        }
 
         $formatArray = array();
         foreach ($attributes as $value) {
-            $formatArray[$value['ATTRIBUT_ID']]['VALUE'] = $value["IS_RANGE_VIEW"] ? (int)Format_ConvertDataElasticSelection::getInt($value["VALUE"]) : $value["VALUE"];
-            $formatArray[$value['ATTRIBUT_ID']]['TYPE'] = $value['TYPE'];
-            $formatArray[$value['ATTRIBUT_ID']]['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
+            $tmpArray = array();
+            $tmpArray['ATTRIBUT_ID'] = $value["ATTRIBUT_ID"] ? (int)Format_ConvertDataElasticSelection::getInt($value["ATTRIBUT_ID"]) : $value["ATTRIBUT_ID"];
+
+            $tmpArray['VALUE'] = $value["IS_RANGE_VIEW"] ? (int)Format_ConvertDataElasticSelection::getInt($value["VALUE"]) : $value["VALUE"];
+            $tmpArray['TYPE'] = $value['TYPE'];
+            $tmpArray['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
+
+            if (is_float($value["VALUE"]) || is_int($value["VALUE"])){
+                $h = 3;
+            }
+
+
+            $formatArray[] = $tmpArray;
         }
-        $formatArray['price'] = round($price, 1);
-        $formatArray[$brandId] = $brandId;
+//        $formatArray['price'] = round($price, 1);
+//        $formatArray[$brandId] = $brandId;
 
         return $formatArray;
     }
@@ -123,7 +137,7 @@ class Format_FormatDataElastic
      *
      * @param Format_PricesObjectValue $pricesObjectValue
      */
-    private function formatPrices(Format_PricesObjectValue $pricesObjectValue)
+    public function formatPrices(Format_PricesObjectValue $pricesObjectValue)
     {
         $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {

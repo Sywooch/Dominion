@@ -111,7 +111,7 @@ class SCMF
     {
         $CMF_MD5 = $this->Param('CMF_UID');
 
-        $CMF_MD5 = !empty($_COOKIE['CMF_UID']) ? $_COOKIE['CMF_UID'] : 0;
+        $CMF_MD5 = !empty($_COOKIE['CMF_UID']) ? $_COOKIE['CMF_UID'] : null;
 
         list($CMF_USER_ID, $NAME) = $this->selectrow_array('select CMF_USER_ID,NAME from CMF_USER where MD5_=? and STATUS=1', $CMF_MD5);
         list($CMF_SCRIPT_ID, $CMF_SCRIPT_NAME) = $this->selectrow_array('select CMF_SCRIPT_ID,NAME from CMF_SCRIPT where ARTICLE=? and STATUS=1', $this->ARTICLE);
@@ -1345,7 +1345,7 @@ function ___mysql_make_qw()
     foreach ($args as $i => $v) {
         if (!$i) continue;
         if (is_int($v) && $v[0] != '0') continue; // changed 18.10.2006
-        $args[$i] = "'" . mysql_escape_string($v) . "'";
+        $args[$i] = "'" . mysql_real_escape_string($v) . "'";
     }
     for ($i = $c = count($args) - 1; $i < $c + 20; $i++)
         $args[$i + 1] = "UNKNOWN_PLACEHOLDER_$i";
