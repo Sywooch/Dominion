@@ -21,7 +21,7 @@
                         }
                     },
                     "aggs": {
-                        "attribits_index": {
+                        "attributes_index": {
                             "terms": {
                                 "field": "ATTRIBUT_ID"
                             },

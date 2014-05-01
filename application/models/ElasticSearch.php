@@ -160,6 +160,7 @@ class models_ElasticSearch extends ZendDBEntity
             $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
             $el['NAME'] = $result['NAME'];
             $el['TYPE'] = (int) $result['TYPE'];
+            $el["VALUE"] = $result['VALUE'];
             $el['IS_RANGEABLE'] = (bool) $result['IS_RANGEABLE'];
 
             if ($el['TYPE'] == 1 || $el['IS_RANGEABLE']) {

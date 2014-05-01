@@ -1,0 +1,154 @@
+GET /dominion/selection/_search
+{
+    "query": {
+        "filtered": {
+            "query": {
+                "term": {
+                    "CATALOGUE_ID": {
+                        "value": "27"
+                    }
+                }
+            },
+            "filter": {
+                "and": {
+                    "filters": [
+                        {
+                            "and": {
+                                "filters": [
+                                    {
+                                        "nested": {
+                                            "path": "ATTRIBUTES",
+                                            "query": {
+                                                "filtered": {
+                                                    "filter": {
+                                                        "and": {
+                                                            "filters": [
+                                                                {
+                                                                    "term": {
+                                                                        "ATTRIBUTES.ATTRIBUT_ID": "2774"
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "term": {
+                                                                        "ATTRIBUTES.VALUE": "19161"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "range": {
+                                "PRICE": {
+                                    "from": 0,
+                                    "to": 1000
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "aggs": {
+        "attributes": {
+            "filter": {
+                "and": {
+                    "filters": [
+                        {
+                            "term": {
+                                "BRAND_ID": "13866370"
+                            }
+                        },
+                        {
+                            "term": {
+                                "BRAND_ID": "13866370"
+                            }
+                        }
+                    ]
+                }
+            },
+            "aggs": {
+                "attributes_data": {
+                    "nested": {
+                        "path": "ATTRIBUTES"
+                    },
+                    "aggs": {
+                        "attributes_indentity": {
+                            "terms": {
+                                "field": "ATTRIBUTES.ATTRIBUT_ID",
+                                "size": 1000
+                            },
+                            "aggs": {
+                                "float_value": {
+                                    "terms": {
+                                        "field": "ATTRIBUTES.FLOAT_VALUE",
+                                        "size": 10000
+                                    }
+                                },
+                                "int_value": {
+                                    "terms": {
+                                        "field": "ATTRIBUTES.INT_VALUE",
+                                        "size": 10000
+                                    }
+                                },
+                                "range_value": {
+                                    "filter": {
+                                        "term": {
+                                            "ATTRIBUTES.IS_RANGEABLE": "true"
+                                        }
+                                    },
+                                    "aggs": {
+                                        "max_float_value": {
+                                            "max": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        },
+                                        "min_float_value": {
+                                            "min": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        },
+                                        "max_int_value": {
+                                            "max": {
+                                                "field": "ATTRIBUTES.INT_VALUE"
+                                            }
+                                        },
+                                        "min_int_value": {
+                                            "min": {
+                                                "field": "ATTRIBUTES.INT_VALUE"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "price_min": {
+            "min": {
+                "field": "PRICE"
+            }
+        },
+        "price_max": {
+            "max": {
+                "field": "PRICE"
+            }
+        },
+        "brands": {
+            "terms": {
+                "field": "BRAND_ID",
+                "size": 10
+            }
+        }
+    },
+    "size": 0
+}
