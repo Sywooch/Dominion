@@ -8,7 +8,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Elastic search get curl
      *
-     * @var GET
+     * @var ContextSearch_ElasticSearch_BuildExecute_GET
      */
     private $elasticSearchGET;
 

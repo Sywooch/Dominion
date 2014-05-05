@@ -68,7 +68,7 @@ GET /dominion/selection/_search
                         },
                         {
                             "term": {
-                                "BRAND_ID": "13866370"
+                                "BRAND_ID": "773"
                             }
                         }
                     ]
