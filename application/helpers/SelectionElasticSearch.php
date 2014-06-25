@@ -55,26 +55,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      */
     public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
     {
-        $dataAttributes = $objectValueSelection->getDataAttributes();
-
-        if (empty($dataAttributes)) {
-            throw new Exception("Error, data sample and dataslider are empty");
-        }
-
-        if (!$objectValueSelection->isBrandsEmpty()) {
-            $filterFormat = $this->formatDataSelect(
-                $objectValueSelection->getDataAttributesWithBrands(),
-                new ContextSearch_ElasticSearch_FormatFilter(),
-                $objectValueSelection
-            );
-
-            $this->resultSet['brands'] = $this->executeElastic($filterFormat);
-
-            if (!$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
-        }
-
-        $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
-        $this->resultSet['attributes'] = $this->executeElastic($filterFormat);
+        //TODO Create strategy for get logic of query builder
     }
 
     /**

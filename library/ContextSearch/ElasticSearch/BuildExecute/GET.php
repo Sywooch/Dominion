@@ -118,7 +118,6 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $client = new Client();
         $connection = new \Elastica\Connection();
         $connection->setHost($this->getHost());
-        $rr = $client->setConnections(array($connection));
 
         $search = new Search($client);
         $search->setOption("from", $this->from);

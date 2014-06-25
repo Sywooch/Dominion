@@ -157,17 +157,17 @@ class models_ElasticSearch extends ZendDBEntity
                 AND a.IS_RANGEABLE = 1";
 
         return array_map(function ($result) {
-            $el['ATTRIBUT_ID'] = (int) $result['ATTRIBUT_ID'];
+            $el['ATTRIBUT_ID'] = (int)$result['ATTRIBUT_ID'];
             $el['NAME'] = $result['NAME'];
-            $el['TYPE'] = (int) $result['TYPE'];
+            $el['TYPE'] = (int)$result['TYPE'];
             $el["VALUE"] = $result['VALUE'];
-            $el['IS_RANGEABLE'] = (bool) $result['IS_RANGEABLE'];
+            $el['IS_RANGEABLE'] = (bool)$result['IS_RANGEABLE'];
+            $el[$result["ATTRIBUT_ID"]] = $result["VALUE"];
 
             if ($el['TYPE'] == 1 || $el['IS_RANGEABLE']) {
-                $el['FLOAT_VALUE'] = (float) $result['VALUE'];
-            }
-            else {
-                $el['INT_VALUE'] = (int) $result['VALUE'];
+                $el['FLOAT_VALUE'] = (float)$result['VALUE'];
+            } else {
+                $el['INT_VALUE'] = (int)$result['VALUE'];
             }
 
             return $el;
