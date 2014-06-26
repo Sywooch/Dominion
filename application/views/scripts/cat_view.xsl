@@ -3,6 +3,10 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="_main.xsl"/>
 
+    <xsl:template name="headers">
+        <script type="text/javascript" src="/js/menu.js"/>
+    </xsl:template>
+
 <xsl:template match="sub_cattree">
 	<div>
 		<h2><a href="{href}" class="img" style="background: url(/images/cat/{image/@src}) no-repeat">
