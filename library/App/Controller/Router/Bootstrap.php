@@ -67,11 +67,11 @@ class App_Controller_Router_Bootstrap
 
         // избавимся от хвостов урла - чтобы можно было редиректить на ссылки с метками utm
 
-        $pattern = "/(^.*\/).*$/uis";
-
-        if (preg_match($pattern, $uri, $matches)) {
-            $uri = $matches[1];
-        }
+//        $pattern = "/(^.*\/).*$/uis";
+//
+//        if (preg_match($pattern, $uri, $matches)) {
+//            $uri = $matches[1];
+//        }
 
         $url_to = $AnotherPages->getRedirector($uri);
 
@@ -95,7 +95,12 @@ class App_Controller_Router_Bootstrap
         $paramsUrl = '';
         $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
 
-        if (preg_match($patternPage, $uri, $out)) {
+        $uri = "/laminat/brand/Aqua-Step/";
+//        $path = "/laminat/brand/Aqua-Step/page/13/";
+//        $path = "/laminat/31-klass/brand/Aquastep/";
+
+        $pattern = "/^\/(.+)((?:\/all\/)|(?:\/brand\/)|(?:\/page\/)|(?:\/at\/)|(?:\/sort\/)|(?:\/price\/)|(?:\/collect\/)|(?:\/group\/))(.*?)/Uis";
+        if (preg_match($pattern, $uri, $out)) {
 
             $uri = $out[1];
             $paramsUrl = $out[2];
@@ -108,6 +113,35 @@ class App_Controller_Router_Bootstrap
                 }
             }
         }
+
+        // Begin
+        $paramsArrResult = array();
+        $paramsArr = array(3 => 'page'
+        , 5 => 'br'
+        , 7 => 'attrib'
+        , 9 => 'attrib_range'
+        , 11 => 'pmin'
+        , 13 => 'pmax'
+        , 15 => 'sort'
+        , 17 => 'ord'
+        , 19 => 'page'
+        );
+        $pattern_page = '/(.*)(page\/(.*)\/)?(br\/(.+)\/)?(at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(sort\/(.*)\/)?(ord\/(.*)\/)?(page\/(\d*)\/)?$/Uis';
+        if (preg_match($pattern_page, $uri, $out)) {
+            foreach ($paramsArr as $ind => $key) {
+                $paramsArrResult[$key] = !empty($out[$ind]) ? $out[$ind] : '';
+                if ($key == 'page' && empty($paramsArrResult[$key])) {
+                    $paramsArrResult[$key] = 1;
+                }
+            }
+
+            $uri = !empty($out[1]) ? $out[1] : $uri;
+        }
+
+        // end
+
+        $urlInfo = parse_url($uri);
+        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
 
         $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
 

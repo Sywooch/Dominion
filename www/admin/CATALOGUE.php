@@ -662,8 +662,8 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ ."/../../lib/MetaGenerate.php";
+      require __DIR__ ."/../../lib/MetaGenerateModelStrategy.php";
       
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);

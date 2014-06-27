@@ -45,10 +45,10 @@ class SCMF
     );
 
     //for php4 only
-    function SCMF($ARTICLE = '')
-    {
-        SCMF::__construct($ARTICLE);
-    }
+//    function SCMF($ARTICLE = '')
+//    {
+//        SCMF::__construct($ARTICLE);
+//    }
 
     function __construct($ARTICLE = '')
     {
