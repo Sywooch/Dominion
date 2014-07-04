@@ -88,70 +88,122 @@ class App_Controller_Router_Bootstrap
     public function _initSefUrlAliasingCat()
     {
 
-        $AnotherPages = new models_AnotherPages();
-        $request = new Zend_Controller_Request_Http();
-        $uri = $request->getRequestUri();
+        try {
+            $AnotherPages = new models_AnotherPages();
+            $request = new Zend_Controller_Request_Http();
+            $uri = $request->getRequestUri();
 
-        $paramsUrl = '';
-        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
+            $paramsUrl = '';
+//        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
 
-        $uri = "/laminat/brand/Aqua-Step/";
+//        $uri = "/laminat/";
+//            $uri = "/krupnaya-bytovaya-tehnika/?werwr=43&cf=4";
+//            $uri = "/vstraivaemaya-tehnika-dlya-kuhni/vstraivaemye-duhovye-shkafi/br/b725/pmin/5184/pmax/22644/?jjklj=sdfsf";
 //        $path = "/laminat/brand/Aqua-Step/page/13/";
 //        $path = "/laminat/31-klass/brand/Aquastep/";
 
-        $pattern = "/^\/(.+)((?:\/all\/)|(?:\/brand\/)|(?:\/page\/)|(?:\/at\/)|(?:\/sort\/)|(?:\/price\/)|(?:\/collect\/)|(?:\/group\/))(.*?)/Uis";
-        if (preg_match($pattern, $uri, $out)) {
 
-            $uri = $out[1];
-            $paramsUrl = $out[2];
-            if (!empty($paramsUrl)) {
-                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
-                if ('/' === substr($paramsUrl, 0, 1)) {
-                    $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
+            $findRealCatalogUrl = function ($uri, $last = null) use ($AnotherPages) {
+                $urlInfo = parse_url($uri);
+
+                if ($catalogRealUri = $AnotherPages->getSiteURLbySEFU($urlInfo['path'])) {
+                    return preg_replace('/(\/+)/', '/', "{$catalogRealUri}{$last}?{$urlInfo['query']}");
                 } else {
-                    $paramsUrl = $paramsUrl;
+                    return false;
                 }
-            }
-        }
+            };
 
-        // Begin
-        $paramsArrResult = array();
-        $paramsArr = array(3 => 'page'
-        , 5 => 'br'
-        , 7 => 'attrib'
-        , 9 => 'attrib_range'
-        , 11 => 'pmin'
-        , 13 => 'pmax'
-        , 15 => 'sort'
-        , 17 => 'ord'
-        , 19 => 'page'
-        );
-        $pattern_page = '/(.*)(page\/(.*)\/)?(br\/(.+)\/)?(at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(sort\/(.*)\/)?(ord\/(.*)\/)?(page\/(\d*)\/)?$/Uis';
-        if (preg_match($pattern_page, $uri, $out)) {
-            foreach ($paramsArr as $ind => $key) {
-                $paramsArrResult[$key] = !empty($out[$ind]) ? $out[$ind] : '';
-                if ($key == 'page' && empty($paramsArrResult[$key])) {
-                    $paramsArrResult[$key] = 1;
-                }
+//
+            $pattern = "/^(.+)(\/(at|br|page|ar|pmin|pmax)\/.*)$/Ui";
+
+
+            if ($catalogRealUri = preg_match($pattern, $uri, $out) ? $findRealCatalogUrl($out[1], $out[2]) : $findRealCatalogUrl($uri)) {
+                $request->setRequestUri($catalogRealUri);
+                $front = Zend_Controller_Front::getInstance();
+                $front->setRequest($request);
             }
 
-            $uri = !empty($out[1]) ? $out[1] : $uri;
+            return true;
+
+            if (preg_match($pattern, $uri, $out)) {
+                $catalogSefUri = $out[1];
+                $catalogRealUri = $findRealCatalogUrl($out[1], $out[2]);
+
+            } else {
+                $catalogRealUri = $findRealCatalogUrl($uri);
+                $catalogSefUri = $uri;
+            }
+
+
+            $urlInfo = parse_url($catalogSefUri);
+
+            if ($catalogRealUri = $AnotherPages->getSiteURLbySEFU($urlInfo['path'])) {
+                $newUri = $catalogRealUri . $urlInfo['query'];
+            } else {
+                $newUri = $uri;
+            }
+
+
+            if (preg_match($pattern, $uri, $out)) {
+
+                $uri = $out[1];
+                $paramsUrl = $out[2];
+                if (!empty($paramsUrl)) {
+                    // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
+                    if ('/' === substr($paramsUrl, 0, 1)) {
+                        $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
+                    } else {
+                        $paramsUrl = $paramsUrl;
+                    }
+                }
+            }
+
+            $urlInfo = parse_url($uri);
+
+            $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
+
+            // Begin
+            $paramsArrResult = array();
+            $paramsArr = array(3 => 'page'
+            , 5 => 'br'
+            , 7 => 'attrib'
+            , 9 => 'attrib_range'
+            , 11 => 'pmin'
+            , 13 => 'pmax'
+            , 15 => 'sort'
+            , 17 => 'ord'
+            , 19 => 'page'
+            );
+            $pattern_page = '/(.*)(page\/(.*)\/)?(br\/(.+)\/)?(at\/(.+)\/)?(ar\/(.+)\/)?(pmin\/(.+)\/)?(pmax\/(.+)\/)?(sort\/(.*)\/)?(ord\/(.*)\/)?(page\/(\d*)\/)?$/Uis';
+            if (preg_match($pattern_page, $uri, $out)) {
+                foreach ($paramsArr as $ind => $key) {
+                    $paramsArrResult[$key] = !empty($out[$ind]) ? $out[$ind] : '';
+                    if ($key == 'page' && empty($paramsArrResult[$key])) {
+                        $paramsArrResult[$key] = 1;
+                    }
+                }
+
+                $uri = !empty($out[1]) ? $out[1] : $uri;
+            }
+
+            // end
+
+            $urlInfo = parse_url($uri);
+            $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
+
+            $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
+
+            if (!empty($siteURLbySEFU)) {
+                $siteURLbySEFU .= $paramsUrl;
+                $request->setRequestUri($siteURLbySEFU);
+            }
+
+            $front = Zend_Controller_Front::getInstance();
+            $front->setRequest($request);
+
+        } catch (\RuntimeException $e) {
+
         }
-
-        // end
-
-        $urlInfo = parse_url($uri);
-        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($urlInfo['path']);
-
-        $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
-
-        if (!empty($siteURLbySEFU)) {
-            $siteURLbySEFU .= $paramsUrl;
-            $request->setRequestUri($siteURLbySEFU);
-        }
-
-        $front = Zend_Controller_Front::getInstance();
-        $front->setRequest($request);
     }
 
     private function _initAliasingRegister()
