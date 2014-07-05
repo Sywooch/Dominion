@@ -1,0 +1,141 @@
+{
+    "aggregation": {
+        "without_brands": {
+            "aggs": {
+                "attributes": {
+                    "nested": {
+                        "path": "ATTRIBUTES"
+                    },
+                    "aggs": {
+                        "range": {
+                            "filter": {
+                                "term": {
+                                    "ATTRIBUTES.IS_RANGEABLE": true
+                                }
+                            },
+                            "aggs": {
+                                "values": {
+                                    "terms": {
+                                        "field": "ATTRIBUTES.ATTRIBUT_ID"
+                                    },
+                                    "aggs": {
+                                        "max_value": {
+                                            "max": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        },
+                                        "min_value": {
+                                            "min": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "checked": {
+                            "terms": {
+                                "field": "ATTRIBUTES.INT_VALUE",
+                                "size": 10000
+                            }
+                        },
+                        "float": {
+                            "terms": {
+                                "field": "ATTRIBUTES.FLOAT_VALUE",
+                                "size": 10000
+                            }
+                        }
+                    }
+                },
+                "items": {
+                    "terms": {
+                        "field": "PRODUCT_ID",
+                        "size": 10000
+                    }
+                },
+                "price_min": {
+                    "min": {
+                        "field": "PRICE"
+                    }
+                },
+                "price_max": {
+                    "max": {
+                        "field": "PRICE"
+                    }
+                }
+            }
+        },
+        "with_brands": {
+            "aggs": {
+                "attributes": {
+                    "nested": {
+                        "path": "ATTRIBUTES"
+                    },
+                    "aggs": {
+                        "range": {
+                            "filter": {
+                                "term": {
+                                    "ATTRIBUTES.IS_RANGEABLE": true
+                                }
+                            },
+                            "aggs": {
+                                "values": {
+                                    "terms": {
+                                        "field": "ATTRIBUTES.ATTRIBUT_ID"
+                                    },
+                                    "aggs": {
+                                        "max_value": {
+                                            "max": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        },
+                                        "min_value": {
+                                            "min": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "checked": {
+                            "terms": {
+                                "field": "ATTRIBUTES.INT_VALUE",
+                                "size": 10000
+                            }
+                        },
+                        "float": {
+                            "terms": {
+                                "field": "ATTRIBUTES.FLOAT_VALUE",
+                                "size": 10000
+                            }
+                        }
+                    }
+                },
+                "items": {
+                    "terms": {
+                        "field": "PRODUCT_ID",
+                        "size": 10000
+                    }
+                },
+                "price_min": {
+                    "min": {
+                        "field": "PRICE"
+                    }
+                },
+                "brands":{
+                    "terms": {
+                        "field": "BRAND_ID",
+                        "size": 10000
+                    }
+                },
+                "price_max": {
+                    "max": {
+                        "field": "PRICE"
+                    }
+                }
+            }
+        }
+    }
+
+}

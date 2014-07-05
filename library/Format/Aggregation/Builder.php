@@ -6,8 +6,6 @@
  * Time: 22:18
  */
 
-namespace Aggregation;
-
 use Elastica\Query\Builder;
 
 /**
@@ -40,14 +38,10 @@ class Format_Aggregation_Builder
      * Construct for build object
      *
      * @param array $columns
-     * @param array $aggregationWihBrands
-     * @param array $aggregation
      */
-    public function __construct(array $columns, array $aggregationWihBrands, array $aggregation)
+    public function __construct(array $columns)
     {
-        $this->query = new Format_Aggregation_Query(new Builder(), $columns);
-        $this->aggregation = $aggregation;
-        $this->aggregationWithBrands = $aggregationWihBrands;
+        $this->query = new Format_Aggregation_Query(new ElasticaExtension_Builder(), $columns);
     }
 
     /**
@@ -61,7 +55,6 @@ class Format_Aggregation_Builder
     {
         $this->query->initQuery()
             ->initCatalogue($objectValueAggregation->getCatalogueID())
-            ->closeQuery()
             ->initFilter();
 
         $attributes = $objectValueAggregation->getAttributes();
@@ -77,12 +70,12 @@ class Format_Aggregation_Builder
 
         if (!empty($brands)) $this->query->initBrands($brands);
 
+        $this->query->closeFilter();
+        $this->query->filteredClose();
+
         $this->query->initAggregation(
-            !$objectValueAggregation->getSignBrandsCriteria() ?
-                $this->aggregationWithBrands :
-                $this->aggregation
-        )->closeFilter()
-            ->filteredClose();
+            $objectValueAggregation->getAggregation()
+        );
 
         return $this->query->getJsonResultQuery();
     }

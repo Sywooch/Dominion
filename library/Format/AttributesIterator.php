@@ -22,6 +22,8 @@ class Format_AttributesIterator implements Iterator, Traversable
     const ID = "id";
     const IS_RANGE = "is_range";
     const VALUE = "value";
+    const FROM = "from";
+    const TO = "to";
 
     /**
      * Attributes
@@ -88,7 +90,7 @@ class Format_AttributesIterator implements Iterator, Traversable
      */
     public function getValueFrom()
     {
-        return $this->attributes[$this->index][self::VALUE][0];
+        return $this->attributes[$this->index][self::VALUE][self::FROM];
     }
 
     /**
@@ -98,7 +100,7 @@ class Format_AttributesIterator implements Iterator, Traversable
      */
     public function getValueTo()
     {
-        return $this->attributes[$this->index][self::VALUE][1];
+        return $this->attributes[$this->index][self::VALUE][self::TO];
     }
 
     /**

@@ -20,6 +20,13 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     private $resultSet;
 
     /**
+     * Aggregation builder
+     *
+     * @var Format_Aggregation_Builder
+     */
+    private $aggregationBuilder;
+
+    /**
      * Brands and attributes constant
      */
     const BRANDS = "brands";
@@ -48,16 +55,35 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
 
     /**
-     * Selection
+     * Selection from elastic search
      *
      * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
-     * @throws Exception
      */
-    public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
+    public function selection(
+        Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
+    )
     {
-        //TODO Create strategy for get logic of query builder
-    }
+        $aggregationObjectValue = new Format_Aggregation_ObjectValueAggregation();
+        $aggregationObjectValue->setCatalogueID($objectValueSelection->getCatalogueID());
+        $aggregationObjectValue->setAttributes($objectValueSelection->getAttributes());
+        $aggregationObjectValue->setBrands($brands = $objectValueSelection->getBrands());
+        $aggregationObjectValue->setPriceMin($objectValueSelection->getPriceMin());
+        $aggregationObjectValue->setPriceMax($objectValueSelection->getPriceMax());
+        $aggregationObjectValue->setAggregation(
+            (empty($brands) || !$objectValueSelection->isCheckBrands())
+                ? $objectValueSelection->getAggregationWithBrands()
+                : $objectValueSelection->getAggregationWithoutBrands()
+        );
 
+        $aggregationBuilder = new Format_Aggregation_Builder($objectValueSelection->getColumns());
+
+        $queryJson = $aggregationBuilder->buildQueryAggregation($aggregationObjectValue);
+
+        $this->elasticSearchGET->buildQueryAggregation($queryJson);
+        $this->elasticSearchGET->setSize(0);
+
+        $resultData = $this->elasticSearchGET->execute();
+    }
     /**
      * Format data selection
      *
@@ -83,7 +109,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
             }
 
-            if (!is_array($value)){
+            if (!is_array($value)) {
                 continue;
             }
 

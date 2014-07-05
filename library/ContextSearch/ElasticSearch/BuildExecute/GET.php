@@ -85,6 +85,36 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
     }
 
     /**
+     * Build query aggregation
+     *
+     * @param string $queryJson
+     */
+    public function buildQueryAggregation($queryJson)
+    {
+        $this->querySearch = new Query(json_decode($queryJson, true));
+    }
+
+    /**
+     * Set size
+     *
+     * @param integer $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * Set from
+     *
+     * @param integer $from
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+    }
+
+    /**
      * Filter builder query
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData

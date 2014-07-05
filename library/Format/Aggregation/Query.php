@@ -6,10 +6,6 @@
  * Time: 22:18
  */
 
-namespace Aggregation;
-
-use Elastica\Query\Builder;
-
 /**
  * Class Query
  * @package Aggregation
@@ -19,7 +15,7 @@ class Format_Aggregation_Query
     /**
      * Query builder object of elastica
      *
-     * @var Builder
+     * @var ElasticaExtension_Builder
      */
     private $queryBuilder;
 
@@ -40,10 +36,10 @@ class Format_Aggregation_Query
     /**
      * Set builder elastic search
      *
-     * @param Builder $builder
+     * @param ElasticaExtension_Builder $builder
      * @param array $columns
      */
-    public function __construct(Builder $builder, array $columns)
+    public function __construct(ElasticaExtension_Builder $builder, array $columns)
     {
         $this->queryBuilder = $builder;
         $this->columns = $columns;
@@ -56,7 +52,8 @@ class Format_Aggregation_Query
      */
     public function initQuery()
     {
-        $this->queryBuilder->filteredQuery()
+        $this->queryBuilder->query()
+            ->filteredQuery()
             ->query();
 
         return $this;
@@ -80,18 +77,6 @@ class Format_Aggregation_Query
     }
 
     /**
-     * Close query
-     *
-     * @return $this
-     */
-    public function closeQuery()
-    {
-        $this->queryBuilder->queryClose();
-
-        return $this;
-    }
-
-    /**
      * Init filter
      *
      * @return $this
@@ -99,8 +84,8 @@ class Format_Aggregation_Query
     public function initFilter()
     {
         $this->queryBuilder->filter()
-            ->fieldOpen("and")
-            ->field("filters", array());
+            ->fieldOpen("and");
+        $this->queryBuilder = $this->queryBuilder->openFieldArray("filters");
 
         return $this;
     }
@@ -186,6 +171,7 @@ class Format_Aggregation_Query
             ->field("from", $from)
             ->field("to", $to)
             ->fieldClose()
+            ->close()
             ->rangeClose()
             ->close();
 
@@ -199,6 +185,7 @@ class Format_Aggregation_Query
      */
     public function closeFilter()
     {
+        $this->queryBuilder = $this->queryBuilder->closeFieldArray();
         $this->queryBuilder->fieldClose()->filterClose();
 
         return $this;
@@ -211,7 +198,7 @@ class Format_Aggregation_Query
      */
     public function filteredClose()
     {
-        $this->queryBuilder->filteredQueryClose();
+        $this->queryBuilder->filteredQueryClose()->queryClose();
 
         return $this;
     }
@@ -225,8 +212,10 @@ class Format_Aggregation_Query
      */
     public function initAggregation(array $aggregation)
     {
-        $this->formatQueryAggregation[] = $this->queryBuilder->toArray();
-        $this->formatQueryAggregation[] = $aggregation;
+        $this->queryBuilder = $this->queryBuilder->mergeAggregation($aggregation);
+//        $queryJson = $this->queryBuilder->__toString();
+//        $this->formatQueryAggregation = $this->queryBuilder->toArray();
+//        $this->formatQueryAggregation["aggs"] = $aggregation;
 
         return $this;
     }
@@ -238,7 +227,7 @@ class Format_Aggregation_Query
      */
     public function getJsonResultQuery()
     {
-        return json_encode($this->formatQueryAggregation);
+        return $this->queryBuilder->__toString();
     }
 
     /**
@@ -248,6 +237,6 @@ class Format_Aggregation_Query
      */
     public function getArrayResultQuery()
     {
-        return $this->formatQueryAggregation;
+        return $this->queryBuilder->toArray();
     }
 } 

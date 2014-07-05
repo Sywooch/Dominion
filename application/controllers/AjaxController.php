@@ -434,54 +434,85 @@ class AjaxController extends Zend_Controller_Action
      */
     public function getattrcountAction()
     {
-        $params = $this->getRequest()->getQuery();
+        $params = $this->getRequest()->getParams();
+        $catalogueID = $this->getRequest()->getParam("catalogue_id");
 
-        if (empty($params) || empty($params['catalogue_id'])) return;
-
-        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
-        $objectValueSelection = $this->_helper->helperLoader("ObjectValue_ObjectValueSelection");
-
-        if (!empty($params['pmin']) && !empty($params['pmax'])) {
-            list($minPrice, $maxPrice) = Format_ConvertDataElasticSelection::getFormatRecountPrice
-                (
-                    $params['pmin'],
-                    $params['pmax'],
-                    $this->currency,
-                    $this->_helper->helperLoader('ItemSelectionPrice')
-                );
-            $objectValueSelection->setDataSlider("ATTRIBUTES.price", $minPrice, $maxPrice);
-        }
-
-        if (!empty($params["attribute_range"])) {
-            $objectValueSelection->setAllDataSlider(
-                Format_ConvertDataElasticSelection::formatAttributesRange($params["attribute_range"])
-            );
-        }
-
-        if (!empty($params['br']) || !empty($params['at'])) {
-            $resultAttributes = Format_ConvertDataElasticSelection::getArrayAttributes(
-                $params['at'] . $params['br']
-            );
-
-            $objectValueSelection->setDataBrands($resultAttributes['brands']);
-            $objectValueSelection->setDataAttributesDouble($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATTRIBUTES_DOUBLE]);
-            $objectValueSelection->setDataAttributesUnique($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATRIBUTES_UNIQUE]);
-        }
-
-        $objectValueSelection->setCatalogueID($params['catalogue_id']);
+        if (empty($params) || empty($catalogueID)) return;
 
         $parameters = Zend_Registry::get("config")->toArray();
+        $readerIni = new Zend_Config_Json(__DIR__ . "/../configs/aggregation.json", "aggregation");
+        $aggregation = $readerIni->toArray();
 
-        /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
-        $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
-        $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
-        $helpersSelectionElasticSearch->selection($objectValueSelection);
-
-        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData(
-                $helpersSelectionElasticSearch->getAttributes(),
-                $helpersSelectionElasticSearch->getBrands()
-            )
+        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
+        $objectValueSelection = $this->_helper->helperLoader(
+            "ObjectValue_ObjectValueSelection"
         );
+        $attributes = $this->getRequest()->getParam("attributes");
+        $brands = $this->getRequest()->getParam("brands");
+
+        $objectValueSelection->setColumns($parameters["columns"]);
+        $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
+        $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
+        $objectValueSelection->setCatalogueID($catalogueID);
+        $objectValueSelection->setPriceMin($this->getRequest()->getParam("price_min"));
+        $objectValueSelection->setPriceMax($this->getRequest()->getParam("price_max"));
+        $objectValueSelection->setCheckBrands($parameters["check_brands"]);
+
+        if (!empty($attributes)) $objectValueSelection->setAttributes($attributes);
+
+        if (!empty($brands)) $objectValueSelection->setBrands($brands);
+
+        /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
+        $selectionElasticSearch = $this->_helper->helperLoader(
+            "SelectionElasticSearch",
+            $objectValueSelection
+        );
+
+        $selectionElasticSearch->connect($parameters['search_engine'], "selection");
+        $selectionElasticSearch->selection($objectValueSelection);
+
+
+//        if (!empty($params['pmin']) && !empty($params['pmax'])) {
+//            list($minPrice, $maxPrice) = Format_ConvertDataElasticSelection::getFormatRecountPrice
+//                (
+//                    $params['pmin'],
+//                    $params['pmax'],
+//                    $this->currency,
+//                    $this->_helper->helperLoader('ItemSelectionPrice')
+//                );
+//            $objectValueSelection->setDataSlider("ATTRIBUTES.price", $minPrice, $maxPrice);
+//        }
+//
+//        if (!empty($params["attribute_range"])) {
+//            $objectValueSelection->setAllDataSlider(
+//                Format_ConvertDataElasticSelection::formatAttributesRange($params["attribute_range"])
+//            );
+//        }
+//
+//        if (!empty($params['br']) || !empty($params['at'])) {
+//            $resultAttributes = Format_ConvertDataElasticSelection::getArrayAttributes(
+//                $params['at'] . $params['br']
+//            );
+//
+//            $objectValueSelection->setDataBrands($resultAttributes['brands']);
+//            $objectValueSelection->setDataAttributesDouble($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATTRIBUTES_DOUBLE]);
+//            $objectValueSelection->setDataAttributesUnique($resultAttributes[Format_ConvertDataElasticSelection::NAME_ATRIBUTES_UNIQUE]);
+//        }
+//
+//        $objectValueSelection->setCatalogueID($params['catalogue_id']);
+//
+//        $parameters = Zend_Registry::get("config")->toArray();
+//
+//        /** @var $helpersSelectionElasticSearch Helpers_SelectionElasticSearch */
+//        $helpersSelectionElasticSearch = $this->_helper->helperLoader("SelectionElasticSearch");
+//        $helpersSelectionElasticSearch->connect($parameters['search_engine'], "selection");
+//        $helpersSelectionElasticSearch->selection($objectValueSelection);
+
+//        return $this->_helper->json(Format_ConvertDataElasticSelection::getFormatResultData(
+//                $helpersSelectionElasticSearch->getAttributes(),
+//                $helpersSelectionElasticSearch->getBrands()
+//            )
+//        );
     }
 
     /**

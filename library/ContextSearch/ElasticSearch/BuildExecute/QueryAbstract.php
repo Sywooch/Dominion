@@ -11,11 +11,18 @@ use Elastica\Client;
 abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
-     * Status Singleton
+     * Index object
      *
-     * @var null
+     * @var \Elastica\Index
      */
-    private static $connect = array();
+    private $index;
+
+    /**
+     * Object elastica client
+     *
+     * @var \Elastica\Client
+     */
+    private static $elasticaClient;
 
     /**
      * Connect parameters
@@ -29,10 +36,9 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
      */
     public function __construct(ContextSearch_ElasticSearch_Connect $connect)
     {
-        if (empty(self::$connect)) {
-            $elasticaClient = new \Elastica\Client($connect->getConfig());
-            self::$connect['index'] = $elasticaClient->getIndex($connect->getIndex());
-            self::$connect['type'] = self::$connect['index']->getType($connect->getType());
+        if (empty(self::$elasticaClient)) {
+            self::$elasticaClient = new \Elastica\Client($connect->getConfig());
+            $this->index = self::$elasticaClient->getIndex($connect->getIndex());
             self::$parameters = $connect;
         }
     }
@@ -44,17 +50,17 @@ abstract class ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
      */
     protected function getIndex()
     {
-        return self::$connect['index'];
+        return $this->getIndex();
     }
 
     /**
      * Getter config type
      *
-     * @return mixed
+     * @return \Elastica\Type
      */
     protected function getType()
     {
-        return self::$connect['type'];
+        return $this->index->getType(self::$parameters->getType());
     }
 
     /**

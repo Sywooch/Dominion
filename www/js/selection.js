@@ -100,7 +100,7 @@ selection.prototype.doUrl = function () {
 
 
 selection.prototype.getRequest = function (evnt, attr_gr_id) {
-    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, br: this.action_brand, at: this.action_attr, pmin: this.price_min, pmax: this.price_max, attribute_range: this.attribute_range}, function (data) {
+    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, brands: this.action_brand, attributes: this.action_attr, price_min: this.price_min, price_max: this.price_max, attribute_range: this.attribute_range}, function (data) {
         podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
         if (data == null) {
 //            $('input[rel=attr_brand_id]').removeAttr("disabled");

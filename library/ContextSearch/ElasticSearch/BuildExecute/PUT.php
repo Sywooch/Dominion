@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: Константин
@@ -6,7 +7,6 @@
  * Time: 17:04
  * To change this template use File | Settings | File Templates.
  */
-
 class ContextSearch_ElasticSearch_BuildExecute_PUT extends ContextSearch_ElasticSearch_BuildExecute_QueryAbstract
 {
     /**
@@ -47,6 +47,16 @@ class ContextSearch_ElasticSearch_BuildExecute_PUT extends ContextSearch_Elastic
 
             unset($documents);
         }
+    }
+
+    /**
+     * Create mapping
+     *
+     * @param array $mapping
+     */
+    public function createMapping(array $mapping)
+    {
+        $this->getType()->setMapping($mapping);
     }
 
     /**

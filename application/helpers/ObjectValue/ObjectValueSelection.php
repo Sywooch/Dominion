@@ -6,229 +6,221 @@
  * Time: 16:52
  * To change this template use File | Settings | File Templates.
  */
+
 /**
  * Class Helpers_ObjectValue_ObjectValueSelection
  */
 class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_HelperAbstract
 {
     /**
-     * CATALOGUE_ID
-     */
-    const CATALOGUE_ID = "CATALOGUE_ID";
-    /**
-     * Count attributes
-     */
-    const COUNT_ATTRIBUTES = 1;
-
-    /**
-     * Data sample
+     * Config
      *
      * @var array
      */
-    private $dataSample = array(
-        "brands" => array(),
-        "attributes_unique" => array(),
-        "attributes_double" => array()
-    );
+    private $columns = array();
 
     /**
-     * Data slider
+     * Aggregation without brands
      *
      * @var array
      */
-    private $dataSlider = array();
+    private $aggregationWithoutBrands = array();
 
     /**
-     * Set dataSlider
+     * Aggregation with brands
      *
-     * @param string $nameColumn
-     * @param integer $min
-     * @param integer $max
+     * @var array
      */
-    public function setDataSlider($nameColumn, $min, $max)
+    private $aggregationWithBrands = array();
+
+    /**
+     * Catalogue id
+     *
+     * @var integer
+     */
+    private $catalogueID;
+
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    private $attributes = array();
+
+    /**
+     * Brands
+     *
+     * @var array
+     */
+    private $brands = array();
+
+    /**
+     * Price min
+     *
+     * @var integer
+     */
+    private $priceMin;
+
+    /**
+     * Price max
+     *
+     * @var integer
+     */
+    private $priceMax;
+
+    /**
+     * Check brands
+     *
+     * @var boolean
+     */
+    private $checkBrands;
+
+    /**
+     * @param array $aggregationWithBrands
+     */
+    public function setAggregationWithBrands(array $aggregationWithBrands)
     {
-        $this->dataSlider[$nameColumn] = array("min" => $min, "max" => $max);
+        $this->aggregationWithBrands = $aggregationWithBrands;
     }
 
     /**
-     * Set all data slider
+     * Set check brands
      *
-     * @param array $dataRange
+     * @param bool $checkBrands
      */
-    public function setAllDataSlider(array $dataRange)
+    public function setCheckBrands($checkBrands)
     {
-        $this->dataSlider += $dataRange;
+        $this->checkBrands = $checkBrands;
     }
 
     /**
-     * Set data attributes unique
+     * Get check brands
      *
-     * @param array $attributesUnique
+     * @return bool
      */
-    public function setDataAttributesUnique(array $attributesUnique)
+    public function isCheckBrands()
     {
-        $this->dataSample['attributes_unique'] = $attributesUnique;
+        return $this->checkBrands;
     }
 
     /**
-     * Set data attributes double
-     *
-     * @param array $attributesDouble
+     * @return array
      */
-    public function setDataAttributesDouble(array $attributesDouble)
+    public function getAggregationWithBrands()
     {
-        $this->dataSample['attributes_double'] = $attributesDouble;
+        return $this->aggregationWithBrands;
     }
 
     /**
-     * Set data brands
-     *
-     * @param array $brands
+     * @param array $columns
      */
-    public function setDataBrands(array $brands)
+    public function setColumns(array $columns = array())
     {
-        $this->dataSample['brands'] = $brands;
+        $this->columns = $columns;
     }
 
     /**
-     * Set catalogue id
-     *
-     * @param integer $catalogueID
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * @param array $aggregationWithoutBrands
+     */
+    public function setAggregationWithoutBrands(array $aggregationWithoutBrands)
+    {
+        $this->aggregationWithoutBrands = $aggregationWithoutBrands;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAggregationWithoutBrands()
+    {
+        return $this->aggregationWithoutBrands;
+    }
+
+    /**
+     * @param int $catalogueID
      */
     public function setCatalogueID($catalogueID)
     {
-        $this->dataSample['attributes_unique']['CATALOGUE_ID'] = $catalogueID;
+        $this->catalogueID = $catalogueID;
     }
 
     /**
-     * Get attributes
-     *
-     * @return mixed
+     * @return int
      */
-    public function getDataAttributes()
+    public function getCatalogueID()
     {
-        return array_merge($this->dataSample['attributes_unique'], $this->dataSample['attributes_double'], $this->dataSlider);
+        return $this->catalogueID;
     }
 
     /**
-     * Isset attributes unique
-     *
-     * @param string $key
-     * @return bool
+     * @param array $brands
      */
-    public function issetAttributesUnique($key)
+    public function setBrands(array $brands = array())
     {
-        return isset($this->dataSample['attributes_unique'][$key]);
+        $this->brands = $brands;
     }
 
     /**
-     * Isset attributes unique
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function issetAttributesDouble($key)
-    {
-        foreach ($this->dataSample["attributes_double"] as $value) {
-            if (isset($value[$key])) return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get data attributes unique
-     *
-     * @return mixed
-     */
-    public function getDataAttributesUnique()
-    {
-        return $this->dataSample['attributes_unique'];
-    }
-
-    /**
-     * Get data attributes double
-     *
-     * @return mixed
-     */
-    public function getDataAttributesDouble()
-    {
-        return $this->dataSample['attributes_double'];
-    }
-
-    /**
-     * Get data attributes with brands
-     *
      * @return array
      */
-    public function getDataAttributesWithBrands()
+    public function getBrands()
     {
-        return array_merge($this->dataSample['attributes_unique'], $this->dataSample['attributes_double'], $this->dataSample['brands'], $this->dataSlider);
+        return $this->brands;
     }
 
     /**
-     * Is brands empty
-     *
-     * @return bool
+     * @param array $attributes
      */
-    public function isBrandsEmpty()
+    public function setAttributes(array $attributes = array())
     {
-        return empty($this->dataSample['brands']);
+        $this->attributes = $attributes;
     }
 
     /**
-     * Check catalogueID
-     *
-     * @param integer $key
-     * @return bool
+     * @return array
      */
-    public function getCatalogueID($key)
+    public function getAttributes()
     {
-        return (self::CATALOGUE_ID === $key) ? $this->dataSample['attributes_unique'][$key] : false;
+        return $this->attributes;
     }
 
     /**
-     * Isset attributes
-     *
-     * @return bool
+     * @param int $priceMax
      */
-    public function issetAttributes()
+    public function setPriceMax($priceMax = null)
     {
-        return count($this->dataSample['attributes_double'] + $this->dataSample['attributes_unique'] + $this->dataSlider) > self::COUNT_ATTRIBUTES;
+        $this->priceMax = $priceMax;
     }
 
     /**
-     * Gettet min
-     *
-     * @param string $nameColumn
-     * @return mixed
+     * @return int
      */
-    public function getDataSliderMin($nameColumn)
+    public function getPriceMax()
     {
-        return isset($this->dataSlider[$nameColumn]['min']) ? $this->dataSlider[$nameColumn]['min'] : false;
+        return $this->priceMax;
     }
 
     /**
-     * Check is brand column
-     *
-     * @param integer $nameColumn
-     * @param integer $value
-     * @return bool
+     * @param int $priceMin
      */
-    public function isBrand($nameColumn, $value)
+    public function setPriceMin($priceMin = null)
     {
-        return substr(strstr($nameColumn, "."), 1) == $value;
+        $this->priceMin = $priceMin;
     }
 
     /**
-     * Getter data max
-     *
-     * @param string $nameColumn
-     * @return mixed
+     * @return int
      */
-    public function getDataSliderMax($nameColumn)
+    public function getPriceMin()
     {
-        return isset($this->dataSlider[$nameColumn]['max']) ? $this->dataSlider[$nameColumn]['max'] : false;
+        return $this->priceMin;
     }
+
 }

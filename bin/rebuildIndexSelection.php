@@ -7,7 +7,11 @@ $createEnvironment->setType("selection");
 
 $loaderFactory = new LoaderFactory();
 
+/** @var $elasticSearchPUT ContextSearch_ElasticSearch_BuildExecute_PUT */
 $elasticSearchPUT = $createEnvironment->buildIndex();
+
+$mapping = json_decode(file_get_contents(__DIR__ . "/config/mappingSelection.json"), true);
+$elasticSearchPUT->createMapping($mapping);
 
 $elasticSearchModel = $loaderFactory->getModelElasticSearch();
 $queryAllItems = $elasticSearchModel->getConnectDB()->query($elasticSearchModel->getAllItemID());
@@ -16,10 +20,10 @@ $formatDataElastic = new Format_FormatDataElastic();
 $data = array();
 while ($row = $queryAllItems->fetch()) {
 
-    $data[$row['ITEM_ID']]['ITEM_ID'] = (int) $row['ITEM_ID'];
-    $data[$row['ITEM_ID']]['CATALOGUE_ID'] = (int) $row['CATALOGUE_ID'];
-    $data[$row['ITEM_ID']]['PRICE'] = (float) $row['PRICE'];
-    $data[$row['ITEM_ID']]['BRAND_ID'] = (float) $row['BRAND_ID'];
+    $data[$row['ITEM_ID']]["PRODUCT_ID"] = (int)$row['ITEM_ID'];
+    $data[$row['ITEM_ID']]['CATALOGUE_ID'] = (int)$row['CATALOGUE_ID'];
+    $data[$row['ITEM_ID']]['PRICE'] = (float)$row['PRICE'];
+    $data[$row['ITEM_ID']]['BRAND_ID'] = (float)$row['BRAND_ID'];
 
     $data[$row['ITEM_ID']]['ATTRIBUTES'] = $elasticSearchModel->getAttributesIndex($row['ITEM_ID']);
 

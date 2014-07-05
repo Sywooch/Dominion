@@ -6,8 +6,6 @@
  * Time: 23:31
  */
 
-namespace Aggregation;
-
 /**
  * Class ObjectValueAggr
  * @package Aggregation
@@ -94,23 +92,16 @@ class Format_Aggregation_ObjectValueAggregation
     }
 
     /**
-     * Get sign brands criteria
-     *
-     * @return bool
-     */
-    public function getSignBrandsCriteria()
-    {
-        return $this->signBrandsCriteria;
-    }
-
-    /**
      * Set attributes
      *
-     * @param array $attributes
+     * @param array
      */
     public function setAttributes(array $attributes)
     {
-        $this->attributes = $attributes;
+        if (empty($attributes)) return;
+
+        $this->attributes = new Format_AttributesIterator();
+        $this->attributes->setAttributes($attributes);
     }
 
     /**
