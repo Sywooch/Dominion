@@ -450,6 +450,35 @@ class AjaxController extends Zend_Controller_Action
         $attributes = $this->getRequest()->getParam("attributes");
         $brands = $this->getRequest()->getParam("brands");
 
+        $attributes = array(
+            array(
+                "id" => 2510,
+                "value" => 18343,
+                "is_range" => false
+            ),
+            array(
+                "id" => 2518,
+                "value" => array(
+                    "from" => 50,
+                    "to" => 500
+                ),
+                "is_range" => true
+            ),
+            array(
+                "id" => 2507,
+                "value" => array(
+                    23631,
+                    18326
+                ),
+                "is_range" => false
+            )
+        );
+
+        $brands = array(
+            13866050,
+            13866248
+        );
+
         $objectValueSelection->setColumns($parameters["columns"]);
         $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
         $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);

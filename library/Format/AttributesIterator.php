@@ -9,7 +9,7 @@
 /**
  * Class AttributesIterator
  */
-class Format_AttributesIterator implements Iterator, Traversable
+class Format_AttributesIterator implements Iterator
 {
     /**
      * @var int
@@ -111,7 +111,7 @@ class Format_AttributesIterator implements Iterator, Traversable
      */
     public function next()
     {
-        $this->attributes[$this->index = $this->index++];
+        ++$this->index;
     }
 
     /**

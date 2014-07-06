@@ -73,7 +73,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      *
      * @var boolean
      */
-    private $checkBrands;
+    private $checkBrands = false;
 
     /**
      * @param array $aggregationWithBrands
@@ -88,7 +88,7 @@ class Helpers_ObjectValue_ObjectValueSelection extends App_Controller_Helper_Hel
      *
      * @param bool $checkBrands
      */
-    public function setCheckBrands($checkBrands)
+    public function setCheckBrands($checkBrands = false)
     {
         $this->checkBrands = $checkBrands;
     }

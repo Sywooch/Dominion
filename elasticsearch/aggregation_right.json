@@ -152,3 +152,50 @@ GET /dominion/selection/_search
     },
     "size": 0
 }
+
+
+
+
+"attributes": {
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"checked": {
+"terms": {
+"field": "ATTRIBUTES.ATTRIBUT_ID",
+"size": 10000
+},
+"aggs": {
+"values": {
+"terms": {
+"field": "ATTRIBUTES.INT_VALUE",
+"size": 1000000
+}
+}
+}
+},
+"float": {
+"filter": {
+"term": {
+"ATTRIBUTES.IS_RANGE_VIEW": true
+}
+},
+"aggs": {
+"values_float":{
+"nested": {
+"path": "ATTRIBUTES"
+},
+"aggs": {
+"values": {
+"terms": {
+"field": "ATTRIBUTES.ATTRIBUT_ID",
+"size": 10
+}
+}
+}
+}
+}
+}
+}
+}

@@ -143,35 +143,58 @@ class models_ElasticSearch extends ZendDBEntity
     public function getAttributesIndex($itemID)
     {
         $sql = "SELECT
-                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i0.VALUE
-                FROM ATTRIBUT a
-                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
+                  a.ATTRIBUT_ID,
+                  a.IS_RANGE_VIEW,
+                  a.NAME,
+                  a.TYPE,
+                  i0.VALUE
+                FROM attribut a
+                  JOIN item0 i0 USING (ATTRIBUT_ID)
                 WHERE i0.ITEM_ID = ?
-                AND (a.IS_RANGEABLE = 1 OR a.TYPE <> 0)
-                  UNION
+                AND a.IS_RANGE_VIEW = 0
+                UNION
                 SELECT
-                  a.ATTRIBUT_ID, a.IS_RANGEABLE, a.NAME, a.TYPE, i1.VALUE
-                FROM ATTRIBUT a
-                  JOIN ITEM1 i1 USING (ATTRIBUT_ID)
+                  a.ATTRIBUT_ID,
+                  a.IS_RANGE_VIEW,
+                  a.NAME,
+                  a.TYPE,
+                  i1.VALUE
+                FROM attribut a
+                  JOIN item1 i1 USING (ATTRIBUT_ID)
                 WHERE i1.ITEM_ID = ?
-                AND a.IS_RANGEABLE = 1";
+                AND a.IS_RANGE_VIEW = 0
+                  UNION
+                  SELECT
+                    a.ATTRIBUT_ID,
+                    a.IS_RANGE_VIEW,
+                    a.NAME,
+                    a.TYPE,
+                    al.NAME AS VALUE
+                  FROM attribut a
+                    JOIN item0 i USING (ATTRIBUT_ID)
+                    LEFT JOIN attribut_list al
+                      ON (i.VALUE = al.ATTRIBUT_LIST_ID)
+                  WHERE i.ITEM_ID = ?
+                  AND a.IS_RANGE_VIEW = 1";
 
         return array_map(function ($result) {
             $el['ATTRIBUT_ID'] = (int)$result['ATTRIBUT_ID'];
             $el['NAME'] = $result['NAME'];
             $el['TYPE'] = (int)$result['TYPE'];
             $el["VALUE"] = $result['VALUE'];
-            $el['IS_RANGEABLE'] = (bool)$result['IS_RANGEABLE'];
-            $el[$result["ATTRIBUT_ID"]] = $result["VALUE"];
+            $el['IS_RANGE_VIEW'] = (bool)$result['IS_RANGE_VIEW'];
 
-            if ($el['TYPE'] == 1 || $el['IS_RANGEABLE']) {
-                $el['FLOAT_VALUE'] = (float)$result['VALUE'];
+            if ($el['TYPE'] == 1 || $el['IS_RANGE_VIEW']) {
+                $el['FLOAT_VALUE'] = $valueAttribute = (float)Format_ConvertDataElasticSelection::getInt($result['VALUE']);
             } else {
-                $el['INT_VALUE'] = (int)$result['VALUE'];
+                $el['INT_VALUE'] = $valueAttribute = (int)$result['VALUE'];
             }
 
+            $el[$result["ATTRIBUT_ID"]] = $valueAttribute;
+
             return $el;
-        }, $this->_db->fetchAll($sql, array($itemID, $itemID)));
+
+        }, $this->_db->fetchAll($sql, array($itemID, $itemID, $itemID)));
     }
 
     /**

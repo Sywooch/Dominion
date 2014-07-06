@@ -27,13 +27,6 @@ class Format_Aggregation_Query
     private $columns = array();
 
     /**
-     * Format query aggregation;
-     *
-     * @var array
-     */
-    private $formatQueryAggregation = array();
-
-    /**
      * Set builder elastic search
      *
      * @param ElasticaExtension_Builder $builder
@@ -70,11 +63,12 @@ class Format_Aggregation_Query
     {
         $this->queryBuilder->term()
             ->field($this->columns["CATALOGUE_ID"], $catalogueID)
-            ->fieldClose()
-            ->termClose();
+            ->termClose()
+            ->queryClose();
 
         return $this;
     }
+
 
     /**
      * Init filter
@@ -99,40 +93,39 @@ class Format_Aggregation_Query
      */
     public function initAttributes(\Format_AttributesIterator $attributesIterator)
     {
-        $this->queryBuilder->open()
+        $this->queryBuilder = $this->queryBuilder->open()
             ->fieldOpen("and")
-            ->field("filters", array());
+            ->openFieldArray("filters");
 
-
-        /** @var $value \Format_AttributesIterator */
-        foreach ($attributesIterator as $value) {
-
+        while ($attributesIterator->valid()) {
             $this->queryBuilder->open()
                 ->fieldOpen("nested")
                 ->field("path", $this->columns["ATTRIBUTES"])
                 ->fieldOpen("query");
-            if ($value->IsRange()) {
+
+            if ($attributesIterator->IsRange()) {
                 $this->queryBuilder->range()
-                    ->fieldOpen($value->getID())
-                    ->field("from", $value->getValueFrom())
-                    ->field("to", $value->getValueTo())
+                    ->fieldOpen($attributesIterator->getID())
+                    ->field("from", $attributesIterator->getValueFrom())
+                    ->field("to", $attributesIterator->getValueTo())
                     ->fieldClose()
                     ->rangeClose();
-
-                continue;
+            } else {
+                $this->queryBuilder->fieldOpen(is_array($attributesIterator->getValue()) ? "terms" : "term")
+                    ->field($attributesIterator->getID(), $attributesIterator->getValue())
+                    ->fieldClose();
             }
 
-            $this->queryBuilder->fieldOpen("terms")
-                ->field($value->getID(), $value->getValue())
+            $this->queryBuilder->fieldClose()
                 ->fieldClose()
-                ->fieldClose()
-                ->fieldClose()
-                ->fieldClose()
-                ->close();
+                ->fieldClose();
+
+            $attributesIterator->next();
         }
 
-        $this->queryBuilder->fieldClose()
-            ->close();
+        $this->queryBuilder = $this->queryBuilder->closeFieldArray();
+        $this->queryBuilder->fieldClose();
+        $this->queryBuilder->close();
 
         return $this;
     }
@@ -171,7 +164,6 @@ class Format_Aggregation_Query
             ->field("from", $from)
             ->field("to", $to)
             ->fieldClose()
-            ->close()
             ->rangeClose()
             ->close();
 

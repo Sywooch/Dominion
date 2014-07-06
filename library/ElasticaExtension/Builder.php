@@ -32,7 +32,7 @@ class ElasticaExtension_Builder extends Builder
      */
     public function fieldMergeArray($key, array $value)
     {
-        $query = substr(0, strlen($this->__toString() - 2)) . "'" . $key . '"' . " : " . "[";
+        $query = substr(0, strlen($this->__toString() - 1)) . "'" . $key . '"' . " : " . "[";
 
         foreach ($value as $subVal) {
             $query .= json_encode($subVal);
@@ -64,7 +64,7 @@ class ElasticaExtension_Builder extends Builder
      */
     public function closeFieldArray()
     {
-        return new self(substr($this->__toString(), 0, strlen($this->__toString()) - 2) . "] ");
+        return new self(substr($this->__toString(), 0, strlen($this->__toString()) - 1) . "] ");
     }
 
     /**

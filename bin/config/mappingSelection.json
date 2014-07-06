@@ -11,7 +11,7 @@
             "INT_VALUE": {
                 "type": "integer"
             },
-            "IS_RANGEABLE": {
+            "IS_RANGE_VIEW": {
                 "type": "boolean"
             }
         }
