@@ -15,23 +15,18 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Result of search in elasticSearch
      *
-     * @var Result
+     * @var \Elastica\ResultSet
      */
     private $resultSet;
-
-    /**
-     * Aggregation builder
-     *
-     * @var Format_Aggregation_Builder
-     */
-    private $aggregationBuilder;
 
     /**
      * Brands and attributes constant
      */
     const BRANDS = "brands";
     const ATTRIBUTES = "attributes";
-    const ITEMS = "item_id";
+    const ITEMS = "items";
+    const PRICE_MIN = "price_min";
+    const PRICE_MAX = "price_max";
     const POSITION_PRICES = 2;
     const POSITION_ATTRIBUTES = 0;
     const POSITION_BRANDS = 1;
@@ -58,6 +53,8 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      * Selection from elastic search
      *
      * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
+     *
+     * @return \Elastica\ResultSet|mixed
      */
     public function selection(
         Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
@@ -77,18 +74,16 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
         $aggregationBuilder = new Format_Aggregation_Builder($objectValueSelection->getColumns());
 
-        $queryJson = $aggregationBuilder->buildQueryAggregation($aggregationObjectValue);
-
-        $this->elasticSearchGET->buildQueryAggregation($queryJson);
+        $this->elasticSearchGET->buildQueryAggregation($aggregationBuilder->buildQueryAggregation($aggregationObjectValue));
         $this->elasticSearchGET->setSize(0);
 
-        $resultData = $this->elasticSearchGET->execute();
+        $this->resultSet = $this->elasticSearchGET->execute();
     }
 
     /**
      * Get count elements
      *
-     * @return mixed
+     * @return integer
      */
     public function getCountElements()
     {
@@ -96,45 +91,64 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     }
 
     /**
-     * Get brands
+     * Get aggregations result
      *
      * @return array
      */
-    public function getBrands()
+    public function getAggregationsResult()
     {
-        return $this->getElements(self::BRANDS);
+        return $this->resultSet->getAggregations();
     }
 
-    /**
-     * Get attributes
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->getElements(self::ATTRIBUTES);
-    }
-
-    /**
-     * Get items id
-     *
-     * @return array
-     */
-    public function getItemsID()
-    {
-        return $this->getElements(self::ITEMS);
-    }
-
-    /**
-     * Get elements
-     *
-     * @param string $modified
-     * @return mixed
-     */
-    private function getElements($modified)
-    {
-        if (!isset($this->resultSet[$modified])) return array();
-
-        return $this->elasticSearchGET->convertToArray($this->resultSet[$modified]);
-    }
+//    /**
+//     * Get attributes
+//     *
+//     * @return array
+//     */
+//    public function getAttributes()
+//    {
+//        return $this->resultSet->getAggregation(self::ATTRIBUTES);
+//    }
+//
+//    /**
+//     * Get item id
+//     *
+//     * @return array
+//     */
+//    public function getItemsId()
+//    {
+//        return $this->resultSet->getAggregation(self::ITEMS);
+//    }
+//
+//    /**
+//     * Get brands
+//     *
+//     * @return array
+//     */
+//    public function getBrands()
+//    {
+//        $aggregation = $this->resultSet->getAggregations();
+//
+//        if (isset($aggregation[self::BRANDS])) return $aggregation[self::BRANDS];
+//    }
+//
+//    /**
+//     * Get price min
+//     *
+//     * @return array
+//     */
+//    public function getPriceMin()
+//    {
+//        return $this->resultSet->getAggregation(self::PRICE_MIN);
+//    }
+//
+//    /**
+//     * Get price max
+//     *
+//     * @return array
+//     */
+//    public function getPriceMax()
+//    {
+//        return $this->resultSet->getAggregation(self::PRICE_MAX);
+//    }
 }

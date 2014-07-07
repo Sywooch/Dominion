@@ -500,6 +500,7 @@ class AjaxController extends Zend_Controller_Action
         $selectionElasticSearch->connect($parameters['search_engine'], "selection");
         $selectionElasticSearch->selection($objectValueSelection);
 
+        return $this->_helper->json($selectionElasticSearch->getAggregationsResult());
 
 //        if (!empty($params['pmin']) && !empty($params['pmax'])) {
 //            list($minPrice, $maxPrice) = Format_ConvertDataElasticSelection::getFormatRecountPrice
