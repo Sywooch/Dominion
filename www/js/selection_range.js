@@ -47,11 +47,13 @@ $(document).ready(function () {
                             $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
                         },
                         stop: function (event, ui) {
-                            rn_sel = new selection();
-                            rn_sel.doUrl();
-                            rn_sel.getRequest(event, 0);
+                            objectValueSelection.
                         }
                     });
+
+                    $(this).parent().find("input[id^='input_min']").val(data[xid]["min"]);
+                    $(this).parent().find("input[id^='input_max']").val(data[xid]["max"]);
+
                     $(this).find("a.ui-slider-handle").append("<span></span>");
                     $(this).find("a.ui-slider-handle span").last().addClass("last");
                 });

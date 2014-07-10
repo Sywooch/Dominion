@@ -57,7 +57,7 @@
             <xsl:if test="count(attr_value[@selected = 1]) &gt; 0">
                 <xsl:attribute name="style">display: block;</xsl:attribute>
             </xsl:if>
-            <xsl:apply-templates select="attr_value"/>
+            <span class ="unit"><xsl:apply-templates select="attr_value"/></span>
         </div>
     </xsl:template>
 
@@ -293,10 +293,12 @@
     </xsl:template>
 
     <xsl:template match="data">
+        <script type="text/javascript" src="/js/selection/objectValueSelection.js"></script>
         <script type="text/javascript" src="/js/jquery.typewatch.js"></script>
         <script type="text/javascript" src="/js/jquery.cookie.js"></script>
         <script type="text/javascript" src="/js/selection.js"></script>
         <script type="text/javascript" src="/js/selection_range.js"></script>
+
 
         <script type="text/javascript">
             var slide_prev_value = 0;
