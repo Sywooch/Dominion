@@ -148,8 +148,8 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   i0.VALUE
-                FROM attribut a
-                  JOIN item0 i0 USING (ATTRIBUT_ID)
+                FROM ATTRIBUT a
+                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
                 WHERE i0.ITEM_ID = ?
                 AND a.IS_RANGE_VIEW = 0
                 UNION
@@ -159,8 +159,8 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   i1.VALUE
-                FROM attribut a
-                  JOIN item1 i1 USING (ATTRIBUT_ID)
+                FROM ATTRIBUT a
+                  JOIN ITEM1 i1 USING (ATTRIBUT_ID)
                 WHERE i1.ITEM_ID = ?
                 AND a.IS_RANGE_VIEW = 0
                   UNION
@@ -170,9 +170,9 @@ class models_ElasticSearch extends ZendDBEntity
                     a.NAME,
                     a.TYPE,
                     al.NAME AS VALUE
-                  FROM attribut a
-                    JOIN item0 i USING (ATTRIBUT_ID)
-                    LEFT JOIN attribut_list al
+                  FROM ATTRIBUT a
+                    JOIN ITEM0 i USING (ATTRIBUT_ID)
+                    LEFT JOIN ATTRIBUT_LIST al
                       ON (i.VALUE = al.ATTRIBUT_LIST_ID)
                   WHERE i.ITEM_ID = ?
                   AND a.IS_RANGE_VIEW = 1";
