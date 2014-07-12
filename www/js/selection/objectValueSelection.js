@@ -2,6 +2,7 @@
  * Created by Константин on 09.07.14.
  */
 var objectValueSelection = {};
+
 /**
  * Init object value selection
  */
@@ -11,18 +12,13 @@ Object.defineProperties(objectValueSelection, {
         writable: true,
         configurable: false
     },
-    attributesObj: {
+    attributesArr: {
         value: {},
         writable: true,
         configurable: false
     },
-    indexAttribute: {
-        value: null,
-        writable: true,
-        configurable: false
-    },
-    attributesValues: {
-        value: [],
+    attributesObj: {
+        value: {},
         writable: true,
         configurable: false
     },
@@ -41,39 +37,59 @@ Object.defineProperties(objectValueSelection, {
         writable: true,
         configurable: false
     },
+    setAttributeArr: {
+        value: function (attributeId, is_range, attributeValue) {
+            if (!(attributeId in this.attributesArr)) {
+                this.attributesArr[attributeId] = {
+                    id: attributeId,
+                    is_range: is_range
+                };
+                this.attributesArr[attributeId].value = [];
+            }
+
+            this.attributesArr[attributeId].value.push(attributeValue);
+        }
+    },
+    checkBrands: {
+        value: false,
+        writable: true,
+        configurable: false
+    },
+    setAttributeObj: {
+        value: function (attributeId, is_range, from, to) {
+            if (!(attributeId in this.attributesObj)) {
+                this.attributesObj[attributeId] = {
+                    id: attributeId,
+                    is_range: is_range
+                };
+            }
+
+            this.attributesObj[attributeId].value = {
+                from: from,
+                to: to
+            };
+        }
+    },
     unsetBrand: {
         value: function (brand_id) {
             this.brandsArr.splice(this.brandsArr.indexOf(brand_id), 1);
         },
         enumerable: false
     },
-    unsetAttribute: {
+    unsetAttributeArr: {
         value: function (keyAttributes, valKey) {
-            if (!(this.attributesObj[keyAttributes].value.length > 1)) {
-                delete this.attributesObj[keyAttributes];
-                this.attributesValues = [];
+            if (!(this.attributesArr[keyAttributes].value.length > 1)) {
+                delete this.attributesArr[keyAttributes];
 
                 return;
             }
 
-            this.attributesObj[keyAttributes].value.splice(this.attributesObj[keyAttributes].value.indexOf(valKey), 1);
+            this.attributesArr[keyAttributes].value.splice(this.attributesArr[keyAttributes].value.indexOf(valKey), 1);
         },
         enumerable: false
     }
 });
 
-/**
- * Object value for getter setter attributes
- */
-Object.defineProperty(objectValueSelection, "attributes_id", {
-    set: function (attribute) {
-        this.attributesObj[this.indexAttribute] = attribute;
-        this.attributesObj[this.indexAttribute].value = this.attributesValues;
-    },
-    get: function () {
-        return this.attributesObj;
-    }
-});
 /**
  * Object value for getter setter brands
  */
@@ -87,13 +103,22 @@ Object.defineProperty(objectValueSelection, "brands_id", {
 });
 
 /**
- * Define attributes value
+ * Define property of attributes main
  */
-Object.defineProperty(objectValueSelection, "attrValues", {
-    set: function (value) {
-        this.attributesValues.push(value);
-    },
+Object.defineProperty(objectValueSelection, "attributes_id", {
     get: function () {
-        return this.attributesValues;
+        return $.extend({}, this.attributesArr, this.attributesObj);
+    }
+});
+
+/**
+ * Define check brands
+ */
+Object.defineProperty(objectValueSelection, "check_brands", {
+    get: function () {
+        var check = this.checkBrands;
+        this.checkBrands = false;
+
+        return check;
     }
 });

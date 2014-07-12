@@ -39,7 +39,7 @@ class Format_AttributesIterator implements Iterator
      */
     public function setAttributes(array $attributes)
     {
-        $this->attributes = $attributes;
+        $this->attributes = array_values($attributes);
     }
 
     /**
@@ -80,7 +80,7 @@ class Format_AttributesIterator implements Iterator
      */
     public function IsRange()
     {
-        return (bool)$this->attributes[$this->index][self::IS_RANGE];
+        return $this->attributes[$this->index][self::IS_RANGE];
     }
 
     /**

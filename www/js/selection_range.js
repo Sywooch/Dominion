@@ -47,12 +47,12 @@ $(document).ready(function () {
                             $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
                         },
                         stop: function (event, ui) {
-                            objectValueSelection.
+                            objectValueSelection.setAttributeObj($(this).parent().attr("xid"), 1, ui.values[0], ui.values[1]);
                         }
                     });
 
-                    $(this).parent().find("input[id^='input_min']").val(data[xid]["min"]);
-                    $(this).parent().find("input[id^='input_max']").val(data[xid]["max"]);
+                    $(this).find("input[id^='input_min']").val(data[xid]["min"]);
+                    $(this).find("input[id^='input_max']").val(data[xid]["max"]);
 
                     $(this).find("a.ui-slider-handle").append("<span></span>");
                     $(this).find("a.ui-slider-handle span").last().addClass("last");

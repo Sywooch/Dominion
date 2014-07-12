@@ -451,17 +451,17 @@ class AjaxController extends Zend_Controller_Action
         $objectValueSelection->setColumns($parameters["columns"]);
         $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
         $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
-        $objectValueSelection->setCatalogueID($catalogueID);
-        $objectValueSelection->setPriceMin($this->getRequest()->getParam("price_min"));
-        $objectValueSelection->setPriceMax($this->getRequest()->getParam("price_max"));
-        $objectValueSelection->setCheckBrands($parameters["check_brands"]);
-        
+        $objectValueSelection->setCatalogueID((int)$catalogueID);
+        $objectValueSelection->setPriceMin((int)$this->getRequest()->getParam("price_min"));
+        $objectValueSelection->setPriceMax((int)$this->getRequest()->getParam("price_max"));
+        $objectValueSelection->setCheckBrands((bool)$parameters["check_brands"]);
+
         $attributes = $this->getRequest()->getParam("attributes");
         $brands = $this->getRequest()->getParam("brands");
 
-        if (!empty($attributes)) $objectValueSelection->setAttributes($attributes);
+        if (!empty($attributes)) $objectValueSelection->setAttributes((array)$attributes);
 
-        if (!empty($brands)) $objectValueSelection->setBrands($brands);
+        if (!empty($brands)) $objectValueSelection->setBrands((array)$brands);
 
         /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
         $selectionElasticSearch = $this->_helper->helperLoader(
