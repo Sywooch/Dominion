@@ -454,7 +454,7 @@ class AjaxController extends Zend_Controller_Action
         $objectValueSelection->setCatalogueID((int)$catalogueID);
         $objectValueSelection->setPriceMin((int)$this->getRequest()->getParam("price_min"));
         $objectValueSelection->setPriceMax((int)$this->getRequest()->getParam("price_max"));
-        $objectValueSelection->setCheckBrands((bool)$parameters["check_brands"]);
+        $objectValueSelection->setCheckBrands((bool)$this->getRequest()->getParam("check_brands"));
 
         $attributes = $this->getRequest()->getParam("attributes");
         $brands = $this->getRequest()->getParam("brands");

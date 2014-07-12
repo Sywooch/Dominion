@@ -51,7 +51,7 @@ Object.defineProperties(objectValueSelection, {
         }
     },
     checkBrands: {
-        value: false,
+        value: 0,
         writable: true,
         configurable: false
     },
@@ -117,7 +117,7 @@ Object.defineProperty(objectValueSelection, "attributes_id", {
 Object.defineProperty(objectValueSelection, "check_brands", {
     get: function () {
         var check = this.checkBrands;
-        this.checkBrands = false;
+        this.checkBrands = 0;
 
         return check;
     }
