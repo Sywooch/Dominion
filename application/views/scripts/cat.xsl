@@ -294,6 +294,7 @@
 
     <xsl:template match="data">
         <script type="text/javascript" src="/js/selection/objectValueSelection.js"></script>
+        <script type="text/javascript" src="/js/selection/servicesSelection.js"></script>
         <script type="text/javascript" src="/js/jquery.typewatch.js"></script>
         <script type="text/javascript" src="/js/jquery.cookie.js"></script>
         <script type="text/javascript" src="/js/selection.js"></script>

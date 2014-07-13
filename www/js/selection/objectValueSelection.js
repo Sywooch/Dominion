@@ -12,6 +12,11 @@ Object.defineProperties(objectValueSelection, {
         writable: true,
         configurable: false
     },
+    attributesIdChecked: {
+        value: null,
+        writable: true,
+        configurable: false
+    },
     attributesArr: {
         value: {},
         writable: true,
