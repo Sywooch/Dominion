@@ -103,7 +103,10 @@ selection.prototype.doUrl = function () {
  *
  * @param dataObject
  */
-selection.select = function (dataObject) {
+selection.select = function (dataObject, currentElement) {
+    var idAttribute = dataObject.attribute_id_checked;
+    var statusBrand = dataObject.check_brands;
+    var attributeRangeId = dataObject.attribute_id_range_active;
     $.ajax({
         type: "POST",
         url: "/ajax/getattrcount/",
@@ -113,58 +116,74 @@ selection.select = function (dataObject) {
             price_max: dataObject.price_max,
             brands: dataObject.brands_id,
             attributes: dataObject.attributes_id,
-            check_brands: dataObject.check_brands
+            check_brands: statusBrand
         },
         success: function (resultData) {
-            var mainSelector = $("input[type=checkbox]");
-            mainSelector.removeAttr("disabled");
-            mainSelector.parent().removeClass("noactive");
-            $.each(resultData, function (nameKey, value) {
+            podbor_popup(resultData["count_items"] > 0 ? 'Найдено моделей:' + resultData["count_items"] + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', currentElement);
+
+            var mainSelector = statusBrand == 1 ? $("input[rel=attr_value]") : $("div.fieldgroup input[type=checkbox]:not(:checked)");
+
+            mainSelector.attr("disabled", "disabled");
+            mainSelector.parent().addClass("noactive");
+
+            $.each(resultData["attributes"], function (nameKey, value) {
 
                 var selector = "";
-                var parentSelector = "";
                 var objectValueSelector = {};
+                var convertPrice = null;
                 switch (nameKey) {
                     case "brands":
-                        parentSelector = $("input[rel=attr_brand_id]");
-
                         selector = servicesSelection.brands(value["buckets"]);
 
-                        objectValueSelector = parentSelector.not(selector + ", input:checked");
+                        objectValueSelector = $(selector);
 
-                        parentSelector.not(selector).attr("disabled", "disabled");
-                        objectValueSelector.parent().addClass("noactive");
+                        objectValueSelector.removeAttr("disabled", "disabled");
+                        objectValueSelector.parent().removeClass("noactive");
 
                         break;
                     case "attributes":
-                        parentSelector = $("input[type=checkbox][name^=attr_value]");
-
                         var objectSelector = servicesSelection.attributes(value["attributes_identity"]["buckets"]);
                         selector = objectSelector.check;
 
-                        objectValueSelector = parentSelector.not(selector + ", input:checked");
+                        objectValueSelector = $(selector);
 
-                        parentSelector.not(selector).attr("disabled", "disabled");
-                        objectValueSelector.parent().addClass("noactive");
+                        objectValueSelector.removeAttr("disabled", "disabled");
+                        objectValueSelector.parent().removeClass("noactive");
 
-                        var activeAttributeElement = $("input[rel=attr_value][atg=" + objectValueSelection.attributesIdChecked + "]");
-
-                        activeAttributeElement.removeAttr("disabled");
-                        activeAttributeElement.parent().removeClass("noactive");
+                        if (idAttribute != null) {
+                            var activeAttributeElement = $("input[rel=attr_value][atg=" + idAttribute + "]");
+                            activeAttributeElement.removeAttr("disabled");
+                            activeAttributeElement.parent().removeClass("noactive");
+                        }
 
                         $.each(objectSelector.range, function (index, valRange) {
-                            $(valRange.selectorRange).slider("values", 0, valRange.valueFrom);
-                            $(valRange.selectorRange).slider("values", 1, valRange.valueTo);
+                            var elementRange = $(valRange.selectorRange);
 
-//                            $(valRange.selectorRange).slider("refresh");
+                            if (attributeRangeId == elementRange.parent().attr("xid")) return;
 
-//                            $(valRange.selectorFrom).val(valRange.valueFrom);
-//                            $(valRange.selectorTo).val(valRange.valueTo);
+                            elementRange.slider("values", 0, valRange.valueFrom);
+                            elementRange.slider("values", 1, valRange.valueTo);
+                            $(valRange.selectorInputMin).val(valRange.valueFrom);
+                            $(valRange.selectorInputMax).val(valRange.valueTo);
                         });
 
                         break;
+//                    case "price_min":
+//                        convertPrice = Math.round(value.value);
+//                        $(".jquery_slider").slider("values", 0, convertPrice);
+//                        $("input#price_input_min").val(convertPrice);
+//
+//                        break;
+//                    case "price_max":
+//                        convertPrice = Math.round(value.value);
+//                        $(".jquery_slider").slider("values", 1, convertPrice);
+//                        $("input#price_input_max").val(convertPrice);
+//
+//                        break;
                 }
             });
+
+
         }
     });
 };
@@ -241,7 +260,7 @@ function podbor_popup(popup_text, evnt) {
 
     $("#catalog_compare_products_form").append('<div class="podbor_popup"></div>');
     $(".podbor_popup").css({
-        right: 200,
+        right: 220,
         top: evnt.pageY - offset.top - 15
     });
 
@@ -254,15 +273,15 @@ function podbor_popup(popup_text, evnt) {
 $(document).ready(function (evnt) {
     if (!objectValueSelection.length) {
         objectValueSelection.catalogue_id = $("input#catalogue_id").val();
-//        $.data("selection_object", objectValueSelection);
     }
+
 
     if ($(".jquery_slider").length > 0) {
         $(".jquery_slider").slider({
             range: true,
             min: slider_min,
             max: slider_max,
-            step: 5,
+            step: 20,
             values: [slide_values_min, slide_values_max],
             slide: function (event, ui) {
                 $("#price_input_min").val(ui.values[0]);
@@ -272,7 +291,7 @@ $(document).ready(function (evnt) {
                 objectValueSelection.price_min = ui.values[0];
                 objectValueSelection.price_max = ui.values[1];
 
-                selection.select(objectValueSelection);
+                selection.select(objectValueSelection, event);
             }
         });
         $("input#price_input_min").val(slide_values_min);
@@ -282,7 +301,7 @@ $(document).ready(function (evnt) {
     /**
      * Check brands
      */
-    $('input[rel=attr_brand_id]').click(function () {
+    $('input[rel=attr_brand_id]').click(function (event) {
         if ($(this).is(":checked")) {
             objectValueSelection.brands_id = $(this).val();
             objectValueSelection.checkBrands = 1;
@@ -290,7 +309,7 @@ $(document).ready(function (evnt) {
             objectValueSelection.unsetBrand($(this).val());
         }
 
-        selection.select(objectValueSelection);
+        selection.select(objectValueSelection, event);
     });
 
     /**
@@ -305,55 +324,55 @@ $(document).ready(function (evnt) {
             objectValueSelection.unsetAttributeArr($(this).attr("atg"), $(this).attr("atid"));
         }
 
-        selection.select(objectValueSelection);
+        selection.select(objectValueSelection, evnt);
     });
 
-    var options_input_min = {
-        callback: function () {
-            var evnt = new Object();
+//    var options_input_min = {
+//        callback: function () {
+//            var evnt = new Object();
+//
+//            offset = $("#price_input_min").offset();
+//            evnt.pageX = offset.left;
+//            evnt.pageY = offset.top;
+//
+//            var price_max = $("#price_input_max").val();
+//            price_max = price_max == '' ? slide_values_max : price_max;
+//
+//            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
+//
+//            it_sel = new selection();
+//            it_sel.doUrl();
+//            it_sel.getRequest(evnt);
+//        },
+//        wait: 1500,
+//        captureLength: 2
+//    }
 
-            offset = $("#price_input_min").offset();
-            evnt.pageX = offset.left;
-            evnt.pageY = offset.top;
 
-            var price_max = $("#price_input_max").val();
-            price_max = price_max == '' ? slide_values_max : price_max;
+//    var options_input_max = {
+//        callback: function () {
+//            var event = new Object();
+//            var slide_values_min;
+//
+//            var offset = $("#price_input_max").offset();
+//            event.pageX = offset.left;
+//            event.pageY = offset.top;
+//
+//            var price_min = $("#price_input_min").val()
+//            price_min = price_min == '' ? slide_values_min : price_min;
+//
+//            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
+//
+//            var it_sel = new selection();
+//            it_sel.doUrl();
+//            it_sel.getRequest(event);
+//        },
+//        wait: 1500,
+//        captureLength: 2
+//    };
 
-            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
-
-            it_sel = new selection();
-            it_sel.doUrl();
-            it_sel.getRequest(evnt);
-        },
-        wait: 1500,
-        captureLength: 2
-    }
-
-
-    var options_input_max = {
-        callback: function () {
-            var event = new Object();
-            var slide_values_min;
-
-            var offset = $("#price_input_max").offset();
-            event.pageX = offset.left;
-            event.pageY = offset.top;
-
-            var price_min = $("#price_input_min").val()
-            price_min = price_min == '' ? slide_values_min : price_min;
-
-            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
-
-            var it_sel = new selection();
-            it_sel.doUrl();
-            it_sel.getRequest(event);
-        },
-        wait: 1500,
-        captureLength: 2
-    };
-
-    $("#price_input_min").typeWatch(options_input_min);
-    $("#price_input_max").typeWatch(options_input_max);
+//    $("#price_input_min").typeWatch(options_input_min);
+//    $("#price_input_max").typeWatch(options_input_max);
 
     $('#price_input_min').keyup(function (evnt) {
         var val = $(this).val();
@@ -363,10 +382,6 @@ $(document).ready(function (evnt) {
                 price_max = price_max == '' ? slide_values_max : price_max;
 
                 $(".jquery_slider").slider("option", "values", [slider_min, price_max]);
-
-//                it_sel = new selection();
-//                it_sel.doUrl();
-//                it_sel.getRequest(evnt);
             }
         }
     });
@@ -379,10 +394,6 @@ $(document).ready(function (evnt) {
                 price_min = price_min == '' ? slide_values_min : price_min;
 
                 $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
-
-//                it_sel = new selection();
-//                it_sel.doUrl();
-//                it_sel.getRequest(evnt);
             }
         }
     });

@@ -17,6 +17,11 @@ Object.defineProperties(objectValueSelection, {
         writable: true,
         configurable: false
     },
+    attributesRangeIdActive: {
+        value: null,
+        writable: true,
+        configurable: false
+    },
     attributesArr: {
         value: {},
         writable: true,
@@ -125,5 +130,26 @@ Object.defineProperty(objectValueSelection, "check_brands", {
         this.checkBrands = 0;
 
         return check;
+    }
+});
+
+Object.defineProperty(objectValueSelection, "attribute_id_checked", {
+    get: function () {
+        var check = this.attributesIdChecked;
+        this.attributesIdChecked = null;
+
+        return check;
+    }
+});
+
+Object.defineProperty(objectValueSelection, "attribute_id_range_active", {
+    get: function () {
+        var check = this.attributesRangeIdActive;
+        this.attributesRangeIdActive = null;
+
+        return check;
+    },
+    set: function (attributeId) {
+        this.attributesRangeIdActive = attributeId;
     }
 });

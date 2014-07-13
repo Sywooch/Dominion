@@ -472,7 +472,7 @@ class AjaxController extends Zend_Controller_Action
         $selectionElasticSearch->connect($parameters['search_engine'], "selection");
         $selectionElasticSearch->selection($objectValueSelection);
 
-        return $this->_helper->json($selectionElasticSearch->getAggregationsResult());
+        return $this->_helper->json(array("attributes" => $selectionElasticSearch->getAggregationsResult(), "count_items" => $selectionElasticSearch->getCountElements()));
     }
 
     /**

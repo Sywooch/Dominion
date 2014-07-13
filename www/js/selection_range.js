@@ -47,7 +47,11 @@ $(document).ready(function () {
                             $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
                         },
                         stop: function (event, ui) {
-                            objectValueSelection.setAttributeObj($(this).parent().attr("xid"), 1, ui.values[0], ui.values[1]);
+                            var attributeId = $(this).parent().attr("xid");
+                            objectValueSelection.setAttributeObj(attributeId, 1, ui.values[0], ui.values[1]);
+                            objectValueSelection.attribute_id_range_active = attributeId;
+
+                            selection.select(objectValueSelection, event);
                         }
                     });
 

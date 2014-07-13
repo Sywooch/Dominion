@@ -141,6 +141,7 @@ class Format_FormatDataElastic
     {
         $items = $this->getDataItems($pricesObjectValue->getData());
         foreach ($items as $item) {
+            /** @var $recount Helpers_Prices_Recount */
             $recount = $pricesObjectValue->getRecount();
             $recount->setItemModel($pricesObjectValue->getModelsItem());
             $recount->setCurrency($pricesObjectValue->getCurrency());
