@@ -140,6 +140,9 @@ Object.defineProperty(objectValueSelection, "check_brands", {
     }
 });
 
+/**
+ * Define property attribute id checked
+ */
 Object.defineProperty(objectValueSelection, "attribute_id_checked", {
     get: function () {
         var check = this.attributesIdChecked;
@@ -149,6 +152,9 @@ Object.defineProperty(objectValueSelection, "attribute_id_checked", {
     }
 });
 
+/**
+ * Define property attribute id range active
+ */
 Object.defineProperty(objectValueSelection, "attribute_id_range_active", {
     get: function () {
         var check = this.attributesRangeIdActive;
