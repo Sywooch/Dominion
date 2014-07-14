@@ -98,46 +98,137 @@ selection.prototype.doUrl = function () {
     $('#catalog_compare_products_form').attr({'action': this.page_url});
 }
 
+/**
+ * Select by send ajax query to server
+ *
+ * @param dataObject
+ */
+selection.select = function (dataObject, currentElement) {
+    var idAttribute = dataObject.attribute_id_checked;
+    var statusBrand = dataObject.check_brands;
+    var attributeRangeId = dataObject.attribute_id_range_active;
+    $.ajax({
+        type: "POST",
+        url: "/ajax/getattrcount/",
+        data: {
+            catalogue_id: dataObject.catalogue_id,
+            price_min: dataObject.price_min,
+            price_max: dataObject.price_max,
+            brands: dataObject.brands_id,
+            attributes: dataObject.attributes_id,
+            check_brands: statusBrand
+        },
+        success: function (resultData) {
+            podbor_popup(resultData["count_items"] > 0 ? 'Найдено моделей:' + resultData["count_items"] + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', currentElement);
 
-selection.prototype.getRequest = function (evnt, attr_gr_id) {
-    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, brands: this.action_brand, attributes: this.action_attr, price_min: this.price_min, price_max: this.price_max, attribute_range: this.attribute_range}, function (data) {
-        podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
-        if (data == null) {
-//            $('input[rel=attr_brand_id]').removeAttr("disabled");
-            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
-            $('input[rel=attr_value]').parent().removeClass("noactive");
-//            $('input[rel=attr_value]').removeAttr('disabled');
-        }
+            var mainSelector = statusBrand == 1 ? $("input[rel=attr_value]") : $("div.fieldgroup input[type=checkbox]:not(:checked)");
 
-        if (data.brands_count > 0) {
-//            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
-            $('input[rel=attr_brand_id]').parent().addClass('noactive');
-            $.each(data.brands, function (key, value) {
-//                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
-                $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
+            mainSelector.attr("disabled", "disabled");
+            mainSelector.parent().addClass("noactive");
+
+            $.each(resultData["attributes"], function (nameKey, value) {
+
+                var selector = "";
+                var objectValueSelector = {};
+                var convertPrice = null;
+                switch (nameKey) {
+                    case "brands":
+                        selector = servicesSelection.brands(value["buckets"]);
+
+                        objectValueSelector = $(selector);
+
+                        objectValueSelector.removeAttr("disabled", "disabled");
+                        objectValueSelector.parent().removeClass("noactive");
+
+                        break;
+                    case "attributes":
+                        var objectSelector = servicesSelection.attributes(value["attributes_identity"]["buckets"]);
+                        selector = objectSelector.check;
+
+                        objectValueSelector = $(selector);
+
+                        objectValueSelector.removeAttr("disabled", "disabled");
+                        objectValueSelector.parent().removeClass("noactive");
+
+                        if (idAttribute != null) {
+                            var activeAttributeElement = $("input[rel=attr_value][atg=" + idAttribute + "]");
+                            activeAttributeElement.removeAttr("disabled");
+                            activeAttributeElement.parent().removeClass("noactive");
+                        }
+
+                        $.each(objectSelector.range, function (index, valRange) {
+                            var elementRange = $(valRange.selectorRange);
+
+                            if (attributeRangeId == elementRange.parent().attr("xid")) return;
+
+                            elementRange.slider("values", 0, valRange.valueFrom);
+                            elementRange.slider("values", 1, valRange.valueTo);
+                            $(valRange.selectorInputMin).val(valRange.valueFrom);
+                            $(valRange.selectorInputMax).val(valRange.valueTo);
+                        });
+
+                        break;
+//                    case "price_min":
+//                        convertPrice = Math.round(value.value);
+//                        $(".jquery_slider").slider("values", 0, convertPrice);
+//                        $("input#price_input_min").val(convertPrice);
+//
+//                        break;
+//                    case "price_max":
+//                        convertPrice = Math.round(value.value);
+//                        $(".jquery_slider").slider("values", 1, convertPrice);
+//                        $("input#price_input_max").val(convertPrice);
+//
+//                        break;
+                }
             });
-        }
-        else {
-            $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
-        }
 
-        if (data.attrib_count > 0) {
-            $.each(data.attrib, function (key, value) {
-                if (key == attr_gr_id)  return;
 
-                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-
-                $.each(value, function (i, attr) {
-                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-                });
-            });
-        }
-        else {
-            $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
         }
     });
-}
+};
+
+
+//selection.prototype.getRequest = function (evnt, attr_gr_id) {
+//
+////    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, brands: this.action_brand, attributes: this.action_attr, price_min: this.price_min, price_max: this.price_max, attribute_range: this.attribute_range}, function (data) {
+////        podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
+////        if (data == null) {
+//////            $('input[rel=attr_brand_id]').removeAttr("disabled");
+////            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
+////            $('input[rel=attr_value]').parent().removeClass("noactive");
+//////            $('input[rel=attr_value]').removeAttr('disabled');
+////        }
+////
+////        if (data.brands_count > 0) {
+//////            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
+////            $('input[rel=attr_brand_id]').parent().addClass('noactive');
+////            $.each(data.brands, function (key, value) {
+//////                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
+////                $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
+////            });
+////        }
+////        else {
+////            $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
+////        }
+////
+////        if (data.attrib_count > 0) {
+////            $.each(data.attrib, function (key, value) {
+////                if (key == attr_gr_id)  return;
+////
+////                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
+////
+////                $.each(value, function (i, attr) {
+////                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
+////                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
+////                });
+////            });
+////        }
+////        else {
+////            $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
+////        }
+////    });
+//}
 
 
 function podbor_popup(popup_text, evnt) {
@@ -169,7 +260,7 @@ function podbor_popup(popup_text, evnt) {
 
     $("#catalog_compare_products_form").append('<div class="podbor_popup"></div>');
     $(".podbor_popup").css({
-        right: 200,
+        right: 220,
         top: evnt.pageY - offset.top - 15
     });
 
@@ -180,91 +271,108 @@ function podbor_popup(popup_text, evnt) {
 }
 
 $(document).ready(function (evnt) {
-//    if(this.catalogue_id != undefined){
-//        var selection = new selection();
-//        selection.doUrl();
-//        selection.getRequest(evnt, 0);
-//    }
+    if (!objectValueSelection.length) {
+        objectValueSelection.catalogue_id = $("input#catalogue_id").val();
+    }
+
+
     if ($(".jquery_slider").length > 0) {
         $(".jquery_slider").slider({
             range: true,
             min: slider_min,
             max: slider_max,
-            step: 5,
+            step: 20,
             values: [slide_values_min, slide_values_max],
             slide: function (event, ui) {
                 $("#price_input_min").val(ui.values[0]);
                 $("#price_input_max").val(ui.values[1]);
             },
             stop: function (event, ui) {
-                it_sel = new selection();
-                it_sel.doUrl();
-                it_sel.getRequest(event, 0);
+                objectValueSelection.price_min = ui.values[0];
+                objectValueSelection.price_max = ui.values[1];
+
+                selection.select(objectValueSelection, event);
             }
         });
+        $("input#price_input_min").val(slide_values_min);
+        $("input#price_input_max").val(slide_values_max);
     }
 
-    $('input[rel=attr_brand_id]').click(function (evnt) {
-        it_sel = new selection();
-        it_sel.doUrl();
-        it_sel.getRequest(evnt, 0);
+    /**
+     * Check brands
+     */
+    $('input[rel=attr_brand_id]').click(function (event) {
+        if ($(this).is(":checked")) {
+            objectValueSelection.brands_id = $(this).val();
+            objectValueSelection.checkBrands = 1;
+        } else {
+            objectValueSelection.unsetBrand($(this).val());
+        }
+
+        selection.select(objectValueSelection, event);
     });
 
+    /**
+     * Check attribute
+     */
     $('input[rel=attr_value]').click(function (evnt) {
-        attr_gr_id = $(this).attr('atg');
-        it_sel = new selection();
-        it_sel.doUrl();
+        if ($(this).is(":checked")) {
+            var attrId = $(this).attr("atg");
+            objectValueSelection.setAttributeArr(attrId, 0, $(this).attr("atid"));
+            objectValueSelection.attributesIdChecked = attrId;
+        } else {
+            objectValueSelection.unsetAttributeArr($(this).attr("atg"), $(this).attr("atid"));
+        }
 
-        $.cookie('attr_gr_id', attr_gr_id);
-        it_sel.getRequest(evnt, attr_gr_id);
+        selection.select(objectValueSelection, evnt);
     });
 
-    var options_input_min = {
-        callback: function () {
-            var evnt = new Object();
+//    var options_input_min = {
+//        callback: function () {
+//            var evnt = new Object();
+//
+//            offset = $("#price_input_min").offset();
+//            evnt.pageX = offset.left;
+//            evnt.pageY = offset.top;
+//
+//            var price_max = $("#price_input_max").val();
+//            price_max = price_max == '' ? slide_values_max : price_max;
+//
+//            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
+//
+//            it_sel = new selection();
+//            it_sel.doUrl();
+//            it_sel.getRequest(evnt);
+//        },
+//        wait: 1500,
+//        captureLength: 2
+//    }
 
-            offset = $("#price_input_min").offset();
-            evnt.pageX = offset.left;
-            evnt.pageY = offset.top;
 
-            var price_max = $("#price_input_max").val();
-            price_max = price_max == '' ? slide_values_max : price_max;
+//    var options_input_max = {
+//        callback: function () {
+//            var event = new Object();
+//            var slide_values_min;
+//
+//            var offset = $("#price_input_max").offset();
+//            event.pageX = offset.left;
+//            event.pageY = offset.top;
+//
+//            var price_min = $("#price_input_min").val()
+//            price_min = price_min == '' ? slide_values_min : price_min;
+//
+//            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
+//
+//            var it_sel = new selection();
+//            it_sel.doUrl();
+//            it_sel.getRequest(event);
+//        },
+//        wait: 1500,
+//        captureLength: 2
+//    };
 
-            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
-
-            it_sel = new selection();
-            it_sel.doUrl();
-            it_sel.getRequest(evnt);
-        },
-        wait: 1500,
-        captureLength: 2
-    }
-
-
-    var options_input_max = {
-        callback: function () {
-            var event = new Object();
-            var slide_values_min;
-
-            var offset = $("#price_input_max").offset();
-            event.pageX = offset.left;
-            event.pageY = offset.top;
-
-            var price_min = $("#price_input_min").val()
-            price_min = price_min == '' ? slide_values_min : price_min;
-
-            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
-
-            var it_sel = new selection();
-            it_sel.doUrl();
-            it_sel.getRequest(event);
-        },
-        wait: 1500,
-        captureLength: 2
-    };
-
-    $("#price_input_min").typeWatch(options_input_min);
-    $("#price_input_max").typeWatch(options_input_max);
+//    $("#price_input_min").typeWatch(options_input_min);
+//    $("#price_input_max").typeWatch(options_input_max);
 
     $('#price_input_min').keyup(function (evnt) {
         var val = $(this).val();
@@ -274,10 +382,6 @@ $(document).ready(function (evnt) {
                 price_max = price_max == '' ? slide_values_max : price_max;
 
                 $(".jquery_slider").slider("option", "values", [slider_min, price_max]);
-
-                it_sel = new selection();
-                it_sel.doUrl();
-                it_sel.getRequest(evnt);
             }
         }
     });
@@ -290,19 +394,9 @@ $(document).ready(function (evnt) {
                 price_min = price_min == '' ? slide_values_min : price_min;
 
                 $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
-
-                it_sel = new selection();
-                it_sel.doUrl();
-                it_sel.getRequest(evnt);
             }
         }
     });
-
-    $("input[name^=attr_range_min]").click(function (evnt) {
-        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
-
-        }
-    })
 
     $(".applay_filters a.product_button").click(function (ev) {
         ev.preventDefault();

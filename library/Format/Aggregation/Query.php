@@ -103,7 +103,7 @@ class Format_Aggregation_Query
                 ->field("path", $this->columns["ATTRIBUTES"])
                 ->fieldOpen("query");
 
-            if ($attributesIterator->IsRange()) {
+            if ((bool)$attributesIterator->IsRange()) {
                 $this->queryBuilder->range()
                     ->fieldOpen($attributesIterator->getID())
                     ->field("from", $attributesIterator->getValueFrom())

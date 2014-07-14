@@ -47,11 +47,17 @@ $(document).ready(function () {
                             $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
                         },
                         stop: function (event, ui) {
-                            rn_sel = new selection();
-                            rn_sel.doUrl();
-                            rn_sel.getRequest(event, 0);
+                            var attributeId = $(this).parent().attr("xid");
+                            objectValueSelection.setAttributeObj(attributeId, 1, ui.values[0], ui.values[1]);
+                            objectValueSelection.attribute_id_range_active = attributeId;
+
+                            selection.select(objectValueSelection, event);
                         }
                     });
+
+                    $(this).find("input[id^='input_min']").val(data[xid]["min"]);
+                    $(this).find("input[id^='input_max']").val(data[xid]["max"]);
+
                     $(this).find("a.ui-slider-handle").append("<span></span>");
                     $(this).find("a.ui-slider-handle span").last().addClass("last");
                 });

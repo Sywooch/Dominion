@@ -42,12 +42,6 @@
                         }
                     }
                 },
-                "items": {
-                    "terms": {
-                        "field": "PRODUCT_ID",
-                        "size": 10000
-                    }
-                },
                 "price_min": {
                     "min": {
                         "field": "PRICE"
@@ -100,12 +94,6 @@
                                     }
                                 }
                             }
-                        }
-                    },
-                    "items": {
-                        "terms": {
-                            "field": "PRODUCT_ID",
-                            "size": 100000
                         }
                     },
                     "price_min": {

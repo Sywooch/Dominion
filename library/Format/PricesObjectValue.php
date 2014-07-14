@@ -31,7 +31,7 @@ class Format_PricesObjectValue
     /**
      * Recount object strategy recount prices
      *
-     * @var object
+     * @var Helpers_Prices_Recount
      */
     private $recount;
 
