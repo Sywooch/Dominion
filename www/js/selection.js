@@ -167,7 +167,7 @@ selection.select = function (dataObject, currentElement) {
                             var elementRange = $(valRange.selectorRange);
 
                             if (attributeRangeId == elementRange.parent().attr("xid")) return;
-                            
+
 
                             elementRange.slider("values", 0, valRange.valueFrom);
                             elementRange.slider("values", 1, valRange.valueTo);
@@ -283,7 +283,6 @@ $(document).ready(function (evnt) {
             objectValueSelection.unsetBrand($(this).val());
         }
 
-        selection.doUrl();
         selection.select(objectValueSelection, event);
     });
 
