@@ -16,13 +16,14 @@ autoloaderNamespaces[] = "Format_"
 autoloaderNamespaces[] = "ZendCustomExtend_"
 autoloaderNamespaces[] = "ImageResize_"
 autoloaderNamespaces[] = "BrainPriceImport_"
+autoloaderNamespaces[] = "ElasticaExtension_"
 
 ; initialize database
 resources.db.adapter = "PDO_MYSQL"
 resources.db.params.charset = "utf8"
 resources.db.params.host = "localhost"
 resources.db.params.username = "root"
-resources.db.params.password = ""
+resources.db.params.password = "qwe7890"
 resources.db.params.dbname = "dominion_db"
 resources.db.params.date_format = "YYYY-MM-ddTHH:mm:ss"
 resources.db.isDefaultTableAdapter = true
@@ -45,7 +46,7 @@ pluginPaths.System_Application_Resource = APPLICATION_PATH
 
 
 search_engine.name = elastic_search
-search_engine.host = localhost
+search_engine.host = 192.168.2.5
 search_engine.index = dominion
 
 search_engine.type.products = products
@@ -62,6 +63,12 @@ search_engine.search_fields[] = NAME_PRODUCT
 search_engine.search_fields[] = TYPENAME
 search_engine.search_fields[] = BRAND
 search_engine.search_fields[] = ARTICLE
+
+;columns attributes
+columns.CATALOGUE_ID = CATALOGUE_ID
+columns.ATTRIBUTES = ATTRIBUTES
+columns.BRAND_ID = BRAND_ID
+columns.PRICE = PRICE
 
 ;type products
 search_engine.name_fields[] = TYPENAME
@@ -88,6 +95,3 @@ phpSettings.display_errors = 1
 [development : production]
 phpSettings.display_startup_errors = 1
 phpSettings.display_errors = 1
-
-
-
