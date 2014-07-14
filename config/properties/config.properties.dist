@@ -1,0 +1,6 @@
+config.path.public_html = PATH TO PUBLIC HTML
+config.path.upload_xml = PATH TO UPLOAD XML PRICES
+config.path.upload_images = PATH TO UPLOAD IMAGES
+
+config.http_host = HOST NAME FOR PRICES
+config.debug_mode = DEBUG MODE

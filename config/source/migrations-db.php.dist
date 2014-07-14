@@ -1,0 +1,9 @@
+<?php
+
+return array(
+    'driver'    => 'pdo_mysql',
+    'host'      => '@resources.db.params.host@',
+    'user'      => '@resources.db.params.username@',
+    'password'  => '@resources.db.params.password@',
+    'dbname'    => '@resources.db.params.dbname@'
+);

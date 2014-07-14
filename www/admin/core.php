@@ -4,9 +4,9 @@ $filters = '';
 
 require_once __DIR__ . '../../../application/configs/config.php';
 
-error_reporting(E_ALL &~ E_DEPRECATED);
+error_reporting(E_ALL & ~E_DEPRECATED);
 @setlocale(LC_ALL, 'ru_RU.UTF8');
-@setlocale(LC_NUMERIC,"en_US");
+@setlocale(LC_NUMERIC, "en_US");
 
 $V_G_FONTS = array(
     "fonts/FEEDBI__.TTF",
@@ -44,11 +44,6 @@ class SCMF
         "«" => "-", "»" => "-", "(" => "", ")" => ""
     );
 
-    //for php4 only
-//    function SCMF($ARTICLE = '')
-//    {
-//        SCMF::__construct($ARTICLE);
-//    }
 
     function __construct($ARTICLE = '')
     {
@@ -1257,7 +1252,7 @@ EOF;
         $i = 0;
 
         foreach ($arr as $it) {
-            if ((string) $i === (string) $cur) {
+            if ((string)$i === (string)$cur) {
                 $ret .= "<option value=\"$i\" selected=\"\">$it</option>";
             } else {
                 $ret .= "<option value=\"$i\">$it</option>";
@@ -1274,7 +1269,7 @@ EOF;
         $i = 0;
 
         foreach ($arr as $it) {
-            if ((string) $it === (string) $cur) {
+            if ((string)$it === (string)$cur) {
                 $ret .= "<option value=\"$it\" selected=\"\" style=\"background: #$it\">$it</option>";
             } else {
                 $ret .= "<option value=\"$it\" style=\"background: #$it\">$it</option>";
