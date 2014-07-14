@@ -97,6 +97,13 @@ Object.defineProperties(objectValueSelection, {
             this.attributesArr[keyAttributes].value.splice(this.attributesArr[keyAttributes].value.indexOf(valKey), 1);
         },
         enumerable: false
+    },
+    isEmpty: {
+        value: function () {
+
+            return Object.keys(this.attributes_id).length == 0 && this.price_min == null && this.price_max == null;
+        },
+        enumerable: false
     }
 });
 

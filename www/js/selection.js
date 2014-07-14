@@ -121,19 +121,12 @@ selection.select = function (dataObject, currentElement) {
         success: function (resultData) {
             podbor_popup(resultData["count_items"] > 0 ? 'Найдено моделей:' + resultData["count_items"] + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', currentElement);
 
-//            var mainSelector = idAttribute == undefined || idAttribute == null ? $("input[rel=attr_value]:not(:checked)") : $("div.fieldgroup input[type=checkbox]:not(:checked, [atg=" + idAttribute + "])");
             var mainSelector = null;
-            var attributesUnLockObject = {};
             if (idAttribute == undefined || idAttribute == null) {
                 mainSelector = $("input[rel=attr_value]:not(:checked)");
             } else {
-                mainSelector = $("div.fieldgroup input[type=checkbox]:not(:checked, [atg=" + idAttribute + "])");
-//                attributesUnLockObject = $("input[rel=attr_value][atg=" + idAttribute + "][disabled]");
+                mainSelector = $("div.fieldgroup input[type=checkbox]:not(:checked, [atg=" + idAttribute + "]), div.fieldgroup input[type=checkbox][rel=attr_brand_id]:not(:checked)");
             }
-
-//            if (idAttribute != null) {
-//                var attributesUnLockObject = $("input[rel=attr_value][atg=" + idAttribute + "][disabled]");
-//            }
 
             mainSelector.attr("disabled", "disabled");
             mainSelector.parent().addClass("noactive");
@@ -145,7 +138,7 @@ selection.select = function (dataObject, currentElement) {
                 var convertPrice = null;
                 switch (nameKey) {
                     case "brands":
-                        if (!$("div.fieldgroup input[rel=attr_value]").is(":checked")) {
+                        if (dataObject.isEmpty()) {
                             $("input[rel=attr_brand_id]").removeAttr("disabled", "disabled");
                             $("input[rel=attr_brand_id]").parent().removeClass("noactive");
 
@@ -168,15 +161,6 @@ selection.select = function (dataObject, currentElement) {
 
                         objectValueSelector.removeAttr("disabled", "disabled");
                         objectValueSelector.parent().removeClass("noactive");
-//
-//                        if (attributesUnLockObject.length > 0) {
-////                            var activeAttributeElement = $("input[rel=attr_value][atg=" + idAttribute + "]");
-////                            activeAttributeElement.removeAttr("disabled");
-////                            activeAttributeElement.parent().removeClass("noactive");
-//
-//                            attributesUnLockObject.attr("disabled", "disabled");
-//                            attributesUnLockObject.parent().addClass("noactive");
-//                        }
 
                         $.each(objectSelector.range, function (index, valRange) {
                             var elementRange = $(valRange.selectorRange);

@@ -50,6 +50,7 @@ $(document).ready(function () {
                             var attributeId = $(this).parent().attr("xid");
                             objectValueSelection.setAttributeObj(attributeId, 1, ui.values[0], ui.values[1]);
                             objectValueSelection.attribute_id_range_active = attributeId;
+                            objectValueSelection.attributesIdChecked = attributeId;
 
                             selection.select(objectValueSelection, event);
                         }
