@@ -205,9 +205,6 @@ class Format_Aggregation_Query
     public function initAggregation(array $aggregation)
     {
         $this->queryBuilder = $this->queryBuilder->mergeAggregation($aggregation);
-//        $queryJson = $this->queryBuilder->__toString();
-//        $this->formatQueryAggregation = $this->queryBuilder->toArray();
-//        $this->formatQueryAggregation["aggs"] = $aggregation;
 
         return $this;
     }
