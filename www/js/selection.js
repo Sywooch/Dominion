@@ -167,6 +167,7 @@ selection.select = function (dataObject, currentElement) {
                             var elementRange = $(valRange.selectorRange);
 
                             if (attributeRangeId == elementRange.parent().attr("xid")) return;
+                            
 
                             elementRange.slider("values", 0, valRange.valueFrom);
                             elementRange.slider("values", 1, valRange.valueTo);
@@ -196,49 +197,6 @@ selection.select = function (dataObject, currentElement) {
         }
     });
 };
-
-
-//selection.prototype.getRequest = function (evnt, attr_gr_id) {
-//
-////    $.getJSON('/ajax/getattrcount/', {catalogue_id: this.catalogue_id, brands: this.action_brand, attributes: this.action_attr, price_min: this.price_min, price_max: this.price_max, attribute_range: this.attribute_range}, function (data) {
-////        podbor_popup(data.items_count > 0 ? 'Найдено моделей:' + data.items_count + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', evnt);
-////        if (data == null) {
-//////            $('input[rel=attr_brand_id]').removeAttr("disabled");
-////            $('input[rel=attr_brand_id]').parent().removeClass('noactive');
-////            $('input[rel=attr_value]').parent().removeClass("noactive");
-//////            $('input[rel=attr_value]').removeAttr('disabled');
-////        }
-////
-////        if (data.brands_count > 0) {
-//////            $('input[rel=attr_brand_id]:not(:checked)').attr({'disabled': 'disabled'});
-////            $('input[rel=attr_brand_id]').parent().addClass('noactive');
-////            $.each(data.brands, function (key, value) {
-//////                $('input[rel=attr_brand_id][value=' + value + ']').removeAttr('disabled');
-////                $('input[rel=attr_brand_id][value=' + value + ']').parent().removeClass('noactive');
-////            });
-////        }
-////        else {
-////            $('input[rel=attr_brand_id]:not(:checked)').removeAttr('disabled');
-////        }
-////
-////        if (data.attrib_count > 0) {
-////            $.each(data.attrib, function (key, value) {
-////                if (key == attr_gr_id)  return;
-////
-////                $('input[rel=attr_value][atg=' + key + ']').parent().addClass('noactive');
-////
-////                $.each(value, function (i, attr) {
-////                    $('input[rel=attr_value][atid=' + attr + ']').removeAttr('disabled');
-////                    $('input[rel=attr_value][atid=' + attr + ']').parent().removeClass('noactive');
-////                });
-////            });
-////        }
-////        else {
-////            $('input[rel=attr_value]:not(:checked)').parent().addClass('noactive');
-////        }
-////    });
-//}
-
 
 function podbor_popup(popup_text, evnt) {
     if ($('div.podbor_popup').length > 0) {
@@ -302,6 +260,8 @@ $(document).ready(function (evnt) {
 
                 objectValueSelection.price_range_check = 1;
 
+                select = new selection();
+                select.doUrl();
                 selection.select(objectValueSelection, event);
             }
         });
@@ -316,10 +276,14 @@ $(document).ready(function (evnt) {
         if ($(this).is(":checked")) {
             objectValueSelection.brands_id = $(this).val();
             objectValueSelection.checkBrands = 1;
+
+            select = new selection();
+            select.doUrl();
         } else {
             objectValueSelection.unsetBrand($(this).val());
         }
 
+        selection.doUrl();
         selection.select(objectValueSelection, event);
     });
 
@@ -331,6 +295,9 @@ $(document).ready(function (evnt) {
             var attrId = $(this).attr("atg");
             objectValueSelection.setAttributeArr(attrId, 0, $(this).attr("atid"));
             objectValueSelection.attributesIdChecked = attrId;
+
+            select = new selection();
+            select.doUrl();
         } else {
             var attrId = $(this).attr("atg");
             objectValueSelection.unsetAttributeArr(attrId, $(this).attr("atid"));
@@ -424,8 +391,9 @@ $(document).ready(function (evnt) {
         ev.preventDefault();
     });
     $('#show_models').live('click', function () {
-        var action = $('#catalog_compare_products_form').attr('action');
-        window.location.href = action;
+//        var action = $('#catalog_compare_products_form').attr('action');
+        $("form#catalog_compare_products_form").submit();
+//        window.location.href = action;
     });
 
     it_sel = new selection();
