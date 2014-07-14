@@ -34,7 +34,6 @@ var servicesSelection = {
                 }
             );
 
-
             return {check: attributesCheck.substring(0, attributesCheck.length - 2), range: attributesRange};
         }
     };

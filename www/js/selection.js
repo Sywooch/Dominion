@@ -107,6 +107,7 @@ selection.select = function (dataObject, currentElement) {
     var idAttribute = dataObject.attribute_id_checked;
     var statusBrand = dataObject.check_brands;
     var attributeRangeId = dataObject.attribute_id_range_active;
+    var priceRangeChecked = dataObject.price_range_check;
     $.ajax({
         type: "POST",
         url: "/ajax/getattrcount/",
@@ -174,22 +175,24 @@ selection.select = function (dataObject, currentElement) {
                         });
 
                         break;
-//                    case "price_min":
-//                        convertPrice = Math.round(value.value);
-//                        $(".jquery_slider").slider("values", 0, convertPrice);
-//                        $("input#price_input_min").val(convertPrice);
-//
-//                        break;
-//                    case "price_max":
-//                        convertPrice = Math.round(value.value);
-//                        $(".jquery_slider").slider("values", 1, convertPrice);
-//                        $("input#price_input_max").val(convertPrice);
-//
-//                        break;
+                    case "price_min":
+                        if (priceRangeChecked) break;
+
+                        convertPrice = Math.round(value.value);
+                        $(".jquery_slider").slider("values", 0, convertPrice);
+                        $("input#price_input_min").val(convertPrice);
+
+                        break;
+                    case "price_max":
+                        if (priceRangeChecked) break;
+
+                        convertPrice = Math.round(value.value);
+                        $(".jquery_slider").slider("values", 1, convertPrice);
+                        $("input#price_input_max").val(convertPrice);
+
+                        break;
                 }
             });
-
-
         }
     });
 };
@@ -296,6 +299,8 @@ $(document).ready(function (evnt) {
             stop: function (event, ui) {
                 objectValueSelection.price_min = ui.values[0];
                 objectValueSelection.price_max = ui.values[1];
+
+                objectValueSelection.price_range_check = 1;
 
                 selection.select(objectValueSelection, event);
             }
