@@ -257,8 +257,8 @@ $(document).ready(function (evnt) {
 
                 objectValueSelection.price_range_check = 1;
 
-                select = new selection();
-                select.doUrl();
+//                select = new selection();
+//                select.doUrl();
                 selection.select(objectValueSelection, event);
             }
         });
@@ -274,8 +274,8 @@ $(document).ready(function (evnt) {
             objectValueSelection.brands_id = $(this).val();
             objectValueSelection.checkBrands = 1;
 
-            select = new selection();
-            select.doUrl();
+//            select = new selection();
+//            select.doUrl();
         } else {
             objectValueSelection.unsetBrand($(this).val());
         }
@@ -292,8 +292,8 @@ $(document).ready(function (evnt) {
             objectValueSelection.setAttributeArr(attrId, 0, $(this).attr("atid"));
             objectValueSelection.attributesIdChecked = attrId;
 
-            select = new selection();
-            select.doUrl();
+//            select = new selection();
+//            select.doUrl();
         } else {
             var attrId = $(this).attr("atg");
             objectValueSelection.unsetAttributeArr(attrId, $(this).attr("atid"));
@@ -387,12 +387,20 @@ $(document).ready(function (evnt) {
         ev.preventDefault();
     });
     $('#show_models').live('click', function () {
-//        var resultUrl = buildUrl.mergeUrl(objectValueSelection.brands_id);
-//        var action = $('#catalog_compare_products_form').attr('action');
-        $("form#catalog_compare_products_form").submit();
-        window.location.href = action;
+        buildUrl.clearUrl();
+
+        var resultUrlAttributes = buildUrl.mergeUrl(
+            objectValueSelection.brands_id,
+            objectValueSelection.attributes_id,
+            objectValueSelection.price_min,
+            objectValueSelection.price_max
+        );
+
+        var action = $('#page_url').attr("value");
+
+        window.location.href = action + resultUrlAttributes;
     });
 
-    it_sel = new selection();
-    it_sel.doUrl();
+//    it_sel = new selection();
+//    it_sel.doUrl();
 });

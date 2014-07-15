@@ -115,15 +115,10 @@
             <input type="hidden" name="catalogue_id" id="catalogue_id" value="{//data/@id}"/>
 
             <xsl:if test="count(//price_line) &gt; 2">
-                <script type="text/javascript">
-                    objectValueSelection.price_min = <xsl:value-of select="//price_line[position()=1]/price"/>;
-                    objectValueSelection.price_max = <xsl:value-of select="//price_line[position()=last()]/price"/>;
-                </script>
                 <input type="hidden" name="min_slider_price" id="min_slider_price"
                        value="{//price_line[position()=1]/price}"/>
                 <input type="hidden" name="max_slider_price" id="max_slider_price"
                        value="{//price_line[position()=last()]/price}"/>
-
                 <h3>
                     <a href="#">Цена</a>
                 </h3>
@@ -291,19 +286,25 @@
 
             <xsl:if test="//price_line[position()= 1]/price &gt; 0">
                 slider_min = <xsl:value-of select="//price_line[position()= 1]/price"/>;
+                objectValueSelection.price_min = slider_min;
             </xsl:if>
             <xsl:if test="//price_line[position()= 5]/price &gt; 0">
                 slider_max = <xsl:value-of select="//price_line[position()= 5]/price"/>;
+                objectValueSelection.price_max = slider_max;
             </xsl:if>
 
             <xsl:choose>
                 <xsl:when test="@show_price_max &gt; 0">
                     var slide_values_min = <xsl:value-of select="@show_price_min"/>;
                     var slide_values_max = <xsl:value-of select="@show_price_max"/>;
+                    objectValueSelection.price_min = slide_values_min;
+                    objectValueSelection.price_max = slide_values_max;
                 </xsl:when>
                 <xsl:otherwise>
                     var slide_values_min = <xsl:value-of select="@min_price"/>;
                     var slide_values_max = <xsl:value-of select="@max_price"/>;
+                    objectValueSelection.price_min = slide_values_min;
+                    objectValueSelection.price_max = slide_values_max;
                 </xsl:otherwise>
             </xsl:choose>
 
