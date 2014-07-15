@@ -161,52 +161,52 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             continue;
 //            $AnotherPages = new models_AnotherPages();
 
-            foreach ($cats as $cat) {
-
-                $this->domXml->create_element('sub_cattree', '', 2);
-                $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
-                , 'parent_id' => $cat['PARENT_ID']
-                ));
-
-                $catalogHref = $cat['REALCATNAME'];
-
-                $this->domXml->create_element('name', $cat['NAME']);
-                $this->domXml->create_element('href', $catalogHref);
-
-                if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
-                    $tmp = explode('#', $cat['IMAGE1']);
-                    $this->domXml->create_element('image', '', 2);
-                    $this->domXml->set_attribute(array('src' => $tmp[0],
-                            'w' => $tmp[1],
-                            'h' => $tmp[2]
-                        )
-                    );
-                    $this->domXml->go_to_parent();
-                }
-
-
-                if ($cat['BRANDS']) {
-                    $tmp = explode(',', $cat['BRANDS']);
-                    foreach ($tmp as $view) {
-                        list($brand, $altName) = explode('#', $view);
-                        $this->domXml->create_element('brand_view', '', 2);
-                        $this->domXml->create_element('name', $brand);
-
-                        $href = "$catalogHref$altName/";
-
-
-                        // Этот кусок жутко тормозит работу
-//                    $_href = $AnotherPages->getSefURLbyOldURL($href);
-//                    if (!empty($_href)) $href = $_href;
-
-                        $this->domXml->create_element('href', $href);
-
-                        $this->domXml->go_to_parent();
-                    }
-                }
-
-                $this->domXml->go_to_parent();
-            }
+//            foreach ($cats as $cat) {
+//
+//                $this->domXml->create_element('sub_cattree', '', 2);
+//                $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
+//                , 'parent_id' => $cat['PARENT_ID']
+//                ));
+//
+//                $catalogHref = $cat['REALCATNAME'];
+//
+//                $this->domXml->create_element('name', $cat['NAME']);
+//                $this->domXml->create_element('href', $catalogHref);
+//
+//                if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
+//                    $tmp = explode('#', $cat['IMAGE1']);
+//                    $this->domXml->create_element('image', '', 2);
+//                    $this->domXml->set_attribute(array('src' => $tmp[0],
+//                            'w' => $tmp[1],
+//                            'h' => $tmp[2]
+//                        )
+//                    );
+//                    $this->domXml->go_to_parent();
+//                }
+//
+//
+//                if ($cat['BRANDS']) {
+//                    $tmp = explode(',', $cat['BRANDS']);
+//                    foreach ($tmp as $view) {
+//                        list($brand, $altName) = explode('#', $view);
+//                        $this->domXml->create_element('brand_view', '', 2);
+//                        $this->domXml->create_element('name', $brand);
+//
+//                        $href = "$catalogHref$altName/";
+//
+//
+//                        // Этот кусок жутко тормозит работу
+////                    $_href = $AnotherPages->getSefURLbyOldURL($href);
+////                    if (!empty($_href)) $href = $_href;
+//
+//                        $this->domXml->create_element('href', $href);
+//
+//                        $this->domXml->go_to_parent();
+//                    }
+//                }
+//
+//                $this->domXml->go_to_parent();
+//            }
 
 
         }
@@ -254,8 +254,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         );
         $href = '/cat/';
 
-        $this->domXml->create_element('name', 'Весь каталог');
-        $this->domXml->create_element('url', $href);
+//        $this->domXml->create_element('name', 'Весь каталог');
+//        $this->domXml->create_element('url', $href);
 
         $this->getSubCatalogPath(0, 0);
 
