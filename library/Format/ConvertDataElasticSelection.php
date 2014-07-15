@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: Константин
@@ -6,7 +7,6 @@
  * Time: 23:00
  * To change this template use File | Settings | File Templates.
  */
-
 class Format_ConvertDataElasticSelection
 {
 
@@ -248,5 +248,16 @@ class Format_ConvertDataElasticSelection
         }
 
         return self::formatAttributesRange($formatResult);
+    }
+
+    /**
+     * Parse Items url
+     *
+     * @param $itemsUrl
+     * @return array
+     */
+    static public function parseItemsUrl($itemsUrl)
+    {
+        return explode("/", $itemsUrl);
     }
 }

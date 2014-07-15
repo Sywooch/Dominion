@@ -27,6 +27,11 @@ Object.defineProperties(objectValueSelection, {
         writable: true,
         configurable: false
     },
+    priceRangeChecked: {
+        value: 0,
+        writable: true,
+        configurable: false
+    },
     attributesObj: {
         value: {},
         writable: true,
@@ -140,9 +145,6 @@ Object.defineProperty(objectValueSelection, "check_brands", {
     }
 });
 
-/**
- * Define property attribute id checked
- */
 Object.defineProperty(objectValueSelection, "attribute_id_checked", {
     get: function () {
         var check = this.attributesIdChecked;
@@ -153,7 +155,7 @@ Object.defineProperty(objectValueSelection, "attribute_id_checked", {
 });
 
 /**
- * Define property attribute id range active
+ * Define attribute id range active
  */
 Object.defineProperty(objectValueSelection, "attribute_id_range_active", {
     get: function () {
@@ -164,5 +166,20 @@ Object.defineProperty(objectValueSelection, "attribute_id_range_active", {
     },
     set: function (attributeId) {
         this.attributesRangeIdActive = attributeId;
+    }
+});
+
+/**
+ * Define price range check
+ */
+Object.defineProperty(objectValueSelection, "price_range_check", {
+    get: function () {
+        var check = this.priceRangeChecked;
+        this.priceRangeChecked = 0;
+
+        return check;
+    },
+    set: function (priceRangeCheck) {
+        this.priceRangeChecked = priceRangeCheck;
     }
 });
