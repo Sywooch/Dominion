@@ -4,9 +4,7 @@
 
     <xsl:template name="catalog_button">
 
-
-
-
+        <script type="text/javascript" src="/js/menu.js"></script>
 
         <div class="catalog-button-wrap">
             <div>

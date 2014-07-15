@@ -4,7 +4,7 @@
     <xsl:import href="_base.xsl"/>
     <xsl:import href="inc/_breadcrumbs.xsl"/>
     <xsl:import href="inc/_top_banners.xsl"/>
-    <xsl:import href="inc/_catalog_menu.xsl"/>
+
     <!-- HEAD -->
     <xsl:template name="title">
         <xsl:choose>
@@ -395,6 +395,10 @@
             </form>
         </div>
         <a href="/register/" id="reg_link">Регистрация</a>
+    </xsl:template>
+
+    <xsl:template name="catalog_button">
+
     </xsl:template>
 
     <xsl:template name="user_logout">
