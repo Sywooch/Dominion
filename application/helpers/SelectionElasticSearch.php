@@ -99,4 +99,72 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         return $this->resultSet->getAggregations();
     }
+
+    /**
+     * Get aggregation result brands
+     *
+     * @return array
+     */
+    public function getAggregationResultBrands()
+    {
+        $brands = $this->resultSet->getAggregation(self::BRANDS);
+
+        return $this->convertResultAggregation($brands["buckets"]);
+    }
+
+    /**
+     * Get aggregation result attributes
+     *
+     * @return array
+     */
+    public function getAggregationResultAttributes()
+    {
+        $attributes = $this->resultSet->getAggregation(self::ATTRIBUTES);
+
+        return $this->convertResultAggregation($attributes["attributes_identity"]["buckets"]);
+    }
+
+    /**
+     * Get aggregation result items
+     *
+     * @return array
+     */
+    public function getAggregationResultItems()
+    {
+        $items = $this->resultSet->getAggregation(self::ITEMS);
+
+        return $this->convertResultAggregation($items["buckets"]);
+    }
+
+    /**
+     * Get aggregation result by key
+     *
+     * @param string $key
+     *
+     * @return array
+     */
+    public function getAggregationResultByKey($key = self::BRANDS)
+    {
+        return $this->convertResultAggregation($this->resultSet->getAggregation($key));
+    }
+
+    /**
+     * Convert result aggregation
+     *
+     * @param array $resultAggregation
+     *
+     * @return array
+     */
+    private function convertResultAggregation($resultAggregation)
+    {
+        if (empty($resultAggregation)) return array();
+
+        foreach ($resultAggregation as $key => $value) {
+            $resultAggregation[] = $value["key"];
+
+            unset($resultAggregation[$key]);
+        }
+
+        return $resultAggregation;
+    }
 }

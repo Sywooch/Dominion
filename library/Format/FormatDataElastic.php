@@ -15,6 +15,20 @@
 class Format_FormatDataElastic
 {
     /**
+     * Format attributes range
+     *
+     * @var array
+     */
+    private $formatAttributesRange = array();
+
+    /**
+     * Format attributes checked
+     *
+     * @var array
+     */
+    private $formatAttributesChecked = array();
+
+    /**
      * Formating array for elastic search
      *
      * @param array $items
@@ -58,7 +72,7 @@ class Format_FormatDataElastic
             $tmpArray['TYPE'] = $value['TYPE'];
             $tmpArray['IS_RANGE_VIEW'] = $value["IS_RANGE_VIEW"];
 
-            if (is_float($value["VALUE"]) || is_int($value["VALUE"])){
+            if (is_float($value["VALUE"]) || is_int($value["VALUE"])) {
                 $h = 3;
             }
 
@@ -198,5 +212,62 @@ class Format_FormatDataElastic
         return $massive;
     }
 
+    /**
+     * Parse range attributes
+     *
+     * @param string $attributesRange
+     *
+     * @return boolean
+     */
+    public function parseRangeAttributes($attributesRange)
+    {
+        if (empty($attributesRange)) return false;
 
+        preg_match_all("/(?<=[a-z])(\d+)(?:[a-z])(\d+)-(\d+)/", $attributesRange, $match);
+
+        array_shift($match);
+        list($attributes, $min, $max) = $match;
+        foreach ($attributes as $key => $value) {
+            $this->formatAttributesRange[$attributes[$key]]["id"] = $attributes[$key];
+            $this->formatAttributesRange[$attributes[$key]]["is_range"] = true;
+            $this->formatAttributesRange[$attributes[$key]]["value"]["from"] = $min[$key];
+            $this->formatAttributesRange[$attributes[$key]]["value"]["to"] = $max[$key];
+        }
+
+        return true;
+    }
+
+    /**
+     * Parse attributes checked
+     *
+     * @param string $attributesChecked
+     *
+     * @return boolean
+     */
+    public function parseAttributesChecked($attributesChecked)
+    {
+        if (empty($attributesChecked)) return false;
+
+        preg_match_all("/(?<=[a-z])(\d+)(?:[a-z])(\d+)/", $attributesChecked, $match);
+
+        array_shift($match);
+        list($attributesId, $values) = $match;
+        foreach ($attributesId as $key => $value) {
+            $this->formatAttributesChecked[$value]["id"] = $value;
+            $this->formatAttributesChecked[$value]["is_range"] = false;
+            $this->formatAttributesChecked[$value]["value"][] = $values[$key];
+        }
+
+        return true;
+    }
+
+    /**
+     * Get attributes format aggregation
+     *
+     * @return array
+     */
+    public function getAttributesFormatAggregation()
+    {
+        return array_merge_recursive($this->formatAttributesRange, $this->formatAttributesChecked);
+    }
 }

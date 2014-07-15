@@ -229,28 +229,6 @@ class Format_ConvertDataElasticSelection
     }
 
     /**
-     * Parse range attributes
-     *
-     * @param string $attributesRange
-     * @return array
-     */
-    static public function parseRangeAttributes($attributesRange)
-    {
-        $formatResult = array();
-
-        preg_match_all("/(?<=[a-z])(\d+)(?:[a-z])(\d+)-(\d+)/", $attributesRange, $match);
-
-        array_shift($match);
-        list($attributes, $min, $max) = $match;
-        foreach ($attributes as $key => $value) {
-            $formatResult[$attributes[$key]]["min"] = $min[$key];
-            $formatResult[$attributes[$key]]["max"] = $max[$key];
-        }
-
-        return self::formatAttributesRange($formatResult);
-    }
-
-    /**
      * Parse Items url
      *
      * @param $itemsUrl

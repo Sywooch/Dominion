@@ -183,11 +183,48 @@ class CatController extends App_Controller_Frontend_Action
         $is_params['currency_id'] = $this->currency;
 
         if ($is_sel_item) {
-            $is_helper = $this->_helper->helperLoader('ItemSelection', $is_params);
-            $is_helper->getItemSelection($attr);
-            list($active_brands, $active_attrib) = $is_helper->getAttributsForActive();
+            $params = $this->getRequest()->getQuery();
 
-            $active_items = $is_helper->getItemsResultId();
+            $parameters = Zend_Registry::get("config")->toArray();
+            $readerIni = new Zend_Config_Json(__DIR__ . "/../configs/aggregation.json", "aggregation");
+            $aggregation = $readerIni->toArray();
+
+            /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
+            $objectValueSelection = $this->_helper->helperLoader(
+                "ObjectValue_ObjectValueSelection"
+            );
+
+            $objectValueSelection->setColumns($parameters["columns"]);
+            $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
+            $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
+            $objectValueSelection->setCatalogueID((int)$this->catalogue_id);
+            $objectValueSelection->setPriceMin((int)$isp_price["min_price"]);
+            $objectValueSelection->setPriceMax((int)$isp_price["max_price"]);
+            $objectValueSelection->setCheckBrands(false);
+
+            $formatDataElastic = new Format_FormatDataElastic();
+
+            if (!empty($at) || !empty($ar)) {
+                $formatDataElastic->parseRangeAttributes($ar);
+                $formatDataElastic->parseAttributesChecked($at);
+            }
+
+            $objectValueSelection->setAttributes((array)$formatDataElastic->getAttributesFormatAggregation());
+
+            if (!empty($br)) $objectValueSelection->setBrands((array)$attr_brand_id);
+
+            /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
+            $selectionElasticSearch = $this->_helper->helperLoader(
+                "SelectionElasticSearch",
+                $objectValueSelection
+            );
+
+            $selectionElasticSearch->connect($parameters['search_engine'], "selection");
+            $selectionElasticSearch->selection($objectValueSelection);
+
+            $active_brands = $selectionElasticSearch->getAggregationResultBrands();
+            $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
+            $active_items = $selectionElasticSearch->getAggregationResultItems();
         }
 
         $isp_params['currency_id'] = $this->currency;

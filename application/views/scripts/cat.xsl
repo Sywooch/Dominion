@@ -21,12 +21,14 @@
                 <xsl:if test="@selected = 1">
                     <xsl:attribute name="checked">checked</xsl:attribute>
                 </xsl:if>
-                <!--<xsl:if test="@selected = 0 and @is_disabled = 1">
-                    <xsl:attribute name="disabled">disabled</xsl:attribute>
-                </xsl:if>-->
             </input>
             <xsl:value-of select="name"/>
         </label>
+        <script type="text/javascript">
+            <xsl:if test="@selected = 1">
+                objectValueSelection.brands_id = <xsl:value-of select="@id"/>;
+            </xsl:if>
+        </script>
     </xsl:template>
 
     <xsl:template match="attr_value">
@@ -45,6 +47,11 @@
             </input>
             <xsl:value-of select="name"/>
         </label>
+        <script type="text/javascript">
+            <xsl:if test="@selected = 1">
+                objectValueSelection.setAttributeArr(<xsl:value-of select="@parent_id"/>, 0, <xsl:value-of select="@id"/>);
+            </xsl:if>
+        </script>
     </xsl:template>
 
     <xsl:template match="attr_cat">
@@ -57,7 +64,9 @@
             <xsl:if test="count(attr_value[@selected = 1]) &gt; 0">
                 <xsl:attribute name="style">display: block;</xsl:attribute>
             </xsl:if>
-            <span class ="unit"><xsl:apply-templates select="attr_value"/></span>
+            <span class="unit">
+                <xsl:apply-templates select="attr_value"/>
+            </span>
         </div>
     </xsl:template>
 
@@ -81,40 +90,6 @@
             <input type="text" id="input_max_{@id}" name="attr_range_max[{@id}]" xid="{@id}"
                    value=""/>
             &#160;<xsl:value-of select="attr_value[position()=1]/@unit_name"/>
-            <script type="text/javascript">
-                var min_val = parseFloat(<xsl:value-of select="attr_value[position()=1]/name"/>);
-                var max_val = parseFloat(<xsl:value-of select="attr_value[position()=last()]/name"/>);
-
-                attr_range_view[<xsl:value-of select="@id"/>] = new Array();
-                attr_range_view_start[<xsl:value-of select="@id"/>] = new Array();
-
-                <xsl:choose>
-                    <xsl:when test="//attr_range_mm[@id = $atid]/@min &gt; 0">
-                        attr_range_view_start[<xsl:value-of select="@id"/>][0] = <xsl:value-of
-                            select="//attr_range_mm[@id = $atid]/@min"/>;
-                    </xsl:when>
-                    <xsl:otherwise>
-                        attr_range_view_start[<xsl:value-of select="@id"/>][0] = parseFloat(<xsl:value-of
-                            select="attr_value[position()=1]/name"/>);
-                    </xsl:otherwise>
-                </xsl:choose>
-
-                <xsl:choose>
-                    <xsl:when test="//attr_range_mm[@id = $atid]/@max &gt; 0">
-                        attr_range_view_start[<xsl:value-of select="@id"/>][1] = <xsl:value-of
-                            select="//attr_range_mm[@id = $atid]/@max"/>;
-                    </xsl:when>
-                    <xsl:otherwise>
-                        attr_range_view_start[<xsl:value-of select="@id"/>][1] = parseFloat(<xsl:value-of
-                            select="attr_value[position()=last()]/name"/>);
-                    </xsl:otherwise>
-                </xsl:choose>
-
-                attr_range_view[<xsl:value-of select="@id"/>][0] = parseFloat(<xsl:value-of
-                    select="attr_value[position()=1]/name"/>);
-                attr_range_view[<xsl:value-of select="@id"/>][1] = parseFloat(<xsl:value-of
-                    select="attr_value[position()=last()]/name"/>);
-            </script>
             <div class='attr_range_view'></div>
         </div>
     </xsl:template>
@@ -140,6 +115,10 @@
             <input type="hidden" name="catalogue_id" id="catalogue_id" value="{//data/@id}"/>
 
             <xsl:if test="count(//price_line) &gt; 2">
+                <script type="text/javascript">
+                    objectValueSelection.price_min = <xsl:value-of select="//price_line[position()=1]/price"/>;
+                    objectValueSelection.price_max = <xsl:value-of select="//price_line[position()=last()]/price"/>;
+                </script>
                 <input type="hidden" name="min_slider_price" id="min_slider_price"
                        value="{//price_line[position()=1]/price}"/>
                 <input type="hidden" name="max_slider_price" id="max_slider_price"
@@ -202,7 +181,8 @@
                         <!--Если картник нет - выводим заглушку -->
                         <xsl:choose>
                             <xsl:when test="image_middle/@src">
-                                <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}" width="{image_middle/@w}" height="{image_middle/@h}"/>
+                                <img alt="{brand_name} {name}" src="/images/it/{image_middle/@src}"
+                                     width="{image_middle/@w}" height="{image_middle/@h}"/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <img alt="no image" src="/i/no-photo.jpg" width="200" height="87"/>
@@ -227,72 +207,73 @@
                 </div>
             </div>
             <div class="main_content">
-            <h3>
-                <a href="{href}"><xsl:value-of select="brand_name"/>&#160;<xsl:value-of select="name"/>
-                </a>
-            </h3>
-            <div class="info_box">
-                <span class="articul">Артикул товара:<xsl:value-of select="article"/>
-                </span>
-            </div>
-            <p>
-                <xsl:value-of select="short_description" disable-output-escaping="yes"/>
-            </p>
-            <form action="/" method="get" class="to_compare_form">
-                <label>
-                    <input type="checkbox" name="compare" value="{@item_id}">
-                        <xsl:if test="@in_compare=1">
-                            <xsl:attribute name="checked">checked</xsl:attribute>
-                        </xsl:if>
-                    </input>
-                    Добавить в сравнение
-                </label>
-            </form>
-            <xsl:choose>
-                <xsl:when test="@price1 &gt; 0">
-                    <div class="price_box">
-                        <span class="price old">
-                            <xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of
-                                select="sname"/>
-                        </span>
-                        <!--|-->
-                        <!--<span class="price_usd old"><xsl:value-of-->
-                                <!--select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of-->
-                                <!--select="nat_sname"/>-->
-                        <!--</span>-->
-                    </div>
-                    <div class="price_box">
-                        <span class="price personal">
-                            <xsl:if test="@has_discount=1">
-                                <xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of
-                                        select="sh_disc_img_big/@src"/>") no-repeat scroll 0 0 transparent;
-                                </xsl:attribute>
+                <h3>
+                    <a href="{href}"><xsl:value-of select="brand_name"/>&#160;<xsl:value-of select="name"/>
+                    </a>
+                </h3>
+                <div class="info_box">
+                    <span class="articul">Артикул товара:<xsl:value-of select="article"/>
+                    </span>
+                </div>
+                <p>
+                    <xsl:value-of select="short_description" disable-output-escaping="yes"/>
+                </p>
+                <form action="/" method="get" class="to_compare_form">
+                    <label>
+                        <input type="checkbox" name="compare" value="{@item_id}">
+                            <xsl:if test="@in_compare=1">
+                                <xsl:attribute name="checked">checked</xsl:attribute>
                             </xsl:if>
-                            <xsl:value-of select="format-number(@price1, '### ##0', 'european')"/>&#160;<xsl:value-of
-                                select="sname"/>
-                        </span>
-                        <!--| <xsl:value-of select="format-number(@real_price1, '### ##0', 'european')"/>&#160;<xsl:value-of-->
+                        </input>
+                        Добавить в сравнение
+                    </label>
+                </form>
+                <xsl:choose>
+                    <xsl:when test="@price1 &gt; 0">
+                        <div class="price_box">
+                            <span class="price old">
+                                <xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of
+                                    select="sname"/>
+                            </span>
+                            <!--|-->
+                            <!--<span class="price_usd old"><xsl:value-of-->
+                            <!--select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of-->
                             <!--select="nat_sname"/>-->
-                    </div>
-                </xsl:when>
-                <xsl:otherwise>
-                    <div class="price_box">
-                        <span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of
-                                select="sname"/>
-                        </span>
-                        <!--| <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of-->
+                            <!--</span>-->
+                        </div>
+                        <div class="price_box">
+                            <span class="price personal">
+                                <xsl:if test="@has_discount=1">
+                                    <xsl:attribute name="style">background: url("/images/usr_disc/<xsl:value-of
+                                            select="sh_disc_img_big/@src"/>") no-repeat scroll 0 0 transparent;
+                                    </xsl:attribute>
+                                </xsl:if>
+                                <xsl:value-of select="format-number(@price1, '### ##0', 'european')"/>&#160;<xsl:value-of
+                                    select="sname"/>
+                            </span>
+                            <!--| <xsl:value-of select="format-number(@real_price1, '### ##0', 'european')"/>&#160;<xsl:value-of-->
                             <!--select="nat_sname"/>-->
-                    </div>
-                </xsl:otherwise>
-            </xsl:choose>
-            <a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас">
-                <span>Купить сейчас</span>
-            </a>
+                        </div>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div class="price_box">
+                            <span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of
+                                    select="sname"/>
+                            </span>
+                            <!--| <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of-->
+                            <!--select="nat_sname"/>-->
+                        </div>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас">
+                    <span>Купить сейчас</span>
+                </a>
             </div>
         </div>
     </xsl:template>
 
     <xsl:template match="data">
+        <script type="text/javascript" src="/js/selection/buildUrl.js"></script>
         <script type="text/javascript" src="/js/selection/objectValueSelection.js"></script>
         <script type="text/javascript" src="/js/selection/servicesSelection.js"></script>
         <script type="text/javascript" src="/js/jquery.typewatch.js"></script>

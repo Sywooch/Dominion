@@ -36,6 +36,8 @@ $(document).ready(function () {
         ).done(function (data) {
                 $('div.fieldgroup[xid]').each(function (index) {
                     var xid = $(this).attr('xid');
+                    objectValueSelection.setAttributeObj(xid, 1, data[xid]["min"], data[xid]["max"]);
+
                     $(".attr_range_view", $(this)).slider({
                         range: true,
                         min: data[xid]["left_side"],
@@ -54,7 +56,6 @@ $(document).ready(function () {
 
                             select = new selection();
                             select.doUrl();
-
                             selection.select(objectValueSelection, event);
                         }
                     });

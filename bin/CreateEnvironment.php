@@ -52,7 +52,7 @@ class CreateEnvironment
     /**
      * Limit documents to add in index
      */
-    const LIMIT_DOCUMENTS = 30;
+    const LIMIT_DOCUMENTS = 500;
     const PRODUCTION = "production";
     const PATH_INI = "/configs/application.ini";
 

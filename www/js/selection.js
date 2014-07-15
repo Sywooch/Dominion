@@ -238,10 +238,7 @@ function podbor_popup(popup_text, evnt) {
 }
 
 $(document).ready(function (evnt) {
-    if (!objectValueSelection.length) {
-        objectValueSelection.catalogue_id = $("input#catalogue_id").val();
-    }
-
+    objectValueSelection.catalogue_id = $("input#catalogue_id").val();
 
     if ($(".jquery_slider").length > 0) {
         $(".jquery_slider").slider({
@@ -390,9 +387,10 @@ $(document).ready(function (evnt) {
         ev.preventDefault();
     });
     $('#show_models').live('click', function () {
+//        var resultUrl = buildUrl.mergeUrl(objectValueSelection.brands_id);
 //        var action = $('#catalog_compare_products_form').attr('action');
         $("form#catalog_compare_products_form").submit();
-//        window.location.href = action;
+        window.location.href = action;
     });
 
     it_sel = new selection();
