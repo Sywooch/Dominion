@@ -328,7 +328,7 @@ input[type="checkbox"] {
 }
 
 #all {
-    padding: 0 30px 215px;
+    padding: 0 7px 215px;
 }
 
 #content {
@@ -341,7 +341,7 @@ input[type="checkbox"] {
     color: #000;
     float: right;
     position: relative;
-    width: 190px;
+    width: 215px;
 }
 
 #footer_carrier {

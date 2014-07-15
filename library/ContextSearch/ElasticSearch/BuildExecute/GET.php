@@ -85,6 +85,36 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
     }
 
     /**
+     * Build query aggregation
+     *
+     * @param string $queryJson
+     */
+    public function buildQueryAggregation($queryJson)
+    {
+        $this->querySearch = new Query(json_decode($queryJson, true));
+    }
+
+    /**
+     * Set size
+     *
+     * @param integer $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * Set from
+     *
+     * @param integer $from
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+    }
+
+    /**
      * Filter builder query
      *
      * @param ContextSearch_ElasticSearch_FormatInterface $formatData
@@ -118,7 +148,8 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
         $client = new Client();
         $connection = new \Elastica\Connection();
         $connection->setHost($this->getHost());
-        $rr = $client->setConnections(array($connection));
+
+        $client->addConnection($connection);
 
         $search = new Search($client);
         $search->setOption("from", $this->from);

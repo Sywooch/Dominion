@@ -292,5 +292,4 @@ class ContextSearch_ElasticSearch_FormatQuery implements ContextSearch_ElasticSe
     {
         $this->formatQuery = array();
     }
-
 }

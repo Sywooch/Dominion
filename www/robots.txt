@@ -29,3 +29,7 @@ Disallow: */group/*
 Disallow: /*gclid
 
 Host: 7560000.com.ua
+
+http://7560000.loc/krupnaya-bytovaya-tehnika/holodilniki/at/a2507v18328a2507v18326/ar/a2518v_min21_max725a2523v_min40_max444a2524v_min5_max286a2530v_min2_max23/pmin/1367/pmax/40463/br/b13866050/ar/a2518v_min21_max725a2523v_min40_max444a2524v_min5_max286a2530v_min2_max23/pmin/1367/pmax/40463/
+http://7560000.loc/krupnaya-bytovaya-tehnika/holodilniki/at/a2509v24935a2509v18335/ar/a2518v_min21_max725a2523v_min40_max444a2524v_min5_max286a2530v_min2_max23/pmin/1367/pmax40463/
+http://7560000.loc/krupnaya-bytovaya-tehnika/holodilniki/at/a2509v24925a2509v24924/ar/a2518v_min21_max725a2523v_min40_max444a2524v_min5_max286a2530v_min2_max23/pmin/1367/pmax/40463/

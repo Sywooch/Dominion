@@ -8,14 +8,14 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     /**
      * Elastic search get curl
      *
-     * @var GET
+     * @var ContextSearch_ElasticSearch_BuildExecute_GET
      */
     private $elasticSearchGET;
 
     /**
      * Result of search in elasticSearch
      *
-     * @var Result
+     * @var \Elastica\ResultSet
      */
     private $resultSet;
 
@@ -24,7 +24,9 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
      */
     const BRANDS = "brands";
     const ATTRIBUTES = "attributes";
-    const ITEMS = "item_id";
+    const ITEMS = "items";
+    const PRICE_MIN = "price_min";
+    const PRICE_MAX = "price_max";
     const POSITION_PRICES = 2;
     const POSITION_ATTRIBUTES = 0;
     const POSITION_BRANDS = 1;
@@ -48,106 +50,40 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
 
     /**
-     * Selection
+     * Selection from elastic search
      *
      * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
-     * @throws Exception
-     */
-    public function selection(Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
-    {
-        $dataAttributes = $objectValueSelection->getDataAttributes();
-
-        if (empty($dataAttributes)) {
-            throw new Exception("Error, data sample and dataslider are empty");
-        }
-
-        if (!$objectValueSelection->isBrandsEmpty()) {
-            $filterFormat = $this->formatDataSelect(
-                $objectValueSelection->getDataAttributesWithBrands(),
-                new ContextSearch_ElasticSearch_FormatFilter(),
-                $objectValueSelection
-            );
-
-            $this->resultSet['brands'] = $this->executeElastic($filterFormat);
-
-            if (!$this->elasticSearchGET->getTotalHits($this->resultSet['brands'])) return;
-        }
-
-        $filterFormat = $this->formatDataSelect($dataAttributes, new ContextSearch_ElasticSearch_FormatFilter(), $objectValueSelection);
-        $this->resultSet['attributes'] = $this->executeElastic($filterFormat);
-    }
-
-    /**
-     * Format data selection
      *
-     * @param array $dataAttributes
-     * @param ContextSearch_ElasticSearch_FormatFilter $filterFormat
-     * @param Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
-     *
-     * @return ContextSearch_ElasticSearch_FormatFilter
+     * @return \Elastica\ResultSet|mixed
      */
-    private function formatDataSelect(array $dataAttributes, ContextSearch_ElasticSearch_FormatFilter $filterFormat, Helpers_ObjectValue_ObjectValueSelection $objectValueSelection)
+    public function selection(
+        Helpers_ObjectValue_ObjectValueSelection $objectValueSelection
+    )
     {
-        foreach ($dataAttributes as $key => $value) {
-            if ($objectValueSelection->getDataSliderMin($key)) {
-                $filterFormat->addFilterRange(
-                    $key,
-                    $objectValueSelection->getDataSliderMin($key),
-                    $objectValueSelection->getDataSliderMax($key)
-                );
+        $aggregationObjectValue = new Format_Aggregation_ObjectValueAggregation();
+        $aggregationObjectValue->setCatalogueID($objectValueSelection->getCatalogueID());
+        $aggregationObjectValue->setAttributes($objectValueSelection->getAttributes());
+        $aggregationObjectValue->setBrands($brands = $objectValueSelection->getBrands());
+        $aggregationObjectValue->setPriceMin($objectValueSelection->getPriceMin());
+        $aggregationObjectValue->setPriceMax($objectValueSelection->getPriceMax());
+        $aggregationObjectValue->setAggregation(
+            (empty($brands) || !$objectValueSelection->isCheckBrands())
+                ? $objectValueSelection->getAggregationWithBrands()
+                : $objectValueSelection->getAggregationWithoutBrands()
+        );
 
-                continue;
-            } else if ($objectValueSelection->getCatalogueID($key)) {
-                $filterFormat->addQueryTerm($key, $value);
+        $aggregationBuilder = new Format_Aggregation_Builder($objectValueSelection->getColumns());
 
-            }
+        $this->elasticSearchGET->buildQueryAggregation($aggregationBuilder->buildQueryAggregation($aggregationObjectValue));
+        $this->elasticSearchGET->setSize(0);
 
-            if (!is_array($value)){
-                continue;
-            }
-
-            foreach ($value as $subKey => $val) {
-                if ($objectValueSelection->isBrand($subKey, $val)) {
-                    if (!$objectValueSelection->issetAttributes()) {
-                        $filterFormat->addFilterTerm($subKey, $val, ContextSearch_ElasticSearch_FormatFilter::BOOL_OR);
-                    } else {
-                        $filterFormat->addFilterTermChild($subKey, $val);
-                    }
-
-                    continue;
-                }
-
-                $filterFormat->addFilterTermChild(
-                    $subKey,
-                    $val,
-                    ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
-                    ContextSearch_ElasticSearch_FormatFilter::BOOL_AND,
-                    $objectValueSelection->issetAttributesDouble($subKey) ? ContextSearch_ElasticSearch_FormatFilter::BOOL_OR : null
-                );
-            }
-        }
-
-        return $filterFormat;
-    }
-
-    /**
-     * Execute elastic
-     *
-     * @param ContextSearch_ElasticSearch_FormatFilter $filterFormat
-     * @return mixed
-     */
-    private function executeElastic(ContextSearch_ElasticSearch_FormatFilter $filterFormat)
-    {
-        $filterFormat->setFrom(0);
-        $filterFormat->setSize($this->elasticSearchGET->getTotalHits($this->elasticSearchGET->buildQueryFilter($filterFormat)->execute()));
-
-        return $this->elasticSearchGET->buildQuery($filterFormat)->execute();
+        $this->resultSet = $this->elasticSearchGET->execute();
     }
 
     /**
      * Get count elements
      *
-     * @return mixed
+     * @return integer
      */
     public function getCountElements()
     {
@@ -155,45 +91,80 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     }
 
     /**
-     * Get brands
+     * Get aggregations result
      *
      * @return array
      */
-    public function getBrands()
+    public function getAggregationsResult()
     {
-        return $this->getElements(self::BRANDS);
+        return $this->resultSet->getAggregations();
     }
 
     /**
-     * Get attributes
+     * Get aggregation result brands
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAggregationResultBrands()
     {
-        return $this->getElements(self::ATTRIBUTES);
+        $brands = $this->resultSet->getAggregation(self::BRANDS);
+
+        return $this->convertResultAggregation($brands["buckets"]);
     }
 
     /**
-     * Get items id
+     * Get aggregation result attributes
      *
      * @return array
      */
-    public function getItemsID()
+    public function getAggregationResultAttributes()
     {
-        return $this->getElements(self::ITEMS);
+        $attributes = $this->resultSet->getAggregation(self::ATTRIBUTES);
+
+        return $this->convertResultAggregation($attributes["attributes_identity"]["buckets"]);
     }
 
     /**
-     * Get elements
+     * Get aggregation result items
      *
-     * @param string $modified
-     * @return mixed
+     * @return array
      */
-    private function getElements($modified)
+    public function getAggregationResultItems()
     {
-        if (!isset($this->resultSet[$modified])) return array();
+        $items = $this->resultSet->getAggregation(self::ITEMS);
 
-        return $this->elasticSearchGET->convertToArray($this->resultSet[$modified]);
+        return $this->convertResultAggregation($items["buckets"]);
+    }
+
+    /**
+     * Get aggregation result by key
+     *
+     * @param string $key
+     *
+     * @return array
+     */
+    public function getAggregationResultByKey($key = self::BRANDS)
+    {
+        return $this->convertResultAggregation($this->resultSet->getAggregation($key));
+    }
+
+    /**
+     * Convert result aggregation
+     *
+     * @param array $resultAggregation
+     *
+     * @return array
+     */
+    private function convertResultAggregation($resultAggregation)
+    {
+        if (empty($resultAggregation)) return array();
+
+        foreach ($resultAggregation as $key => $value) {
+            $resultAggregation[] = $value["key"];
+
+            unset($resultAggregation[$key]);
+        }
+
+        return $resultAggregation;
     }
 }

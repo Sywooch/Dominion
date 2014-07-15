@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: Константин
@@ -6,7 +7,6 @@
  * Time: 23:00
  * To change this template use File | Settings | File Templates.
  */
-
 class Format_ConvertDataElasticSelection
 {
 
@@ -229,24 +229,13 @@ class Format_ConvertDataElasticSelection
     }
 
     /**
-     * Parse range attributes
+     * Parse Items url
      *
-     * @param string $attributesRange
+     * @param $itemsUrl
      * @return array
      */
-    static public function parseRangeAttributes($attributesRange)
+    static public function parseItemsUrl($itemsUrl)
     {
-        $formatResult = array();
-
-        preg_match_all("/(?<=[a-z])(\d+)(?:[a-z])(\d+)-(\d+)/", $attributesRange, $match);
-
-        array_shift($match);
-        list($attributes, $min, $max) = $match;
-        foreach ($attributes as $key => $value) {
-            $formatResult[$attributes[$key]]["min"] = $min[$key];
-            $formatResult[$attributes[$key]]["max"] = $max[$key];
-        }
-
-        return self::formatAttributesRange($formatResult);
+        return explode("/", $itemsUrl);
     }
 }

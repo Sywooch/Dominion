@@ -1,36 +1,122 @@
 <?php
-require_once "CreateEnvironment.php";
-require_once "LoaderFactory.php";
+require_once "../vendor/autoload.php";
 
-$loaderFactory = new LoaderFactory();
+$elasticaQueryBuilder = new \Elastica\Query\Builder();
+//$nested = new \Elastica\Query\Nested();
+//$nested->setPath("ATTRIBUTES");
+//$nested->setQuery();
+$elasticaQueryBuilder
+    ->query()
+        ->filteredQuery()
+            ->query()
+                ->term()
+                    ->field("CATALOGUE_ID", 27)
+                ->termClose()
+            ->queryClose()
+            ->filter()
+                ->fieldOpen("and")
+                    ->fieldOpen(0)
+                        ->fieldOpen("nested")
+                            ->field("path", "ATTRIBUTES")
+                            ->query()
+                                ->filteredQuery()
+                                    ->filter()
+                                        ->fieldOpen("and")
+                                            ->fieldOpen(0)
+                                                  ->term()
+                                                        ->field("ATTRIBUTES.ATTRIBUT_ID", 2774)
+                                                  ->termClose()
+                                            ->fieldClose()
+                                            ->fieldOpen(1)
+                                                    ->term()
+                                                        ->field("ATTRIBUTES.VALUE", array(19161, 19162) )
+                                                    ->termClose()
+                                            ->fieldClose()
+                                        ->fieldClose()
+                                    ->filterClose()
+                                ->filteredQueryClose()
+                            ->queryClose()
+                        ->fieldClose()
+                    ->fieldClose()
+                    ->fieldOpen(1)
+                        ->range()
+                            ->fieldOpen("PRICE")
+                                ->field("from", 0)
+                                ->field("to", 300)
+                            ->fieldClose()
+                        ->rangeClose()
+                    ->fieldClose()
+                ->fieldClose()
+            ->filterClose()
+        ->filteredQueryClose()
+    ->queryClose();
 
-$jsonQuery = '{
-    "query": {
-        "bool": {
-            "must": [
-                {
-                    "term": {
-                        "CATALOGUE_ID": "23"
-                    }
-                },
-                {
-                    "range": {
-                        "ATTRIBUTES.price": {
-                            "gt": "1027",
-                            "lt": "4427"
-                        }
-                    }
-                }
-            ]
-        }
-    }
-}';
+//    ->fieldOpen("aggs")
+//        ->fieldOpen("attributes")
+//            ->fieldOpen("filter")
+//                ->fieldOpen("and")
+//                    ->fieldOpen(0)
+//                        ->term()
+//                            ->field("BRAND_ID", 13866370)
+//                        ->termClose()
+//                    ->fieldClose()
+//                    ->fieldOpen(1)
+//                        ->term()
+//                            ->field("BRAND_ID", 773)
+//                        ->termClose()
+//                    ->fieldClose()
+//                ->fieldClose()
+//            ->fieldClose()
+//            ->fieldOpen("aggs")
+//                ->fieldOpen("attributes_data")
+//                    ->fieldOpen("nested")
+//                        ->field("path", "ATTRIBUTES")
+//                    ->fieldClose()
+//                    ->fieldOpen("aggs")
+//                        ->fieldOpen("attributes_indentity")
+//                            ->fieldOpen("terms")
+//                                ->field("field", "ATTRIBUTES.ATTRIBUT_ID")
+//                                ->size(10000)
+//                            ->fieldClose()
+//                            ->fieldOpen("aggs")
+//                                ->fieldOpen("float_value")
+//                                    ->fieldOpen("terms")
+//                                        ->field("field", "ATTRIBUTES.FLOAT_VALUE")
+//                                        ->size(1000)
+//                                    ->fieldClose()
+//                                ->fieldClose()
+//                                ->fieldOpen("int_value")
+//                                    ->fieldOpen("terms")
+//                                        ->field("field", "ATTRIBUTES.INT_VALUE")
+//                                        ->size(1000)
+//                                     ->fieldClose()
+//                                ->fieldClose()
+//                                ->fieldOpen("range_value")
+//                                    ->fieldOpen("filter")
+//                                        ->term()
+//                                              ->field("ATTRIBUTES.IS_RANGLABLE", true)
+//                                        ->termClose()
+//                                        ->fieldOpen("aggs")
+//                                            ->fieldOpen("max_float_value")
+//                                                    ->fieldOpen("max")
+//                                                    ->fieldClose()
+//                                            ->fieldClose()
+//                                        ->fieldClose()
+//                                    ->fieldClose()
+//                                ->fieldClose()
+//                        ->fieldClose()
+//                        ->fieldClose()
+//                    ->fieldClose()
+//                ->fieldClose()
+//            ->fieldClose()
+//        ->fieldClose()
+//    ->fieldClose();
+$rr = $elasticaQueryBuilder->toArray();
 
-$builder = $loaderFactory->getBuilder($jsonQuery);
-$query = $loaderFactory->getQuery($builder);
-
-$search = $loaderFactory->getSearch();
-
-$resultSet = $search->addIndex("dominion")->addType("selection")->search($query);
+$query = new \Elastica\Query($elasticaQueryBuilder->toArray());
+$search = new \Elastica\Search(new \Elastica\Client());
+$resultSet = $search->addIndex("dominion")
+    ->addType("selection")
+    ->search($query);
 
 $rr = 0;

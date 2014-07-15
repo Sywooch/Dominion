@@ -16,6 +16,7 @@ autoloaderNamespaces[] = "Format_"
 autoloaderNamespaces[] = "ZendCustomExtend_"
 autoloaderNamespaces[] = "ImageResize_"
 autoloaderNamespaces[] = "BrainPriceImport_"
+autoloaderNamespaces[] = "ElasticaExtension_"
 
 ; initialize database
 resources.db.adapter = "PDO_MYSQL"
@@ -62,6 +63,12 @@ search_engine.search_fields[] = TYPENAME
 search_engine.search_fields[] = BRAND
 search_engine.search_fields[] = ARTICLE
 
+;columns attributes
+columns.CATALOGUE_ID = CATALOGUE_ID
+columns.ATTRIBUTES = ATTRIBUTES
+columns.BRAND_ID = BRAND_ID
+columns.PRICE = PRICE
+
 ;type products
 search_engine.name_fields[] = TYPENAME
 search_engine.name_fields[] = NAME_PRODUCT
@@ -87,6 +94,3 @@ phpSettings.display_errors = 1
 [development : production]
 phpSettings.display_startup_errors = 1
 phpSettings.display_errors = 1
-
-
-
