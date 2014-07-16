@@ -121,7 +121,7 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         $attributes = $this->resultSet->getAggregation(self::ATTRIBUTES);
 
-        return $this->convertResultAggregation($attributes["attributes_identity"]["buckets"]);
+        return $this->convertResultAggregationAttributes($attributes["attributes_identity"]["buckets"]);
     }
 
     /**
@@ -159,12 +159,27 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         if (empty($resultAggregation)) return array();
 
-        foreach ($resultAggregation as $key => $value) {
-            $resultAggregation[] = $value["key"];
+        return array_column($resultAggregation, "key");
+    }
 
-            unset($resultAggregation[$key]);
+    /**
+     * Convert result aggregation attributes
+     *
+     * @param array $resultAggregation
+     *
+     * @return array
+     */
+    private function convertResultAggregationAttributes(array $resultAggregation)
+    {
+        if (empty($resultAggregation)) return array(0);
+
+        $formatAggregation = array();
+        foreach ($resultAggregation as $value) {
+            if (empty($value["int_value"]["buckets"])) continue;
+
+            $formatAggregation[$value["key"]] = array_column($value["int_value"]["buckets"], "key");
         }
 
-        return $resultAggregation;
+        return $formatAggregation;
     }
 }

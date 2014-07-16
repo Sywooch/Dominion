@@ -282,11 +282,6 @@ class Format_FormatDataElastic
     {
         if (empty($brands)) return array();
 
-        $formatBrands = array();
-        foreach ($brands as $value) {
-            $formatBrands[] = $value["BRAND_ID"];
-        }
-
-        return $formatBrands;
+        return array_column($brands, "BRAND_ID");
     }
 }
