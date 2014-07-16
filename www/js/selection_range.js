@@ -54,8 +54,6 @@ $(document).ready(function () {
                             objectValueSelection.attribute_id_range_active = attributeId;
                             objectValueSelection.attributesIdChecked = attributeId;
 
-//                            select = new selection();
-//                            select.doUrl();
                             selection.select(objectValueSelection, event);
                         }
                     });
