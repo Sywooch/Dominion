@@ -30,7 +30,6 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                     $this->getAttributValues($catalogue_id, $view['ATTRIBUT_ID'], $at, $active_attrib);
                 }
 
-
                 $this->domXml->go_to_parent();
             }
         }

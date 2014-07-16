@@ -223,7 +223,7 @@ class CatController extends App_Controller_Frontend_Action
             $selectionElasticSearch->connect($parameters['search_engine'], "selection");
             $selectionElasticSearch->selection($objectValueSelection);
 
-            $active_brands = (!$st_b) ? $selectionElasticSearch->getAggregationResultBrands() : $formatDataElastic->getBrandsFormat($Catalogue->getBrands($this->catalogue_id));
+            $active_brands = (!$st_b) ? $selectionElasticSearch->getAggregationResultBrands() : $formatDataElastic->getBrandsFormat($Item->getAllModels(array($this->catalogue_id)));
             $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
             $active_items = $selectionElasticSearch->getAggregationResultItems();
         }
