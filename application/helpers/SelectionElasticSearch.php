@@ -159,7 +159,13 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     {
         if (empty($resultAggregation)) return array();
 
-        return array_column($resultAggregation, "key");
+        foreach ($resultAggregation as $key => $value) {
+            $resultAggregation[] = $value["key"];
+
+            unset($resultAggregation[$key]);
+        }
+
+        return $resultAggregation;
     }
 
     /**
@@ -177,7 +183,9 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
         foreach ($resultAggregation as $value) {
             if (empty($value["int_value"]["buckets"])) continue;
 
-            $formatAggregation[$value["key"]] = array_column($value["int_value"]["buckets"], "key");
+            foreach ($value["int_value"]["buckets"] as $val) {
+                $formatAggregation[$value["key"]][] = $val["key"];
+            }
         }
 
         return $formatAggregation;

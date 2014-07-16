@@ -12,7 +12,7 @@ var buildUrl = {
         if ($.makeArray(attributes).length > 0) {
             $.each(attributes, function (index, value) {
                 if (value["is_range"] == 1) {
-                    buildUrl.attributes_range += "a" + index + "v" + "_min" + value["value"]["from"] + "_max" + value["value"]["to"];
+                    buildUrl.attributes_range += "a" + index + "v" + value["value"]["from"] + "-" + value["value"]["to"];
                 } else {
                     buildUrl.attributes += "a" + index + "v" + value["value"].join("a" + index + "v");
                 }
