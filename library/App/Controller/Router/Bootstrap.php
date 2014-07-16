@@ -93,20 +93,26 @@ class App_Controller_Router_Bootstrap
         $uri = $request->getRequestUri();
 
         $paramsUrl = '';
-        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
+        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/|\/stb\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
+
+//        $pattern = "/^\/(.+)((?:\/all\/)|(?:\/br\/)|(?:\/page\/)|(?:\/ar\/)|(?:\/sort\/)|(?:\/price\/)|(?:\/collect\/)|(?:\/group\/))(.*?)/Ui";
+//
+//        if (!preg_match($pattern, $uri, $out)) {
+//            return FALSE;
+//        }
 
         if (preg_match($patternPage, $uri, $out)) {
 
-            $uri = $out[1];
-            $paramsUrl = $out[2];
-            if (!empty($paramsUrl)) {
-                // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
-                if ('/' === substr($paramsUrl, 0, 1)) {
-                    $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
-                } else {
-                    $paramsUrl = $paramsUrl;
-                }
+        $uri = $out[1];
+        $paramsUrl = $out[2];
+        if (!empty($paramsUrl)) {
+            // Отеразем первый слэш - надо для того чтобы потом корректно его соединить
+            if ('/' === substr($paramsUrl, 0, 1)) {
+                $paramsUrl = substr($paramsUrl, 1, strlen($paramsUrl) - 1);
+            } else {
+                $paramsUrl = $paramsUrl;
             }
+        }
         }
 
         $siteURLbySEFU = $AnotherPages->getSiteURLbySEFU($uri);
@@ -271,7 +277,7 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingCatAttrib()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?',
+            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?',
 //            'cat/([^/]+)(?:/all/([^/]+))?(?:/br/([^/]+))?(?:/group/(\w+))?(?:/price/(\d+))?(?:/collect/(\d+))?(?:/at/(\w+))?(?:/sort/(\w+)/mode/(\w+))?(?:/page/(\d+))?(.*)?',
             array(
                 'controller' => 'cat',
@@ -284,7 +290,8 @@ class App_Controller_Router_Bootstrap
                 4 => 'ar',
                 5 => 'pmin',
                 6 => 'pmax',
-                7 => 'page'
+                7 => 'page',
+                8 => 'stb'
             )
         );
 

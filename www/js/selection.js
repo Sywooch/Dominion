@@ -106,6 +106,7 @@ selection.prototype.doUrl = function () {
 selection.select = function (dataObject, currentElement) {
     var idAttribute = dataObject.attribute_id_checked;
     var statusBrand = dataObject.check_brands;
+    $.data(document.body, "status_brand", statusBrand);
     var attributeRangeId = dataObject.attribute_id_range_active;
     var priceRangeChecked = dataObject.price_range_check;
     $.ajax({
@@ -387,13 +388,12 @@ $(document).ready(function (evnt) {
         ev.preventDefault();
     });
     $('#show_models').live('click', function () {
-        buildUrl.clearUrl();
-
         var resultUrlAttributes = buildUrl.mergeUrl(
             objectValueSelection.brands_id,
             objectValueSelection.attributes_id,
             objectValueSelection.price_min,
-            objectValueSelection.price_max
+            objectValueSelection.price_max,
+            $.data(document.body, "status_brand")
         );
 
         var action = $('#page_url').attr("value");

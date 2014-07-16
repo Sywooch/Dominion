@@ -6,7 +6,7 @@ var buildUrl = {
     attributes: "",
     attributes_range: "",
     prices: "",
-    mergeUrl: function (brands, attributes, price_min, price_max) {
+    mergeUrl: function (brands, attributes, price_min, price_max, status_brand) {
         if (brands.length > 0) buildUrl.brands = "br/" + "b" + brands.join("b") + "/";
 
         if ($.makeArray(attributes).length > 0) {
@@ -26,7 +26,7 @@ var buildUrl = {
             buildUrl.prices = "pmin/" + price_min + "/pmax/" + price_max + "/";
         }
 
-        return buildUrl.brands + buildUrl.attributes + buildUrl.attributes_range + buildUrl.prices;
+        return buildUrl.brands + buildUrl.attributes + buildUrl.attributes_range + buildUrl.prices + "stb/" + status_brand;
     },
     clearUrl: function () {
         buildUrl.brands = "";

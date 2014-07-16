@@ -270,4 +270,23 @@ class Format_FormatDataElastic
     {
         return array_merge_recursive($this->formatAttributesRange, $this->formatAttributesChecked);
     }
+
+    /**
+     * Get brands format
+     *
+     * @param array $brands
+     *
+     * @return array
+     */
+    public function getBrandsFormat(array $brands)
+    {
+        if (empty($brands)) return array();
+
+        $formatBrands = array();
+        foreach ($brands as $value) {
+            $formatBrands[] = $value["BRAND_ID"];
+        }
+
+        return $formatBrands;
+    }
 }

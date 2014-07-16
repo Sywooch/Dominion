@@ -122,6 +122,7 @@ class CatController extends App_Controller_Frontend_Action
         $ar = $this->_getParam('ar', '');
         $pmin = $this->_getParam('pmin', 0);
         $pmax = $this->_getParam('pmax', 0);
+        $st_b = $this->_getParam('stb', 0);
 
         if (!empty($br)) {
             preg_match_all('/b(\d+)/', $br, $out);
@@ -222,7 +223,7 @@ class CatController extends App_Controller_Frontend_Action
             $selectionElasticSearch->connect($parameters['search_engine'], "selection");
             $selectionElasticSearch->selection($objectValueSelection);
 
-            $active_brands = $selectionElasticSearch->getAggregationResultBrands();
+            $active_brands = (!$st_b) ? $selectionElasticSearch->getAggregationResultBrands() : $formatDataElastic->getBrandsFormat($Catalogue->getBrands($this->catalogue_id));
             $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
             $active_items = $selectionElasticSearch->getAggregationResultItems();
         }
