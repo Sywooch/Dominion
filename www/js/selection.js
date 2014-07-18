@@ -274,9 +274,6 @@ $(document).ready(function (evnt) {
         if ($(this).is(":checked")) {
             objectValueSelection.brands_id = $(this).val();
             objectValueSelection.checkBrands = 1;
-
-//            select = new selection();
-//            select.doUrl();
         } else {
             objectValueSelection.unsetBrand($(this).val());
         }
@@ -288,43 +285,110 @@ $(document).ready(function (evnt) {
      * Check attribute
      */
     $('input[rel=attr_value]').click(function (evnt) {
+        var attrId = $(this).attr("atg");
+        var attrValue = $(this).attr("atid");
         if ($(this).is(":checked")) {
-            var attrId = $(this).attr("atg");
-            objectValueSelection.setAttributeArr(attrId, 0, $(this).attr("atid"));
+            objectValueSelection.setAttributeArr(attrId, 0, attrValue);
             objectValueSelection.attributesIdChecked = attrId;
-
-//            select = new selection();
-//            select.doUrl();
         } else {
-            var attrId = $(this).attr("atg");
-            objectValueSelection.unsetAttributeArr(attrId, $(this).attr("atid"));
+            objectValueSelection.unsetAttributeArr(attrId, attrValue);
             objectValueSelection.attributesIdChecked = attrId;
         }
 
         selection.select(objectValueSelection, evnt);
     });
 
+    /**
+     * Set listener for input price min price max
+     */
+//    $('input#price_input_min, input#price_input_max').keydown(function (event) {
+//        var regExp = /^\d+$/;
+//        var valueText = $(this).val();
+//        if (!valueText.match(regExp) || !valueText.toString().length || valueText == 0) return false;
+//
+//        setTimeout(function () {
+//            $(".jquery_slider").slider("values", $(this).attr("id") == "price_input_min" ? 0 : 1, valueText);
+//
+//            objectValueSelection.price_min = valueText;
+//
+//            selection.select(objectValueSelection, event);
+//        }, 2000);
+//    });
+
+    var options_input_min = {
+        callback: function () {
+            var evnt = new Object();
+
+            offset = $("#price_input_min").offset();
+            evnt.pageX = offset.left;
+            evnt.pageY = offset.top;
+
+            var price_max = $("#price_input_max").val();
+            price_max = price_max == '' ? slide_values_max : price_max;
+
+            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
+
+            objectValueSelection.price_max = price_max;
+            objectValueSelection.price_range_check = 1;
+            selection.select(objectValueSelection, evnt);
+        },
+        wait: 1500,
+        captureLength: 2
+    }
+
+    var options_input_max = {
+        callback: function () {
+            var event = new Object();
+            var slide_values_min;
+
+            var offset = $("#price_input_max").offset();
+            event.pageX = offset.left;
+            event.pageY = offset.top;
+
+            var price_min = $("#price_input_min").val();
+            price_min = price_min == '' ? slide_values_min : price_min;
+
+            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
+
+            objectValueSelection.price_min = price_min;
+            objectValueSelection.price_range_check = 1;
+            selection.select(objectValueSelection, event);
+        },
+        wait: 1500,
+        captureLength: 2
+    };
+
+    $("#price_input_min").typeWatch(options_input_min);
+    $("#price_input_max").typeWatch(options_input_max);
+
     $('#price_input_min').keyup(function (evnt) {
         var val = $(this).val();
-        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
-            if (val == '' || val == 0) {
-                var price_max = $("#price_input_max").val();
-                price_max = price_max == '' ? slide_values_max : price_max;
+        if (val == '' || val == 0) {
+            var price_max = $("#price_input_max").val();
+//            price_max = price_max == '' ? slide_values_max : price_max;
 
-                $(".jquery_slider").slider("option", "values", [slider_min, price_max]);
-            }
+            $(".jquery_slider").slider("values", 1, price_max);
+
+//            $(".jquery_slider").slider("option", "values", [slider_min, price_max]);
+
+            objectValueSelection.price_max = price_max;
+            objectValueSelection.price_range_check = 1;
+            selection.select(objectValueSelection, evnt);
         }
     });
 
     $('#price_input_max').keyup(function (evnt) {
         var val = $(this).val();
-        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
-            if (val == '' || val == 0) {
-                var price_min = $("#price_input_min").val()
-                price_min = price_min == '' ? slide_values_min : price_min;
+        if (val.toString().length > 0) {
+            var price_min = $("#price_input_min").val();
+//            price_min = price_min == '' ? slide_values_min : price_min;
 
-                $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
-            }
+            $(".jquery_slider").slider("values", 0, price_max);
+//            $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
+
+            objectValueSelection.price_min = price_min;
+            objectValueSelection.price_range_check = 1;
+            selection.select(objectValueSelection, evnt);
         }
     });
 
