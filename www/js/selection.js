@@ -304,53 +304,6 @@ $(document).ready(function (evnt) {
         selection.select(objectValueSelection, evnt);
     });
 
-//    var options_input_min = {
-//        callback: function () {
-//            var evnt = new Object();
-//
-//            offset = $("#price_input_min").offset();
-//            evnt.pageX = offset.left;
-//            evnt.pageY = offset.top;
-//
-//            var price_max = $("#price_input_max").val();
-//            price_max = price_max == '' ? slide_values_max : price_max;
-//
-//            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
-//
-//            it_sel = new selection();
-//            it_sel.doUrl();
-//            it_sel.getRequest(evnt);
-//        },
-//        wait: 1500,
-//        captureLength: 2
-//    }
-
-
-//    var options_input_max = {
-//        callback: function () {
-//            var event = new Object();
-//            var slide_values_min;
-//
-//            var offset = $("#price_input_max").offset();
-//            event.pageX = offset.left;
-//            event.pageY = offset.top;
-//
-//            var price_min = $("#price_input_min").val()
-//            price_min = price_min == '' ? slide_values_min : price_min;
-//
-//            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
-//
-//            var it_sel = new selection();
-//            it_sel.doUrl();
-//            it_sel.getRequest(event);
-//        },
-//        wait: 1500,
-//        captureLength: 2
-//    };
-
-//    $("#price_input_min").typeWatch(options_input_min);
-//    $("#price_input_max").typeWatch(options_input_max);
-
     $('#price_input_min').keyup(function (evnt) {
         var val = $(this).val();
         if (evnt.keyCode == 8 || evnt.keyCode == 46) {
