@@ -136,7 +136,6 @@ selection.select = function (dataObject, currentElement) {
                 mainSelector = $("div.fieldgroup input[type=checkbox]:not(:checked, [atg=" + idAttribute + "]), div.fieldgroup input[type=checkbox][rel=attr_brand_id]:not(:checked)");
             }
 
-            mainSelector.attr("disabled", "disabled");
             mainSelector.parent().addClass("noactive");
 
             $.each(resultData["attributes"], function (nameKey, value) {
@@ -147,7 +146,6 @@ selection.select = function (dataObject, currentElement) {
                 switch (nameKey) {
                     case "brands":
                         if (dataObject.isEmpty()) {
-                            $("input[rel=attr_brand_id]").removeAttr("disabled", "disabled");
                             $("input[rel=attr_brand_id]").parent().removeClass("noactive");
 
                             return;
@@ -156,8 +154,6 @@ selection.select = function (dataObject, currentElement) {
                         selector = servicesSelection.brands(value["buckets"]);
 
                         objectValueSelector = $(selector);
-
-                        objectValueSelector.removeAttr("disabled", "disabled");
                         objectValueSelector.parent().removeClass("noactive");
 
                         break;
@@ -264,8 +260,6 @@ $(document).ready(function (evnt) {
 
                 objectValueSelection.price_range_check = 1;
 
-//                select = new selection();
-//                select.doUrl();
                 selection.select(objectValueSelection, event);
             }
         });
