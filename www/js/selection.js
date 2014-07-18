@@ -298,39 +298,21 @@ $(document).ready(function (evnt) {
         selection.select(objectValueSelection, evnt);
     });
 
-    /**
-     * Set listener for input price min price max
-     */
-//    $('input#price_input_min, input#price_input_max').keydown(function (event) {
-//        var regExp = /^\d+$/;
-//        var valueText = $(this).val();
-//        if (!valueText.match(regExp) || !valueText.toString().length || valueText == 0) return false;
-//
-//        setTimeout(function () {
-//            $(".jquery_slider").slider("values", $(this).attr("id") == "price_input_min" ? 0 : 1, valueText);
-//
-//            objectValueSelection.price_min = valueText;
-//
-//            selection.select(objectValueSelection, event);
-//        }, 2000);
-//    });
-
     var options_input_min = {
         callback: function () {
-            var evnt = new Object();
+            var event = new Object();
+            var min = $("#price_input_min");
 
-            offset = $("#price_input_min").offset();
-            evnt.pageX = offset.left;
-            evnt.pageY = offset.top;
+            event.pageX = min.offset().left;
+            event.pageY = min.offset().top;
 
-            var price_max = $("#price_input_max").val();
-            price_max = price_max == '' ? slide_values_max : price_max;
+            var price_min = min.val();
 
-            $(".jquery_slider").slider("option", "values", [$("#price_input_min").val(), price_max]);
+            $(".jquery_slider").slider("values", 0, price_min);
 
-            objectValueSelection.price_max = price_max;
+            objectValueSelection.price_min = price_min;
             objectValueSelection.price_range_check = 1;
-            selection.select(objectValueSelection, evnt);
+            selection.select(objectValueSelection, event);
         },
         wait: 1500,
         captureLength: 2
@@ -339,18 +321,16 @@ $(document).ready(function (evnt) {
     var options_input_max = {
         callback: function () {
             var event = new Object();
-            var slide_values_min;
+            var max = $("#price_input_max");
 
-            var offset = $("#price_input_max").offset();
-            event.pageX = offset.left;
-            event.pageY = offset.top;
+            event.pageX = max.offset().left;
+            event.pageY = max.offset().top;
 
-            var price_min = $("#price_input_min").val();
-            price_min = price_min == '' ? slide_values_min : price_min;
+            var price_max = max.val();
 
-            $(".jquery_slider").slider("option", "values", [price_min, $("#price_input_max").val()]);
+            $(".jquery_slider").slider("values", 1, price_max);
 
-            objectValueSelection.price_min = price_min;
+            objectValueSelection.price_max = price_max;
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
@@ -365,11 +345,8 @@ $(document).ready(function (evnt) {
         var val = $(this).val();
         if (val == '' || val == 0) {
             var price_max = $("#price_input_max").val();
-//            price_max = price_max == '' ? slide_values_max : price_max;
 
             $(".jquery_slider").slider("values", 1, price_max);
-
-//            $(".jquery_slider").slider("option", "values", [slider_min, price_max]);
 
             objectValueSelection.price_max = price_max;
             objectValueSelection.price_range_check = 1;
@@ -380,15 +357,15 @@ $(document).ready(function (evnt) {
     $('#price_input_max').keyup(function (evnt) {
         var val = $(this).val();
         if (val.toString().length > 0) {
-            var price_min = $("#price_input_min").val();
-//            price_min = price_min == '' ? slide_values_min : price_min;
-
-            $(".jquery_slider").slider("values", 0, price_max);
-//            $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
-
-            objectValueSelection.price_min = price_min;
-            objectValueSelection.price_range_check = 1;
-            selection.select(objectValueSelection, evnt);
+//            var price_min = $("#price_input_min").val();
+////            price_min = price_min == '' ? slide_values_min : price_min;
+//
+//            $(".jquery_slider").slider("values", 0, price_max);
+////            $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
+//
+//            objectValueSelection.price_min = price_min;
+//            objectValueSelection.price_range_check = 1;
+//            selection.select(objectValueSelection, evnt);
         }
     });
 
