@@ -123,6 +123,7 @@ class CatController extends App_Controller_Frontend_Action
         $pmin = $this->_getParam('pmin', 0);
         $pmax = $this->_getParam('pmax', 0);
         $st_b = $this->_getParam('stb', 0);
+        $sattr = $this->_getParam("sattr", 0);
 
         if (!empty($br)) {
             preg_match_all('/b(\d+)/', $br, $out);
@@ -223,9 +224,19 @@ class CatController extends App_Controller_Frontend_Action
             $selectionElasticSearch->connect($parameters['search_engine'], "selection");
             $selectionElasticSearch->selection($objectValueSelection);
 
-            $active_brands = (!$st_b) ? $selectionElasticSearch->getAggregationResultBrands() : $formatDataElastic->getBrandsFormat($Item->getAllModels(array($this->catalogue_id)));
-            $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
             $active_items = $selectionElasticSearch->getAggregationResultItems();
+            $active_brands = (!$st_b)
+                ? $selectionElasticSearch->getAggregationResultBrands()
+                : $formatDataElastic->getBrandsFormat($Item->getAllModels(array($this->catalogue_id)));
+
+            if (!empty($sattr)) {
+                $formatAttributes = Format_ConvertDataElasticSelection::convertCriteriaQuerySelection($formatDataElastic->getAttributesFormatAggregation(), $sattr);
+
+                $objectValueSelection->setAttributes($formatAttributes);
+                $selectionElasticSearch->selection($objectValueSelection);
+            }
+
+            $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
         }
 
         $isp_params['currency_id'] = $this->currency;

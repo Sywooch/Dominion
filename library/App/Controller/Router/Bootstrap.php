@@ -93,7 +93,7 @@ class App_Controller_Router_Bootstrap
         $uri = $request->getRequestUri();
 
         $paramsUrl = '';
-        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/|\/stb\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
+        $patternPage = '/^(.*)((?:\/br\/|\/page\/|\/at\/|\/ar\/|\/pmin\/|\/pmax\/|\/stb\/|\/sattr\/).+)(?:(?:&|\?)(?:.*))?$/Uis';
 
 //        $pattern = "/^\/(.+)((?:\/all\/)|(?:\/br\/)|(?:\/page\/)|(?:\/ar\/)|(?:\/sort\/)|(?:\/price\/)|(?:\/collect\/)|(?:\/group\/))(.*?)/Ui";
 //
@@ -277,7 +277,7 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingCatAttrib()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?',
+            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?(?:/sattr/([^/]+))?',
 //            'cat/([^/]+)(?:/all/([^/]+))?(?:/br/([^/]+))?(?:/group/(\w+))?(?:/price/(\d+))?(?:/collect/(\d+))?(?:/at/(\w+))?(?:/sort/(\w+)/mode/(\w+))?(?:/page/(\d+))?(.*)?',
             array(
                 'controller' => 'cat',
@@ -291,7 +291,8 @@ class App_Controller_Router_Bootstrap
                 5 => 'pmin',
                 6 => 'pmax',
                 7 => 'page',
-                8 => 'stb'
+                8 => 'stb',
+                9 => 'sattr'
             )
         );
 

@@ -229,6 +229,25 @@ class Format_ConvertDataElasticSelection
     }
 
     /**
+     * Convert criteria query selection
+     *
+     * @param array $attributes
+     * @param integer $attributeId
+     *
+     * @return array
+     */
+    static public function convertCriteriaQuerySelection(array $attributes, $attributeId)
+    {
+        foreach ($attributes as $key => $value) {
+            if ($value["id"] != $attributeId) continue;
+
+            unset($attributes[$key]);
+        }
+
+        return $attributes;
+    }
+
+    /**
      * Parse Items url
      *
      * @param $itemsUrl

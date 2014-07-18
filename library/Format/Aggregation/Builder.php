@@ -22,19 +22,6 @@ class Format_Aggregation_Builder
     private $query;
 
     /**
-     * Aggregation with brands
-     *
-     * @var array
-     */
-
-    /**
-     * Aggregation without brands
-     *
-     * @var array
-     */
-    private $aggregation = array();
-
-    /**
      * Construct for build object
      *
      * @param array $columns

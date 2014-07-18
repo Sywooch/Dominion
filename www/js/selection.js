@@ -105,6 +105,12 @@ selection.prototype.doUrl = function () {
  */
 selection.select = function (dataObject, currentElement) {
     var idAttribute = dataObject.attribute_id_checked;
+    $.data(
+        document.body,
+        "status_attribute",
+        idAttribute
+    );
+
     var statusBrand = dataObject.check_brands;
     $.data(document.body, "status_brand", statusBrand);
     var attributeRangeId = dataObject.attribute_id_range_active;
@@ -393,7 +399,8 @@ $(document).ready(function (evnt) {
             objectValueSelection.attributes_id,
             objectValueSelection.price_min,
             objectValueSelection.price_max,
-            $.data(document.body, "status_brand")
+            $.data(document.body, "status_brand"),
+            $.data(document.body, "status_attribute")
         );
 
         var action = $('#page_url').attr("value");
