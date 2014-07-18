@@ -274,9 +274,6 @@ $(document).ready(function (evnt) {
         if ($(this).is(":checked")) {
             objectValueSelection.brands_id = $(this).val();
             objectValueSelection.checkBrands = 1;
-
-//            select = new selection();
-//            select.doUrl();
         } else {
             objectValueSelection.unsetBrand($(this).val());
         }
@@ -292,9 +289,6 @@ $(document).ready(function (evnt) {
             var attrId = $(this).attr("atg");
             objectValueSelection.setAttributeArr(attrId, 0, $(this).attr("atid"));
             objectValueSelection.attributesIdChecked = attrId;
-
-//            select = new selection();
-//            select.doUrl();
         } else {
             var attrId = $(this).attr("atg");
             objectValueSelection.unsetAttributeArr(attrId, $(this).attr("atid"));
