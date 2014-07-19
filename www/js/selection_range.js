@@ -63,103 +63,63 @@ $(document).ready(function () {
 
                     $(this).find("a.ui-slider-handle").append("<span></span>");
                     $(this).find("a.ui-slider-handle span").last().addClass("last");
+
+                    var options_attributes_range_min = {
+                        callback: function () {
+                            var event = new Object();
+                            var idAttribute = $("body").data("current_attribute_id");
+                            var min = $("input[id=input_min_" + idAttribute + "]");
+
+                            event.pageX = min.offset().left;
+                            event.pageY = min.offset().top;
+
+                            var attr_min = min.val();
+
+                            $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 0, attr_min);
+
+                            objectValueSelection.setAttributeObj(xid, 1, attr_min, $("input[id=input_max_" + idAttribute + "]").val());
+                            objectValueSelection.attribute_id_range_active = xid;
+                            selection.select(objectValueSelection, event);
+                        },
+                        wait: 1500,
+                        captureLength: 2
+                    };
+
+                    var options_attributes_range_max = {
+                        callback: function () {
+                            var event = new Object();
+                            var idAttribute = $("body").data("current_attribute_id");
+                            var max = $("input[id=input_min_" + idAttribute + "]");
+
+                            event.pageX = max.offset().left;
+                            event.pageY = max.offset().top;
+
+                            var attr_max = max.val();
+
+                            $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 1, attr_max);
+
+                            objectValueSelection.setAttributeObj(xid, 1, $("input[id=input_min_" + idAttribute + "]").val(), attr_max);
+                            objectValueSelection.attribute_id_range_active = xid;
+                            selection.select(objectValueSelection, event);
+                        },
+                        wait: 1500,
+                        captureLength: 2
+                    };
+
+                    $(this).find("input[id^='input_min']").typeWatch(options_attributes_range_min);
+                    $(this).find("input[id^='input_max']").typeWatch(options_attributes_range_max);
                 });
             });
+
+        /**
+         * Listener for keyup
+         */
+        $("input[id^=input_min_], input[id^=input_max_]").keyup(function () {
+            var textVal = $(this).attr("xid");
+
+            if (!textVal.toString().length) return;
+
+            $("body").data("current_attribute_id", textVal);
+        });
     }
-
-    var options_input_range_min = {
-        callback: function () {
-            var value = this.text;
-            var xid = this.el.attributes[nodeValue = 'xid'].nodeValue;
-            var parent = $('#input_min_' + xid).parent();
-
-            var evnt = new Object();
-            offset = $('#input_min_' + xid).offset();
-            evnt.pageX = offset.left;
-            evnt.pageY = offset.top;
-
-            var price_max = $(parent).find('input[id*="input_max_"]').val();
-            price_max = price_max == '' ? attr_range_view[xid][1] : price_max;
-
-            $(parent).find(".attr_range_view[xid=" + xid + "]").slider("option", "values", [value, price_max]);
-
-            rn_sel = new attr_range_selection(xid);
-            rn_sel.doUrl(evnt);
-        },
-        wait: 1500,
-        captureLength: 2
-    }
-
-    var options_input_range_max = {
-        callback: function () {
-            var value = this.text;
-            var xid = this.el.attributes[nodeValue = 'xid'].nodeValue;
-            var parent = $('#input_min_' + xid).parent();
-
-            var evnt = new Object();
-
-            offset = $("#price_input_max").offset();
-            evnt.pageX = offset.left;
-            evnt.pageY = offset.top;
-
-            var price_min = $(parent).find('input[id*="input_min_"]').val();
-            price_min = price_min == '' ? attr_range_view[xid][0] : price_min;
-
-            $(parent).find(".attr_range_view[xid=" + xid + "]").slider("option", "values", [price_min, value]);
-
-            rn_sel = new attr_range_selection(xid);
-            rn_sel.doUrl(evnt);
-        },
-        wait: 1500,
-        captureLength: 2
-    }
-
-    $('input[id*="input_min_"]').typeWatch(options_input_range_min);
-    $('input[id*="input_max_"]').typeWatch(options_input_range_max);
-
-    $('input[id*="input_min_"]').keyup(function (evnt) {
-        var val = $(this).val();
-        var xid = $(this).attr('xid');
-        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
-            if (val == '' || val == 0) {
-                var parent = $(this).parent();
-
-                var price_max = $(parent).find('input[id*="input_max_"]').val();
-                price_max = price_max == '' ? attr_range_view[xid][1] : price_max;
-
-                $(parent).find(".attr_range_view[xid=" + xid + "]").slider("option", "values", [attr_range_view[xid][0], price_max]);
-
-                var event = new Object();
-                offset = $(this).offset();
-                event.pageX = offset.left;
-                event.pageY = offset.top;
-
-                rn_sel = new attr_range_selection(xid);
-                rn_sel.doUrl(event);
-            }
-        }
-    });
-
-    $('input[id*="input_max_"]').keyup(function (evnt) {
-        var val = $(this).val();
-        var xid = $(this).attr('xid');
-        if (evnt.keyCode == 8 || evnt.keyCode == 46) {
-            if (val == '' || val == 0) {
-                var parent = $(this).parent();
-
-                var price_min = $(parent).find('input[id*="input_min_"]').val();
-                price_min = price_min == '' ? attr_range_view[xid][0] : price_min;
-
-                $(parent).find(".attr_range_view[xid=" + xid + "]").slider("option", "values", [price_min, attr_range_view[xid][1]]);
-
-                var event = new Object();
-                offset = $(this).offset();
-                event.pageX = offset.left;
-                event.pageY = offset.top;
-
-                rn_sel = new attr_range_selection(xid);
-                rn_sel.doUrl(event);
-            }
-        }
-    });
 });    
