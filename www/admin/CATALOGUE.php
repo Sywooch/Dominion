@@ -657,13 +657,13 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
+      require __DIR__ . "/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ ."/../../lib/MetaGenerate.php";
+      require __DIR__ ."/../../lib/MetaGenerateModelStrategy.php";
       
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);

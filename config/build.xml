@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="7560000.com.ua" default="main">
+
+
+    <property file="./properties/application.properties"/>
+    <property file="./properties/config.properties"/>
+
+    <target name="main" description="Set params depends on environment">
+        <echo msg="Build configs"/>
+
+        <copy file="./source/application.ini.dist" tofile="./../application/configs/application.ini"
+                overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="resources.db.params.dbname" value="${resources.db.params.dbname}"/>
+                    <token key="resources.db.params.username" value="${resources.db.params.username}"/>
+                    <token key="resources.db.params.host" value="${resources.db.params.host}"/>
+                    <token key="resources.db.params.password" value="${resources.db.params.password}"/>
+
+                    <token key="resources.elastic.name" value="${resources.elastic.name}"/>
+                    <token key="resources.elastic.host" value="${resources.elastic.host}"/>
+                    <token key="resources.elastic.index" value="${resources.elastic.index}"/>
+                    <token key="resources.elastic.type.products" value="${resources.elastic.type.products}"/>
+                    <token key="resources.elastic.type.selection" value="${resources.elastic.type.selection}"/>
+
+
+                </replacetokens>
+
+
+            </filterchain>
+        </copy>
+
+
+        <copy file="./source/migrations-db.php.dist" tofile="./../migrations-db.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="resources.db.params.dbname" value="${resources.db.params.dbname}"/>
+                    <token key="resources.db.params.username" value="${resources.db.params.username}"/>
+                    <token key="resources.db.params.host" value="${resources.db.params.host}"/>
+                    <token key="resources.db.params.password" value="${resources.db.params.password}"/>
+
+                </replacetokens>
+
+
+            </filterchain>
+        </copy>
+
+        <copy file="./source/config.php.dist" tofile="./../application/configs/config.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens>
+
+                    <token key="config.path.public_html" value="${config.path.public_html}"/>
+                    <token key="config.path.upload_xml" value="${config.path.upload_xml}"/>
+                    <token key="config.path.upload_images" value="${config.path.upload_images}"/>
+
+                    <token key="config.http_host" value="${config.http_host}"/>
+                    <token key="config.debug_mode" value="${config.debug_mode}"/>
+
+                </replacetokens>
+
+
+            </filterchain>
+        </copy>
+
+
+    </target>
+
+</project>

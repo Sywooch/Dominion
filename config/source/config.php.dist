@@ -4,24 +4,14 @@
  * Подключаем пути и константы для всего приложения
  * Можно использывать как для приложения (сайта) так и для скриптов крона
  */
-defined('DEBUG_MODE') or define('DEBUG_MODE', true);
+defined('DEBUG_MODE') or define('DEBUG_MODE', @config.debug_mode@);
 
 
 defined('SITE_PATH')
-    || define('SITE_PATH', realpath(dirname(__FILE__) . '/../../www'));
+    || define('SITE_PATH', realpath(dirname(__FILE__) . '@config.path.public_html@'));
 
 defined('ROOT_PATH')
     || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../'));
-
-//defined('UPLOAD_PATH')
-//    || define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/../../../upload_images'));
-//
-//defined('UPLOAD_PATH_PRICES')
-//    || define('UPLOAD_PATH_PRICES', realpath(dirname(__FILE__) . '/../../../upload_xml'));
-
-
-defined('INDEX_PATH')
-    || define('INDEX_PATH', ROOT_PATH . '/search');
 
 // Define path to application directory
 defined('APPLICATION_PATH')|| define('APPLICATION_PATH', ROOT_PATH . '/application');
@@ -30,16 +20,16 @@ defined('APPLICATION_PATH')|| define('APPLICATION_PATH', ROOT_PATH . '/applicati
 defined('LIBRARY_PATH')|| define('LIBRARY_PATH', ROOT_PATH . '/library');
 
 
-defined('HTTP_HOST') || define('HTTP_HOST', 'http://7560000.com.ua');
+defined('HTTP_HOST') || define('HTTP_HOST', '@config.http_host@');
 
 // Define application environment
 defined('APPLICATION_ENV')|| define('APPLICATION_ENV',
 (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
 
-define('UPLOAD_XML', realpath(__DIR__ . "/../../../upload_xml"));
+define('UPLOAD_XML', realpath(__DIR__ . '@config.path.upload_xml@'));
 
-define('UPLOAD_IMAGES', realpath(__DIR__ . "/../../../upload_images"));
+define('UPLOAD_IMAGES', realpath(__DIR__ . '@config.path.upload_images@'));
 
 define('IS_LIDER', 'hits');
 define('IS_RECOMEND', 'newest');

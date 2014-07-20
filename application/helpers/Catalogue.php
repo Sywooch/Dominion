@@ -62,6 +62,52 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         }
     }
 
+    private function addCatSubcatalogWithBrand($cat)
+    {
+
+        $this->domXml->create_element('sub_cattree', '', 2);
+        $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
+        , 'parent_id' => $cat['PARENT_ID']
+        ));
+
+        $catalogHref = $cat['REALCATNAME'];
+
+        $this->domXml->create_element('name', $cat['NAME']);
+        $this->domXml->create_element('href', $catalogHref);
+
+        if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
+            $tmp = explode('#', $cat['IMAGE1']);
+            $this->domXml->create_element('image', '', 2);
+            $this->domXml->set_attribute(array('src' => $tmp[0],
+                    'w' => $tmp[1],
+                    'h' => $tmp[2]
+                )
+            );
+            $this->domXml->go_to_parent();
+        }
+
+
+        if ($cat['BRANDS']) {
+            $tmp = explode(',', $cat['BRANDS']);
+            foreach ($tmp as $view) {
+                list($brand, $altName) = explode('#', $view);
+                $this->domXml->create_element('brand_view', '', 2);
+                $this->domXml->create_element('name', $brand);
+
+                $href = "$catalogHref$altName/";
+
+
+                // Этот кусок жутко тормозит работу
+//                    $_href = $AnotherPages->getSefURLbyOldURL($href);
+//                    if (!empty($_href)) $href = $_href;
+
+                $this->domXml->create_element('href', $href);
+
+                $this->domXml->go_to_parent();
+            }
+        }
+    }
+
     /**
      * Вывести спсиок подкаталогов с брендами
      *
@@ -69,58 +115,103 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
      */
     public function getCatSubTree($parentId = 0)
     {
-        $cats = $this->work_model->getCatalogsIncludeBrandsList($parentId);
-        if (empty($cats)) return;
 
 
-        $AnotherPages = new models_AnotherPages();
+//        $topCats = $this->work_model->getTopCatalogsId($parentId);
 
-        foreach ($cats as $cat) {
+        foreach ($this->work_model->getTopCatalogsId($parentId) as $catalogTop) {
 
-            $this->domXml->create_element('sub_cattree', '', 2);
-            $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
-            , 'parent_id' => $cat['PARENT_ID']
-            ));
 
-            $catalogHref = $cat['REALCATNAME'];
+            $cats = $this->work_model->getCatalogsIncludeBrandsList($catalogTop['CATALOGUE_ID']);
+            //if (empty($cats)) return;
 
-            $this->domXml->create_element('name', $cat['NAME']);
-            $this->domXml->create_element('href', $catalogHref);
-
-            if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
-                $tmp = explode('#', $cat['IMAGE1']);
-                $this->domXml->create_element('image', '', 2);
-                $this->domXml->set_attribute(array('src' => $tmp[0],
-                        'w' => $tmp[1],
-                        'h' => $tmp[2]
-                    )
-                );
+            if (!empty($cats)) {
+                $this->addCatSubcatalogWithBrand($cats[0]);
                 $this->domXml->go_to_parent();
-            }
+            } else {
 
+                $cats = $this->work_model->getCatalogsIncludeBrandsListByParent($catalogTop['CATALOGUE_ID']);
 
-            if ($cat['BRANDS']) {
-                $tmp = explode(',', $cat['BRANDS']);
-                foreach ($tmp as $view) {
-                    list($brand, $altName) = explode('#', $view);
-                    $this->domXml->create_element('brand_view', '', 2);
-                    $this->domXml->create_element('name', $brand);
+                if (!empty($cats)) {
 
-                    $href = "$catalogHref$altName/";
+                    $this->domXml->create_element('sub_cattree', '', 2);
+                    $this->domXml->set_attribute(array('top' => 1
 
+                    ));
 
-                    // Этот кусок жутко тормозит работу
-//                    $_href = $AnotherPages->getSefURLbyOldURL($href);
-//                    if (!empty($_href)) $href = $_href;
+                    $this->domXml->create_element('name', $catalogTop['NAME']);
 
-                    $this->domXml->create_element('href', $href);
-
+                    foreach ($cats as $cat) {
+                        $this->addCatSubcatalogWithBrand($cat);
+                        $this->domXml->go_to_parent();
+                    }
                     $this->domXml->go_to_parent();
                 }
+
+
+//                $this->domXml->create_element('sub_cattree', '', 2);
+//                $this->domXml->set_attribute(array(
+//                    'catalogue_id' => $catalogTop['CATALOGUE_ID']
+////              , 'parent_id' => $cat['PARENT_ID']
+//                ));
+//                $this->domXml->create_element('name', $catalogTop['NAME']);
             }
 
-            $this->domXml->go_to_parent();
+//            $this->domXml->go_to_parent();
+            continue;
+//            $AnotherPages = new models_AnotherPages();
+
+//            foreach ($cats as $cat) {
+//
+//                $this->domXml->create_element('sub_cattree', '', 2);
+//                $this->domXml->set_attribute(array('catalogue_id' => $cat['CATALOGUE_ID']
+//                , 'parent_id' => $cat['PARENT_ID']
+//                ));
+//
+//                $catalogHref = $cat['REALCATNAME'];
+//
+//                $this->domXml->create_element('name', $cat['NAME']);
+//                $this->domXml->create_element('href', $catalogHref);
+//
+//                if (!empty($cat['IMAGE1']) && strchr($cat['IMAGE1'], "#")) {
+//                    $tmp = explode('#', $cat['IMAGE1']);
+//                    $this->domXml->create_element('image', '', 2);
+//                    $this->domXml->set_attribute(array('src' => $tmp[0],
+//                            'w' => $tmp[1],
+//                            'h' => $tmp[2]
+//                        )
+//                    );
+//                    $this->domXml->go_to_parent();
+//                }
+//
+//
+//                if ($cat['BRANDS']) {
+//                    $tmp = explode(',', $cat['BRANDS']);
+//                    foreach ($tmp as $view) {
+//                        list($brand, $altName) = explode('#', $view);
+//                        $this->domXml->create_element('brand_view', '', 2);
+//                        $this->domXml->create_element('name', $brand);
+//
+//                        $href = "$catalogHref$altName/";
+//
+//
+//                        // Этот кусок жутко тормозит работу
+////                    $_href = $AnotherPages->getSefURLbyOldURL($href);
+////                    if (!empty($_href)) $href = $_href;
+//
+//                        $this->domXml->create_element('href', $href);
+//
+//                        $this->domXml->go_to_parent();
+//                    }
+//                }
+//
+//                $this->domXml->go_to_parent();
+//            }
+
+
         }
+
+
     }
 
     public function getCatInfo($id)
@@ -163,8 +254,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         );
         $href = '/cat/';
 
-        $this->domXml->create_element('name', 'Весь каталог');
-        $this->domXml->create_element('url', $href);
+//        $this->domXml->create_element('name', 'Весь каталог');
+//        $this->domXml->create_element('url', $href);
 
         $this->getSubCatalogPath(0, 0);
 

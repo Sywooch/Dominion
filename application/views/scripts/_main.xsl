@@ -2,7 +2,9 @@
 <!DOCTYPE xsl:stylesheet SYSTEM "symbols.ent">
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:import href="_base.xsl"/>
+    <xsl:import href="inc/_breadcrumbs.xsl"/>
     <xsl:import href="inc/_top_banners.xsl"/>
+
     <!-- HEAD -->
     <xsl:template name="title">
         <xsl:choose>
@@ -132,41 +134,7 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="breadcrumbs">
-        <xsl:if test="position()!=last()">
-            <li>
-                <a class="pseudo" href="javascript:void(0);">
-                    <xsl:if test="count(breadcrumbs) = 0">
-                        <xsl:attribute name="href">
-                            <xsl:value-of select="url"/>
-                        </xsl:attribute>
-                    </xsl:if>
-                    <span>
-                        <xsl:value-of select="name"/>
-                    </span>
-                </a>
-                <xsl:if test="count(breadcrumbs) &gt; 0">
-                    <div class="dialog_box breadcrumb">
-                        <a href="#" class="close_icon">Close</a>
-                        <ul class="menu dialog_content">
-                            <xsl:apply-templates select="breadcrumbs" mode="sub"/>
-                        </ul>
-                    </div>
-                </xsl:if>
-            </li>
-        </xsl:if>
-    </xsl:template>
 
-    <xsl:template match="breadcrumbs" mode="sub">
-        <li>
-            <a href="{url}">
-                <xsl:if test="@id='brands'">
-                    <xsl:attribute name="style">color: #ED1C24</xsl:attribute>
-                </xsl:if>
-                <xsl:value-of select="name"/>
-            </a>
-        </li>
-    </xsl:template>
 
     <xsl:template match="socials">
         <li>
@@ -429,6 +397,10 @@
         <a href="/register/" id="reg_link">Регистрация</a>
     </xsl:template>
 
+    <xsl:template name="catalog_button">
+
+    </xsl:template>
+
     <xsl:template name="user_logout">
         <a href="/register/logout/" class="pseudo">Выход</a>
         <a href="/register/account/" id="reg_link">Кабинет</a>
@@ -499,6 +471,8 @@
                         <ul id="main_menu" class="menu">
                             <xsl:apply-templates select="main_menu"/>
                         </ul>
+
+                        <xsl:call-template name="catalog_button"/>
 
                         <!-- Вызыввем шаблон из inc/_top_banners.xsl -->
                         <xsl:call-template name="_top_banners_show_banners"/>
@@ -678,16 +652,20 @@
 
     <xsl:template match="data[not(@is_start)]" mode="body">
         <div id="content">
-            <xsl:if test="count(breadcrumbs) &gt; 0">
-                <ul class="breadcrumb">
-                    <li>
-                        <a href="/" class="pseudo">
-                            <span>Главная</span>
-                        </a>
-                    </li>
-                    <xsl:apply-templates select="breadcrumbs"/>
-                </ul>
-            </xsl:if>
+
+            <xsl:call-template name="breadcrumbs"/>
+
+            <!--<xsl:if test="count(breadcrumbs) &gt; 0">-->
+                <!--<ul class="breadcrumb">-->
+                    <!--<li>-->
+                        <!--<a href="/" class="pseudo">-->
+                            <!--<span>Главная</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<xsl:apply-templates select="breadcrumbs"/>-->
+                <!--</ul>-->
+            <!--</xsl:if>-->
+
             <xsl:apply-templates select="."/>
         </div>
         <div id="sidebar">

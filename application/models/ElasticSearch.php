@@ -151,7 +151,7 @@ class models_ElasticSearch extends ZendDBEntity
                 FROM ATTRIBUT a
                   JOIN ITEM0 i0 USING (ATTRIBUT_ID)
                 WHERE i0.ITEM_ID = ?
-                AND a.IS_RANGE_VIEW = 0
+                AND (a.IS_RANGE_VIEW = 0 OR a.IS_RANGE_VIEW IS NULL)
                 UNION
                 SELECT
                   a.ATTRIBUT_ID,
@@ -162,7 +162,7 @@ class models_ElasticSearch extends ZendDBEntity
                 FROM ATTRIBUT a
                   JOIN ITEM1 i1 USING (ATTRIBUT_ID)
                 WHERE i1.ITEM_ID = ?
-                AND a.IS_RANGE_VIEW = 0
+                AND (a.IS_RANGE_VIEW = 0 OR a.IS_RANGE_VIEW IS NULL)
                   UNION
                   SELECT
                     a.ATTRIBUT_ID,

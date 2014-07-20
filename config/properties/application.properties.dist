@@ -1,0 +1,11 @@
+resources.db.params.host = HOST NAME
+resources.db.params.dbname = DB NAME
+resources.db.params.password = DB PASSWORD
+resources.db.params.username = DB USER NAME
+
+
+resources.elastic.name = ELASTICSEARCH NAME
+resources.elastic.host = ELASTICSEARCH HOST
+resources.elastic.index = ELASTICSEARCH INDEX
+resources.elastic.type.products = ELASTICSEARCH PRODUCT TYPE
+resources.elastic.type.selection = ELASTICSEARCH SELECTION TYPE
