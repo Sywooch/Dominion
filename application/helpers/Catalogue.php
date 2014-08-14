@@ -235,64 +235,71 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
 
     public function getCatalogPath($id, $item_name = '')
     {
-        $childs = array();
-        $childs[count($childs)] = $id;
+//        $childs = array();
+//        $childs[count($childs)] = $id;
         $parent = $id;
-
-        while ($parent > 0) {
-            $cat = $this->work_model->getParents($parent, $this->lang_id);
-            $parent = $cat['PARENT_ID'];
-            if ($parent == 0)
-                break;
-            $childs[count($childs)] = $cat['PARENT_ID'];
-        }
 
         $this->domXml->create_element('breadcrumbs', '', 2);
         $this->domXml->set_attribute(array('id' => 0,
                 'parent_id' => 0
             )
         );
-        $href = '/cat/';
-
 //        $this->domXml->create_element('name', 'Весь каталог');
 //        $this->domXml->create_element('url', $href);
 
-        $this->getSubCatalogPath(0, 0);
+//        $this->domXml->go_to_parent();
 
-        $this->domXml->go_to_parent();
+        while ((($cat = $this->work_model->getParents($parent, $this->lang_id)) != null) && ($cat["CATALOGUE_ID"] != 0)) {
+            $this->domXml->create_element('crumbs', '', 2);
+            $this->domXml->set_attribute(
+                array('id' => $cat['CATALOGUE_ID'],
+                    'parent_id' => $cat['PARENT_ID']
+                )
+            );
 
-        if (!empty($childs)) {
-            $childs = array_reverse($childs);
-            foreach ($childs as $key => $view) {
-                $parent = $this->work_model->getParents($view, $this->lang_id);
-                if (!empty($parent)) {
-                    $this->domXml->create_element('breadcrumbs', '', 2);
-                    $this->domXml->set_attribute(array('id' => $parent['CATALOGUE_ID'],
-                            'parent_id' => $parent['PARENT_ID']
-                        )
-                    );
-                    $href = $this->lang . $parent['REALCATNAME'];
+            $this->domXml->create_element('name', trim($cat['NAME']));
 
-                    $this->domXml->create_element('name', trim($parent['NAME']));
-                    $this->domXml->create_element('url', $href);
-
-                    $this->getSubCatalogPath($parent['CATALOGUE_ID'], $parent['CATALOGUE_ID']);
-
-                    $this->domXml->go_to_parent();
-                }
+            if ($id != $parent){
+                $this->domXml->create_element('url', $this->lang . $cat['REALCATNAME']);
             }
 
-            if (!empty($item_name)) {
-                $this->domXml->create_element('breadcrumbs', '', 2);
-                $this->domXml->set_attribute(array('id' => 0,
-                        'parent_id' => 0
-                    )
-                );
-                $this->domXml->create_element('name', trim($item_name));
-                $this->domXml->create_element('url', '');
-                $this->domXml->go_to_parent();
-            }
+            $this->domXml->go_to_parent();
+
+            $parent = $cat["PARENT_ID"];
         }
+
+        if (!empty($item_name)) {
+            $this->domXml->create_element('breadcrumbs', '', 2);
+            $this->domXml->set_attribute(array('id' => 0,
+                    'parent_id' => 0
+                )
+            );
+            $this->domXml->create_element('name', trim($item_name));
+            $this->domXml->create_element('url', '');
+            $this->domXml->go_to_parent();
+        }
+        $xml = $this->domXml->getXML();
+
+//        if (!empty($childs)) {
+//            $childs = array_reverse($childs);
+//            foreach ($childs as $key => $view) {
+//                $parent = $this->work_model->getParents($view, $this->lang_id);
+//                if (!empty($parent)) {
+//                    $this->domXml->create_element('breadcrumbs', '', 2);
+//                    $this->domXml->set_attribute(array('id' => $parent['CATALOGUE_ID'],
+//                            'parent_id' => $parent['PARENT_ID']
+//                        )
+//                    );
+//                    $href = $this->lang . $parent['REALCATNAME'];
+//
+//                    $this->domXml->create_element('name', trim($parent['NAME']));
+//                    $this->domXml->create_element('url', $href);
+//
+//                    $this->getSubCatalogPath($parent['CATALOGUE_ID'], $parent['CATALOGUE_ID']);
+//
+//                    $this->domXml->go_to_parent();
+//                }
+//            }
     }
 
     public function getCompareItems($catalogue_id)
@@ -351,6 +358,11 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
                 $this->domXml->go_to_parent();
             }
         }
+    }
+
+    public function getCatalogueProducts()
+    {
+
     }
 
     private function getSubCatalogPath($id, $parent_id)
