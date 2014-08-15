@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad90c9eff1d2cf5036efa0e5119dc570",
+    "hash": "550e9a45f99f22ef74ce921ed24c3eac",
     "packages": [
         {
             "name": "codeplex/phpexcel",
@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f"
+                "reference": "644b75b788d44a394278c4541f631c9d126fbf4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/0af397b3b96aac5b11593ca9136ca43a55869c5f",
-                "reference": "0af397b3b96aac5b11593ca9136ca43a55869c5f",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/644b75b788d44a394278c4541f631c9d126fbf4b",
+                "reference": "644b75b788d44a394278c4541f631c9d126fbf4b",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "0.6-dev"
+                    "dev-develop": "0.7-dev"
                 }
             },
             "autoload": {
@@ -111,7 +111,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2013-07-19 16:16:00"
+            "time": "2014-07-02 19:33:32"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -167,12 +167,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ddeboer/phpexcel.git",
-                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2"
+                "reference": "656336f53bcd0d11abba40db6c9f8553d320434c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
-                "reference": "de9c8871a87ce9be354d35f5e966dd65a0c7c6d2",
+                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/656336f53bcd0d11abba40db6c9f8553d320434c",
+                "reference": "656336f53bcd0d11abba40db6c9f8553d320434c",
                 "shasum": ""
             },
             "require": {
@@ -188,13 +188,9 @@
             "license": [
                 "GNU"
             ],
-            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
+            "description": "DEPRECATED! Use phpoffice/phpexcel instead.",
             "homepage": "http://phpexcel.codeplex.com",
-            "keywords": [
-                "excel",
-                "xls"
-            ],
-            "time": "2012-09-04 18:29:37"
+            "time": "2014-02-06 05:54:09"
         },
         {
             "name": "ruflin/elastica",
@@ -202,12 +198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "2f882ec9f86414afce2973055482d04a215bd196"
+                "reference": "c276b901e7b863107f0f0ff601465f4d6a1427b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/2f882ec9f86414afce2973055482d04a215bd196",
-                "reference": "2f882ec9f86414afce2973055482d04a215bd196",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/c276b901e7b863107f0f0ff601465f4d6a1427b7",
+                "reference": "c276b901e7b863107f0f0ff601465f4d6a1427b7",
                 "shasum": ""
             },
             "require": {
@@ -215,15 +211,22 @@
             },
             "require-dev": {
                 "munkie/elasticsearch-thrift-php": "1.4.*",
+                "phpunit/phpunit": "4.1.*",
                 "psr/log": "~1.0",
                 "satooshi/php-coveralls": "dev-master"
             },
             "suggest": {
+                "guzzlehttp/guzzle": "Allow using guzzle 4.x as the http transport (requires php 5.4)",
                 "monolog/monolog": "Logging request",
                 "munkie/elasticsearch-thrift-php": "Allow using thrift transport",
                 "psr/log": "for logging"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Elastica": "lib/",
@@ -246,7 +249,7 @@
                 "client",
                 "search"
             ],
-            "time": "2014-04-29 15:24:13"
+            "time": "2014-07-18 10:52:17"
         },
         {
             "name": "symfony/class-loader",
@@ -255,12 +258,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1"
+                "reference": "206de04f06299f28e1725d9a07a2ee05610fb6f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
-                "reference": "5c9ded1bcaaa253db403ceee0da14f8be9bdd5a1",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/206de04f06299f28e1725d9a07a2ee05610fb6f8",
+                "reference": "206de04f06299f28e1725d9a07a2ee05610fb6f8",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +275,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -287,7 +290,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -296,7 +301,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-24 05:36:23"
+            "time": "2014-07-09 09:06:26"
         },
         {
             "name": "symfony/console",
@@ -305,12 +310,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.3"
+                "reference": "d9171137f97e9b14d71f7aa83ba5039b68efb8af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/d9171137f97e9b14d71f7aa83ba5039b68efb8af",
+                "reference": "d9171137f97e9b14d71f7aa83ba5039b68efb8af",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +345,9 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -349,21 +356,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2014-07-07 10:13:42"
         },
         {
             "name": "symfony/finder",
-            "version": "2.4.x-dev",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "25e1e7d5e7376f8a92ae3b1d714d956edf33a730"
+                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/25e1e7d5e7376f8a92ae3b1d714d956edf33a730",
-                "reference": "25e1e7d5e7376f8a92ae3b1d714d956edf33a730",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/45fbbe9444b04be0a8595a86d91808278a0d22fc",
+                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +379,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -398,7 +405,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-27 13:34:57"
+            "time": "2014-07-15 14:15:21"
         },
         {
             "name": "zendframework/zendframework1",
@@ -406,12 +413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf1.git",
-                "reference": "29e4821403d9ad2f2908c75ade872eb0f0211687"
+                "reference": "fabc5afd5dd473ad86ea2e1e92af36da0160d64f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf1/zipball/29e4821403d9ad2f2908c75ade872eb0f0211687",
-                "reference": "29e4821403d9ad2f2908c75ade872eb0f0211687",
+                "url": "https://api.github.com/repos/zendframework/zf1/zipball/fabc5afd5dd473ad86ea2e1e92af36da0160d64f",
+                "reference": "fabc5afd5dd473ad86ea2e1e92af36da0160d64f",
                 "shasum": ""
             },
             "require": {
@@ -445,7 +452,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2014-06-30 18:29:05"
+            "time": "2014-07-16 09:33:15"
         }
     ],
     "packages-dev": [
@@ -466,6 +473,7 @@
         "kriswallsmith/buzz": 20,
         "symfony/finder": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },

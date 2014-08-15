@@ -24,8 +24,11 @@ class CatController extends App_Controller_Frontend_Action
         $SectionAlign = new models_SectionAlign();
 
         $child_count = $Catalogue->getChildCatCount($this->catalogue_id);
+
+//        $this->getCatalogList($this->catalogue_id);
+
         if (!empty($child_count)) {
-            $this->getCatalogList();
+            $this->getCatalogList($this->catalogue_id);
         } else {
             $this->getCatalogItemsList();
         }
@@ -55,6 +58,19 @@ class CatController extends App_Controller_Frontend_Action
         ));
 
         $this->domXml->go_to_parent();
+    }
+
+    private function getCatalogListNew($catalogParentId){
+//        $this->template = 'cat_view.xsl';
+        $brand_id = $this->_getParam('brand_id', 0);
+
+        $Catalogue = new models_Catalogue();
+        $o_data['id'] = $this->catalogue_id;
+        $o_data['currency'] = $this->currency;
+        $o_data['brand'] = $brand_id;
+        $o_data['cat_real_url'] = $cat_real_url;
+
+        $this->openData($o_data);
     }
 
     /**
@@ -286,6 +302,7 @@ class CatController extends App_Controller_Frontend_Action
 
         $params['Item'] = $Item;
 
+        /** @var $cat_helper Helpers_Catalogue */
         $cat_helper = $this->_helper->helperLoader('Catalogue', $params);
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
@@ -293,7 +310,10 @@ class CatController extends App_Controller_Frontend_Action
         $cat_helper->getCatalogPath($this->catalogue_id);
         $cat_helper->getCompareItems($this->catalogue_id);
         $cat_helper->getAttrBrands($this->catalogue_id, $attr_brand_id, $active_brands);
+        $cat_helper->generateCatalogueMenu(0);
         $this->domXml = $cat_helper->getDomXml();
+
+        $xml = $this->domXml->getXML();
 
         $item_params['brand_id'] = $attr_brand_id;
         $item_params['catalogue_id'] = $this->catalogue_id;

@@ -2,6 +2,7 @@
 <!DOCTYPE xsl:stylesheet SYSTEM "symbols.ent">
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:import href="_main.xsl"/>
+    <xsl:import href="inc/_catalog_menu.xsl"/>
 
     <xsl:template name="section_url">
         <xsl:value-of select="//data/@cat_real_url"/>
