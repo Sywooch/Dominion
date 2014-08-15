@@ -50,7 +50,7 @@ class models_ElasticSearch extends ZendDBEntity
                   ,I.CATNAME
                   ,I.TYPENAME
                   ,I.ARTICLE
-                  ,I.IMAGE3
+                  ,I.IMAGE0
                   ,B.NAME AS BRAND
                   ,C.REALCATNAME
                   ,C.NAME AS CATALOGUE_NAME
