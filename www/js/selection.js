@@ -311,6 +311,7 @@ $(document).ready(function (evnt) {
             $(".jquery_slider").slider("values", 0, price_min);
 
             objectValueSelection.price_min = price_min;
+            objectValueSelection.price_min  = $("#price_input_max").val();
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
@@ -331,6 +332,7 @@ $(document).ready(function (evnt) {
             $(".jquery_slider").slider("values", 1, price_max);
 
             objectValueSelection.price_max = price_max;
+            objectValueSelection.price_min  = $("#price_input_min").val();
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
@@ -340,34 +342,6 @@ $(document).ready(function (evnt) {
 
     $("#price_input_min").typeWatch(options_input_min);
     $("#price_input_max").typeWatch(options_input_max);
-
-    $('#price_input_min').keyup(function (evnt) {
-        var val = $(this).val();
-        if (val == '' || val == 0) {
-            var price_max = $("#price_input_max").val();
-
-            $(".jquery_slider").slider("values", 1, price_max);
-
-            objectValueSelection.price_max = price_max;
-            objectValueSelection.price_range_check = 1;
-            selection.select(objectValueSelection, evnt);
-        }
-    });
-
-    $('#price_input_max').keyup(function (evnt) {
-        var val = $(this).val();
-        if (val.toString().length > 0) {
-//            var price_min = $("#price_input_min").val();
-////            price_min = price_min == '' ? slide_values_min : price_min;
-//
-//            $(".jquery_slider").slider("values", 0, price_max);
-////            $(".jquery_slider").slider("option", "values", [price_min, slider_max]);
-//
-//            objectValueSelection.price_min = price_min;
-//            objectValueSelection.price_range_check = 1;
-//            selection.select(objectValueSelection, evnt);
-        }
-    });
 
     $(".applay_filters a.product_button").click(function (ev) {
         ev.preventDefault();
@@ -395,7 +369,4 @@ $(document).ready(function (evnt) {
 
         window.location.href = action + resultUrlAttributes;
     });
-
-//    it_sel = new selection();
-//    it_sel.doUrl();
 });
