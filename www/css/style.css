@@ -850,7 +850,7 @@ body, nav, ul, li, a {
     }
 
     .third-level-wraper {
-        width: 710px;
+        /*width: 710px;*/
         background: #fff;
         overflow: hidden;
         border-radius: 0 10px 10px 0;

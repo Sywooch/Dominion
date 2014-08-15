@@ -109,6 +109,44 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
     }
 
     /**
+     *
+     */
+    public function generateCatalogueMenu($id)
+    {
+        $this->domXml->create_element("catalogue-menu", "", DOMXML_CREATE_AND_GO_INSIDE_DEPRECATED);
+        $this->collectAllCatalogues($id);
+        $this->domXml->go_to_parent();
+    }
+
+    /**
+     * Collect all catalogues
+     *
+     * @param integer $catalogueId
+     *
+     * @return bool
+     */
+    private function collectAllCatalogues($catalogueId)
+    {
+        $catalogueList = $this->work_model->getTree($catalogueId);
+
+        if (empty($catalogueList)) return false;
+
+        foreach ($catalogueList as $value) {
+
+            $this->domXml->create_element("catalogue", "", DOMXML_CREATE_AND_GO_INSIDE_DEPRECATED);
+            $this->domXml->set_attribute(array("catalog_id" => $value["CATALOGUE_ID"]));
+            $this->domXml->create_element("name", $value["NAME"]);
+            $this->domXml->create_element("url", $value["REALCATNAME"]);
+
+            $this->collectAllCatalogues($value["CATALOGUE_ID"]);
+
+            $this->domXml->go_to_parent();
+        }
+
+        return true;
+    }
+
+    /**
      * Вывести спсиок подкаталогов с брендами
      *
      * @param int $parentId Id родтеля для которго выводим список подкаталогов
@@ -233,10 +271,14 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         }
     }
 
+    /**
+     * Get catalog path
+     *
+     * @param $id
+     * @param string $item_name
+     */
     public function getCatalogPath($id, $item_name = '')
     {
-//        $childs = array();
-//        $childs[count($childs)] = $id;
         $parent = $id;
 
         $this->domXml->create_element('breadcrumbs', '', 2);
@@ -244,10 +286,6 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
                 'parent_id' => 0
             )
         );
-//        $this->domXml->create_element('name', 'Весь каталог');
-//        $this->domXml->create_element('url', $href);
-
-//        $this->domXml->go_to_parent();
 
         while ((($cat = $this->work_model->getParents($parent, $this->lang_id)) != null) && ($cat["CATALOGUE_ID"] != 0)) {
             $this->domXml->create_element('crumbs', '', 2);
@@ -259,7 +297,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
 
             $this->domXml->create_element('name', trim($cat['NAME']));
 
-            if ($id != $parent){
+            if ($id != $parent) {
                 $this->domXml->create_element('url', $this->lang . $cat['REALCATNAME']);
             }
 
@@ -278,28 +316,6 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             $this->domXml->create_element('url', '');
             $this->domXml->go_to_parent();
         }
-        $xml = $this->domXml->getXML();
-
-//        if (!empty($childs)) {
-//            $childs = array_reverse($childs);
-//            foreach ($childs as $key => $view) {
-//                $parent = $this->work_model->getParents($view, $this->lang_id);
-//                if (!empty($parent)) {
-//                    $this->domXml->create_element('breadcrumbs', '', 2);
-//                    $this->domXml->set_attribute(array('id' => $parent['CATALOGUE_ID'],
-//                            'parent_id' => $parent['PARENT_ID']
-//                        )
-//                    );
-//                    $href = $this->lang . $parent['REALCATNAME'];
-//
-//                    $this->domXml->create_element('name', trim($parent['NAME']));
-//                    $this->domXml->create_element('url', $href);
-//
-//                    $this->getSubCatalogPath($parent['CATALOGUE_ID'], $parent['CATALOGUE_ID']);
-//
-//                    $this->domXml->go_to_parent();
-//                }
-//            }
     }
 
     public function getCompareItems($catalogue_id)

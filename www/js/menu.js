@@ -7,28 +7,28 @@ $(document).ready(function() {
 			$(this).addClass("parent");
 		};
 	})
-	
+
 	$(".toggleMenu").click(function(e) {
 		e.preventDefault();
 		$(this).toggleClass("active");
 		$(".nav").toggle();
 	});
 	adjustMenu();
-	
+
 	$(".catalog-box ul").each(function() {
 		$(this).find('li:eq(7)').nextAll().addClass('hidden');
 	});
-	
+
 	$('.show-more').click(function(){
 		var overHidden = $(this).prev('ul').find('li:eq(7)').nextAll();
-		
+
 		if(overHidden.hasClass('hidden')){
 			overHidden.removeClass('hidden');
 			$(this).text('Скрыть лишние');
 		}
 		else{
 			overHidden.addClass('hidden');
-			$(this).text('Показать еще');	
+			$(this).text('Показать еще');
 		};
 	});
 	$('.catalog-box h3').click(function(){
@@ -55,11 +55,11 @@ var adjustMenu = function() {
 			e.preventDefault();
 			$(this).parent("li").toggleClass("hover");
 		});
-		
-		
-		
-		
-	} 
+
+
+
+
+	}
 	else if (ww > 768) {
 		$(".toggleMenu").css("display", "none");
 		$(".nav").show();
