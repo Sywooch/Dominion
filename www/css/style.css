@@ -901,9 +901,8 @@ body, nav, ul, li, a {
         text-decoration: none;
     }
 
-    .third-level .col.last {
-        /*padding-bottom: 265px;*/
-
+    .third-level .col_last {
+        padding-bottom: 265px;
     }
 
     .third-level-wraper {
