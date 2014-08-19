@@ -2,7 +2,7 @@
 <!DOCTYPE xsl:stylesheet SYSTEM "../symbols.ent">
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:template name="catalog_button">
+    <xsl:template match="catalogue-menu" mode="menu">
 
         <script type="text/javascript" src="/js/menu.js"></script>
 
@@ -15,7 +15,7 @@
                         </a>
 
                         <ul class="second-level">
-                            <xsl:apply-templates select="//catalogue-menu/catalogue" mode="parent"/>
+                            <xsl:apply-templates select="catalogue" mode="parent"/>
                         </ul>
                     </li>
                 </ul>

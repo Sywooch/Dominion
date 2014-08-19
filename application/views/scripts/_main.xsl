@@ -469,7 +469,7 @@
                             <xsl:apply-templates select="main_menu"/>
                         </ul>
 
-                        <xsl:call-template name="catalog_button"/>
+                        <xsl:apply-templates select="//catalogue-menu" mode="menu"/>
 
                         <!-- Вызыввем шаблон из inc/_top_banners.xsl -->
                         <xsl:call-template name="_top_banners_show_banners"/>
