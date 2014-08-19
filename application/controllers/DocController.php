@@ -34,6 +34,13 @@ class DocController extends App_Controller_Frontend_Action
 
         $this->openData($o_data);
 
+        /** @var $cat_helper Helpers_Catalogue */
+        $cat_helper = $this->_helper->helperLoader('Catalogue');
+        $cat_helper->setDomXml($this->domXml);
+        $cat_helper->setModel(new models_Catalogue());
+
+        $cat_helper->generateCatalogueMenu(0);
+
         $ap_helper = $this->_helper->helperLoader('AnotherPages');
         $ap_helper->setModel($AnotherPages);
         $ap_helper->setDomXml($this->domXml);

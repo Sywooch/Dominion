@@ -316,6 +316,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             $this->domXml->create_element('url', '');
             $this->domXml->go_to_parent();
         }
+
+        $this->domXml->go_to_parent();
     }
 
     public function getCompareItems($catalogue_id)
