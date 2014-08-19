@@ -61,13 +61,42 @@ $(window).bind('resize orientationchange', function () {
     adjustMenu();
 });
 
-var convertElement = function (rate) {
+var convertElement = function () {
     $("ul.second-level li[xid=parentLi]").each(function () {
-        var len = $(this).find("div.col").length;
-        var mainWidth = len > 1 ? $(this).width() * 4 : $(this).find("div.col").width();
+            var len = $(this).find("div.col").length;
+            var mainWidth = len > 1 ? $(this).width() * 3.5 : $(this).find("div.col").width();
 
-        $(this).find("div.third-level-wraper").width(mainWidth);
-    });
+            $(this).find("div.third-level-wraper").width(mainWidth);
+
+            if (!(len > 1)) return true;
+
+            var heightOfElements = [];
+            var index = 0;
+            var nameSelector = "";
+            $(this).find("div.col").each(function () {
+                    nameSelector += "div.col:eq(" + index + "), ";
+                    index++;
+                    heightOfElements.push($(this).height());
+
+                    if (index % 3 == 0) {
+                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
+
+                        var maxHeight = Math.max.apply(Math, heightOfElements);
+
+                        $(nameSelector).height(maxHeight);
+                        nameSelector = "";
+                        heightOfElements = [];
+                    } else if (index == len) {
+                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
+                        var maxHeight = Math.max.apply(Math, heightOfElements);
+
+                        $(nameSelector).height(maxHeight);
+                    }
+                }
+            );
+        }
+    )
+    ;
 };
 
 var adjustMenu = function () {
