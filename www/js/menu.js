@@ -73,6 +73,7 @@ var convertElement = function () {
             var heightOfElements = [];
             var index = 0;
             var nameSelector = "";
+            var mainElement = $(this);
             $(this).find("div.col").each(function () {
                     nameSelector += "div.col:eq(" + index + "), ";
                     index++;
@@ -81,16 +82,13 @@ var convertElement = function () {
                     if (index % 3 == 0) {
                         nameSelector = nameSelector.substring(0, nameSelector.length - 2);
 
-                        var maxHeight = Math.max.apply(Math, heightOfElements);
-
-                        $(nameSelector).height(maxHeight);
+                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
                         nameSelector = "";
                         heightOfElements = [];
                     } else if (index == len) {
                         nameSelector = nameSelector.substring(0, nameSelector.length - 2);
-                        var maxHeight = Math.max.apply(Math, heightOfElements);
 
-                        $(nameSelector).height(maxHeight);
+                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
                     }
                 }
             );
