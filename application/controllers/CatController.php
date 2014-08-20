@@ -102,10 +102,15 @@ class CatController extends App_Controller_Frontend_Action
 
         $this->openData($o_data);
 
+
+
         /* @var $cat_helper Helpers_Catalogue */
         $cat_helper = $this->_helper->helperLoader('Catalogue');
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
+
+        $cat_helper->generateCatalogueMenu(0);
+
         $cat_helper->getCatInfo($this->catalogue_id);
         $cat_helper->getCatalogPath($this->catalogue_id);
         $cat_helper->getCatSubTree($this->catalogue_id);
