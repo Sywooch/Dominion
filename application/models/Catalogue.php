@@ -445,11 +445,12 @@ class models_Catalogue extends ZendDBEntity
      */
     public function getCatalogsIncludeBrandsList($catalogId = null)
     {
-
         $sql = "SELECT
                   C.NAME,
                   C.IMAGE1,
                   C.REALCATNAME,
+                  C.CATALOGUE_ID,
+                  C.PARENT_ID
                   GROUP_CONCAT(DISTINCT CONCAT(B.NAME, '#', B.ALT_NAME) ORDER BY B.NAME) AS BRANDS
                 FROM CATALOGUE C
                   JOIN CATALOGUE_BRAND_VIEW CBV1 USING (CATALOGUE_ID)
