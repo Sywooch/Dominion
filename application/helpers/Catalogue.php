@@ -137,7 +137,11 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             $this->domXml->set_attribute(array("catalog_id" => $value["CATALOGUE_ID"]));
             $this->domXml->create_element("name", $value["NAME"]);
             $this->domXml->create_element("url", $value["REALCATNAME"]);
-            if (!empty($value["IMAGE_MENU"])) $this->domXml->create_element("image_menu", $value["IMAGE_MENU"]);
+            if (!empty($value["IMAGE_MENU"])) {
+                $imageData = explode("#", $value["IMAGE_MENU"]);
+                $this->domXml->create_element("image_menu", "/images/cat/" . array_shift($imageData));
+                $this->domXml->set_attribute(array("width" => array_shift($imageData), "height" => array_shift($imageData)));
+            }
 
             $this->collectAllCatalogues($value["CATALOGUE_ID"]);
 
@@ -275,7 +279,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
     /**
      * Get catalog path
      *
-     * @param $id
+     * @param        $id
      * @param string $item_name
      */
     public function getCatalogPath($id, $item_name = '')
