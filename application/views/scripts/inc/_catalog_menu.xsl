@@ -62,19 +62,16 @@
     </xsl:template>
 
     <xsl:template match="catalogue" mode="multi">
-        <div class="col" xid="{@catalog_id}">
-
-            <div class="catalog-box">
-                <h3>
-                    <xsl:value-of select="name"/>
-                </h3>
-                <ul>
-                    <xsl:apply-templates select="catalogue" mode="child_one"/>
-                </ul>
-                <xsl:if test="count(current()/catalogue) &gt; 8">
-                    <span class="show-more">Показать еще</span>
-                </xsl:if>
-            </div>
+        <div class="catalog-box">
+            <h3>
+                <xsl:value-of select="name"/>
+            </h3>
+            <ul>
+                <xsl:apply-templates select="catalogue" mode="child_one"/>
+            </ul>
+            <xsl:if test="count(current()/catalogue) &gt; 8">
+                <span class="show-more">Показать еще</span>
+            </xsl:if>
         </div>
     </xsl:template>
 
