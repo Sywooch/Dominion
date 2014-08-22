@@ -62,7 +62,7 @@
     </xsl:template>
 
     <xsl:template match="catalogue" mode="multi">
-        <div class="col">
+        <div class="col" xid="{@catalog_id}">
 
             <div class="catalog-box">
                 <h3>
