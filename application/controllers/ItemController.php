@@ -40,7 +40,6 @@ class ItemController extends App_Controller_Frontend_Action
         $catalogueHelper->setDomXml($this->domXml);
         $catalogueHelper->setModel(new models_Catalogue());
         $catalogueHelper->generateCatalogueMenu(0);
-        $catalogueHelper->getCatalogPath($catalogue_id);
     }
 
     public function viewAction()
@@ -74,6 +73,7 @@ class ItemController extends App_Controller_Frontend_Action
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
         $cat_helper->getCompareItems($catalogue_id);
+        $cat_helper->getCatalogPath($catalogue_id);
 
         $this->domXml = $cat_helper->getDomXml();
 
@@ -91,7 +91,7 @@ class ItemController extends App_Controller_Frontend_Action
         $it_helper = $this->_helper->helperLoader('Item', $params);
         $it_helper->setModel($Item);
         $it_helper->setDomXml($this->domXml);
-        $it_helper->getDocPath($this->item_id);
+//        $it_helper->getDocPath($this->item_id);
         $it_helper->getItemMeta($this->item_id);
         $it_helper->getItemInfo($this->item_id);
         $it_helper->getTabs($tab_section);

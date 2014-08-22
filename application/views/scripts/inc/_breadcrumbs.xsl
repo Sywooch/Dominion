@@ -11,14 +11,27 @@
                     </a>
                 </li>
 
-                <xsl:apply-templates select="//breadcrumbs/crumbs[url]" mode="new_catalog"/>
-                <xsl:apply-templates select="//breadcrumbs/crumbs[not(url)]" mode="last"/>
+
+                <xsl:choose>
+                    <xsl:when test="count(//breadcrumbs/breadcrumbs) &gt; 0">
+                        <xsl:apply-templates select="//breadcrumbs/breadcrumbs[url]" mode="new_catalog">
+                            <xsl:sort select="position()" data-type="number" order="descending"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates select="//breadcrumbs/breadcrumbs[not(url)]" mode="last"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="//breadcrumbs[url]" mode="new_catalog">
+                            <xsl:sort select="position()" data-type="number" order="descending"/>
+                        </xsl:apply-templates>
+                        <xsl:apply-templates select="//breadcrumbs[not(url)]" mode="last"/>
+                    </xsl:otherwise>
+                </xsl:choose>
             </ul>
         </xsl:if>
 
     </xsl:template>
 
-    <xsl:template match="crumbs" mode="new_catalog">
+    <xsl:template match="breadcrumbs" mode="new_catalog">
         <li>
             <a href="{url}" class="pseudo">
                 <span>
@@ -28,7 +41,7 @@
         </li>
     </xsl:template>
 
-    <xsl:template match="crumbs" mode="last">
+    <xsl:template match="breadcrumbs" mode="last">
         <li>
             <xsl:value-of select="name"/>
         </li>
