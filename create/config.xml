@@ -1635,13 +1635,13 @@ EOF;
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
 
-      require   ROOT_PATH . "/lib/CreateSEFU.class.php";
+      require __DIR__ . "/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
 
-      require ROOT_PATH."/lib/MetaGenerate.php";
-      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
@@ -1669,13 +1669,13 @@ EOF;
       $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
       UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
 
-      require ROOT_PATH."/lib/CreateSEFU.class.php";
+      require __DIR__ ."/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
 
-      require ROOT_PATH."/lib/MetaGenerate.php";
-      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
@@ -2274,8 +2274,8 @@ $cmf->UpdateRange($id);
       $cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
       $cmf->UpdateRange($_REQUEST['id']);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
