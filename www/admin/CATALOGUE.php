@@ -103,7 +103,7 @@ updateOrdering($cmf,0);
 if($_REQUEST['e'] == 'FT')
 {
 ?><h2 class="h2">Полный набор атрибутов</h2>
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="admin_attr.js"></script>
 <table class="attr_table" bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1">
 <form action=CATALOGUE.php method=POST>
@@ -627,13 +627,33 @@ if(!empty($_REQUEST['pid']))
 		if(isset($_REQUEST['CLR_IMAGE1']) && $_REQUEST['CLR_IMAGE1']){$_REQUEST['IMAGE1']=$cmf->UnlinkFile($_REQUEST['IMAGE1'],$VIRTUAL_IMAGE_PATH);}
 	
 
+		
+				
+    if(isset($_FILES['NOT_IMAGE_MENU']['tmp_name']) && $_FILES['NOT_IMAGE_MENU']['tmp_name']){
+		if(!empty($_REQUEST['iid'])){
+		   if(!empty($_REQUEST['bid'])){ 
+     		  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_'.$_REQUEST['bid'].'',$VIRTUAL_IMAGE_PATH);
+		   }
+		   else{
+			  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		   }
+		}
+		else{ 
+			$_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		}
+	}
+
+			
+		if(isset($_REQUEST['CLR_IMAGE_MENU']) && $_REQUEST['CLR_IMAGE_MENU']){$_REQUEST['IMAGE_MENU']=$cmf->UnlinkFile($_REQUEST['IMAGE_MENU'],$VIRTUAL_IMAGE_PATH);}
+	
+
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
+  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
   
   
       if(empty($_REQUEST['CATNAME'])){
@@ -656,20 +676,19 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
   
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
-      
+
       require __DIR__ . "/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
-      
-      require __DIR__ ."/../../lib/MetaGenerate.php";
-      require __DIR__ ."/../../lib/MetaGenerateModelStrategy.php";
-      
+
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
+
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
 
       $meta->metaCatalogueById($_REQUEST['id']);
-      
     
 }
 else
@@ -712,6 +731,26 @@ else
 		if(isset($_REQUEST['CLR_IMAGE1']) && $_REQUEST['CLR_IMAGE1']){$_REQUEST['IMAGE1']=$cmf->UnlinkFile($_REQUEST['IMAGE1'],$VIRTUAL_IMAGE_PATH);}
 	
 
+		
+				
+    if(isset($_FILES['NOT_IMAGE_MENU']['tmp_name']) && $_FILES['NOT_IMAGE_MENU']['tmp_name']){
+		if(!empty($_REQUEST['iid'])){
+		   if(!empty($_REQUEST['bid'])){ 
+     		  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_'.$_REQUEST['bid'].'',$VIRTUAL_IMAGE_PATH);
+		   }
+		   else{
+			  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		   }
+		}
+		else{ 
+			$_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		}
+	}
+
+			
+		if(isset($_REQUEST['CLR_IMAGE_MENU']) && $_REQUEST['CLR_IMAGE_MENU']){$_REQUEST['IMAGE_MENU']=$cmf->UnlinkFile($_REQUEST['IMAGE_MENU'],$VIRTUAL_IMAGE_PATH);}
+	
+
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
@@ -719,7 +758,7 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
 
 
   $_REQUEST['pid'] = (!empty($_REQUEST['PARENT_ID'])) ? $_REQUEST['PARENT_ID'] : 0;
-  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
+  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
   
   
       if(empty($_REQUEST['CATNAME'])){
@@ -742,20 +781,19 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
   
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
-      
-      require $_SERVER['DOCUMENT_ROOT']."/lib/CreateSEFU.class.php";
+
+      require __DIR__ . "/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
-      
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
-      
+
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
+
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
 
       $meta->metaCatalogueById($_REQUEST['id']);
-      
     
 
 }
@@ -799,13 +837,33 @@ if($_REQUEST['event'] == 'Изменить')
 		if(isset($_REQUEST['CLR_IMAGE1']) && $_REQUEST['CLR_IMAGE1']){$_REQUEST['IMAGE1']=$cmf->UnlinkFile($_REQUEST['IMAGE1'],$VIRTUAL_IMAGE_PATH);}
 	
 
+		
+				
+    if(isset($_FILES['NOT_IMAGE_MENU']['tmp_name']) && $_FILES['NOT_IMAGE_MENU']['tmp_name']){
+		if(!empty($_REQUEST['iid'])){
+		   if(!empty($_REQUEST['bid'])){ 
+     		  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'_'.$_REQUEST['iid'].'_'.$_REQUEST['bid'].'',$VIRTUAL_IMAGE_PATH);
+		   }
+		   else{
+			  $_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		   }
+		}
+		else{ 
+			$_REQUEST['IMAGE_MENU']=$cmf->PicturePost('NOT_IMAGE_MENU',$_REQUEST['IMAGE_MENU'],''.$_REQUEST['id'].'',$VIRTUAL_IMAGE_PATH);		   
+		}
+	}
+
+			
+		if(isset($_REQUEST['CLR_IMAGE_MENU']) && $_REQUEST['CLR_IMAGE_MENU']){$_REQUEST['IMAGE_MENU']=$cmf->UnlinkFile($_REQUEST['IMAGE_MENU'],$VIRTUAL_IMAGE_PATH);}
+	
+
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-@$cmf->execute('update CATALOGUE set PARENT_ID=?,NAME=?,ID_FROM_VBD=?,TYPENAME=?,CATNAME=?,URL=?,SUB_ITEM_TITLE=?,TITLE=?,SUB_TITLE=?,DESC_META=?,KEYWORD_META=?,DESCRIPTION=?,IMAGE1=?,IN_ADV=?,IS_INDEX=? where CATALOGUE_ID=?',stripslashes($_REQUEST['PARENT_ID']),stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),$_REQUEST['id']);
+@$cmf->execute('update CATALOGUE set PARENT_ID=?,NAME=?,ID_FROM_VBD=?,TYPENAME=?,CATNAME=?,URL=?,SUB_ITEM_TITLE=?,TITLE=?,SUB_TITLE=?,DESC_META=?,KEYWORD_META=?,DESCRIPTION=?,IMAGE1=?,IMAGE_MENU=?,IN_ADV=?,IS_INDEX=? where CATALOGUE_ID=?',stripslashes($_REQUEST['PARENT_ID']),stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),$_REQUEST['id']);
 $_REQUEST['e']='ED';
 
       if(empty($_REQUEST['CATNAME'])){
@@ -826,17 +884,19 @@ $_REQUEST['e']='ED';
       }
       
       $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
-      
-      require ROOT_PATH."/lib/CreateSEFU.class.php";
-      $sefu = new CreateSEFU();      
+//      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
+
+      require __DIR__ ."/../../lib/CreateSEFU.class.php";
+
+      $sefu = new CreateSEFU();
       UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
-      
+
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
-      
-      require ROOT_PATH."/lib/MetaGenerate.php";
-      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
-      
+
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
+
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
 
@@ -846,7 +906,7 @@ $_REQUEST['e']='ED';
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where CATALOGUE_ID=?',$_REQUEST['id']);
+list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where CATALOGUE_ID=?',$_REQUEST['id']);
 
 
 
@@ -856,6 +916,12 @@ if(isset($V_IMAGE1))
 {
    $IM_IMAGE1=split('#',$V_IMAGE1);
    if(isset($IM_14[1]) && $IM_IMAGE1[1] > 150){$IM_IMAGE1[2]=$IM_IMAGE1[2]*150/$IM_IMAGE1[1]; $IM_IMAGE1[1]=150;}
+}
+
+if(isset($V_IMAGE_MENU))
+{
+   $IM_IMAGE_MENU=split('#',$V_IMAGE_MENU);
+   if(isset($IM_15[1]) && $IM_IMAGE_MENU[1] > 150){$IM_IMAGE_MENU[2]=$IM_IMAGE_MENU[2]*150/$IM_IMAGE_MENU[1]; $IM_IMAGE_MENU[1]=150;}
 }
 
 $V_IN_ADV=$V_IN_ADV?'checked':'';
@@ -962,6 +1028,37 @@ print <<<EOF
 <input type="checkbox" name="CLR_IMAGE1" value="1" />Сбросить карт.
 
 </td></tr></table>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка меню:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE_MENU" value="$V_IMAGE_MENU" />
+<table><tr><td>
+EOF;
+if(!empty($IM_IMAGE_MENU[0]))
+{
+if(strchr($IM_IMAGE_MENU[0],".swf"))
+{
+   print "<div style=\"width:600px\"><object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" width=\"100%\" align=\"middle\">
+                                                 <param name=\"allowScriptAccess\" value=\"sameDomain\" />
+                                                 <param name=\"movie\" value=\"/images$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]\" />
+                                                 <param name=\"quality\" value=\"high\" />
+                                                 <embed src=\"/images$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]\" quality=\"high\" width=\"100%\"  align=\"middle\" allowScriptAccess=\"sameDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />
+                                                 </object></div>";
+}
+else
+{
+$IM_IMAGE_MENU[0] = !empty($IM_IMAGE_MENU[0]) ? $IM_IMAGE_MENU[0]:0;
+$IM_IMAGE_MENU[1] = !empty($IM_IMAGE_MENU[1]) ? $IM_IMAGE_MENU[1]:0;
+$IM_IMAGE_MENU[2] = !empty($IM_IMAGE_MENU[2]) ? $IM_IMAGE_MENU[2]:0;
+print <<<EOF
+<img src="/images/$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]" width="$IM_IMAGE_MENU[1]" height="$IM_IMAGE_MENU[2]" />
+EOF;
+}
+}
+
+print <<<EOF
+</td>
+<td><input type="file" name="NOT_IMAGE_MENU" size="1" /><br />
+<input type="checkbox" name="CLR_IMAGE_MENU" value="1" />Сбросить карт.
+
+</td></tr></table>
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr>
 
 
@@ -1060,7 +1157,7 @@ $visible=0;
 
 if($_REQUEST['e'] == 'AD' ||  $_REQUEST['e'] =='Новый')
 {
-list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS,$V_ORDERING)=array('','','','','','','','','','','','','','','','','','','','','');
+list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS,$V_ORDERING)=array('','','','','','','','','','','','','','','','','','','','','','');
 if(!empty($_REQUEST['pid'])) $V_PARENT_ID = $_REQUEST['pid'];
 else $V_PARENT_ID = 0;
 
@@ -1068,6 +1165,7 @@ else $V_PARENT_ID = 0;
 
 $V_STR_PARENT_ID=$cmf->TreeSpravotchnik($V_PARENT_ID,'select A.CATALOGUE_ID,A.NAME from CATALOGUE A   where A.PARENT_ID=?  order by A.NAME',0);
 $IM_IMAGE1=array('','','');
+$IM_IMAGE_MENU=array('','','');
 $V_IN_ADV='';
 $V_IS_INDEX='';
 $V_STATUS='checked';
@@ -1168,6 +1266,37 @@ print <<<EOF
 </td>
 <td><input type="file" name="NOT_IMAGE1" size="1" /><br />
 <input type="checkbox" name="CLR_IMAGE1" value="1" />Сбросить карт.
+
+</td></tr></table>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Картинка меню:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type="hidden" name="IMAGE_MENU" value="$V_IMAGE_MENU" />
+<table><tr><td>
+EOF;
+if(!empty($IM_IMAGE_MENU[0]))
+{
+if(strchr($IM_IMAGE_MENU[0],".swf"))
+{
+   print "<div style=\"width:600px\"><object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" width=\"100%\" align=\"middle\">
+                                                 <param name=\"allowScriptAccess\" value=\"sameDomain\" />
+                                                 <param name=\"movie\" value=\"/images$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]\" />
+                                                 <param name=\"quality\" value=\"high\" />
+                                                 <embed src=\"/images$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]\" quality=\"high\" width=\"100%\"  align=\"middle\" allowScriptAccess=\"sameDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />
+                                                 </object></div>";
+}
+else
+{
+$IM_IMAGE_MENU[0] = !empty($IM_IMAGE_MENU[0]) ? $IM_IMAGE_MENU[0]:0;
+$IM_IMAGE_MENU[1] = !empty($IM_IMAGE_MENU[1]) ? $IM_IMAGE_MENU[1]:0;
+$IM_IMAGE_MENU[2] = !empty($IM_IMAGE_MENU[2]) ? $IM_IMAGE_MENU[2]:0;
+print <<<EOF
+<img src="/images/$VIRTUAL_IMAGE_PATH$IM_IMAGE_MENU[0]" width="$IM_IMAGE_MENU[1]" height="$IM_IMAGE_MENU[2]" />
+EOF;
+}
+}
+
+print <<<EOF
+</td>
+<td><input type="file" name="NOT_IMAGE_MENU" size="1" /><br />
+<input type="checkbox" name="CLR_IMAGE_MENU" value="1" />Сбросить карт.
 
 </td></tr></table>
 </td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
