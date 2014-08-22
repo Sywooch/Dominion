@@ -40,6 +40,7 @@ class ItemController extends App_Controller_Frontend_Action
         $catalogueHelper->setDomXml($this->domXml);
         $catalogueHelper->setModel(new models_Catalogue());
         $catalogueHelper->generateCatalogueMenu(0);
+        $catalogueHelper->getCatalogPath($catalogue_id);
     }
 
     public function viewAction()

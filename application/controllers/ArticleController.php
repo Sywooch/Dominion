@@ -21,7 +21,7 @@ class ArticleController extends App_Controller_Frontend_Action
                 $this->page_404();
             }
         }
-        
+
         /** @var $catalogueHelper Helpers_Catalogue */
         $catalogueHelper = $this->_helper->helperLoader("Catalogue");
         $catalogueHelper->setDomXml($this->domXml);
