@@ -6,8 +6,7 @@ $(document).ready(function () {
     $(".nav li a").each(function () {
         if ($(this).next().length > 0) {
             $(this).addClass("parent");
-        }
-        ;
+        };
     })
 
     $(".toggleMenu").click(function (e) {
@@ -37,23 +36,6 @@ $(document).ready(function () {
     $('.catalog-box h3').click(function () {
         $(this).next('ul').toggleClass('visible');
     });
-
-//    $("ul.second-level li").hover(function () {
-//        var mainWidth = 0;
-//        $(this).find("div.col").each(function (key, value) {
-//            mainWidth += $(value).width();
-//        });
-//
-//        $(this).find("div.third-level-wraper").css({
-//            width: mainWidth,
-//            "border-right": "4px solid #009933",
-//            "margin-right": "-4px",
-//            clear: "both"
-//        });
-//
-//        $(this).find("div.third-level").css("display", "block");
-//        $("ul.second-level").css("display", "block");
-//    });
 })
 
 $(window).bind('resize orientationchange', function () {
@@ -67,31 +49,31 @@ var convertElement = function () {
             var mainWidth = len > 1 ? $(this).width() * 3.5 : $(this).find("div.col").width();
 
             $(this).find("div.third-level-wraper").width(mainWidth);
-
-            if (!(len > 1)) return true;
-
-            var heightOfElements = [];
-            var index = 0;
-            var nameSelector = "";
-            var mainElement = $(this);
-            $(this).find("div.col").each(function () {
-                    nameSelector += "div.col:eq(" + index + "), ";
-                    index++;
-                    heightOfElements.push($(this).height());
-
-                    if (index % 3 == 0) {
-                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
-
-                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
-                        nameSelector = "";
-                        heightOfElements = [];
-                    } else if (index == len) {
-                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
-
-                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
-                    }
-                }
-            );
+//
+//            if (!(len > 1)) return true;
+//
+//            var heightOfElements = [];
+//            var index = 0;
+//            var nameSelector = "";
+//            var mainElement = $(this);
+//            $(this).find("div.col").each(function () {
+//                    nameSelector += "div.col:eq(" + index + "), ";
+//                    index++;
+//                    heightOfElements.push($(this).height());
+//
+//                    if (index % 3 == 0) {
+//                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
+//
+//                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
+//                        nameSelector = "";
+//                        heightOfElements = [];
+//                    } else if (index == len) {
+//                        nameSelector = nameSelector.substring(0, nameSelector.length - 2);
+//
+//                        mainElement.find(nameSelector).height(Math.max.apply(Math, heightOfElements));
+//                    }
+//                }
+//            );
         }
     )
     ;
@@ -111,8 +93,6 @@ var adjustMenu = function () {
             e.preventDefault();
             $(this).parent("li").toggleClass("hover");
         });
-
-
     }
     else if (ww > 768) {
         $(".toggleMenu").css("display", "none");
