@@ -36,7 +36,7 @@
             </a>
 
             <div class="third-level">
-                <div class="third-level-wraper" style="background-image:url({image_menu})">
+                <div class="third-level-wraper" style="background-image:url({image_menu}); width: {image_menu/@width}; height: {image_menu/@height}">
                     <xsl:choose>
                         <xsl:when test="boolean(catalogue/catalogue[count(*) > 0])">
                             <xsl:apply-templates select="catalogue" mode="multi"/>
