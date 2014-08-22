@@ -1,4 +1,5 @@
 <?php
+
 class ItemController extends App_Controller_Frontend_Action
 {
 
@@ -61,10 +62,12 @@ class ItemController extends App_Controller_Frontend_Action
 
         $params['Item'] = $Item;
 
+        /** @var $cat_helper Helpers_Catalogue */
         $cat_helper = $this->_helper->helperLoader('Catalogue', $params);
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
         $cat_helper->getCompareItems($catalogue_id);
+        $cat_helper->generateCatalogueMenu(0);
         $this->domXml = $cat_helper->getDomXml();
 
         $bn_helper = $this->_helper->helperLoader('Banners');
