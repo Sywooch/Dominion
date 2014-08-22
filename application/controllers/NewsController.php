@@ -1,4 +1,5 @@
 <?php
+
 class NewsController extends App_Controller_Frontend_Action
 {
     public $news_id = 0;
@@ -64,6 +65,12 @@ class NewsController extends App_Controller_Frontend_Action
         $ns_helper->getDocPath(0);
         $ns_helper->getNews($startSelect, $news_per_page);
         $this->domXml = $ns_helper->getDomXml();
+
+        /** @var $catalogueHelper Helpers_Catalogue */
+        $catalogueHelper = $this->_helper->helperLoader("Catalogue");
+        $catalogueHelper->setDomXml($this->domXml);
+        $catalogueHelper->setModel(new models_Catalogue());
+        $catalogueHelper->generateCatalogueMenu(0);
 
         $bn_helper = $this->_helper->helperLoader('Banners');
         $bn_helper->setModel($SectionAlign);
