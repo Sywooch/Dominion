@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xsl:stylesheet SYSTEM "../symbols.ent">
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xsL="http://www.w3.org/1999/XSL/Transform">
     <xsl:template name="breadcrumbs">
 
         <xsl:if test="count(breadcrumbs) &gt; 0">
@@ -11,26 +12,39 @@
                     </a>
                 </li>
 
-                <xsl:apply-templates select="//breadcrumbs/crumbs[url]" mode="new_catalog"/>
-                <xsl:apply-templates select="//breadcrumbs/crumbs[not(url)]" mode="last"/>
+                <xsL:choose>
+                    <xsl:when test="count(//breadcrumbs/breadcrumbs) &gt; 0">
+                        <xsl:apply-templates select="//breadcrumbs/breadcrumbs" mode="new_catalog">
+                            <xsl:sort select="position()" data-type="number" order="descending"/>
+                        </xsl:apply-templates>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="//breadcrumbs" mode="new_catalog">
+                            <xsl:sort select="position()" data-type="number" order="ascending"/>
+                        </xsl:apply-templates>
+                    </xsl:otherwise>
+                </xsL:choose>
             </ul>
         </xsl:if>
 
     </xsl:template>
 
-    <xsl:template match="crumbs" mode="new_catalog">
+    <xsl:template match="breadcrumbs" mode="new_catalog">
         <li>
-            <a href="{url}" class="pseudo">
-                <span>
-                    <xsl:value-of select="name"/>
-                </span>
-            </a>
-        </li>
-    </xsl:template>
-
-    <xsl:template match="crumbs" mode="last">
-        <li>
-            <xsl:value-of select="name"/>
+            <xsl:choose>
+                <xsl:when test="current()[url]">
+                    <a href="{url}" class="pseudo">
+                        <span>
+                            <xsl:value-of select="name"/>
+                        </span>
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <span>
+                        <xsl:value-of select="name"/>
+                    </span>
+                </xsl:otherwise>
+            </xsl:choose>
         </li>
     </xsl:template>
 

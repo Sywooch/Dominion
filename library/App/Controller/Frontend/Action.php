@@ -12,6 +12,10 @@ class App_Controller_Frontend_Action extends Zend_Controller_Action {
     public $lang = '';
 
     public $currency;
+    /**
+     * @var DomXML
+     */
+    public $domXml;
 
     public function init(){
       $this->work_controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();

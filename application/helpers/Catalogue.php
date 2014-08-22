@@ -293,7 +293,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         );
 
         while ((($cat = $this->work_model->getParents($parent, $this->lang_id)) != null) && ($cat["CATALOGUE_ID"] != 0)) {
-            $this->domXml->create_element('crumbs', '', 2);
+            $this->domXml->create_element('breadcrumbs', '', 2);
             $this->domXml->set_attribute(
                 array('id' => $cat['CATALOGUE_ID'],
                     'parent_id' => $cat['PARENT_ID']

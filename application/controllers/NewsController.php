@@ -77,6 +77,8 @@ class NewsController extends App_Controller_Frontend_Action
         $bn_helper->setDomXml($this->domXml);
         $bn_helper->getBanners('banner_right', 15, 17);
         $this->domXml = $bn_helper->getDomXml();
+
+        $xml = $this->domXml->getXml();
     }
 
     public function viewAction()
