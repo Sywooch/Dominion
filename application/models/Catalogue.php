@@ -29,6 +29,7 @@ class models_Catalogue extends ZendDBEntity
                     ,IS_INDEX
                     ,URL
                     ,IMAGE1
+                    ,IMAGE_MENU
               FROM {$this->_name}
               WHERE PARENT_ID=?
                 AND REALSTATUS=1
@@ -445,7 +446,6 @@ class models_Catalogue extends ZendDBEntity
      */
     public function getCatalogsIncludeBrandsList($catalogId = null)
     {
-
         $sql = "SELECT
                   C.NAME,
                   C.IMAGE1,

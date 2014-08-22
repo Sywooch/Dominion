@@ -39,9 +39,12 @@ class IndexController extends App_Controller_Frontend_Action
         $ns_helper->getLastNews($news_index_amount);
         $this->domXml = $ns_helper->getDomXml();
 
+        /** @var $cat_helper Helpers_Catalogue */
         $cat_helper = $this->_helper->helperLoader('Catalogue');
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
+
+        $cat_helper->generateCatalogueMenu(0);
         $cat_helper->getCatTree(0);
         $this->domXml = $cat_helper->getDomXml();
 

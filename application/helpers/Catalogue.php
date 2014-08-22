@@ -137,6 +137,7 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             $this->domXml->set_attribute(array("catalog_id" => $value["CATALOGUE_ID"]));
             $this->domXml->create_element("name", $value["NAME"]);
             $this->domXml->create_element("url", $value["REALCATNAME"]);
+            if (!empty($value["IMAGE_MENU"])) $this->domXml->create_element("image_menu", $value["IMAGE_MENU"]);
 
             $this->collectAllCatalogues($value["CATALOGUE_ID"]);
 
