@@ -29,6 +29,7 @@ class models_Catalogue extends ZendDBEntity
                     ,IS_INDEX
                     ,URL
                     ,IMAGE1
+                    ,IMAGE_MENU
               FROM {$this->_name}
               WHERE PARENT_ID=?
                 AND REALSTATUS=1

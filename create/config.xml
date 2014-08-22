@@ -1522,6 +1522,10 @@ EOF;
 			<name>Картинка</name>
 			<comment>Картинка</comment>
 		</col>
+		<col type="7" name="IMAGE_MENU">
+			<name>Картинка меню</name>
+			<comment>Картинка меню</comment>
+		</col>
 		<!--
         <col type="7" name="IMAGE2" postfix="_img2">
                 <name>Картинка бол.</name>
@@ -2313,11 +2317,11 @@ $cmf->UpdateRange($id);
       ]]>
       </postupdateevent>
 		<postgroupupdateevent>
-$cmf->execute('delete from CAT_ITEM');
-$cmf->Rebuild(array(0));
-$cmf->CheckCount(0);
-$cmf->execute('update ITEM I inner join CURRENCY C on (C.CURRENCY_ID=I.CURRENCY_ID) set I.PRICE_VIRTUAL=I.PRICE*C.PRICE where I.ITEM_ID=?',$id);
-$cmf->UpdateRange($id);
+$cmf-&gt;execute('delete from CAT_ITEM');
+$cmf-&gt;Rebuild(array(0));
+$cmf-&gt;CheckCount(0);
+$cmf-&gt;execute('update ITEM I inner join CURRENCY C on (C.CURRENCY_ID=I.CURRENCY_ID) set I.PRICE_VIRTUAL=I.PRICE*C.PRICE where I.ITEM_ID=?',$id);
+$cmf-&gt;UpdateRange($id);
                 </postgroupupdateevent>
 		<extraevents><![CDATA[
 if($_REQUEST['e'] == 'Диапазоны')
@@ -3112,7 +3116,7 @@ $hhh =array();
 
 
 $parts="";
-if (!empty($part) &amp;&amp; count($part)>0)
+if (!empty($part) &amp;&amp; count($part)&gt;0)
  {
     $parts = implode('|',$part);
     //$parts .="*";
@@ -3144,9 +3148,9 @@ $COIN = '';
 if(mysql_num_rows($st))
 {
    $number = mysql_num_rows($st);
-   if($number>1)
+   if($number&gt;1)
    {
-      $COIN .= '&lt;select name="ids['.$V_ALIASES_ID.']" style="width:100px;color:red;">';
+      $COIN .= '&lt;select name="ids['.$V_ALIASES_ID.']" style="width:100px;color:red;"&gt;';
       while($row = mysql_fetch_array($st))
       {
          $COIN .='&lt;option value="'.$row['ITEM_ID'].'"&gt;'.$row['NAME'].'&lt;/option&gt;';
@@ -3162,8 +3166,8 @@ if(mysql_num_rows($st))
 if($_REQUEST['pid']!='all') $V_NAME .="&lt;br/&gt;".$COIN;
 else
 {
-   $ITEM_NAME = $cmf->selectrow_array("select I.NAME from ITEM I inner join ALIASES A on A.ITEM_ID=I.ITEM_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
-   $BRAND_NAME = $cmf->selectrow_array("select B.NAME from BRAND B inner join ALIASES A on A.BRAND_ID=B.BRAND_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
+   $ITEM_NAME = $cmf-&gt;selectrow_array("select I.NAME from ITEM I inner join ALIASES A on A.ITEM_ID=I.ITEM_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
+   $BRAND_NAME = $cmf-&gt;selectrow_array("select B.NAME from BRAND B inner join ALIASES A on A.BRAND_ID=B.BRAND_ID where A.ALIASES_ID=?",$V_ALIASES_ID);
    $V_NAME .='&#160;&#160;&lt;font color="blue"&gt;&lt;b&gt;'.$BRAND_NAME.' '.$ITEM_NAME.'&lt;/b&gt;&lt;/font&gt;';
 }
 
@@ -4325,3 +4329,4 @@ print <<<EOF
     </joined>
   </table>
 </config>
+
