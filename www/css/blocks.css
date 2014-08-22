@@ -46,6 +46,7 @@ body.page-404 #logo {
 #main_menu {
     position: absolute;
     top: 14px;
+    width: 753px;
 }
 
 #main_menu li {
