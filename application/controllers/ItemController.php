@@ -34,6 +34,12 @@ class ItemController extends App_Controller_Frontend_Action
         if ($this->item_id === false || ($this->item_id > 0 && empty($res))) {
             $this->page_404();
         }
+
+        /** @var $catalogueHelper Helpers_Catalogue */
+        $catalogueHelper = $this->_helper->helperLoader("Catalogue");
+        $catalogueHelper->setDomXml($this->domXml);
+        $catalogueHelper->setModel(new models_Catalogue());
+        $catalogueHelper->generateCatalogueMenu(0);
     }
 
     public function viewAction()
@@ -67,7 +73,7 @@ class ItemController extends App_Controller_Frontend_Action
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
         $cat_helper->getCompareItems($catalogue_id);
-        $cat_helper->generateCatalogueMenu(0);
+
         $this->domXml = $cat_helper->getDomXml();
 
         $bn_helper = $this->_helper->helperLoader('Banners');
