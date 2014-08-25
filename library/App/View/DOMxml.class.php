@@ -26,7 +26,7 @@ abstract class DomXMLTemplate
     public $encoding;
     public $Dom;
 
-    public function __construct(&$Dom)
+    public function __construct($Dom)
     {
         $this->Dom = $Dom;
         if (!$this->Dom->root) {
@@ -45,7 +45,7 @@ abstract class DomXMLTemplate
         }
         try {
             foreach ($attribute as $key => $value) {
-                $domElement->setAttribute($key, $this->stringConvert($value, $domElement->encoding));
+                $domElement->setAttribute($key, $this->stringConvert($value, $this->encoding));
             }
         } catch (Exception $e) {
             echo $e;
