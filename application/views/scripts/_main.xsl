@@ -627,7 +627,7 @@
                 </ul>
             </div>
         </div>
-        <div id="front_text_block" class="clearfix">
+        <div id="front_text_block" class="clearfix">111
             <xsl:if test="count(news_block) &gt; 0">
                 <div id="news_block">
                     <h2>

@@ -884,9 +884,13 @@ body, nav, ul, li, a {
     }
 
     .third-level .col ul a {
-        background: url("../i/bul.gif") no-repeat 4px 50%;
+        background: url("/i/bul.gif") no-repeat 4px 50%;
         padding: 0 0 0 14px;
         display: block;
+    }
+
+    .third-level .col ul a:hover{
+        color: #00d83d;
     }
 
     .third-level .col .show-more {
