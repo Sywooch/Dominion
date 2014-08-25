@@ -6,13 +6,13 @@ define('DOMXML_CREATE_AND_GO_INSIDE', 1);
 define('DOMXML_CREATE_AND_GO_INSIDE_DEPRECATED', 2);
 define('DOMXML_CREATE_AND_IMPORT_NODE', 4);
 
-/*
+/**
  * Абстрактный класс для описания элементов
  * необходимых для использывания в классе DomXML и в стратегиях создания узлов
  * документа XML
  */
-
-abstract class DomXMLTemplate {
+abstract class DomXMLTemplate
+{
 
 //   protected $xml;
 //   protected $tag;
@@ -26,22 +26,26 @@ abstract class DomXMLTemplate {
     public $encoding;
     public $Dom;
 
-    public function __construct(&$Dom) {
+    public function __construct(&$Dom)
+    {
         $this->Dom = $Dom;
-        if (!$this->Dom->root)
+        if (!$this->Dom->root) {
             $this->Dom->root = $this->Dom->xml;
+        }
     }
 
     /**
      * Метод добавления атрибутов в узел документа XML
      * Будет одинаковый как для основного класса так и для стратегий
      */
-    protected function AddAttrInXMLNode(&$Dom, $attribute) {
-        if (empty($attribute) && !is_array($attribute))
+    protected function AddAttrInXMLNode($domElement, $attribute)
+    {
+        if (empty($attribute) && !is_array($attribute)) {
             return false;
+        }
         try {
             foreach ($attribute as $key => $value) {
-                $Dom->root->setAttribute($key, $this->stringConvert($value, $Dom->encoding));
+                $domElement->setAttribute($key, $this->stringConvert($value, $domElement->encoding));
             }
         } catch (Exception $e) {
             echo $e;
@@ -50,17 +54,22 @@ abstract class DomXMLTemplate {
 
     /**
      * Метод добавляет текстовый узел в виде cdata к текущему узлу каталога.
+     *
      * @param string $tag_name - имя тега куда помещаем данные CDATA
-     * @param string $cdata - содержимое CDATA
+     * @param string $cdata    - содержимое CDATA
+     *
      * @return void
      */
-    protected function AddCdataSection($tag_name, $cdata) {
-        if (empty($cdata))
+    protected function AddCdataSection($tag_name, $cdata)
+    {
+        if (empty($cdata)) {
             return false;
+        }
         try {
             $element = $this->Dom->root->appendChild(new DOMElement($tag_name));
             $element->appendChild(new DOMCdataSection($cdata));
 
+            return $element;
 //            $Dom->root->appendChild($this->Dom->xml->createCDATASection($cdata));
         } catch (Exception $e) {
             echo $e;
@@ -69,13 +78,18 @@ abstract class DomXMLTemplate {
 
     /**
      * возвращает строку в кодировке ENCODING_DEFAULT
-     * @param $str
+     *
+     * @param $xml
+     *
      * @return string
      */
-    protected function stringConvert($xml) {
+    protected function stringConvert($xml)
+    {
         try {
-            if (!empty($encoding) && $encoding != DOMXML_ENCODING_DEFAULT)
+            if (!empty($encoding) && $encoding != DOMXML_ENCODING_DEFAULT) {
                 $xml = iconv($encoding, DOMXML_ENCODING_DEFAULT, $xml);
+            }
+
             return $xml;
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -84,31 +98,37 @@ abstract class DomXMLTemplate {
 
 }
 
-/*
+/**
  * Интерфейс, определяющий стратегии.
  */
-interface DOMCreateStrategy {
+interface DOMCreateStrategy
+{
 
     function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0);
 }
 
-/*
+/**
  * Стратегия номер 1
  * Создаёт узел XML (один) и если надо атрибуты в нём.
  * При этом курсор на создаваемый узел не устанавливаем.
  */
+class CreateElementNotSetCursor extends DomXMLTemplate implements DOMCreateStrategy
+{
 
-class CreateElementNotSetCursor extends DomXMLTemplate implements DOMCreateStrategy {
-
-    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0) {
+    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0)
+    {
         try {
-            if (empty($cdata))
-                $this->Dom->root->appendChild($this->Dom->xml->createElement($tag_name, $xml));
-            else
-                $this->AddCdataSection($tag_name, $xml);
+            if (empty($cdata)) {
+                $newElement = $this->Dom->xml->createElement($tag_name, $xml);
+                $this->Dom->root->appendChild($newElement);
+            }
+            else {
+                $newElement = $this->AddCdataSection($tag_name, $xml);
+            }
 
-            if (!empty($attribute))
-                $this->AddAttrInXMLNode($this->Dom, $attribute);
+            if (!empty($attribute)) {
+                $this->AddAttrInXMLNode($newElement, $attribute);
+            }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -116,23 +136,27 @@ class CreateElementNotSetCursor extends DomXMLTemplate implements DOMCreateStrat
 
 }
 
-/*
+/**
  * Стратегия номер 2
  * Создаёт узел XML (один) в текущем root'e и если надо атрибуты в нём.
  * При этом курсор устанавливаем на создаваемый узел.
  */
+class CreateElementInsideTree extends DomXMLTemplate implements DOMCreateStrategy
+{
 
-class CreateElementInsideTree extends DomXMLTemplate implements DOMCreateStrategy {
-
-    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0) {
+    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0)
+    {
         try {
-            if (empty($cdata))
+            if (empty($cdata)) {
                 $this->Dom->root = $this->Dom->root->appendChild($this->Dom->xml->createElement($tag_name, $xml));
-            else
+            }
+            else {
                 $this->AddCdataSection($tag_name, $xml);
+            }
 
-            if (!empty($attribute))
-                $this->AddAttrInXMLNode($this->Dom, $attribute);
+            if (!empty($attribute)) {
+                $this->AddAttrInXMLNode($this->Dom->root, $attribute);
+            }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -140,15 +164,18 @@ class CreateElementInsideTree extends DomXMLTemplate implements DOMCreateStrateg
 
 }
 
-class CreateElmentImportNode extends DomXMLTemplate implements DOMCreateStrategy {
+class CreateElmentImportNode extends DomXMLTemplate implements DOMCreateStrategy
+{
 
-    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0) {
+    function MakeElementInXML($tag_name, $xml = "", $attribute = array(), $cdata = 0)
+    {
         try {
             if ($cdata) {
                 $this->AddCdataSection($tag_name, $xml);
 //                $this->Dom->root->appendChild($this->Dom->xml->createElement($tag_name));
 //                $this->AddCdataSection($xml);
-            } else {
+            }
+            else {
                 $imp = new DOMImplementation;
                 $dtd = $imp->createDocumentType('xsl:stylesheet', '', 'symbols.ent');
                 $xmlPost = $imp->createDocument("", "", $dtd);
@@ -169,15 +196,18 @@ class CreateElmentImportNode extends DomXMLTemplate implements DOMCreateStrategy
 
 }
 
-class DomXML extends DomXMLTemplate {
+class DomXML extends DomXMLTemplate
+{
 
     /**
      * Конструктор класса DomXML. Инициализирует DomDocument.
-     * @param $version
-     * @param $encod
-     * @return unknown_type
+     *
+     * @param string $version
+     * @param string $encod
+     * @param string $dtd
      */
-    public function __construct($version = '1.0', $encod = 'utf-8', $dtd = "xsl") {
+    public function __construct($version = '1.0', $encod = 'utf-8', $dtd = "xsl")
+    {
         try {
             $imp = new DOMImplementation;
 
@@ -185,10 +215,12 @@ class DomXML extends DomXMLTemplate {
             if ($dtd == 'xsl') {
                 $dtd = $imp->createDocumentType('xsl:stylesheet', '', 'symbols.ent');
                 $this->xml = $imp->createDocument("", "", $dtd);
-            } elseif (is_array($dtd)) {
+            }
+            elseif (is_array($dtd)) {
                 $dtd = $imp->createDocumentType($dtd['qualifiedName'], $dtd['publicId'], $dtd['systemId']);
                 $this->xml = $imp->createDocument("", "", $dtd);
-            } elseif (empty($dtd)) {
+            }
+            elseif (empty($dtd)) {
                 $this->xml = $imp->createDocument();
             }
 
@@ -215,9 +247,11 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Метод возвращает XML в виде строки.
+     *
      * @return string
      */
-    public function getXML() {
+    public function getXML()
+    {
         try {
             return $this->xml->saveXML();
         } catch (Exception $e) {
@@ -227,18 +261,23 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * вовращаем XML как объект
+     *
      * @return DOMDocument
      */
-    public function getDOMxml() {
+    public function getDOMxml()
+    {
         return $this->xml;
     }
 
     /**
      * Метод сохраняет XML в файл $file.
+     *
      * @param $file
+     *
      * @return void
      */
-    public function saveXML($file) {
+    public function saveXML($file)
+    {
         try {
             $this->xml->save($file);
         } catch (Exception $e) {
@@ -246,7 +285,8 @@ class DomXML extends DomXMLTemplate {
         }
     }
 
-    public function load_xml($file) {
+    public function load_xml($file)
+    {
         try {
             $this->xml->load($file);
         } catch (Exception $e) {
@@ -256,18 +296,23 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Метод загружает XML из файла $file.
+     *
      * @param $file
+     *
      * @return void
      */
-    public function loadXML($file) {
+    public function loadXML($file)
+    {
         $this->load_xml($file);
     }
 
     /**
      * Метод возвращает кодировку, в которой был создан DOMXml.
+     *
      * @return string
      */
-    public function get_encoding() {
+    public function get_encoding()
+    {
         try {
             return $this->encoding;
         } catch (Exception $e) {
@@ -275,20 +320,24 @@ class DomXML extends DomXMLTemplate {
         }
     }
 
-    public function getEncoding() {
+    public function getEncoding()
+    {
         return $this->get_encoding();
     }
 
     /**
      * Метод создаёт элемент XML-дерева. Перемещене указателя зависит от передаваемой стратегии.
+     *
      * @param $strategy
      * @param $tag_name
      * @param $xml
      * @param $attribute
      * @param $cdata
+     *
      * @return void
      */
-    private function chooseStrategy($strategy, $tag_name, $xml, $attribute, $cdata) {
+    private function chooseStrategy($strategy, $tag_name, $xml, $attribute, $cdata)
+    {
         try {
             $strategy->MakeElementInXML($tag_name, $xml, $attribute, $cdata);
         } catch (Exception $e) {
@@ -299,14 +348,17 @@ class DomXML extends DomXMLTemplate {
     /**
      * Метод создает новый элемент XML-дерева. В зависимости от выбранного режима перемещает
      * или не перемещает указатель.
+     *
      * @param $tag_name
      * @param $xml
      * @param $mode
      * @param $attribute
      * @param $cdata
+     *
      * @return void
      */
-    public function create_element($tag_name, $xml = "", $mode = DOMXML_CREATE_AND_STAY, $attribute = array(), $cdata = "") {
+    public function create_element($tag_name, $xml = "", $mode = DOMXML_CREATE_AND_STAY, $attribute = array(), $cdata = "")
+    {
         try {
             $xml = $this->stringConvert($xml);
             switch ($mode) {
@@ -334,17 +386,20 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Create XML Element
-     * @param string $tag_name
-     * @param text $xml
-     * @param int $mode
-     * @param array $attribute
-     * @param text $cdata
+     *
+     * @param string       $tag_name
+     * @param string|\text $xml
+     * @param int          $mode
+     * @param array        $attribute
+     * @param string|\text $cdata
      */
-    public function createElement($tag_name, $xml = "", $mode = DOMXML_CREATE_AND_STAY, $attribute = array(), $cdata = "") {
+    public function createElement($tag_name, $xml = "", $mode = DOMXML_CREATE_AND_STAY, $attribute = array(), $cdata = "")
+    {
         $this->create_element($tag_name, $xml, $mode, $attribute, $cdata);
     }
 
-    public function createTextNode($text) {
+    public function createTextNode($text)
+    {
         $node = $this->xml->createTextNode($text);
 
         $this->root->appendChild($node);
@@ -352,44 +407,55 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Метод добавляет атрибуты к текущему узлу.
+     *
      * @param $attribute
+     *
      * @return void
      */
-    public function set_attribute($attribute) {
+    public function set_attribute($attribute)
+    {
         try {
-            $this->AddAttrInXMLNode($this, $attribute);
+            $this->AddAttrInXMLNode($this->root, $attribute);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function setAttribute($attribute) {
+    public function setAttribute($attribute)
+    {
         $this->set_attribute($attribute);
     }
 
     /**
      * Метод возвращает значение атрибута текущего узла.
+     *
      * @param $name
+     *
      * @return mixed
      */
-    public function get_attr_value($name) {
+    public function get_attr_value($name)
+    {
         try {
-            if ($this->root->hasAttribute($name))
+            if ($this->root->hasAttribute($name)) {
                 return $this->root->getAttribute($name);
+            }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function getAttrValue($name) {
+    public function getAttrValue($name)
+    {
         return $this->get_attr_value($name);
     }
 
     /**
      * возвращает текстовое значение узла и его потомков
+     *
      * @return mixed
      */
-    public function get_tag_value() {
+    public function get_tag_value()
+    {
         try {
             return $this->root->textContent;
         } catch (Exception $e) {
@@ -397,32 +463,39 @@ class DomXML extends DomXMLTemplate {
         }
     }
 
-    public function getTagValue() {
+    public function getTagValue()
+    {
         return $this->get_tag_value();
     }
 
-    public function evaluateXpath($query) {
+    public function evaluateXpath($query)
+    {
         $xpath = new DOMXPath($this->xml);
         $eval = $xpath->evaluate($query);
-        if ($eval)
+        if ($eval) {
             return $eval;
-        else
+        }
+        else {
             return false;
+        }
     }
 
     /**
      * устанавливает курсор на конкретный тэг по его имени, если $query = false, или по xpath - если true
-     * @param $tag_name
-     * @param $query
-     * @param $position
+     *
+     * @param      $tag_name
+     * @param bool $query
+     *
      * @return DOMNode
      */
-    public function set_tag($tag_name, $query = false) {
+    public function set_tag($tag_name, $query = false)
+    {
         try {
             if (!$query) {
                 $items = $this->xml->getElementsByTagName($tag_name);
                 $this->root = & $items->item(0);
-            } else {
+            }
+            else {
                 $xpath = new DOMXPath($this->xml);
                 if ($xpath->evaluate($tag_name)) {
                     $items = $xpath->query($tag_name);
@@ -433,63 +506,74 @@ class DomXML extends DomXMLTemplate {
             echo $e->getMessage();
         }
 
-        $g = $this->root;
-//	$gg = $g->item(0);
-
-
-        return $g;
+        return $this->root;
     }
 
-    public function setTag($tag_name, $query = false) {
+    public function setTag($tag_name, $query = false)
+    {
         return $this->set_tag($tag_name, $query);
     }
 
     /**
      * Метод возвращает значение элемента по указанному имени или пути xpath.
+     *
+     * @param      $tag_name
+     * @param bool $is_xpath
+     *
      * @return string
      */
-    public function get_element_value($tag_name, $is_xpath = false) {
+    public function get_element_value($tag_name, $is_xpath = false)
+    {
         try {
             if (!$is_xpath) {
                 $items = $this->xml->getElementsByTagName($tag_name);
                 $value = $items->item(0)->nodeValue;
-            } else {
+            }
+            else {
                 $xpath = new DOMXPath($this->xml);
                 if ($xpath->evaluate($tag_name)) {
                     $r = $xpath->query($tag_name);
                     $value = $r->item(0)->nodeValue;
                 }
             }
+
             return $value;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function getElementValue($tag_name, $is_xpath = false) {
+    public function getElementValue($tag_name, $is_xpath = false)
+    {
         return $this->get_element_value($tag_name, $is_xpath);
     }
 
-    public function appendXML(DOMDocument $xml) {
-        if (empty($xml->documentElement))
+    public function appendXML(DOMDocument $xml)
+    {
+        if (empty($xml->documentElement)) {
             return false;
+        }
         $node = $this->xml->importNode($xml->documentElement, true);
         $this->root->appendChild($node);
     }
 
     /**
      * Метод импортирует в XML-дерево текстовый узел.
+     *
      * @param $xml_node
      * @param $cdata
+     *
      * @return void
      */
-    public function import_node($xml_node, $cdata = false) {
+    public function import_node($xml_node, $cdata = false)
+    {
         try {
             if ($cdata) {
                 $xml_node = $this->stringConvert($xml_node);
                 $cdata = $this->root->ownerDocument->createCDATASection($xml_node);
                 $this->root->appendChild($cdata);
-            } else {
+            }
+            else {
                 $imp = new DOMImplementation;
                 $dtd = $imp->createDocumentType('xsl:stylesheet', '', 'symbols.ent');
                 $xmlPost = $imp->createDocument("", "", $dtd);
@@ -510,15 +594,19 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Метод для перемещения по XML-дереву к узлу $name_tag.
+     *
      * @param $name_tag
+     *
      * @return void
      */
-    public function go_inside_tree($name_tag) {
+    public function go_inside_tree($name_tag)
+    {
         try {
-            if (!$this->root->hasChildNodes())
+            if (!$this->root->hasChildNodes()) {
                 return false;
+            }
 
-            $child = &$this->root[0]->firstChild;
+            $child = & $this->root[0]->firstChild;
 
             while ($child) {
                 if ($name_tag == $child->nodeName) {
@@ -532,31 +620,37 @@ class DomXML extends DomXMLTemplate {
         }
     }
 
-    public function goInsideTree($name_tag) {
+    public function goInsideTree($name_tag)
+    {
         $this->go_inside_tree($name_tag);
     }
 
     /**
      * Перемещает указатель на родителя текущего узла.
+     *
      * @return void
      */
-    public function go_to_parent() {
+    public function go_to_parent()
+    {
         try {
-            $this->root = &$this->root->parentNode;
+            $this->root = & $this->root->parentNode;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function goToParent() {
+    public function goToParent()
+    {
         $this->go_to_parent();
     }
 
     /**
      * Метод клонирует узел (с атрибутами и потомками), внутри которого находится указатель.
+     *
      * @return void
      */
-    public function clone_node() {
+    public function clone_node()
+    {
         try {
             $elem = $this->root->cloneNode(true);
             $this->go_to_parent();
@@ -566,11 +660,13 @@ class DomXML extends DomXMLTemplate {
         }
     }
 
-    public function cloneNode() {
+    public function cloneNode()
+    {
         $this->clone_node();
     }
 
-    public function removeChildeNode(DOMNode $child) {
+    public function removeChildeNode(DOMNode $child)
+    {
 //	$g = $child->item(0);
 
         $this->root->removeChild($child);
@@ -578,23 +674,28 @@ class DomXML extends DomXMLTemplate {
 
     /**
      * Метод удаляет все дочерние узлы текущего узла.
+     *
      * @return unknown_type
      */
-    public function clear_child_nodes() {
+    public function clear_child_nodes()
+    {
         try {
             $children = $this->root->childNodes;
             while (true) {
-                if (isset($children->item(0)->nodeName))
-                    $this->root->removeChild($children->item(0)); // каждый раз удаляем именно 0-й элемент, т.к. после удаления всё дерево смещается на 1
-                else
+                if (isset($children->item(0)->nodeName)) {
+                    $this->root->removeChild($children->item(0));
+                } // каждый раз удаляем именно 0-й элемент, т.к. после удаления всё дерево смещается на 1
+                else {
                     break;
+                }
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    public function clearChildNodes() {
+    public function clearChildNodes()
+    {
         $this->clear_child_nodes();
     }
 
@@ -603,13 +704,16 @@ class DomXML extends DomXMLTemplate {
      * элементы массива $data, пересекающиеся с элементами массива $arrAttributeName, будут
      * созданы как атрибуты узла $tagName.
      * Если указан $parentTag - то все узлы с именем $tagName будут находиться внутри узла $parentTag.
-     * @param array $tagName
-     * @param $data
-     * @param $arrAttributeName
-     * @param $parentTag
-     * @return unknown_type
+     *
+     * @param array  $tagName
+     * @param array  $data
+     * @param array  $arrAttributeName
+     * @param string $parentTag
+     *
+     * @param array  $images
      */
-    public function arrayToXML($tagName, array $data, $arrAttributeName = array(), $parentTag = '', $images = array()) {
+    public function arrayToXML($tagName, array $data, $arrAttributeName = array(), $parentTag = '', $images = array())
+    {
         try {
             if ($parentTag) {
                 $makeParent = new CreateElementInsideTree($this);
@@ -623,22 +727,28 @@ class DomXML extends DomXMLTemplate {
                     if (is_array($value)) {
                         $this->arrayToXML($tag, $value);
 //                                    $this->goToParent();
-                    } else {
+                    }
+                    else {
                         $tag = mb_strtolower($tag, 'utf-8');
                         if (in_array($tag, $arrAttributeName)) // если тэг должен быть атрибутом
+                        {
                             $this->setAttribute(array($tag => $value));
+                        }
                         else { //	создаем обычный узел
-                            if (in_array($tag, $images)) {   // если тэг должен быть картинкой
+                            if (in_array($tag, $images)) { // если тэг должен быть картинкой
                                 $makeChild = new CreateElementInsideTree($this);
                                 if ($value != '' && strchr($value, "#")) {
                                     $image = split("#", $value);
-                                    $attributes = array('src' => $image[0],
-                                        'w' => $image[1],
-                                        'h' => $image[2]);
+                                    $attributes = array(
+                                      'src' => $image[0],
+                                      'w' => $image[1],
+                                      'h' => $image[2]
+                                    );
                                 }
                                 $makeChild->MakeElementInXML($tag, '', $attributes);
                                 $this->goToParent();
-                            } else {
+                            }
+                            else {
                                 $makeChild = new CreateElementNotSetCursor($this);
                                 $makeChild->MakeElementInXML($tag, $value);
                             }
