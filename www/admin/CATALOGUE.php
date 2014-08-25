@@ -882,14 +882,16 @@ $_REQUEST['e']='ED';
         
         $cmf->execute('update CATALOGUE set CATNAME=? where CATALOGUE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);              
       }
-      
-      $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
+
+
+      $realPath = GetPath($cmf,$_REQUEST['id']);
+      $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?', $realPath, $_REQUEST['id']);
 //      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
 
       require __DIR__ ."/../../lib/CreateSEFU.class.php";
 
       $sefu = new CreateSEFU();
-      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
+      UpdatePath($cmf,$_REQUEST['id'], $realPath, $sefu);
 
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
@@ -1476,23 +1478,33 @@ $PATH = preg_replace("/(\/){1,}/","/",$PATH);
 return $PATH;
 }
 
-function UpdatePath($cmf,$id,$path, $sefu)
+/**
+ * @param SCMF       $cmf
+ * @param int        $id
+ * @param string     $path
+ * @param CreateSEFU $sefu
+ */
+function UpdatePath($cmf, $id, $path, $sefu)
 {
-   
-  $sth=$cmf->execute('select CATALOGUE_ID,CATNAME from CATALOGUE where PARENT_ID=?',$id);
-  while(list ($V_CATALOGUE_ID,$V_CATNAME)=mysql_fetch_array($sth, MYSQL_NUM))
-  {        
-    if($V_CATNAME){$V_CATNAME="$path/$V_CATNAME";} else {$V_CATNAME='';};
-    $V_CATNAME = preg_replace("/\/\//","/",$V_CATNAME);
-    if('/' != substr($V_CATNAME,-1)){$V_CATNAME=$V_CATNAME."/";}
-    $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',$V_CATNAME,$V_CATALOGUE_ID);
-    
-        
-    UpdatePath($cmf,$V_CATALOGUE_ID,$V_CATNAME, $sefu);
-    
-    $sefu->_applySEFUCatalogue($V_CATALOGUE_ID);
-    $sefu->_applySEFUCatalogueBrand($V_CATALOGUE_ID);
-  }
+    $sth = $cmf->execute('select CATALOGUE_ID,CATNAME from CATALOGUE where PARENT_ID=?', $id);
+    while (list ($V_CATALOGUE_ID, $V_CATNAME) = mysql_fetch_array($sth, MYSQL_NUM)) {
+        if ($V_CATNAME) {
+            $V_CATNAME = "$path/$V_CATNAME";
+        }
+        else {
+            $V_CATNAME = '';
+        };
+        $V_CATNAME = preg_replace("/\/\//", "/", $V_CATNAME);
+        if ('/' != substr($V_CATNAME, -1)) {
+            $V_CATNAME = $V_CATNAME . "/";
+        }
+        $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?', $V_CATNAME, $V_CATALOGUE_ID);
+
+        UpdatePath($cmf, $V_CATALOGUE_ID, $V_CATNAME, $sefu);
+
+        $sefu->_applySEFUCatalogue($V_CATALOGUE_ID);
+        $sefu->_applySEFUCatalogueBrand($V_CATALOGUE_ID);
+    }
 }
 
 function updateOrdering($cmf,$id)
