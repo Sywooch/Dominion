@@ -1,6 +1,6 @@
 /* Header */
 #logo {
-    background: url(../i/logo.png) no-repeat;
+    background: url(/i/logo.png) no-repeat;
     color: #000;
     display: block;
     font-size: 11px;
@@ -33,7 +33,7 @@ body.page-404 #logo {
     height: 435px;
     line-height: 245px;
     text-align: center;
-    background: url(../i/404.jpg) no-repeat;
+    background: url(/i/404.jpg) no-repeat;
 
 }
 
@@ -97,7 +97,7 @@ body.page-404 #logo {
 }
 
 #networks li a {
-    background: url(../i/networks.png);
+    background: url(/i/networks.png);
     display: block;
     height: 24px;
     text-indent: -9999px;
@@ -113,7 +113,7 @@ body.page-404 #logo {
 }
 
 #header_nav {
-    background: url(../i/key.jpg) no-repeat 0 center;
+    background: url(/i/key.jpg) no-repeat 0 center;
     height: 35px;
     line-height: 35px;
     padding: 0 0 0 25px;
@@ -137,7 +137,7 @@ body.page-404 #logo {
 }
 
 #header_nav span#reg_link {
-    background: url(../i/reg_link.jpg) repeat-x;
+    background: url(/i/reg_link.jpg) repeat-x;
     color: #fff;
     float: right;
 }
@@ -259,7 +259,7 @@ body.page-404 #logo {
 }
 
 #front_text_block h2 {
-    background: url(../i/small_icons.png) no-repeat;
+    background: url(/i/small_icons.png) no-repeat;
     display: block;
     height: 22px;
     line-height: 22px;
@@ -316,7 +316,7 @@ body.page-404 #logo {
 }
 
 .personal_status .status {
-    background: url(../i/status_icons.png) no-repeat right top;
+    background: url(/i/status_icons.png) no-repeat right top;
     /*float:left;*/
     margin: 0 0 0 4px;
     padding: 0 26px 0 0;
@@ -388,7 +388,7 @@ body.page-404 #logo {
 }
 
 .comment_block h3 {
-    background: url(../i/person_icon.png) no-repeat;
+    background: url(/i/person_icon.png) no-repeat;
     border-right: 1px solid #686868;
     color: #009933;
     float: left;
@@ -425,7 +425,7 @@ body.page-404 #logo {
     position: absolute;
     bottom: 0;
     right: 0;
-    background: url(../i/zoom.png) no-repeat;
+    background: url(/i/zoom.png) no-repeat;
     width: 11px;
     height: 11px;
     text-indent: -9999px;
@@ -455,7 +455,7 @@ body.page-404 #logo {
 }
 
 .prev_icon, .next_icon {
-    background: url(../i/prev_next_icons.png);
+    background: url(/i/prev_next_icons.png);
     display: block;
     height: 14px;
     margin: -7px 0 0;
@@ -522,7 +522,7 @@ body.page-404 #logo {
 }
 
 .product_block_icon {
-    background: url(../i/product_block_icon.png);
+    background: url(/i/product_block_icon.png);
     left: 0;
     position: absolute;
     text-indent: -9999px;
@@ -567,7 +567,7 @@ body.page-404 #logo {
 }
 
 .price.personal {
-    background: url(../i/status_icons.png) no-repeat left top;
+    background: url(/i/status_icons.png) no-repeat left top;
     display: block;
     float: left;
     height: 26px;
@@ -586,7 +586,7 @@ body.page-404 #logo {
 }
 
 #products_spec h3 {
-    background: url(../i/text_block.png) center bottom no-repeat;
+    background: url(/i/text_block.png) center bottom no-repeat;
     margin: 10px 0;
     padding: 0 0 10px;
 }
@@ -621,7 +621,7 @@ body.page-404 #logo {
 }
 
 .personal_status .status {
-    background: url(../i/status_icons.png) no-repeat right top;
+    background: url(/i/status_icons.png) no-repeat right top;
     /*float:left;*/
     margin: 0 0 0 4px;
     padding: 0 26px 0 0;
@@ -697,7 +697,7 @@ body.page-404 #logo {
 }
 
 #content_cart.empty span {
-    background: url(../i/empty_cart_icon.png) no-repeat;
+    background: url(/i/empty_cart_icon.png) no-repeat;
     color: #898989;
     display: block;
     font-size: 18px;
@@ -757,7 +757,7 @@ body.page-404 #logo {
 
 /* Sidebar */
 #cart {
-    background: url(../i/cart.png);
+    background: url(/i/cart.png);
     color: #000;
     font-size: 11px;
     height: 54px;
@@ -796,7 +796,7 @@ body.page-404 #logo {
 }
 
 .sidebar_products_block {
-    background: url(../i/sidebar_block_bg.png) bottom no-repeat;
+    background: url(/i/sidebar_block_bg.png) bottom no-repeat;
     overflow: hidden;
     padding: 0 0 20px;
 }
@@ -810,7 +810,7 @@ body.page-404 #logo {
 }
 
 #same_products > h3 a {
-    background: url(../i/products_pointers.png) no-repeat;
+    background: url(/i/products_pointers.png) no-repeat;
     background-position: 0 -10px;
     float: left;
     padding: 0 0 0 15px;
@@ -883,7 +883,7 @@ body.page-404 #logo {
 }
 
 #catalog_compare_products_form h3 a {
-    background: url(../i/products_pointers.png) no-repeat 0 -18px;
+    background: url(/i/products_pointers.png) no-repeat 0 -18px;
     float: left;
     padding: 0 0 0 15px;
     text-decoration: none;
@@ -899,7 +899,7 @@ body.page-404 #logo {
 
 #catalog_compare_products_form .jquery_slider {
     border-radius: 0;
-    background: url(../i/jquery_slider.jpg) repeat-x transparent;
+    background: url(/i/jquery_slider.jpg) repeat-x transparent;
     border: 0;
     margin-top: 0px;
     /*margin-left:10px;
@@ -909,7 +909,7 @@ body.page-404 #logo {
 
 #catalog_compare_products_form .attr_range_view {
     border-radius: 0;
-    background: url(../i/jquery_slider.jpg) repeat-x transparent;
+    background: url(/i/jquery_slider.jpg) repeat-x transparent;
     border: 0;
     margin-top: 0px;
     /*margin-left:10px;
@@ -919,14 +919,14 @@ body.page-404 #logo {
 }
 
 #catalog_compare_products_form .ui-slider-range {
-    background: red url(../i/slider_range.jpg) repeat-x top !important;
+    background: red url(/i/slider_range.jpg) repeat-x top !important;
     bottom: 0;
     height: 4px;
     z-index: 3;
 }
 
 #catalog_compare_products_form .ui-slider-handle {
-    /*background: url(../i/slider_handle.jpg) repeat-x top;*/
+    /*background: url(/i/slider_handle.jpg) repeat-x top;*/
     border: 0;
     border-radius: 0;
     top: 0;
@@ -938,7 +938,7 @@ body.page-404 #logo {
 }
 
 #catalog_compare_products_form .ui-slider-handle span {
-    background: url(../i/ui_slider_handle_left.png) no-repeat bottom;
+    background: url(/i/ui_slider_handle_left.png) no-repeat bottom;
     border-right: 1px solid #000;
     display: block;
     height: 15px;
@@ -949,14 +949,14 @@ body.page-404 #logo {
 }
 
 /*#catalog_compare_products_form .ui-slider-handle span.last {
-    background:url(../i/ui_slider_handle_right.png) no-repeat bottom;
+    background:url(/i/ui_slider_handle_right.png) no-repeat bottom;
     border:0;
     border-left:1px solid #000;
     left:8px;
 }*/
 
 #catalog_compare_products_form .ui-slider-handle:last-child span {
-    background: url(../i/ui_slider_handle_right.png) no-repeat bottom;
+    background: url(/i/ui_slider_handle_right.png) no-repeat bottom;
     border: 0;
     border-left: 1px solid #000;
     left: 8px;
@@ -977,7 +977,7 @@ body.page-404 #logo {
 }
 
 .range li {
-    background: url(../i/range_li.png) no-repeat bottom center;
+    background: url(/i/range_li.png) no-repeat bottom center;
     float: left;
     font-size: 11px;
     height: 20px;
@@ -991,7 +991,7 @@ body.page-404 #logo {
 }
 
 #compare_block .box {
-    background: url(../i/compare_page_block_bg.png) bottom center no-repeat;
+    background: url(/i/compare_page_block_bg.png) bottom center no-repeat;
     padding: 0 0 14px;
 }
 
@@ -1030,7 +1030,7 @@ body.page-404 #logo {
 
 /* Footer*/
 #footer_logo {
-    background: url(../i/footer_logo.png);
+    background: url(/i/footer_logo.png);
     height: 71px;
     left: 30px;
     position: absolute;
@@ -1078,7 +1078,7 @@ body.page-404 #logo {
 }
 
 #footer_phones {
-    background: url(../i/phones.png) no-repeat;
+    background: url(/i/phones.png) no-repeat;
     font-size: 12px;
     height: 75px;
     line-height: 18px;
