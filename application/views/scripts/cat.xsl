@@ -6,11 +6,16 @@
 
     <xsl:template name="section_url">
         <xsl:value-of select="//data/@cat_real_url"/>
-        <xsl:if test="//data/@br_page!=''">br/<xsl:value-of select="//data/@br_page"/>/</xsl:if>
-        <xsl:if test="//data/@at_page!=''">at/<xsl:value-of select="//data/@at_page"/>/</xsl:if>
-        <xsl:if test="//data/@ar_page!=''">ar/<xsl:value-of select="//data/@ar_page"/>/</xsl:if>
-        <xsl:if test="//data/@show_price_min &gt; 0">pmin/<xsl:value-of select="//data/@show_price_min"/>/</xsl:if>
-        <xsl:if test="//data/@show_price_max &gt; 0">pmax/<xsl:value-of select="//data/@show_price_max"/>/</xsl:if>
+        <xsl:if test="//data/@br_page!=''">br/<xsl:value-of select="//data/@br_page"/>/
+        </xsl:if>
+        <xsl:if test="//data/@at_page!=''">at/<xsl:value-of select="//data/@at_page"/>/
+        </xsl:if>
+        <xsl:if test="//data/@ar_page!=''">ar/<xsl:value-of select="//data/@ar_page"/>/
+        </xsl:if>
+        <xsl:if test="//data/@show_price_min &gt; 0">pmin/<xsl:value-of select="//data/@show_price_min"/>/
+        </xsl:if>
+        <xsl:if test="//data/@show_price_max &gt; 0">pmax/<xsl:value-of select="//data/@show_price_max"/>/
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="attr_brands">
@@ -50,7 +55,8 @@
         </label>
         <script type="text/javascript">
             <xsl:if test="@selected = 1">
-                objectValueSelection.setAttributeArr(<xsl:value-of select="@parent_id"/>, 0, <xsl:value-of select="@id"/>);
+                objectValueSelection.setAttributeArr(<xsl:value-of select="@parent_id"/>, 0, <xsl:value-of
+                    select="@id"/>);
             </xsl:if>
         </script>
     </xsl:template>
@@ -110,62 +116,64 @@
     </xsl:template>
 
     <xsl:template name="podbor">
-        <h3>Подбор товара по параметрам</h3>
-        <form id="catalog_compare_products_form" method="post">
-            <input type="hidden" name="page_url" id="page_url" value="{//data/@cat_real_url}"/>
-            <input type="hidden" name="catalogue_id" id="catalogue_id" value="{//data/@id}"/>
+        <div class="selection-block">
+            <h3>Подбор товара по параметрам</h3>
+            <form id="catalog_compare_products_form" method="post">
+                <input type="hidden" name="page_url" id="page_url" value="{//data/@cat_real_url}"/>
+                <input type="hidden" name="catalogue_id" id="catalogue_id" value="{//data/@id}"/>
 
-            <xsl:if test="count(//price_line) &gt; 2">
-                <input type="hidden" name="min_slider_price" id="min_slider_price"
-                       value="{//price_line[position()=1]/price}"/>
-                <input type="hidden" name="max_slider_price" id="max_slider_price"
-                       value="{//price_line[position()=last()]/price}"/>
+                <xsl:if test="count(//price_line) &gt; 2">
+                    <input type="hidden" name="min_slider_price" id="min_slider_price"
+                           value="{//price_line[position()=1]/price}"/>
+                    <input type="hidden" name="max_slider_price" id="max_slider_price"
+                           value="{//price_line[position()=last()]/price}"/>
+                    <h3>
+                        <a href="#">Цена</a>
+                    </h3>
+                    <div class="fieldgroup" style="display: block;">
+                        <label for="price_input_min">От&#160;</label>
+                        <input type="text" id="price_input_min" name="price_min">
+                            <xsl:if test="//data/@show_price_min &gt; 0">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="//data/@show_price_min"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                        </input>
+                        <label for="price_input_max">&#160;до&#160;</label>
+                        <input type="text" id="price_input_max" name="price_max">
+                            <xsl:if test="//data/@show_price_max &gt; 0">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="//data/@show_price_max"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                        </input>
+                        &#160;<xsl:value-of select="//data/@cname"/>
+                        <ul class="range clearfix">
+                            <!--<xsl:apply-templates select="//price_line[position() > 1 and position() &lt; 5]"/>-->
+                        </ul>
+                        <div class="jquery_slider"></div>
+                    </div>
+                </xsl:if>
                 <h3>
-                    <a href="#">Цена</a>
+                    <a href="#">Производитель</a>
                 </h3>
-                <div class="fieldgroup" style="display: block;">
-                    <label for="price_input_min">От&#160;</label>
-                    <input type="text" id="price_input_min" name="price_min">
-                        <xsl:if test="//data/@show_price_min &gt; 0">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="//data/@show_price_min"/>
-                            </xsl:attribute>
-                        </xsl:if>
-                    </input>
-                    <label for="price_input_max">&#160;до&#160;</label>
-                    <input type="text" id="price_input_max" name="price_max">
-                        <xsl:if test="//data/@show_price_max &gt; 0">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="//data/@show_price_max"/>
-                            </xsl:attribute>
-                        </xsl:if>
-                    </input>
-                    &#160;<xsl:value-of select="//data/@cname"/>
-                    <ul class="range clearfix">
-                        <!--<xsl:apply-templates select="//price_line[position() > 1 and position() &lt; 5]"/>-->
-                    </ul>
-                    <div class="jquery_slider"></div>
+                <div class="fieldgroup">
+                    <xsl:if test="count(attr_brands[@selected = 1]) &gt; 0">
+                        <xsl:attribute name="style">display: block;</xsl:attribute>
+                    </xsl:if>
+                    <xsl:apply-templates select="attr_brands"/>
                 </div>
-            </xsl:if>
-            <h3>
-                <a href="#">Производитель</a>
-            </h3>
-            <div class="fieldgroup">
-                <xsl:if test="count(attr_brands[@selected = 1]) &gt; 0">
-                    <xsl:attribute name="style">display: block;</xsl:attribute>
-                </xsl:if>
-                <xsl:apply-templates select="attr_brands"/>
-            </div>
-            <xsl:apply-templates select="attr_cat"/>
-            <div class="applay_filters">
-                <xsl:if test="count(attr_brands[@selected = 1]) &gt; 0 or count(//attr_value[@selected = 1]) &gt; 0">
-                    <xsl:attribute name="style">display: block;</xsl:attribute>
-                </xsl:if>
-                <a title="Применить фильтры" class="product_button" href="javascript:void(0);">
-                    <span>Применить фильтры</span>
-                </a>
-            </div>
-        </form>
+                <xsl:apply-templates select="attr_cat"/>
+                <div class="applay_filters">
+                    <xsl:if test="count(attr_brands[@selected = 1]) &gt; 0 or count(//attr_value[@selected = 1]) &gt; 0">
+                        <xsl:attribute name="style">display: block;</xsl:attribute>
+                    </xsl:if>
+                    <a title="Применить фильтры" class="product_button credit" href="javascript:void(0);">
+                        <span>Применить фильтры</span>
+                    </a>
+                </div>
+            </form>
+        </div>
     </xsl:template>
 
     <xsl:template match="item">

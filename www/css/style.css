@@ -513,7 +513,7 @@ a.product_button {
 }
 
 .selection-block {
-    background: #ececec url(../i/sidebar_block_bg.png) bottom no-repeat;
+    background: url("../i/sidebar_block_bg.png") no-repeat scroll center bottom #ececec;
     border-radius: 15px;;
     padding: 3px 5px 15px 15px;
     overflow: hidden;
