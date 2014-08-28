@@ -1,4 +1,5 @@
 <?php
+
 class models_SectionAlign extends ZendDBEntity
 {
     protected $_name = 'SECTION_ALIGN';
@@ -76,6 +77,18 @@ class models_SectionAlign extends ZendDBEntity
         else $banner['burl'] = '';
 
         return $banner;
+    }
+
+    /**
+     * Get section align by ban section schedule
+     *
+     * @return array
+     */
+    public function getSectionAlignByBanSectionSchedule()
+    {
+        $sql = "SELECT sa.DESCRIPTION FROM bann_section bs LEFT JOIN section_align sa USING(BANN_SECTION_ID) WHERE bs.BANN_SECTION_ID = 2";
+
+        return $this->_db->fetchAll($sql);
     }
 }
 

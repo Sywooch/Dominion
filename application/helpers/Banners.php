@@ -1,4 +1,5 @@
 <?php
+
 class Helpers_Banners extends App_Controller_Helper_HelperAbstract
 {
 
@@ -59,6 +60,16 @@ class Helpers_Banners extends App_Controller_Helper_HelperAbstract
 
         $this->domXml->go_to_parent();
 
+    }
+
+    /**
+     * Generate schedule
+     *
+     * @param string $context
+     */
+    public function generateSchedule($context)
+    {
+        $this->setXmlNode($context, "txt");
     }
 
     private function bannerURL($url)

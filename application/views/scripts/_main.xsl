@@ -136,7 +136,6 @@
     </xsl:template>
 
 
-
     <xsl:template match="socials">
         <li>
             <a href="{url}" target="_blank">
@@ -485,6 +484,9 @@
                             </input>
                             <a href="#" class="button_link">Искать</a>
                         </form>
+                        <div class="workingHours">
+                            <xsl:value-of select="//schedule" disable-output-escaping="yes" />
+                        </div>
                         <div id="header_nav">
                             <xsl:choose>
                                 <xsl:when test="user_data/user_id &gt; 0">
@@ -653,14 +655,14 @@
             <xsl:call-template name="breadcrumbs"/>
 
             <!--<xsl:if test="count(breadcrumbs) &gt; 0">-->
-                <!--<ul class="breadcrumb">-->
-                    <!--<li>-->
-                        <!--<a href="/" class="pseudo">-->
-                            <!--<span>Главная</span>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<xsl:apply-templates select="breadcrumbs"/>-->
-                <!--</ul>-->
+            <!--<ul class="breadcrumb">-->
+            <!--<li>-->
+            <!--<a href="/" class="pseudo">-->
+            <!--<span>Главная</span>-->
+            <!--</a>-->
+            <!--</li>-->
+            <!--<xsl:apply-templates select="breadcrumbs"/>-->
+            <!--</ul>-->
             <!--</xsl:if>-->
 
             <xsl:apply-templates select="."/>
