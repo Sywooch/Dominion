@@ -327,6 +327,19 @@
         <h1>
             <xsl:value-of select="docinfo/name"/>
         </h1>
+        <div class="sort-panel">
+            <div class="sort-label">Сортировать по:</div>
+            <div class="sorting">
+                <!--
+                use class "up" to show sorting up
+                use class "down" to show sorting down
+                use class "active" to show which type of sorting is choosen
+                -->
+                <a href="?filter=price" class="sort down">цене</a>
+                <a href="?filter=name" class="sort down">наименованию</a>
+                <a href="?filter=popular" class="sort down">популярности</a>
+            </div>
+        </div>
         <div class="chapter_products content_block">
             <xsl:apply-templates select="item"/>
             <ul class="pager">
