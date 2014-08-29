@@ -36,8 +36,10 @@
             </a>
 
             <div class="third-level">
-                <div class="third-level-wraper"
-                     style="background-image:url({image_menu}); width: {image_menu/@width}; height: {image_menu/@height}">
+                <div class="third-level-wraper">
+                    <xsl:if test="image_menu != ''">
+                        <xsl:attribute name="style">background-image: url(<xsl:value-of select="image_menu"/>); width: <xsl:value-of select="image_menu/@width"/>; height: <xsl:value-of select="image_menu/@height"/></xsl:attribute>
+                    </xsl:if>
                     <div class="col">
                         <xsl:apply-templates select="catalogue[position() mod 3 = 1]" mode="multi"/>
                     </div>

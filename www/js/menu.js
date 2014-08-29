@@ -6,7 +6,7 @@ $(document).ready(function () {
     $(".nav li a").each(function () {
         if ($(this).next().length > 0) {
             $(this).addClass("parent");
-        };
+        }
     })
 
     $(".toggleMenu").click(function (e) {
@@ -44,11 +44,17 @@ $(window).bind('resize orientationchange', function () {
 });
 
 var convertElement = function () {
+
+//    $("second-level")
+
+
     $("ul.second-level li[xid=parentLi]").each(function () {
             var len = $(this).find("div.col").length;
             var mainWidth = len > 1 ? $(this).width() * 3.5 : $(this).find("div.col").width();
 
             $(this).find("div.third-level-wraper").width(mainWidth);
+
+
 //
 //            if (!(len > 1)) return true;
 //
@@ -105,4 +111,3 @@ var adjustMenu = function () {
         });
     }
 }
-

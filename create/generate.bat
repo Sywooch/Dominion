@@ -1,3 +1,3 @@
 play.vbs
-"C:\Program Files (x86)\Zend\ZendServer\bin\php.exe" spliter.php
+php spliter.php
 makedir.bat

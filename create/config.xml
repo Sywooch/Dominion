@@ -1635,13 +1635,13 @@ EOF;
       $cmf->execute('update CATALOGUE set REALSTATUS=?,REALCATNAME=? where CATALOGUE_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
       $cmf->CheckCount(0);
 
-      require   ROOT_PATH . "/lib/CreateSEFU.class.php";
+      require __DIR__ . "/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
 
-      require ROOT_PATH."/lib/MetaGenerate.php";
-      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
@@ -1669,13 +1669,13 @@ EOF;
       $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
       UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
 
-      require ROOT_PATH."/lib/CreateSEFU.class.php";
+      require __DIR__ ."/../../lib/CreateSEFU.class.php";
       $sefu = new CreateSEFU();
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
 
-      require ROOT_PATH."/lib/MetaGenerate.php";
-      require ROOT_PATH."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
@@ -1876,23 +1876,33 @@ $PATH = preg_replace("/(\/){1,}/","/",$PATH);
 return $PATH;
 }
 
-function UpdatePath($cmf,$id,$path, $sefu)
+/**
+ * @param SCMF       $cmf
+ * @param int        $id
+ * @param string     $path
+ * @param CreateSEFU $sefu
+ */
+function UpdatePath($cmf, $id, $path, $sefu)
 {
-   
-  $sth=$cmf->execute('select CATALOGUE_ID,CATNAME from CATALOGUE where PARENT_ID=?',$id);
-  while(list ($V_CATALOGUE_ID,$V_CATNAME)=mysql_fetch_array($sth, MYSQL_NUM))
-  {        
-    if($V_CATNAME){$V_CATNAME="$path/$V_CATNAME";} else {$V_CATNAME='';};
-    $V_CATNAME = preg_replace("/\/\//","/",$V_CATNAME);
-    if('/' != substr($V_CATNAME,-1)){$V_CATNAME=$V_CATNAME."/";}
-    $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',$V_CATNAME,$V_CATALOGUE_ID);
-    
-        
-    UpdatePath($cmf,$V_CATALOGUE_ID,$V_CATNAME, $sefu);
-    
-    $sefu->_applySEFUCatalogue($V_CATALOGUE_ID);
-    $sefu->_applySEFUCatalogueBrand($V_CATALOGUE_ID);
-  }
+    $sth = $cmf->execute('select CATALOGUE_ID,CATNAME from CATALOGUE where PARENT_ID=?', $id);
+    while (list ($V_CATALOGUE_ID, $V_CATNAME) = mysql_fetch_array($sth, MYSQL_NUM)) {
+        if ($V_CATNAME) {
+            $V_CATNAME = "$path/$V_CATNAME";
+        }
+        else {
+            $V_CATNAME = '';
+        };
+        $V_CATNAME = preg_replace("/\/\//", "/", $V_CATNAME);
+        if ('/' != substr($V_CATNAME, -1)) {
+            $V_CATNAME = $V_CATNAME . "/";
+        }
+        $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?', $V_CATNAME, $V_CATALOGUE_ID);
+
+        UpdatePath($cmf, $V_CATALOGUE_ID, $V_CATNAME, $sefu);
+
+        $sefu->_applySEFUCatalogue($V_CATALOGUE_ID);
+        $sefu->_applySEFUCatalogueBrand($V_CATALOGUE_ID);
+    }
 }
 
 function updateOrdering($cmf,$id)
@@ -2274,8 +2284,8 @@ $cmf->UpdateRange($id);
       $cmf->execute('update BRAND B inner join ttt on (B.BRAND_ID=ttt.BRAND_ID)  set B.COUNT_=ttt.c');
       $cmf->UpdateRange($_REQUEST['id']);
       
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerate.php";
-      require $_SERVER['DOCUMENT_ROOT']."/lib/MetaGenerateModelStrategy.php";
+      require __DIR__ . "/../../lib/MetaGenerate.php";
+      require __DIR__ . "/../../lib/MetaGenerateModelStrategy.php";
 
       $model = MetaGenerateModelStrategy::getModel($cmf);
       $meta = new MetaGenerate($model);
