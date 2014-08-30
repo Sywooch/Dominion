@@ -73,7 +73,7 @@ class ItemController extends App_Controller_Frontend_Action
         $cat_helper->setModel($Catalogue);
         $cat_helper->setDomXml($this->domXml);
         $cat_helper->getCompareItems($catalogue_id);
-        $cat_helper->getCatalogPath($catalogue_id);
+        $cat_helper->getCatalogPath($catalogue_id, true);
 
         $this->domXml = $cat_helper->getDomXml();
 
