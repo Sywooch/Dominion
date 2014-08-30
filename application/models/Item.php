@@ -49,7 +49,7 @@ class models_Item extends ZendDBEntity
     /**
      * Обновить ITEM - любое поле
      *
-     * @param array $data  Данные которые сетим
+     * @param array $data Данные которые сетим
      * @param array $where Данные для where
      */
     public function updateGlobalItem($data, $where)
@@ -327,6 +327,12 @@ class models_Item extends ZendDBEntity
             $asc = $params['asc'];
             $order_by = $params['order_by'];
         }
+
+        if (!empty($params["filter"]) && !empty($params["order"])) {
+            $order_by = $params["filter"];
+            $asc = $params["order"];
+        }
+
 
         if (!empty($params['brand_id']) && is_array($params['brand_id'])) {
             $_brand = implode(", ", $params['brand_id']);

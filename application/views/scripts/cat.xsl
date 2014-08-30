@@ -330,14 +330,7 @@
         <div class="sort-panel">
             <div class="sort-label">Сортировать по:</div>
             <div class="sorting">
-                <!--
-                use class "up" to show sorting up
-                use class "down" to show sorting down
-                use class "active" to show which type of sorting is choosen
-                -->
-                <a href="?filter=price" class="sort down">цене</a>
-                <a href="?filter=name" class="sort down">наименованию</a>
-                <a href="?filter=popular" class="sort down">популярности</a>
+                <xsl:apply-templates select="//order/sort"/>
             </div>
         </div>
         <div class="chapter_products content_block">
@@ -351,6 +344,23 @@
                 <xsl:apply-templates select="docinfo/long_text"/>
             </div>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="//order/sort">
+        <xsl:variable name="active">
+            <xsl:choose>
+                <xsl:when test="@active = 1">
+                    <xsl:value-of select="concat(@class, ' active')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@class"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <a href="{@url}" class="{$active}">
+
+            <xsl:value-of select="."/>
+        </a>
     </xsl:template>
 
 </xsl:stylesheet>

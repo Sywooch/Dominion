@@ -30,6 +30,22 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
         $session = new Zend_Session_Namespace('compare');
         $this->compare = $session->compare;
 
+        $orderMap = $params["order_map"];
+
+        $this->domXml->create_element("order", "", DOMXML_CREATE_AND_GO_INSIDE_DEPRECATED);
+        foreach ($params["sort"] as $value) {
+            $this->domXml->create_element("sort", $value["name"], DOMXML_CREATE_AND_GO_INSIDE_DEPRECATED);
+            $this->domXml->set_attribute(array(
+                "url" => $value["url"] . $orderMap[$value["default_state"]]["order"] . "/",
+                "class" => $orderMap[$value["default_state"]]["class"],
+                "active" => $value["active"]
+            ));
+
+            $this->domXml->go_to_parent();
+        }
+
+        $this->domXml->go_to_parent();
+
         $result = $this->work_model->getCatItems($params, $this->lang_id);
 
         if (!empty($result)) {
@@ -109,8 +125,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
     /**
      * Формирование XML карточки товара
      *
-     * @param array   $item
-     * @param array   $curr_info
+     * @param array $item
+     * @param array $curr_info
      * @param boolean $all_info
      */
     private function doItemXmlNode($item, $curr_info, $all_info = false, $node_name = 'item')
@@ -399,8 +415,8 @@ class Helpers_Item extends App_Controller_Helper_HelperAbstract
     /**
      * Формирование XML связанных товаров
      *
-     * @param int   $goods_category_id
-     * @param int   $item_id
+     * @param int $goods_category_id
+     * @param int $item_id
      * @param array $curr_info
      */
     private function itemItem($item_id, $curr_info)

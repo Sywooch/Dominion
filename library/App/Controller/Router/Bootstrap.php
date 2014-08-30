@@ -104,13 +104,12 @@ class App_Controller_Router_Bootstrap
                     }
 
                     return $catalogRealUri;
-                }
-                else {
+                } else {
                     return false;
                 }
             };
 
-            $pattern = "/^(.+)(\/(at|br|page|ar|pmin|pmax|sattr)\/.*)$/Ui";
+            $pattern = "/^(.+)(\/(at|br|page|ar|pmin|pmax|sattr|filter|order)\/.*)$/Ui";
 
             if ($catalogRealUri = preg_match($pattern, $uri, $out) ? $findRealCatalogUrl($out[1], $out[2]) : $findRealCatalogUrl($uri)) {
                 $request->setRequestUri($catalogRealUri);
@@ -128,58 +127,58 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingRegister()
     {
         $this->_router->addRoute(
-          'register',
-          new Zend_Controller_Router_Route_Regex(
-            'register/(\w*)\.html',
-            array(
-              'controller' => 'register'
-            ),
-            array(
-              1 => 'action',
+            'register',
+            new Zend_Controller_Router_Route_Regex(
+                'register/(\w*)\.html',
+                array(
+                    'controller' => 'register'
+                ),
+                array(
+                    1 => 'action',
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'registerall',
-          new Zend_Controller_Router_Route_Regex(
-            'register\.html',
-            array(
-              'controller' => 'register',
-              'action' => 'index'
+            'registerall',
+            new Zend_Controller_Router_Route_Regex(
+                'register\.html',
+                array(
+                    'controller' => 'register',
+                    'action' => 'index'
+                )
             )
-          )
         );
     }
 
     private function _initAliasingAjax()
     {
         $this->_router->addRoute(
-          'ajax',
-          new Zend_Controller_Router_Route_Regex(
-            'ajax/(\w*)',
-            array(
-              'controller' => 'ajax'
-            ),
-            array(
-              1 => 'action',
+            'ajax',
+            new Zend_Controller_Router_Route_Regex(
+                'ajax/(\w*)',
+                array(
+                    'controller' => 'ajax'
+                ),
+                array(
+                    1 => 'action',
+                )
             )
-          )
         );
     }
 
     private function _initAliasingItem()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-          '.*/(\d*)-.*?(/([^/].*?))?',
-          array(
-            'controller' => 'item',
-            'action' => 'view'
-          ),
-          array(
-            1 => 'id',
-            3 => 'section'
-          )
+            '.*/(\d*)-.*?(/([^/].*?))?',
+            array(
+                'controller' => 'item',
+                'action' => 'view'
+            ),
+            array(
+                1 => 'id',
+                3 => 'section'
+            )
         );
 
         $this->_router->addRoute('item', $routed);
@@ -193,15 +192,15 @@ class App_Controller_Router_Bootstrap
     {
 
         $routed = new Zend_Controller_Router_Route_Regex(
-          'search/([^/].*?)(/page/([^/]\d*?))?',
-          array(
-            'controller' => 'search',
-            'action' => 'index'
-          ),
-          array(
-            1 => 'search_text',
-            3 => 'page'
-          )
+            'search/([^/].*?)(/page/([^/]\d*?))?',
+            array(
+                'controller' => 'search',
+                'action' => 'index'
+            ),
+            array(
+                1 => 'search_text',
+                3 => 'page'
+            )
         );
         $this->_router->addRoute('search', $routed);
 
@@ -213,86 +212,88 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingCat()
     {
         $this->_router->addRoute(
-          'cat',
-          new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)',
-            array(
-              'controller' => 'cat',
-              'action' => 'index'
-            ),
-            array(
-              1 => 'id'
+            'cat',
+            new Zend_Controller_Router_Route_Regex(
+                'cat/([^/]\d*)',
+                array(
+                    'controller' => 'cat',
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'id'
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'cat_pager',
-          new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)/page/([^/]\d*)',
-            array(
-              'controller' => 'cat',
-              'action' => 'index'
-            ),
-            array(
-              1 => 'id',
-              2 => 'page'
+            'cat_pager',
+            new Zend_Controller_Router_Route_Regex(
+                'cat/([^/]\d*)/page/([^/]\d*)',
+                array(
+                    'controller' => 'cat',
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'id',
+                    2 => 'page'
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'cat_brand',
-          new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)/brand/([^/]\d*)',
-            array(
-              'controller' => 'cat',
-              'action' => 'index'
-            ),
-            array(
-              1 => 'id',
-              2 => 'brand_id'
+            'cat_brand',
+            new Zend_Controller_Router_Route_Regex(
+                'cat/([^/]\d*)/brand/([^/]\d*)',
+                array(
+                    'controller' => 'cat',
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'id',
+                    2 => 'brand_id'
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'cat_brand_page',
-          new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)/brand/([^/]\d*)/page/([^/]\d*)',
-            array(
-              'controller' => 'cat',
-              'action' => 'index'
-            ),
-            array(
-              1 => 'id',
-              2 => 'brand_id',
-              3 => 'page'
+            'cat_brand_page',
+            new Zend_Controller_Router_Route_Regex(
+                'cat/([^/]\d*)/brand/([^/]\d*)/page/([^/]\d*)',
+                array(
+                    'controller' => 'cat',
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'id',
+                    2 => 'brand_id',
+                    3 => 'page'
+                )
             )
-          )
         );
     }
 
     private function _initAliasingCatAttrib()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-          'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?(?:/sattr/([^/]+))?',
+            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?(?:/sattr/([^/]+))?(?:/filter/([^/]+))?(?:/order/([^/]+))?',
 //            'cat/([^/]+)(?:/all/([^/]+))?(?:/br/([^/]+))?(?:/group/(\w+))?(?:/price/(\d+))?(?:/collect/(\d+))?(?:/at/(\w+))?(?:/sort/(\w+)/mode/(\w+))?(?:/page/(\d+))?(.*)?',
-          array(
-            'controller' => 'cat',
-            'action' => 'index'
-          ),
-          array(
-            1 => 'id',
-            2 => 'br',
-            3 => 'at',
-            4 => 'ar',
-            5 => 'pmin',
-            6 => 'pmax',
-            7 => 'page',
-            8 => 'stb',
-            9 => 'sattr'
-          )
+            array(
+                'controller' => 'cat',
+                'action' => 'index'
+            ),
+            array(
+                1 => 'id',
+                2 => 'br',
+                3 => 'at',
+                4 => 'ar',
+                5 => 'pmin',
+                6 => 'pmax',
+                7 => 'page',
+                8 => 'stb',
+                9 => 'sattr',
+                10 => 'filter',
+                11 => 'order'
+            )
         );
 
         $this->_router->addRoute('cat_attribut', $routed);
@@ -307,72 +308,72 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingSitemap()
     {
         $this->_router->addRoute(
-          'sitemap',
-          new Zend_Controller_Router_Route_Regex(
-            'sitemap\.xml',
-            array(
-              'controller' => 'sitemap',
-              'action' => 'index'
+            'sitemap',
+            new Zend_Controller_Router_Route_Regex(
+                'sitemap\.xml',
+                array(
+                    'controller' => 'sitemap',
+                    'action' => 'index'
+                )
             )
-          )
         );
     }
 
     private function _initPagesDefault()
     {
         $this->_router->addRoute(
-          'pagesdefault',
-          new Zend_Controller_Router_Route_Regex(
-            '(\w*)\.html',
-            array(
-              'action' => 'index'
-            ),
-            array(
-              1 => 'controller',
+            'pagesdefault',
+            new Zend_Controller_Router_Route_Regex(
+                '(\w*)\.html',
+                array(
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'controller',
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'pagesdefault_multilingual',
-          new Zend_Controller_Router_Route_Regex(
-            '(\w{2})/(\w*)\.html',
-            array(
-              'action' => 'index'
-            ),
-            array(
-              1 => 'lang',
-              2 => 'controller',
+            'pagesdefault_multilingual',
+            new Zend_Controller_Router_Route_Regex(
+                '(\w{2})/(\w*)\.html',
+                array(
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'lang',
+                    2 => 'controller',
+                )
             )
-          )
         );
     }
 
     private function _initContorollerDefault()
     {
         $this->_router->addRoute(
-          'def',
-          new Zend_Controller_Router_Route(
-            ':controller',
-            array(
-              'controller' => 'index',
-              'action' => 'index'
+            'def',
+            new Zend_Controller_Router_Route(
+                ':controller',
+                array(
+                    'controller' => 'index',
+                    'action' => 'index'
+                )
             )
-          )
         );
 
         $this->_router->addRoute(
-          'default_multilingual',
-          new Zend_Controller_Router_Route(
-            ':lang/:controller/:action/*',
-            array(
-              'controller' => 'index',
-              'action' => 'index'
-            ),
-            array(
-              'lang' => '\w{2}'
+            'default_multilingual',
+            new Zend_Controller_Router_Route(
+                ':lang/:controller/:action/*',
+                array(
+                    'controller' => 'index',
+                    'action' => 'index'
+                ),
+                array(
+                    'lang' => '\w{2}'
+                )
             )
-          )
         );
     }
 
@@ -380,24 +381,24 @@ class App_Controller_Router_Bootstrap
     {
 
         $routed = new Zend_Controller_Router_Route_Regex(
-          'doc/(.+)',
-          array(
-            'controller' => 'doc',
-            'action' => 'view'
-          ),
-          array(
-            1 => 'n'
-          )
+            'doc/(.+)',
+            array(
+                'controller' => 'doc',
+                'action' => 'view'
+            ),
+            array(
+                1 => 'n'
+            )
         );
 
         $this->_router->addRoute('doc', $routed);
 
         $routed_soc = new Zend_Controller_Router_Route_Regex(
-          'doc/social',
-          array(
-            'controller' => 'doc',
-            'action' => 'social'
-          )
+            'doc/social',
+            array(
+                'controller' => 'doc',
+                'action' => 'social'
+            )
         );
 
         $this->_router->addRoute('doc_social', $routed_soc);
@@ -410,118 +411,118 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingNews()
     {
         $this->_router->addRoute(
-          'news',
-          new Zend_Controller_Router_Route_Regex(
-            'news/(.*)',
-            array(
-              'controller' => 'news',
-              'action' => 'view'
-            ),
-            array(
-              1 => 'n'
-            )
-          )
-        );
-
-        $this->_router->addRoute(
-          'newspager',
-          new Zend_Controller_Router_Route_Regex(
-            'news/page/([^/]\d*)',
-            array(
-              'controller' => 'news',
-              'action' => 'all'
-            ),
-            array(
-              1 => 'page'
-            )
-          )
-        );
-
-        $this->_router->addRoute(
-          'all_news',
-          new Zend_Controller_Router_Route_Regex(
             'news',
-            array(
-              'controller' => 'news',
-              'action' => 'all'
+            new Zend_Controller_Router_Route_Regex(
+                'news/(.*)',
+                array(
+                    'controller' => 'news',
+                    'action' => 'view'
+                ),
+                array(
+                    1 => 'n'
+                )
             )
-          )
+        );
+
+        $this->_router->addRoute(
+            'newspager',
+            new Zend_Controller_Router_Route_Regex(
+                'news/page/([^/]\d*)',
+                array(
+                    'controller' => 'news',
+                    'action' => 'all'
+                ),
+                array(
+                    1 => 'page'
+                )
+            )
+        );
+
+        $this->_router->addRoute(
+            'all_news',
+            new Zend_Controller_Router_Route_Regex(
+                'news',
+                array(
+                    'controller' => 'news',
+                    'action' => 'all'
+                )
+            )
         );
     }
 
     private function _initAliasingCompare()
     {
         $this->_router->addRoute(
-          'compare',
-          new Zend_Controller_Router_Route_Regex(
-            'compare/([^/]\d*)',
-            array(
-              'controller' => 'compare',
-              'action' => 'index'
-            ),
-            array(
-              1 => 'id'
+            'compare',
+            new Zend_Controller_Router_Route_Regex(
+                'compare/([^/]\d*)',
+                array(
+                    'controller' => 'compare',
+                    'action' => 'index'
+                ),
+                array(
+                    1 => 'id'
+                )
             )
-          )
         );
     }
 
     private function _initAliasingCartThanks()
     {
         $this->_router->addRoute(
-          'cart_thanks',
-          new Zend_Controller_Router_Route_Regex(
-            'cart/thanks/([^/]\d*)',
-            array(
-              'controller' => 'cart',
-              'action' => 'thanks'
-            ),
-            array(
-              1 => 'order_id'
+            'cart_thanks',
+            new Zend_Controller_Router_Route_Regex(
+                'cart/thanks/([^/]\d*)',
+                array(
+                    'controller' => 'cart',
+                    'action' => 'thanks'
+                ),
+                array(
+                    1 => 'order_id'
+                )
             )
-          )
         );
     }
 
     private function _initAliasingArticle()
     {
         $this->_router->addRoute(
-          'article',
-          new Zend_Controller_Router_Route_Regex(
-            'article/(.*)',
-            array(
-              'controller' => 'article',
-              'action' => 'view'
-            ),
-            array(
-              1 => 'n'
-            )
-          )
-        );
-
-        $this->_router->addRoute(
-          'articlepager',
-          new Zend_Controller_Router_Route_Regex(
-            'article/page/([^/]\d*)',
-            array(
-              'controller' => 'article',
-              'action' => 'all'
-            ),
-            array(
-              1 => 'page'
-            )
-          )
-        );
-
-        $this->_router->addRoute(
-          'all_article',
-          new Zend_Controller_Router_Route_Regex(
             'article',
-            array(
-              'controller' => 'article',
-              'action' => 'all'
+            new Zend_Controller_Router_Route_Regex(
+                'article/(.*)',
+                array(
+                    'controller' => 'article',
+                    'action' => 'view'
+                ),
+                array(
+                    1 => 'n'
+                )
             )
-          )
+        );
+
+        $this->_router->addRoute(
+            'articlepager',
+            new Zend_Controller_Router_Route_Regex(
+                'article/page/([^/]\d*)',
+                array(
+                    'controller' => 'article',
+                    'action' => 'all'
+                ),
+                array(
+                    1 => 'page'
+                )
+            )
+        );
+
+        $this->_router->addRoute(
+            'all_article',
+            new Zend_Controller_Router_Route_Regex(
+                'article',
+                array(
+                    'controller' => 'article',
+                    'action' => 'all'
+                )
+            )
         );
     }
 

@@ -60,7 +60,8 @@ class CatController extends App_Controller_Frontend_Action
         $this->domXml->go_to_parent();
     }
 
-    private function getCatalogListNew($catalogParentId){
+    private function getCatalogListNew($catalogParentId)
+    {
 //        $this->template = 'cat_view.xsl';
         $brand_id = $this->_getParam('brand_id', 0);
 
@@ -101,7 +102,6 @@ class CatController extends App_Controller_Frontend_Action
         $o_data['cat_real_url'] = $cat_real_url;
 
         $this->openData($o_data);
-
 
 
         /* @var $cat_helper Helpers_Catalogue */
@@ -145,6 +145,12 @@ class CatController extends App_Controller_Frontend_Action
         $pmax = $this->_getParam('pmax', 0);
         $st_b = $this->_getParam('stb', 0);
         $sattr = $this->_getParam("sattr", 0);
+        $filter = $this->_getParam("filter", null);
+        $order = $this->_getParam("order", null);
+
+        $configApp = Zend_Registry::get("config")->toArray();
+        $nameColumn = $configApp["filter"]["route"][$filter];
+
 
         if (!empty($br)) {
             preg_match_all('/b(\d+)/', $br, $out);
@@ -345,6 +351,18 @@ class CatController extends App_Controller_Frontend_Action
             $item_params['start'] = $startSelect;
             $item_params['per_page'] = $per_page;
 
+            $item_params["filter"] = $nameColumn;
+            $item_params["order"] = $order;
+
+            if (!empty($order) && !empty($filter)) {
+                $configApp["sort_map"][$filter]["default_state"] = $order;
+                $configApp["sort_map"] = $this->generatePrevUrl($configApp["sort_map"]);
+                $configApp["sort_map"][$filter]["active"] = 1;
+            }
+
+            $item_params["order_map"] = $configApp["order_map"];
+            $item_params["sort"] = $configApp["sort_map"];
+
             $it_helper = $this->_helper->helperLoader('Item', $item_params);
             $it_helper->setLang($this->lang, $this->lang_id);
             $it_helper->setModel($Item);
@@ -365,6 +383,24 @@ class CatController extends App_Controller_Frontend_Action
             $this->domXml = $at_helper->getDomXml();
             $xml = $at_helper->getDomXml()->getXML();
         }
+    }
+
+    /**
+     * Generate pref url
+     *
+     * @param array $configAppSortMap
+     *
+     * @return array
+     */
+    private function generatePrevUrl(array $configAppSortMap)
+    {
+        preg_match("/^(\/[a-zA-Z0-9-]+){2}/", $_SERVER["REQUEST_URI"], $match);
+        $formatData = $configAppSortMap;
+        foreach ($configAppSortMap as $key => $value) {
+            $formatData[$key]["url"] = $match[0] . "/" . $value["url"];
+        }
+
+        return $formatData;
     }
 
     private function setArToDOM($ar, $at)
