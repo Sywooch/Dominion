@@ -495,15 +495,15 @@ input[type="checkbox"] {
 }
 
 .sort.up {
-    background: url(../i/sort.png) no-repeat 6px 5px;
+    background: url(/i/sort.png) no-repeat 6px 5px;
 }
 
 .sort.down {
-    background: url(../i/sort.png) no-repeat 6px -19px;
+    background: url(/i/sort.png) no-repeat 6px -19px;
 }
 
 a.product_button.credit span {
-    background-image: url(../i/product_button_credit.jpg);
+    background-image: url(/i/product_button_credit.jpg);
     color: #009933;
 }
 
@@ -513,7 +513,7 @@ a.product_button {
 }
 
 .selection-block {
-    background: url("../i/sidebar_block_bg.png") no-repeat scroll center bottom #ececec;
+    background: url("/i/sidebar_block_bg.png") no-repeat scroll center bottom #ececec;
     border-radius: 15px;;
     padding: 3px 5px 15px 15px;
     overflow: hidden;
@@ -576,7 +576,7 @@ a.product_button {
     display: block;
     width: 9px;
     height: 6px;
-    background: url("../i/pointer_white.gif") no-repeat 0 0;
+    background: url("/i/pointer_white.gif") no-repeat 0 0;
     position: absolute;
     top: 16px;
     left: 12px;
@@ -589,11 +589,11 @@ a.product_button {
     text-decoration: none;
     overflow: hidden;
     display: block;
-    behavior: url(../PIE-1.0beta5/PIE.htc);
+    behavior: url(/PIE-1.0beta5/PIE.htc);
 }
 
 .nav a.catalog-button span {
-    background: #2fd16d url("../i/catalog_button.jpg") repeat-x 0 0;
+    background: #2fd16d url("/i/catalog_button.jpg") repeat-x 0 0;
     color: #FFFFFF;
     cursor: pointer;
     overflow: hidden;
@@ -605,7 +605,7 @@ a.product_button {
     font-size: 14px;
     border-top: 1px solid #36bf6a;
     border-radius: 0 0 8px 8px;
-    behavior: url(../PIE-1.0beta5/PIE.htc);
+    behavior: url(/PIE-1.0beta5/PIE.htc);
 }
 
 body, nav, ul, li, a {
@@ -822,7 +822,7 @@ body, nav, ul, li, a {
     .second-level > li.hover > a {
         border: 4px solid #d9d9d9;
         border-radius: 10px 0 0 10px;
-        background: #2fd16d url("../i/catalog_button.jpg") repeat-x 0 0;
+        background: #2fd16d url("/i/catalog_button.jpg") repeat-x 0 0;
         margin: -4px -3px -4px -4px;
         padding: 0px;
         color: #fff;
@@ -874,7 +874,7 @@ body, nav, ul, li, a {
         margin: 10px 0;
         padding: 5px 15px;
 
-        background: url("../i/sidebar_block_bg.png") no-repeat center bottom;
+        background: url("/i/sidebar_block_bg.png") no-repeat center bottom;
         overflow: hidden;
     }
 
