@@ -23,7 +23,6 @@
                     <token key="resources.elastic.type.products" value="${resources.elastic.type.products}"/>
                     <token key="resources.elastic.type.selection" value="${resources.elastic.type.selection}"/>
 
-
                 </replacetokens>
 
 

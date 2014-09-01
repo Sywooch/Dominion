@@ -226,12 +226,12 @@ function podbor_popup(popup_text, evnt) {
 
 //    right: winWidth - evnt.pageX+15 ,
 
-    var offset = $("#catalog_compare_products_form").offset();
+    var offset = $(".selection-block").offset();
 
-    $("#catalog_compare_products_form").append('<div class="podbor_popup"></div>');
+    $(".selection-block").append('<div class="podbor_popup"></div>');
     $(".podbor_popup").css({
         right: 220,
-        top: evnt.pageY - offset.top - 15
+        top: evnt.pageY - offset.top + 55
     });
 
     $(".podbor_popup").prepend(popup_text);
@@ -311,7 +311,7 @@ $(document).ready(function (evnt) {
             $(".jquery_slider").slider("values", 0, price_min);
 
             objectValueSelection.price_min = price_min;
-            objectValueSelection.price_min  = $("#price_input_max").val();
+            objectValueSelection.price_min = $("#price_input_max").val();
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
@@ -332,7 +332,7 @@ $(document).ready(function (evnt) {
             $(".jquery_slider").slider("values", 1, price_max);
 
             objectValueSelection.price_max = price_max;
-            objectValueSelection.price_min  = $("#price_input_min").val();
+            objectValueSelection.price_min = $("#price_input_min").val();
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
