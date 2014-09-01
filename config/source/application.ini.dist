@@ -28,6 +28,25 @@ resources.db.params.username = @resources.db.params.username@
 resources.db.params.date_format = "YYYY-MM-ddTHH:mm:ss"
 resources.db.isDefaultTableAdapter = true
 
+;sort parameters
+filter.route.price = "I.PRICE"
+filter.route.name = "B.NAME"
+
+sort_map.price.url = "filter/price/order/"
+sort_map.price.name = "цене"
+sort_map.price.default_state = "asc"
+sort_map.price.active = 0
+
+sort_map.name.url = "filter/name/order/"
+sort_map.name.name = "наименованию"
+sort_map.name.default_state = "asc"
+sort_map.name.active = 0
+
+order_map.asc.order = "desc"
+order_map.asc.class = "sort down"
+order_map.desc.order = "asc"
+order_map.desc.class = "sort up"
+
 ; initialize front controller resource
 resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
 resources.frontController.defaultControllerName = "index"
