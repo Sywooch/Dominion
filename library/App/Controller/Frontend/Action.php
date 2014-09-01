@@ -93,7 +93,7 @@ class App_Controller_Frontend_Action extends Zend_Controller_Action
         $helperBanners = $this->_helper->helperLoader("Banners");
         $helperBanners->setDomXml($this->domXml);
 
-        $this->domXml->create_element("schedule", htmlentities($resultContentSchedule));
+        $this->domXml->create_element("schedule", $resultContentSchedule);
     }
 
     private function getCart()
