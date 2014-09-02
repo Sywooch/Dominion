@@ -356,12 +356,12 @@ class CatController extends App_Controller_Frontend_Action
 
             if (!empty($order) && !empty($filter)) {
                 $configApp["sort_map"][$filter]["default_state"] = $order;
-                $configApp["sort_map"] = $this->generatePrevUrl($configApp["sort_map"]);
                 $configApp["sort_map"][$filter]["active"] = 1;
             }
 
             $item_params["order_map"] = $configApp["order_map"];
             $item_params["sort"] = $configApp["sort_map"];
+            $item_params["url_cat"] = $Catalogue->getRealCatNameByCatalogueId($this->catalogue_id);
 
             $it_helper = $this->_helper->helperLoader('Item', $item_params);
             $it_helper->setLang($this->lang, $this->lang_id);
@@ -385,23 +385,23 @@ class CatController extends App_Controller_Frontend_Action
         }
     }
 
-    /**
-     * Generate pref url
-     *
-     * @param array $configAppSortMap
-     *
-     * @return array
-     */
-    private function generatePrevUrl(array $configAppSortMap)
-    {
-        preg_match("/^(\/[a-zA-Z0-9-]+){2}/", $_SERVER["REQUEST_URI"], $match);
-        $formatData = $configAppSortMap;
-        foreach ($configAppSortMap as $key => $value) {
-            $formatData[$key]["url"] = $match[0] . "/" . $value["url"];
-        }
-
-        return $formatData;
-    }
+//    /**
+//     * Generate pref url
+//     *
+//     * @param array $configAppSortMap
+//     *
+//     * @return array
+//     */
+//    private function generatePrevUrl(array $configAppSortMap)
+//    {
+//        preg_match("/^(\/[a-zA-Z0-9-]+)/", $_SERVER["REQUEST_URI"], $match);
+//        $formatData = $configAppSortMap;
+//        foreach ($configAppSortMap as $key => $value) {
+//            $formatData[$key]["url"] = $match[0] . "/" . $value["url"];
+//        }
+//
+//        return $formatData;
+//    }
 
     private function setArToDOM($ar, $at)
     {
