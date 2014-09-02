@@ -95,7 +95,7 @@ selection.prototype.doUrl = function () {
 
     this.page_url += result_action;
 
-    $('#catalog_compare_products_form').attr({'action': this.page_url});
+    $('#catalog_compare_products_form').attr({'action': $('#page_url').val()});
 }
 
 /**
@@ -241,6 +241,7 @@ function podbor_popup(popup_text, evnt) {
 }
 
 $(document).ready(function (evnt) {
+    $('#catalog_compare_products_form').attr({'action': $('#page_url').val()});
     objectValueSelection.catalogue_id = $("input#catalogue_id").val();
 
     if ($(".jquery_slider").length > 0) {
