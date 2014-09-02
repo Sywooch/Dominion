@@ -149,7 +149,7 @@ class CatController extends App_Controller_Frontend_Action
         $order = $this->_getParam("order", null);
 
         $configApp = Zend_Registry::get("config")->toArray();
-        $nameColumn = $configApp["filter"]["route"][$filter];
+        $nameColumn = empty($filter) ? null : $configApp["filter"]["route"][$filter];
 
 
         if (!empty($br)) {
