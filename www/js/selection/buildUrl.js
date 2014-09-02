@@ -26,6 +26,6 @@ var buildUrl = {
             buildUrl.prices = "pmin/" + price_min + "/pmax/" + price_max + "/";
         }
 
-        return buildUrl.brands + buildUrl.attributes + buildUrl.attributes_range + buildUrl.prices + "stb/" + status_brand + "/sattr/" + status_attribute;
+        return buildUrl.brands + buildUrl.attributes + buildUrl.attributes_range + buildUrl.prices + "stb/" + status_brand + "/sattr/" + status_attribute + "/";
     }
 };

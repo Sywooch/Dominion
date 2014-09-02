@@ -6,16 +6,7 @@
 
     <xsl:template name="section_url">
         <xsl:value-of select="//data/@cat_real_url"/>
-        <xsl:if test="//data/@br_page!=''">br/<xsl:value-of select="//data/@br_page"/>/
-        </xsl:if>
-        <xsl:if test="//data/@at_page!=''">at/<xsl:value-of select="//data/@at_page"/>/
-        </xsl:if>
-        <xsl:if test="//data/@ar_page!=''">ar/<xsl:value-of select="//data/@ar_page"/>/
-        </xsl:if>
-        <xsl:if test="//data/@show_price_min &gt; 0">pmin/<xsl:value-of select="//data/@show_price_min"/>/
-        </xsl:if>
-        <xsl:if test="//data/@show_price_max &gt; 0">pmax/<xsl:value-of select="//data/@show_price_max"/>/
-        </xsl:if>
+        <xsl:if test="//data/@br_page!=''">br/<xsl:value-of select="//data/@br_page"/>/</xsl:if><xsl:if test="//data/@at_page!=''">at/<xsl:value-of select="//data/@at_page"/>/</xsl:if><xsl:if test="//data/@ar_page!=''">ar/<xsl:value-of select="//data/@ar_page"/>/</xsl:if><xsl:if test="//data/@show_price_min &gt; 0">pmin/<xsl:value-of select="//data/@show_price_min"/>/</xsl:if><xsl:if test="//data/@show_price_max &gt; 0">pmax/<xsl:value-of select="//data/@show_price_max"/>/</xsl:if>
     </xsl:template>
 
     <xsl:template match="attr_brands">

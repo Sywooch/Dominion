@@ -95,7 +95,7 @@ selection.prototype.doUrl = function () {
 
     this.page_url += result_action;
 
-    $('#catalog_compare_products_form').attr({'action': this.page_url});
+    $('#catalog_compare_products_form').attr({'action': $('#page_url').val()});
 }
 
 /**
@@ -241,6 +241,7 @@ function podbor_popup(popup_text, evnt) {
 }
 
 $(document).ready(function (evnt) {
+    $('#catalog_compare_products_form').attr({'action': $('#page_url').val()});
     objectValueSelection.catalogue_id = $("input#catalogue_id").val();
 
     if ($(".jquery_slider").length > 0) {
@@ -348,8 +349,16 @@ $(document).ready(function (evnt) {
     });
     $(".applay_filters a.product_button").click(function (ev) {
 
-        var action = $(this).parents('form').attr('action');
-        window.location.href = action;
+        var resultUrlAttributes = buildUrl.mergeUrl(
+            objectValueSelection.brands_id,
+            objectValueSelection.attributes_id,
+            objectValueSelection.price_min,
+            objectValueSelection.price_max,
+            $.data(document.body, "status_brand"),
+            $.data(document.body, "status_attribute")
+        );
+
+        window.location.href = $('#page_url').attr("value") + resultUrlAttributes;
     });
 
     $('#show_models').live('click', function (ev) {
