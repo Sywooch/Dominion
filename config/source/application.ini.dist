@@ -47,6 +47,15 @@ order_map.asc.class = "sort down"
 order_map.desc.order = "asc"
 order_map.desc.class = "sort up"
 
+;url parameters filters
+filter_url.br = br
+filter_url.at = at
+filter_url.ar = ar
+filter_url.pmin = pmin
+filter_url.pmax = pmax
+filter_url.stb = stb
+filter_url.sattr = sattr
+
 ; initialize front controller resource
 resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
 resources.frontController.defaultControllerName = "index"

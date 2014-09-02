@@ -9,6 +9,8 @@ class CatController extends App_Controller_Frontend_Action
     {
         parent::init();
 
+        $params = $this->getAllParams();
+
         $Catalogue = new models_Catalogue();
         $this->catalogue_id = $this->_getParam('id');
 
@@ -361,7 +363,8 @@ class CatController extends App_Controller_Frontend_Action
 
             $item_params["order_map"] = $configApp["order_map"];
             $item_params["sort"] = $configApp["sort_map"];
-            $item_params["url_cat"] = $Catalogue->getRealCatNameByCatalogueId($this->catalogue_id);
+
+            $item_params["url_cat"] = $Catalogue->getRealCatNameByCatalogueId($this->catalogue_id) . $this->generatePrevUrl($configApp["filter_url"]);
 
             $it_helper = $this->_helper->helperLoader('Item', $item_params);
             $it_helper->setLang($this->lang, $this->lang_id);
@@ -385,23 +388,26 @@ class CatController extends App_Controller_Frontend_Action
         }
     }
 
-//    /**
-//     * Generate pref url
-//     *
-//     * @param array $configAppSortMap
-//     *
-//     * @return array
-//     */
-//    private function generatePrevUrl(array $configAppSortMap)
-//    {
-//        preg_match("/^(\/[a-zA-Z0-9-]+)/", $_SERVER["REQUEST_URI"], $match);
-//        $formatData = $configAppSortMap;
-//        foreach ($configAppSortMap as $key => $value) {
-//            $formatData[$key]["url"] = $match[0] . "/" . $value["url"];
-//        }
-//
-//        return $formatData;
-//    }
+    /**
+     * Generate prev url
+     *
+     * @param array $configMap
+     *
+     * @return string
+     */
+    private function generatePrevUrl(array $configMap)
+    {
+        $paramsAttributes = $this->getAllParams();
+
+        $url = "";
+        foreach ($paramsAttributes as $key => $value) {
+            if (!isset($configMap[$key]) || empty($value)) continue;
+
+            $url .= $key . "/" . $value . "/";
+        }
+
+        return $url;
+    }
 
     private function setArToDOM($ar, $at)
     {
