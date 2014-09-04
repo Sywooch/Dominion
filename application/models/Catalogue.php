@@ -467,6 +467,20 @@ class models_Catalogue extends ZendDBEntity
 
     }
 
+    /**
+     * Get real cat name by catalogue id
+     *
+     * @param integer $catalogueId
+     *
+     * @return string
+     */
+    public function getRealCatNameByCatalogueId($catalogueId)
+    {
+        $sql = "SELECT c.REALCATNAME FROM CATALOGUE AS c WHERE c.CATALOGUE_ID = ?";
+
+        return $this->_db->fetchOne($sql, $catalogueId);
+    }
+
     public function getCatalogsIncludeBrandsListByParent($parentId = null)
     {
 
@@ -492,8 +506,8 @@ class models_Catalogue extends ZendDBEntity
     }
 
 
-
-    public function getTopCatalogsId($parentId){
+    public function getTopCatalogsId($parentId)
+    {
         $sql = "SELECT c.CATALOGUE_ID, c.NAME FROM CATALOGUE c
                   WHERE c.STATUS = 1
                   AND c.PARENT_ID = ?
