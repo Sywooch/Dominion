@@ -1318,6 +1318,10 @@ EOF;
 			<name>Вкл</name>
 			<comment>Флаг (1-вкл 0-выкл)</comment>
 		</col>
+			<col type="8" name="EXPAND" default="1" selectible="y" isstate="y">
+			<name>Развернуть?</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
 		<col type="8" name="MULTIPLE_" visuality="y">
 			<name>Множественный выбор(для списков) </name>
 			<comment>Множественный выбор(для списков)</comment>
@@ -3377,8 +3381,8 @@ return $ret;
 			<comment>В новом окне</comment>
 		</col>
 		<col type="8" name="SHOW_NEAR_CATALOGUE_MENU" default="0">
-			<name>В новом окне</name>
-			<comment>В новом окне</comment>
+			<name>Показать возле каталога меню</name>
+			<comment>Показать возле каталога меню</comment>
 		</col>
 		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
 			<name>Вкл</name>
@@ -4343,5 +4347,6 @@ print <<<EOF
     </joined>
   </table>
 </config>
+
 
 

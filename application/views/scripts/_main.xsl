@@ -477,9 +477,11 @@
                         <ul id="main_menu" class="menu">
                             <xsl:apply-templates select="main_menu[@show_near_catalogue_menu=0]"/>
                         </ul>
-                        <ul class="service-menu">
-                            <xsl:apply-templates select="main_menu[@show_near_catalogue_menu=1]"/>
-                        </ul>
+                        <xsl:if test="count(main_menu[@show_near_catalogue_menu=1]) &gt; 0">
+                            <ul class="service-menu">
+                                <xsl:apply-templates select="main_menu[@show_near_catalogue_menu=1]"/>
+                            </ul>
+                        </xsl:if>
 
                         <xsl:apply-templates select="//catalogue-menu" mode="menu"/>
 

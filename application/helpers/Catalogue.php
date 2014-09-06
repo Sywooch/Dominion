@@ -394,11 +394,6 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
         }
     }
 
-    public function getCatalogueProducts()
-    {
-
-    }
-
     private function getSubCatalogPath($id, $parent_id)
     {
         $result = $this->work_model->getTree($parent_id);
