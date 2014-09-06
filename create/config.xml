@@ -3376,6 +3376,10 @@ return $ret;
 			<name>В новом окне</name>
 			<comment>В новом окне</comment>
 		</col>
+		<col type="8" name="SHOW_NEAR_CATALOGUE_MENU" default="0">
+			<name>В новом окне</name>
+			<comment>В новом окне</comment>
+		</col>
 		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
 			<name>Вкл</name>
 			<comment>Флаг (0-вкл 1-выкл)</comment>
@@ -4339,4 +4343,5 @@ print <<<EOF
     </joined>
   </table>
 </config>
+
 

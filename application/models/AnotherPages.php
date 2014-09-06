@@ -25,7 +25,8 @@ class models_AnotherPages extends ZendDBEntity
                       CATNAME,
                       REALCATNAME,
                       URL,
-                      IS_NEW_WIN
+                      IS_NEW_WIN,
+                      SHOW_NEAR_CATALOGUE_MENU
                FROM ANOTHER_PAGES
                WHERE PARENT_ID=?
                  AND STATUS=1

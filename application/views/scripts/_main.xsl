@@ -81,7 +81,7 @@
     </xsl:template>
 
     <!-- Top menu -->
-    <xsl:template match="main_menu">
+    <xsl:template match="main_menu[@show_near_catalogue_menu=0]">
         <xsl:variable name="pid">
             <xsl:apply-templates select="@another_pages_id"/>
         </xsl:variable>
@@ -108,6 +108,16 @@
         </xsl:choose>
     </xsl:template>
     <!-- Top menu -->
+
+    <!--Menu near catalogue menu-->
+    <xsl:template match="main_menu[@show_near_catalogue_menu=1]">
+        <li>
+            <a href="{href}">
+                <xsl:value-of select="name"/>
+            </a>
+        </li>
+    </xsl:template>
+    <!--Menu near catalogue menu-->
 
     <!--Сравнение-->
     <xsl:template match="comp_item">
@@ -465,7 +475,10 @@
                             интернет-магазин электроники и бытовой техники в Харькове
                         </a>
                         <ul id="main_menu" class="menu">
-                            <xsl:apply-templates select="main_menu"/>
+                            <xsl:apply-templates select="main_menu[@show_near_catalogue_menu=0]"/>
+                        </ul>
+                        <ul class="service-menu">
+                            <xsl:apply-templates select="main_menu[@show_near_catalogue_menu=1]"/>
                         </ul>
 
                         <xsl:apply-templates select="//catalogue-menu" mode="menu"/>
@@ -485,7 +498,7 @@
                             <a href="#" class="button_link">Искать</a>
                         </form>
                         <div class="workingHours">
-                            <xsl:value-of select="//schedule" disable-output-escaping="yes" />
+                            <xsl:value-of select="//schedule" disable-output-escaping="yes"/>
                         </div>
                         <div id="header_nav">
                             <xsl:choose>
