@@ -18,7 +18,8 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
             foreach ($attr as $view) {
                 $this->domXml->create_element('attr_cat', '', 2);
                 $this->domXml->set_attribute(array('id' => $view['ATTRIBUT_ID']
-                , 'is_range_view' => $view['IS_RANGE_VIEW']
+                , 'is_range_view' => $view['IS_RANGE_VIEW'],
+                    "expand" => $view["EXPAND"]
                 ));
 
                 $this->domXml->create_element('name', $view['NAME']);

@@ -283,6 +283,8 @@ class Helpers_Catalogue extends App_Controller_Helper_HelperAbstract
             $this->domXml->create_element('title', $catinfo['TITLE']);
             $this->domXml->create_element('keywords', $catinfo['KEYWORD_META']);
             $this->domXml->create_element('description', $catinfo['DESC_META']);
+            $this->domXml->create_element("expand_price", $catinfo["EXPAND_PRICE"]);
+            $this->domXml->create_element("expand_brand", $catinfo["EXPAND_BRAND"]);
 
             $this->setXmlNode($catinfo['LONG_TEXT'], 'long_text');
 

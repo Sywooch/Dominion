@@ -10,8 +10,24 @@ class Version20140907010736 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-        $schema->getTable("ATTRIBUT")->addColumn(
+        $tableAttribut = $schema->getTable("ATTRIBUT");
+        $tableAttribut->addColumn(
             "EXPAND",
+            Type::INTEGER
+        )->setDefault(0)
+            ->setNotnull(false)
+            ->setScale(1);
+
+        $tableCatalogue = $schema->getTable("CATALOGUE");
+
+        $tableCatalogue->addColumn(
+            "EXPAND_PRICE",
+            Type::INTEGER
+        )->setDefault(0)
+            ->setNotnull(false)
+            ->setScale(1);
+        $tableCatalogue->addColumn(
+            "EXPAND_BRAND",
             Type::INTEGER
         )->setDefault(0)
             ->setNotnull(false)
@@ -20,6 +36,11 @@ class Version20140907010736 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        $schema->getTable("ATTRIBUT")->dropColumn("EXPAND");
+        $tableAttribute = $schema->getTable("ATTRIBUT");
+        $tableCatalogue = $schema->getTable("CATALOGUE");
+
+        $tableAttribute->dropColumn("EXPAND");
+        $tableCatalogue->dropColumn("EXPAND_PRICE")
+            ->dropColumn("EXPAND_BRAND");
     }
 }
