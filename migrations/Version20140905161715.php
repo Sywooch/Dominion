@@ -10,11 +10,11 @@ class Version20140905161715 extends AbstractMigration
     public function up(Schema $schema)
     {
 
-        $schema->addSql('ALTER TABLE ATTRIBUT_GROUP ENGINE = INNODB');
+        $this->_addSql('ALTER TABLE ATTRIBUT_GROUP ENGINE = INNODB');
 
-        $schema->addSql('ALTER TABLE ATTRIBUT CHANGE COLUMN ATTRIBUT_GROUP_ID ATTRIBUT_GROUP_ID INT(12) UNSIGNED NOT NULL');
+        $this->_addSql('ALTER TABLE ATTRIBUT CHANGE COLUMN ATTRIBUT_GROUP_ID ATTRIBUT_GROUP_ID INT(12) UNSIGNED NOT NULL');
 
-        $schema->addSql('ALTER TABLE ATTRIBUT
+        $this->_addSql('ALTER TABLE ATTRIBUT
                           ADD CONSTRAINT FK_ATTRIBUT_ATTRIBUT_GROUP_ATTRIBUT_GROUP_ID FOREIGN KEY (ATTRIBUT_GROUP_ID)
                             REFERENCES ATTRIBUT_GROUP(ATTRIBUT_GROUP_ID) ON DELETE RESTRICT ON UPDATE RESTRICT');
 
@@ -23,6 +23,6 @@ class Version20140905161715 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        $schema->addSql('ALTER TABLE ATTRIBUT_GROUP ENGINE = MYISAM');
+        $this->_addSql('ALTER TABLE ATTRIBUT_GROUP ENGINE = MYISAM');
     }
 }
