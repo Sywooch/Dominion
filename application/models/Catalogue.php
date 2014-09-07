@@ -206,6 +206,8 @@ class models_Catalogue extends ZendDBEntity
                      ,SUB_TITLE
                      ,DESC_META
                      ,KEYWORD_META
+                     ,EXPAND_PRICE
+                     ,EXPAND_BRAND
                FROM {$this->_name}
                WHERE CATALOGUE_ID=?";
 

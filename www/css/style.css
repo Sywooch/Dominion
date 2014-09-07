@@ -435,13 +435,14 @@ input[type="checkbox"] {
 }
 
 .service-menu {
+    border-bottom: 2px solid #d9d9d9;
+    left: 325px;
+    list-style: none outside none;
+    overflow: hidden;
+    padding: 0 0 8px;
     position: absolute;
     right: 250px;
-    top: 257px;
-    list-style: none;
-    border-bottom: 2px solid #d9d9d9;
-    overflow: hidden;
-    padding: 0 0 11px;
+    top: 254px;
 }
 
 .service-menu li {
