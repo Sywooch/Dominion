@@ -154,7 +154,7 @@ class Format_ConvertDataElasticSelection
         $attributesFormat = array();
 
         foreach ($attributes as $value) {
-            $attributesFormat[$value["ATTRIBUT_ID"]][] = Format_ConvertDataElasticSelection::getInt($value["NAME"]);
+            $attributesFormat[$value["ATTRIBUT_ID"]][] = Format_ConvertDataElasticSelection::getInt($value["VALUE"]);
         }
 
         return self::getAttributesLine(Format_ConvertDataElasticSelection::getMaxMinValue($attributesFormat));

@@ -137,8 +137,7 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllItemID()
     {
-        // FIXME: Убрать and i.ITEM_ID = 82970  - это надо только для отладки
-        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM ITEM i WHERE i.STATUS = 1 AND i.PRICE > 0 and i.ITEM_ID = 82970";
+        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM ITEM i WHERE i.STATUS = 1 AND i.PRICE > 0";
     }
 
     /**
