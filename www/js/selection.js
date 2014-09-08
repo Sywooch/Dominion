@@ -116,7 +116,7 @@ selection.select = function (dataObject, currentElement) {
     var attributeRangeId = dataObject.attribute_id_range_active;
     var priceRangeChecked = dataObject.price_range_check;
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/ajax/getattrcount/",
         data: {
             catalogue_id: dataObject.catalogue_id,

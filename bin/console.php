@@ -9,14 +9,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $console = new Application();
 
+$universalClassLoader = new UniversalClassLoader();
+$universalClassLoader->registerPrefix(
+    "ContextSearch_",
+    __DIR__ . "/../library"
+);
 
 $console
-    ->register('elsaticsearch:rebuild')
+    ->register('elasticsearch:rebuild')
     ->setDefinition(array(new InputArgument('type', InputArgument::REQUIRED, 'Type to rebuild')))
     ->setDescription('Rebuild index into elasticsearch')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
@@ -50,7 +55,6 @@ $console
         } elseif ($type == 'selection') {
             $generator = new ContextSearch_RebuildFilters();
         }
-
 
         $generator->run($progress, $loaderFactory, $createEnvironment);
 
