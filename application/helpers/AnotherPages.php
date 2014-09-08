@@ -15,7 +15,8 @@ class Helpers_AnotherPages extends App_Controller_Helper_HelperAbstract
                 $this->domXml->create_element('main_menu', '', 2);
                 $this->domXml->set_attribute(array('another_pages_id' => $view['ANOTHER_PAGES_ID']
                 , 'parent_id' => $view['PARENT_ID']
-                , 'on_path' => $on_path
+                , 'on_path' => $on_path,
+                    "show_near_catalogue_menu" => $view["SHOW_NEAR_CATALOGUE_MENU"]
                 ));
 
                 $href = '';

@@ -1318,6 +1318,10 @@ EOF;
 			<name>Вкл</name>
 			<comment>Флаг (1-вкл 0-выкл)</comment>
 		</col>
+			<col type="8" name="EXPAND" default="1" selectible="y" isstate="y">
+			<name>Развернуть?</name>
+			<comment>Флаг (1-вкл 0-выкл)</comment>
+		</col>
 		<col type="8" name="MULTIPLE_" visuality="y">
 			<name>Множественный выбор(для списков) </name>
 			<comment>Множественный выбор(для списков)</comment>
@@ -1545,6 +1549,14 @@ EOF;
 			<name>Участвует в рекламе</name>
 			<comment>Диапазон (1-вкл 0-выкл)</comment>
 		</col>
+  <col type="8" name="EXPAND_PRICE" default="0" selectible="y">
+      <name>Развернуть цену?</name>
+      <comment>Развернуть цену?</comment>
+    </col>
+    <col type="8" name="EXPAND_BRAND" default="0" selectible="y">
+      <name>Развернуть брэнд?</name>
+      <comment>Развернуть брэнд?</comment>
+    </col>
     <col type="8" name="IS_INDEX" default="0" selectible="y">
       <name>Выводить на главной</name>
       <comment>Диапазон (1-вкл 0-выкл)</comment>
@@ -3376,6 +3388,10 @@ return $ret;
 			<name>В новом окне</name>
 			<comment>В новом окне</comment>
 		</col>
+		<col type="8" name="SHOW_NEAR_CATALOGUE_MENU" default="0">
+			<name>Показать возле каталога меню</name>
+			<comment>Показать возле каталога меню</comment>
+		</col>
 		<col type="8" name="STATUS" isstate="y" selectible="y" default="1">
 			<name>Вкл</name>
 			<comment>Флаг (0-вкл 1-выкл)</comment>
@@ -4339,4 +4355,7 @@ print <<<EOF
     </joined>
   </table>
 </config>
+
+
+
 
