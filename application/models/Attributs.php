@@ -46,38 +46,25 @@ class models_Attributs extends ZendDBEntity
      */
     public function getAttributesIsRangeView($catalogueId)
     {
-        $sql = "SELECT
-        A.ATTRIBUT_ID,
-        AL.NAME
-      FROM  ITEM I
-        JOIN ITEM0 I1 USING (ITEM_ID)
-        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-        JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-      WHERE I1.VALUE = AL.ATTRIBUT_LIST_ID
-      AND I.CATALOGUE_ID = {$catalogueId}
-      AND A.IS_RANGE_VIEW = 1
-    union
-    SELECT
-        A.ATTRIBUT_ID,
-        AL.NAME
-      FROM ITEM I
-        JOIN ITEM2 I2 USING (ITEM_ID)
-        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-        JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-      WHERE  I.CATALOGUE_ID = {$catalogueId} AND I2.VALUE = AL.ATTRIBUT_LIST_ID
-      AND A.IS_RANGE_VIEW = 1
-      UNION
-      SELECT
-        A.ATTRIBUT_ID,
-        AL.NAME
-      FROM  ITEM I
-        JOIN ITEM0 I0 USING (ITEM_ID)
-        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-        JOIN ATTRIBUT_LIST AL USING (ATTRIBUT_ID)
-      WHERE I0.VALUE = AL.ATTRIBUT_LIST_ID
-      AND I.CATALOGUE_ID = {$catalogueId}
-      AND A.IS_RANGE_VIEW = 1
-";
+        $sql = "SELECT DISTINCT
+                        A.ATTRIBUT_ID,
+                        I1.VALUE
+                      FROM  ITEM I
+                        JOIN ITEM0 I1 USING (ITEM_ID)
+                        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
+                        WHERE 1
+                      AND I.CATALOGUE_ID = {$catalogueId}
+                      AND A.IS_RANGE_VIEW = 1
+                UNION
+                SELECT DISTINCT
+                        A.ATTRIBUT_ID,
+                        I1.VALUE
+                      FROM  ITEM I
+                        JOIN ITEM1 I1 USING (ITEM_ID)
+                        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
+                        WHERE 1
+                      AND I.CATALOGUE_ID = {$catalogueId}
+                      AND A.IS_RANGE_VIEW = 1";
 
         return $this->_db->fetchAll($sql);
     }
