@@ -105,21 +105,24 @@ class Format_FormatDataElastic
             $goods[$key]['brand'] = $data['BRAND'];
             $goods[$key]['name_product'] = $data['NAME_PRODUCT'];
 
-            $data['IMAGE3'] = !empty($data['IMAGE3']) ? $data['IMAGE3'] : '##';
-            $image = explode("#", $data['IMAGE0']);
+            //$data['IMAGE3'] = !empty($data['IMAGE3']) ? $data['IMAGE3'] : '##';
 
             $goods[$key]['price'] = $price . " " . $unit;
 
             $goods[$key]['url'] = $data['URL'];
-            $goods[$key]['image'] = array(
-                'url' => $image[0],
-                'width' => $image[1],
-                'height' => $image[2]
-            );
 
+            if (!empty($data['IMAGE0'])) {
+                $image = explode("#", $data['IMAGE0']);
+                $goods[$key]['image'] = array(
+                    'url' => $image[0],
+                    'width' => $image[1],
+                    'height' => $image[2]
+                );
+                $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
+            }
             $goods[$key]['value'] = "{$data['TYPENAME']} {$data['BRAND']} {$data['NAME_PRODUCT']}";
             $goods[$key] = $this->replaceValue($goods[$key], null, "");
-            $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
+
         }
 
         return $goods;

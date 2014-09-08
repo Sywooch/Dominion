@@ -349,11 +349,12 @@ $_REQUEST['IS_RANGEABLE']=isset($_REQUEST['IS_RANGEABLE']) && $_REQUEST['IS_RANG
 $_REQUEST['IS_RANGE_VIEW']=isset($_REQUEST['IS_RANGE_VIEW']) && $_REQUEST['IS_RANGE_VIEW']?1:0;
 $_REQUEST['NOT_CARD']=isset($_REQUEST['NOT_CARD']) && $_REQUEST['NOT_CARD']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
+$_REQUEST['EXPAND']=isset($_REQUEST['EXPAND']) && $_REQUEST['EXPAND']?1:0;
 $_REQUEST['MULTIPLE_']=isset($_REQUEST['MULTIPLE_']) && $_REQUEST['MULTIPLE_']?1:0;
 
 
 
-$cmf->execute('insert into ATTRIBUT (ATTRIBUT_ID,ATTRIBUT_GROUP_ID,NAME,ID_FROM_VBD,TITLE,ICON_IMAGE,TYPE,UNIT_ID,VIEW_ATTRIBUT_GROUP_ID,ALTER_VALUE,IS_RANGEABLE,IS_RANGE_VIEW,NOT_CARD,STATUS,MULTIPLE_,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['MULTIPLE_']),stripslashes($_REQUEST['ORDERING']));
+$cmf->execute('insert into ATTRIBUT (ATTRIBUT_ID,ATTRIBUT_GROUP_ID,NAME,ID_FROM_VBD,TITLE,ICON_IMAGE,TYPE,UNIT_ID,VIEW_ATTRIBUT_GROUP_ID,ALTER_VALUE,IS_RANGEABLE,IS_RANGE_VIEW,NOT_CARD,STATUS,EXPAND,MULTIPLE_,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['EXPAND']),stripslashes($_REQUEST['MULTIPLE_']),stripslashes($_REQUEST['ORDERING']));
 
 
 $_REQUEST['e'] ='ED';
@@ -396,11 +397,12 @@ $_REQUEST['IS_RANGEABLE']=isset($_REQUEST['IS_RANGEABLE']) && $_REQUEST['IS_RANG
 $_REQUEST['IS_RANGE_VIEW']=isset($_REQUEST['IS_RANGE_VIEW']) && $_REQUEST['IS_RANGE_VIEW']?1:0;
 $_REQUEST['NOT_CARD']=isset($_REQUEST['NOT_CARD']) && $_REQUEST['NOT_CARD']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
+$_REQUEST['EXPAND']=isset($_REQUEST['EXPAND']) && $_REQUEST['EXPAND']?1:0;
 $_REQUEST['MULTIPLE_']=isset($_REQUEST['MULTIPLE_']) && $_REQUEST['MULTIPLE_']?1:0;
 
 
-if(!empty($_REQUEST['pid'])) $cmf->execute('update ATTRIBUT set ATTRIBUT_GROUP_ID=?,NAME=?,ID_FROM_VBD=?,TITLE=?,ICON_IMAGE=?,TYPE=?,UNIT_ID=?,VIEW_ATTRIBUT_GROUP_ID=?,ALTER_VALUE=?,IS_RANGEABLE=?,IS_RANGE_VIEW=?,NOT_CARD=?,STATUS=?,MULTIPLE_=? where ATTRIBUT_ID=?',stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['MULTIPLE_']),$_REQUEST['id']);
-else $cmf->execute('update ATTRIBUT set NAME=?,ID_FROM_VBD=?,TITLE=?,ICON_IMAGE=?,TYPE=?,UNIT_ID=?,VIEW_ATTRIBUT_GROUP_ID=?,ALTER_VALUE=?,IS_RANGEABLE=?,IS_RANGE_VIEW=?,NOT_CARD=?,STATUS=?,MULTIPLE_=? where ATTRIBUT_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['MULTIPLE_']),$_REQUEST['id']);
+if(!empty($_REQUEST['pid'])) $cmf->execute('update ATTRIBUT set ATTRIBUT_GROUP_ID=?,NAME=?,ID_FROM_VBD=?,TITLE=?,ICON_IMAGE=?,TYPE=?,UNIT_ID=?,VIEW_ATTRIBUT_GROUP_ID=?,ALTER_VALUE=?,IS_RANGEABLE=?,IS_RANGE_VIEW=?,NOT_CARD=?,STATUS=?,EXPAND=?,MULTIPLE_=? where ATTRIBUT_ID=?',stripslashes($_REQUEST['pid'])+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['EXPAND']),stripslashes($_REQUEST['MULTIPLE_']),$_REQUEST['id']);
+else $cmf->execute('update ATTRIBUT set NAME=?,ID_FROM_VBD=?,TITLE=?,ICON_IMAGE=?,TYPE=?,UNIT_ID=?,VIEW_ATTRIBUT_GROUP_ID=?,ALTER_VALUE=?,IS_RANGEABLE=?,IS_RANGE_VIEW=?,NOT_CARD=?,STATUS=?,EXPAND=?,MULTIPLE_=? where ATTRIBUT_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['ICON_IMAGE']),stripslashes($_REQUEST['TYPE']),stripslashes($_REQUEST['UNIT_ID'])+0,stripslashes($_REQUEST['VIEW_ATTRIBUT_GROUP_ID'])+0,stripslashes($_REQUEST['ALTER_VALUE']),stripslashes($_REQUEST['IS_RANGEABLE']),stripslashes($_REQUEST['IS_RANGE_VIEW']),stripslashes($_REQUEST['NOT_CARD']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['EXPAND']),stripslashes($_REQUEST['MULTIPLE_']),$_REQUEST['id']);
 
 $_REQUEST['e'] ='ED';
 
@@ -408,7 +410,7 @@ $_REQUEST['e'] ='ED';
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_ID_FROM_VBD,$V_TITLE,$V_ICON_IMAGE,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_MULTIPLE_)=$cmf->selectrow_arrayQ('select ATTRIBUT_ID,ATTRIBUT_GROUP_ID,NAME,ID_FROM_VBD,TITLE,ICON_IMAGE,TYPE,UNIT_ID,VIEW_ATTRIBUT_GROUP_ID,ALTER_VALUE,IS_RANGEABLE,IS_RANGE_VIEW,NOT_CARD,STATUS,MULTIPLE_ from ATTRIBUT where ATTRIBUT_ID=?',$_REQUEST['id']);
+list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_ID_FROM_VBD,$V_TITLE,$V_ICON_IMAGE,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_EXPAND,$V_MULTIPLE_)=$cmf->selectrow_arrayQ('select ATTRIBUT_ID,ATTRIBUT_GROUP_ID,NAME,ID_FROM_VBD,TITLE,ICON_IMAGE,TYPE,UNIT_ID,VIEW_ATTRIBUT_GROUP_ID,ALTER_VALUE,IS_RANGEABLE,IS_RANGE_VIEW,NOT_CARD,STATUS,EXPAND,MULTIPLE_ from ATTRIBUT where ATTRIBUT_ID=?',$_REQUEST['id']);
 
 
 
@@ -427,6 +429,7 @@ $V_IS_RANGEABLE=$V_IS_RANGEABLE?'checked':'';
 $V_IS_RANGE_VIEW=$V_IS_RANGE_VIEW?'checked':'';
 $V_NOT_CARD=$V_NOT_CARD?'checked':'';
 $V_STATUS=$V_STATUS?'checked':'';
+$V_EXPAND=$V_EXPAND?'checked':'';
 $V_MULTIPLE_=$V_MULTIPLE_?'checked':'';
 print @<<<EOF
 <h2 class="h2">Редактирование - Аттрибуты товара</h2>
@@ -527,7 +530,7 @@ print <<<EOF
 
 <input type="text" name="ALTER_VALUE" value="$V_ALTER_VALUE" size="90" /><br />
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Явл-ся диапазоном?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGEABLE' value='1' $V_IS_RANGEABLE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить как диапозон:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGE_VIEW' value='1' $V_IS_RANGE_VIEW/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Не выводить в карточке товара:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='NOT_CARD' value='1' $V_NOT_CARD/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Множественный выбор(для списков) :<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='MULTIPLE_' value='1' $V_MULTIPLE_/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Явл-ся диапазоном?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGEABLE' value='1' $V_IS_RANGEABLE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить как диапозон:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGE_VIEW' value='1' $V_IS_RANGE_VIEW/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Не выводить в карточке товара:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='NOT_CARD' value='1' $V_NOT_CARD/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND' value='1' $V_EXPAND/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Множественный выбор(для списков) :<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='MULTIPLE_' value='1' $V_MULTIPLE_/><br /></td></tr>
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
 <input type="submit" name="e" value="Изменить" class="gbt bsave" />&#160;&#160;
@@ -583,7 +586,7 @@ $visible=0;
 
 if($_REQUEST['e'] =='Новый')
 {
-list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_ID_FROM_VBD,$V_TITLE,$V_ICON_IMAGE,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_MULTIPLE_,$V_ORDERING)=array('','','','','','','','','','','','','','','','');
+list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_ID_FROM_VBD,$V_TITLE,$V_ICON_IMAGE,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_EXPAND,$V_MULTIPLE_,$V_ORDERING)=array('','','','','','','','','','','','','','','','','');
 
 
 $IM_ICON_IMAGE=array('','','');
@@ -596,6 +599,7 @@ $V_IS_RANGEABLE='';
 $V_IS_RANGE_VIEW='';
 $V_NOT_CARD='';
 $V_STATUS='checked';
+$V_EXPAND='checked';
 $V_MULTIPLE_='';
 @print <<<EOF
 <h2 class="h2">Добавление - Аттрибуты товара</h2>
@@ -693,7 +697,7 @@ print <<<EOF
 
 <input type="text" name="ALTER_VALUE" value="$V_ALTER_VALUE" size="90" /><br />
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Явл-ся диапазоном?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGEABLE' value='1' $V_IS_RANGEABLE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить как диапозон:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGE_VIEW' value='1' $V_IS_RANGE_VIEW/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Не выводить в карточке товара:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='NOT_CARD' value='1' $V_NOT_CARD/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Множественный выбор(для списков) :<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='MULTIPLE_' value='1' $V_MULTIPLE_/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Явл-ся диапазоном?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGEABLE' value='1' $V_IS_RANGEABLE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить как диапозон:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_RANGE_VIEW' value='1' $V_IS_RANGE_VIEW/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Не выводить в карточке товара:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='NOT_CARD' value='1' $V_NOT_CARD/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND' value='1' $V_EXPAND/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Множественный выбор(для списков) :<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='MULTIPLE_' value='1' $V_MULTIPLE_/><br /></td></tr>
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
 <input type="submit" name="e" value="Добавить" class="gbt badd" /> 
@@ -776,13 +780,13 @@ EOF;
 
 if(!empty($_REQUEST['pid']) and $_REQUEST['pid'] == 'all')
 {
-$sth=$cmf->execute('select A.ATTRIBUT_ID,A.ATTRIBUT_GROUP_ID,A.NAME,A.TYPE,A.UNIT_ID,A.VIEW_ATTRIBUT_GROUP_ID,A.ALTER_VALUE,A.IS_RANGEABLE,A.IS_RANGE_VIEW,A.NOT_CARD,A.STATUS,A.MULTIPLE_ from ATTRIBUT A
+$sth=$cmf->execute('select A.ATTRIBUT_ID,A.ATTRIBUT_GROUP_ID,A.NAME,A.TYPE,A.UNIT_ID,A.VIEW_ATTRIBUT_GROUP_ID,A.ALTER_VALUE,A.IS_RANGEABLE,A.IS_RANGE_VIEW,A.NOT_CARD,A.STATUS,A.EXPAND,A.MULTIPLE_ from ATTRIBUT A
 where A.ATTRIBUT_GROUP_ID > 0 '
 .($cmf->Param('FLT_ATTRIBUT_GROUP_ID')?' and A.ATTRIBUT_GROUP_ID='.mysql_escape_string($cmf->Param('FLT_ATTRIBUT_GROUP_ID')):'').' order by A.ORDERING limit ?,?',$pagesize*($_REQUEST['p']-1),$pagesize);
 }
 else
 {
-$sth=$cmf->execute('select A.ATTRIBUT_ID,A.ATTRIBUT_GROUP_ID,A.NAME,A.TYPE,A.UNIT_ID,A.VIEW_ATTRIBUT_GROUP_ID,A.ALTER_VALUE,A.IS_RANGEABLE,A.IS_RANGE_VIEW,A.NOT_CARD,A.STATUS,A.MULTIPLE_ from ATTRIBUT A
+$sth=$cmf->execute('select A.ATTRIBUT_ID,A.ATTRIBUT_GROUP_ID,A.NAME,A.TYPE,A.UNIT_ID,A.VIEW_ATTRIBUT_GROUP_ID,A.ALTER_VALUE,A.IS_RANGEABLE,A.IS_RANGE_VIEW,A.NOT_CARD,A.STATUS,A.EXPAND,A.MULTIPLE_ from ATTRIBUT A
 where A.ATTRIBUT_GROUP_ID=? '
 .($cmf->Param('FLT_ATTRIBUT_GROUP_ID')?' and A.ATTRIBUT_GROUP_ID='.mysql_escape_string($cmf->Param('FLT_ATTRIBUT_GROUP_ID')):'').' order by A.ORDERING limit ?,?',$_REQUEST['pid'],$pagesize*($_REQUEST['p']-1),$pagesize);
 
@@ -830,14 +834,14 @@ EOF;
 $TABposition=1;
 
 if($sth)
-while(list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_MULTIPLE_)=mysql_fetch_array($sth, MYSQL_NUM))
+while(list($V_ATTRIBUT_ID,$V_ATTRIBUT_GROUP_ID,$V_NAME,$V_TYPE,$V_UNIT_ID,$V_VIEW_ATTRIBUT_GROUP_ID,$V_ALTER_VALUE,$V_IS_RANGEABLE,$V_IS_RANGE_VIEW,$V_NOT_CARD,$V_STATUS,$V_EXPAND,$V_MULTIPLE_)=mysql_fetch_array($sth, MYSQL_NUM))
 {$TABposition++;
 
 
 
 $V_STR_ATTRIBUT_GROUP_ID=$cmf->Spravotchnik($V_ATTRIBUT_GROUP_ID,'select ATTRIBUT_GROUP_ID, NAME from ATTRIBUT_GROUP');
-
-$V_TYPE=!empty($cmf->ENUM_TYPE[$V_TYPE]) ? $cmf->ENUM_TYPE[$V_TYPE]:'';
+                                        
+$V_TYPE=$cmf->ENUM_TYPE[$V_TYPE];
                         
 $V_UNIT_ID=$cmf->selectrow_arrayQ('select NAME from UNIT where UNIT_ID=?',$V_UNIT_ID);
                                         

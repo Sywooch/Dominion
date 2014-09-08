@@ -648,12 +648,14 @@ if(!empty($_REQUEST['pid']))
 	
 
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
+$_REQUEST['EXPAND_PRICE']=isset($_REQUEST['EXPAND_PRICE']) && $_REQUEST['EXPAND_PRICE']?1:0;
+$_REQUEST['EXPAND_BRAND']=isset($_REQUEST['EXPAND_BRAND']) && $_REQUEST['EXPAND_BRAND']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
+  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,EXPAND_PRICE,EXPAND_BRAND,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['EXPAND_PRICE']),stripslashes($_REQUEST['EXPAND_BRAND']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
   
   
       if(empty($_REQUEST['CATNAME'])){
@@ -752,13 +754,15 @@ else
 	
 
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
+$_REQUEST['EXPAND_PRICE']=isset($_REQUEST['EXPAND_PRICE']) && $_REQUEST['EXPAND_PRICE']?1:0;
+$_REQUEST['EXPAND_BRAND']=isset($_REQUEST['EXPAND_BRAND']) && $_REQUEST['EXPAND_BRAND']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
   $_REQUEST['pid'] = (!empty($_REQUEST['PARENT_ID'])) ? $_REQUEST['PARENT_ID'] : 0;
-  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
+  $cmf->execute('insert into CATALOGUE (CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,EXPAND_PRICE,EXPAND_BRAND,IS_INDEX,STATUS,REALSTATUS,ORDERING) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),0,stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['EXPAND_PRICE']),stripslashes($_REQUEST['EXPAND_BRAND']),stripslashes($_REQUEST['IS_INDEX']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDERING']));
   
   
       if(empty($_REQUEST['CATNAME'])){
@@ -858,12 +862,14 @@ if($_REQUEST['event'] == 'Изменить')
 	
 
 $_REQUEST['IN_ADV']=isset($_REQUEST['IN_ADV']) && $_REQUEST['IN_ADV']?1:0;
+$_REQUEST['EXPAND_PRICE']=isset($_REQUEST['EXPAND_PRICE']) && $_REQUEST['EXPAND_PRICE']?1:0;
+$_REQUEST['EXPAND_BRAND']=isset($_REQUEST['EXPAND_BRAND']) && $_REQUEST['EXPAND_BRAND']?1:0;
 $_REQUEST['IS_INDEX']=isset($_REQUEST['IS_INDEX']) && $_REQUEST['IS_INDEX']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-@$cmf->execute('update CATALOGUE set PARENT_ID=?,NAME=?,ID_FROM_VBD=?,TYPENAME=?,CATNAME=?,URL=?,SUB_ITEM_TITLE=?,TITLE=?,SUB_TITLE=?,DESC_META=?,KEYWORD_META=?,DESCRIPTION=?,IMAGE1=?,IMAGE_MENU=?,IN_ADV=?,IS_INDEX=? where CATALOGUE_ID=?',stripslashes($_REQUEST['PARENT_ID']),stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['IS_INDEX']),$_REQUEST['id']);
+@$cmf->execute('update CATALOGUE set PARENT_ID=?,NAME=?,ID_FROM_VBD=?,TYPENAME=?,CATNAME=?,URL=?,SUB_ITEM_TITLE=?,TITLE=?,SUB_TITLE=?,DESC_META=?,KEYWORD_META=?,DESCRIPTION=?,IMAGE1=?,IMAGE_MENU=?,IN_ADV=?,EXPAND_PRICE=?,EXPAND_BRAND=?,IS_INDEX=? where CATALOGUE_ID=?',stripslashes($_REQUEST['PARENT_ID']),stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['ID_FROM_VBD'])+0,stripslashes($_REQUEST['TYPENAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['SUB_ITEM_TITLE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['SUB_TITLE']),stripslashes($_REQUEST['DESC_META']),stripslashes($_REQUEST['KEYWORD_META']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['IMAGE1']),stripslashes($_REQUEST['IMAGE_MENU']),stripslashes($_REQUEST['IN_ADV']),stripslashes($_REQUEST['EXPAND_PRICE']),stripslashes($_REQUEST['EXPAND_BRAND']),stripslashes($_REQUEST['IS_INDEX']),$_REQUEST['id']);
 $_REQUEST['e']='ED';
 
       if(empty($_REQUEST['CATNAME'])){
@@ -882,17 +888,12 @@ $_REQUEST['e']='ED';
         
         $cmf->execute('update CATALOGUE set CATNAME=? where CATALOGUE_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);              
       }
-
-
-      $realPath = GetPath($cmf,$_REQUEST['id']);
-      $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?', $realPath, $_REQUEST['id']);
-//      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
+      
+      $cmf->execute('update CATALOGUE set REALCATNAME=? where CATALOGUE_ID=?',GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);        
+      UpdatePath($cmf,$_REQUEST['id'],'', $sefu);
 
       require __DIR__ ."/../../lib/CreateSEFU.class.php";
-
       $sefu = new CreateSEFU();
-      UpdatePath($cmf,$_REQUEST['id'], $realPath, $sefu);
-
       $sefu->_applySEFUCatalogue($_REQUEST['id']);
       $sefu->_applySEFUCatalogueBrand($_REQUEST['id']);
 
@@ -908,7 +909,7 @@ $_REQUEST['e']='ED';
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where CATALOGUE_ID=?',$_REQUEST['id']);
+list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_EXPAND_PRICE,$V_EXPAND_BRAND,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select CATALOGUE_ID,PARENT_ID,NAME,ID_FROM_VBD,TYPENAME,CATNAME,REALCATNAME,URL,SUB_ITEM_TITLE,TITLE,SUB_TITLE,DESC_META,KEYWORD_META,DESCRIPTION,IMAGE1,IMAGE_MENU,COUNT_,IN_ADV,EXPAND_PRICE,EXPAND_BRAND,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where CATALOGUE_ID=?',$_REQUEST['id']);
 
 
 
@@ -927,6 +928,8 @@ if(isset($V_IMAGE_MENU))
 }
 
 $V_IN_ADV=$V_IN_ADV?'checked':'';
+$V_EXPAND_PRICE=$V_EXPAND_PRICE?'checked':'';
+$V_EXPAND_BRAND=$V_EXPAND_BRAND?'checked':'';
 $V_IS_INDEX=$V_IS_INDEX?'checked':'';
 $V_STATUS=$V_STATUS?'checked':'';
 $V_REALSTATUS=$V_REALSTATUS?'checked':'';
@@ -1061,7 +1064,7 @@ print <<<EOF
 <input type="checkbox" name="CLR_IMAGE_MENU" value="1" />Сбросить карт.
 
 </td></tr></table>
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть цену?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND_PRICE' value='1' $V_EXPAND_PRICE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть брэнд?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND_BRAND' value='1' $V_EXPAND_BRAND/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr>
 
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
@@ -1159,7 +1162,7 @@ $visible=0;
 
 if($_REQUEST['e'] == 'AD' ||  $_REQUEST['e'] =='Новый')
 {
-list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS,$V_ORDERING)=array('','','','','','','','','','','','','','','','','','','','','','');
+list($V_CATALOGUE_ID,$V_PARENT_ID,$V_NAME,$V_ID_FROM_VBD,$V_TYPENAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_SUB_ITEM_TITLE,$V_TITLE,$V_SUB_TITLE,$V_DESC_META,$V_KEYWORD_META,$V_DESCRIPTION,$V_IMAGE1,$V_IMAGE_MENU,$V_COUNT_,$V_IN_ADV,$V_EXPAND_PRICE,$V_EXPAND_BRAND,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS,$V_ORDERING)=array('','','','','','','','','','','','','','','','','','','','','','','','');
 if(!empty($_REQUEST['pid'])) $V_PARENT_ID = $_REQUEST['pid'];
 else $V_PARENT_ID = 0;
 
@@ -1169,6 +1172,8 @@ $V_STR_PARENT_ID=$cmf->TreeSpravotchnik($V_PARENT_ID,'select A.CATALOGUE_ID,A.NA
 $IM_IMAGE1=array('','','');
 $IM_IMAGE_MENU=array('','','');
 $V_IN_ADV='';
+$V_EXPAND_PRICE='';
+$V_EXPAND_BRAND='';
 $V_IS_INDEX='';
 $V_STATUS='checked';
 $V_REALSTATUS='';
@@ -1301,7 +1306,7 @@ print <<<EOF
 <input type="checkbox" name="CLR_IMAGE_MENU" value="1" />Сбросить карт.
 
 </td></tr></table>
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Участвует в рекламе:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IN_ADV' value='1' $V_IN_ADV/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть цену?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND_PRICE' value='1' $V_EXPAND_PRICE/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Развернуть брэнд?:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='EXPAND_BRAND' value='1' $V_EXPAND_BRAND/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Выводить на главной:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_INDEX' value='1' $V_IS_INDEX/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
 <input type="submit" name="event" value="Добавить" class="gbt badd" /> 
@@ -1356,8 +1361,8 @@ function visibleTree($cmf,$parent,$level,$root,$parhash)
 {
 $width=$level*15+10;
 $ret='';
-$sth=$cmf->execute('select CATALOGUE_ID,NAME,REALCATNAME,COUNT_,IN_ADV,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where PARENT_ID=? order by ORDERING',$parent);
-while ( list($V_CATALOGUE_ID,$V_NAME,$V_REALCATNAME,$V_COUNT_,$V_IN_ADV,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=mysql_fetch_array($sth, MYSQL_NUM))
+$sth=$cmf->execute('select CATALOGUE_ID,NAME,REALCATNAME,COUNT_,IN_ADV,EXPAND_PRICE,EXPAND_BRAND,IS_INDEX,STATUS,REALSTATUS from CATALOGUE where PARENT_ID=? order by ORDERING',$parent);
+while ( list($V_CATALOGUE_ID,$V_NAME,$V_REALCATNAME,$V_COUNT_,$V_IN_ADV,$V_EXPAND_PRICE,$V_EXPAND_BRAND,$V_IS_INDEX,$V_STATUS,$V_REALSTATUS)=mysql_fetch_array($sth, MYSQL_NUM))
 {
 
 

@@ -125,11 +125,11 @@ class item_image_convert
             list($W, $H) = getimagesize(pathToImages . $image1);
             if (!$W)
                 throw new Exception("Сan't get an image size");
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
-            echo "<br>" . $exc->getMessage();
-            echo "<br>Line " . $exc->getLine();
-            echo "<br>File " . $exc->getFile() . "<br/>";
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+            echo "<br>" . $e->getMessage();
+            echo "<br>Line " . $e->getLine();
+            echo "<br>File " . $e->getFile() . "<br/>";
             die('Stop converting');
         }
 
@@ -176,10 +176,10 @@ class item_image_convert
                 $_image_name_result[0] = $this->setDBupdateAfterConvert($newFile,
                                                                         $img_name);
         } catch (Exception $e) {
-            echo $exc->getTraceAsString();
-            echo "<br>" . $exc->getMessage();
-            echo "<br>Line " . $exc->getLine();
-            echo "<br>File " . $exc->getFile() . "<br/>";
+            echo $e->getTraceAsString();
+            echo "<br>" . $e->getMessage();
+            echo "<br>Line " . $e->getLine();
+            echo "<br>File " . $e->getFile() . "<br/>";
             die('Stop converting');
         }
 

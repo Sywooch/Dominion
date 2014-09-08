@@ -62,11 +62,9 @@ SetTreeRealStatus($cmf,$_REQUEST['id'],$REALSTATUS);
 }
 }
 
-
-
 if($_REQUEST['e'] == 'UP')
 {
-list($V_,$V_ORDERING) =$cmf->selectrow_array('select PARENT_ID, ORDER_ from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
+list($V_,$V_ORDERING) =$cmf->selectrow_array('select ,ORDER_ from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
 if($V_ORDERING > 1)
 {
 
@@ -74,24 +72,23 @@ $sql="select ANOTHER_PAGES_ID
            , ORDER_
       from ANOTHER_PAGES
       where ORDER_ < {$V_ORDERING}
-            and PARENT_ID = {$V_}
+            and  = {$V_}
       order by ORDER_ DESC
       limit 1";
-
+      
 list($V_OTHER_ID,$V_OTHER_ORDERING)=$cmf->selectrow_array($sql);
 
 
 $cmf->execute('update ANOTHER_PAGES set ORDER_=? where ANOTHER_PAGES_ID=?',$V_ORDERING,$V_OTHER_ID);
 $cmf->execute('update ANOTHER_PAGES set ORDER_=? where ANOTHER_PAGES_ID=?',$V_OTHER_ORDERING, $_REQUEST['id']);
 
-
 }
 }
 
 if($_REQUEST['e'] == 'DN')
 {
-list($V_,$V_ORDERING) =$cmf->selectrow_array('select PARENT_ID ,ORDER_ from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
-$V_MAXORDERING=$cmf->selectrow_array('select max(ORDER_) from ANOTHER_PAGES where PARENT_ID=?',$V_);
+list($V_,$V_ORDERING) =$cmf->selectrow_array('select ,ORDER_ from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
+$V_MAXORDERING=$cmf->selectrow_array('select max(ORDER_) from ANOTHER_PAGES where =?',$V_);
 if($V_ORDERING < $V_MAXORDERING)
 {
 
@@ -99,10 +96,10 @@ $sql="select ANOTHER_PAGES_ID
            , ORDER_
       from ANOTHER_PAGES
       where ORDER_ > {$V_ORDERING}
-            and  PARENT_ID = {$V_}
+            and  = {$V_}
       order by ORDER_ ASC
       limit 1";
-
+      
 list($V_OTHER_ID,$V_OTHER_ORDERING)=$cmf->selectrow_array($sql);
 
 
@@ -119,7 +116,7 @@ if(!empty($_REQUEST['pid']))
   $_REQUEST['ORDER_']=$cmf->selectrow_array('select max(ORDER_) from ANOTHER_PAGES where PARENT_ID=?',$_REQUEST['pid']);
   $_REQUEST['ORDER_']++;
   $_REQUEST['id']=$cmf->GetSequence('ANOTHER_PAGES');
-
+  
 
 
 
@@ -130,13 +127,14 @@ if(!empty($_REQUEST['pid']))
 
 
 $_REQUEST['IS_NEW_WIN']=isset($_REQUEST['IS_NEW_WIN']) && $_REQUEST['IS_NEW_WIN']?1:0;
+$_REQUEST['SHOW_NEAR_CATALOGUE_MENU']=isset($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']) && $_REQUEST['SHOW_NEAR_CATALOGUE_MENU']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-  $cmf->execute('insert into ANOTHER_PAGES (ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,STATUS,REALSTATUS,ORDER_) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDER_']));
-
-
+  $cmf->execute('insert into ANOTHER_PAGES (ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,SHOW_NEAR_CATALOGUE_MENU,STATUS,REALSTATUS,ORDER_) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),stripslashes($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDER_']));
+  
+  
       if(empty($_REQUEST['CATNAME'])){
         $dbRules = $cmf->select("select * from TRANSLIT_RULE");
         $rules = array();
@@ -145,24 +143,24 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
             $rules[$rule['SRC']] = $rule['TRANSLIT'];
           }
         }
-
+        
         $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
         $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
-
+        
         $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
-
+        
         $cmf->execute('update ANOTHER_PAGES set CATNAME=? where ANOTHER_PAGES_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
-
-      }
+        
+      }      
       $cmf->execute('update ANOTHER_PAGES set REALSTATUS=?,REALCATNAME=? where ANOTHER_PAGES_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
-
+    
 }
 else
 {
   $_REQUEST['ORDER_']=$cmf->selectrow_array('select max(ORDER_) from ANOTHER_PAGES where PARENT_ID=?',0);
   $_REQUEST['ORDER_']++;
   $_REQUEST['id']=$cmf->GetSequence('ANOTHER_PAGES');
-
+  
 
 
 
@@ -173,14 +171,15 @@ else
 
 
 $_REQUEST['IS_NEW_WIN']=isset($_REQUEST['IS_NEW_WIN']) && $_REQUEST['IS_NEW_WIN']?1:0;
+$_REQUEST['SHOW_NEAR_CATALOGUE_MENU']=isset($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']) && $_REQUEST['SHOW_NEAR_CATALOGUE_MENU']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
   $_REQUEST['pid'] = (!empty($_REQUEST['PARENT_ID'])) ? $_REQUEST['PARENT_ID'] : 0;
-  $cmf->execute('insert into ANOTHER_PAGES (ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,STATUS,REALSTATUS,ORDER_) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDER_']));
-
-
+  $cmf->execute('insert into ANOTHER_PAGES (ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,SHOW_NEAR_CATALOGUE_MENU,STATUS,REALSTATUS,ORDER_) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$_REQUEST['id'],$_REQUEST['pid']+0,stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),'',stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),stripslashes($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']),stripslashes($_REQUEST['STATUS']),stripslashes($_REQUEST['REALSTATUS']),stripslashes($_REQUEST['ORDER_']));
+  
+  
       if(empty($_REQUEST['CATNAME'])){
         $dbRules = $cmf->select("select * from TRANSLIT_RULE");
         $rules = array();
@@ -189,17 +188,17 @@ $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS'
             $rules[$rule['SRC']] = $rule['TRANSLIT'];
           }
         }
-
+        
         $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
         $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
-
+        
         $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
-
+        
         $cmf->execute('update ANOTHER_PAGES set CATNAME=? where ANOTHER_PAGES_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
-
-      }
+        
+      }      
       $cmf->execute('update ANOTHER_PAGES set REALSTATUS=?,REALCATNAME=? where ANOTHER_PAGES_ID=?',GetMyRealStatus($cmf,$_REQUEST['id']),GetPath($cmf,$_REQUEST['id']),$_REQUEST['id']);
-
+    
 
 }
 $_REQUEST['e']='ED';
@@ -218,11 +217,12 @@ if($_REQUEST['event'] == 'Изменить')
 
 
 $_REQUEST['IS_NEW_WIN']=isset($_REQUEST['IS_NEW_WIN']) && $_REQUEST['IS_NEW_WIN']?1:0;
+$_REQUEST['SHOW_NEAR_CATALOGUE_MENU']=isset($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']) && $_REQUEST['SHOW_NEAR_CATALOGUE_MENU']?1:0;
 $_REQUEST['STATUS']=isset($_REQUEST['STATUS']) && $_REQUEST['STATUS']?1:0;
 $_REQUEST['REALSTATUS']=isset($_REQUEST['REALSTATUS']) && $_REQUEST['REALSTATUS']?1:0;
 
 
-@$cmf->execute('update ANOTHER_PAGES set NAME=?,CATNAME=?,URL=?,TEMPLATE=?,TITLE=?,DESCRIPTION=?,KEYWORDS=?,IS_NEW_WIN=? where ANOTHER_PAGES_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),$_REQUEST['id']);
+@$cmf->execute('update ANOTHER_PAGES set NAME=?,CATNAME=?,URL=?,TEMPLATE=?,TITLE=?,DESCRIPTION=?,KEYWORDS=?,IS_NEW_WIN=?,SHOW_NEAR_CATALOGUE_MENU=? where ANOTHER_PAGES_ID=?',stripslashes($_REQUEST['NAME']),stripslashes($_REQUEST['CATNAME']),stripslashes($_REQUEST['URL']),stripslashes($_REQUEST['TEMPLATE']),stripslashes($_REQUEST['TITLE']),stripslashes($_REQUEST['DESCRIPTION']),stripslashes($_REQUEST['KEYWORDS']),stripslashes($_REQUEST['IS_NEW_WIN']),stripslashes($_REQUEST['SHOW_NEAR_CATALOGUE_MENU']),$_REQUEST['id']);
 $_REQUEST['e']='ED';
 
       if(empty($_REQUEST['CATNAME'])){
@@ -233,27 +233,28 @@ $_REQUEST['e']='ED';
             $rules[$rule['SRC']] = $rule['TRANSLIT'];
           }
         }
-
+        
         $_REQUEST['NAME'] = trim(mb_strtolower($_REQUEST['NAME'],'utf-8'));
         $_REQUEST['NAME'] = preg_replace("/\s+/s", "-", $_REQUEST['NAME']);
-
+        
         $_REQUEST['CATNAME'] = strtr($_REQUEST['NAME'], $rules);
-
+        
         $cmf->execute('update ANOTHER_PAGES set CATNAME=? where ANOTHER_PAGES_ID=?',$_REQUEST['CATNAME'] ,$_REQUEST['id']);
-
+        
       }
-      UpdatePath($cmf,0,'');
-
+      UpdatePath($cmf,0,'');      
+    
 };
 
 if($_REQUEST['e'] == 'ED')
 {
-list($V_ANOTHER_PAGES_ID,$V_PARENT_ID,$V_NAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_TEMPLATE,$V_TITLE,$V_DESCRIPTION,$V_KEYWORDS,$V_IS_NEW_WIN,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,STATUS,REALSTATUS from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
+list($V_ANOTHER_PAGES_ID,$V_PARENT_ID,$V_NAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_TEMPLATE,$V_TITLE,$V_DESCRIPTION,$V_KEYWORDS,$V_IS_NEW_WIN,$V_SHOW_NEAR_CATALOGUE_MENU,$V_STATUS,$V_REALSTATUS)=$cmf->selectrow_arrayQ('select ANOTHER_PAGES_ID,PARENT_ID,NAME,CATNAME,REALCATNAME,URL,TEMPLATE,TITLE,DESCRIPTION,KEYWORDS,IS_NEW_WIN,SHOW_NEAR_CATALOGUE_MENU,STATUS,REALSTATUS from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$_REQUEST['id']);
 
 
 
 
 $V_IS_NEW_WIN=$V_IS_NEW_WIN?'checked':'';
+$V_SHOW_NEAR_CATALOGUE_MENU=$V_SHOW_NEAR_CATALOGUE_MENU?'checked':'';
 $V_STATUS=$V_STATUS?'checked':'';
 $V_REALSTATUS=$V_REALSTATUS?'checked':'';
 
@@ -306,7 +307,7 @@ $V_REALSTATUS=$V_REALSTATUS?'checked':'';
 <textarea name="KEYWORDS" rows="5" cols="90">$V_KEYWORDS</textarea><br />
 
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>В новом окне:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_NEW_WIN' value='1' $V_IS_NEW_WIN/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>В новом окне:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_NEW_WIN' value='1' $V_IS_NEW_WIN/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Показать возле каталога меню:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='SHOW_NEAR_CATALOGUE_MENU' value='1' $V_SHOW_NEAR_CATALOGUE_MENU/><br /></td></tr>
 
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
@@ -324,13 +325,14 @@ $visible=0;
 
 if($_REQUEST['e'] == 'AD' ||  $_REQUEST['e'] =='Новый')
 {
-list($V_ANOTHER_PAGES_ID,$V_PARENT_ID,$V_NAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_TEMPLATE,$V_TITLE,$V_DESCRIPTION,$V_KEYWORDS,$V_IS_NEW_WIN,$V_STATUS,$V_REALSTATUS,$V_ORDER_)=array('','','','','','','','','','','','','','');
+list($V_ANOTHER_PAGES_ID,$V_PARENT_ID,$V_NAME,$V_CATNAME,$V_REALCATNAME,$V_URL,$V_TEMPLATE,$V_TITLE,$V_DESCRIPTION,$V_KEYWORDS,$V_IS_NEW_WIN,$V_SHOW_NEAR_CATALOGUE_MENU,$V_STATUS,$V_REALSTATUS,$V_ORDER_)=array('','','','','','','','','','','','','','','');
 if(!empty($_REQUEST['pid'])) $V_ = $_REQUEST['pid'];
 else $V_ = 0;
 
 
 
 $V_IS_NEW_WIN='';
+$V_SHOW_NEAR_CATALOGUE_MENU='';
 $V_STATUS='checked';
 $V_REALSTATUS='';
 
@@ -342,7 +344,7 @@ EOF;
 print '<input type="hidden" name="pid" value="'.$_REQUEST['pid'].'" />';
 @print <<<EOF
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
-<input type="submit" name="event" value="Добавить" class="gbt badd" />
+<input type="submit" name="event" value="Добавить" class="gbt badd" /> 
 <input type="submit" name="event" value="Отменить" class="gbt bcancel" />
 </td></tr>
 
@@ -381,10 +383,10 @@ print '<input type="hidden" name="pid" value="'.$_REQUEST['pid'].'" />';
 <textarea name="KEYWORDS" rows="5" cols="90">$V_KEYWORDS</textarea><br />
 
 
-</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>В новом окне:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_NEW_WIN' value='1' $V_IS_NEW_WIN/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
+</td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>В новом окне:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='IS_NEW_WIN' value='1' $V_IS_NEW_WIN/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Показать возле каталога меню:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='SHOW_NEAR_CATALOGUE_MENU' value='1' $V_SHOW_NEAR_CATALOGUE_MENU/><br /></td></tr><tr bgcolor="#FFFFFF"><th width="1%"><b>Вкл:<br /><img src="img/hi.gif" width="125" height="1" /></b></th><td width="100%"><input type='checkbox' name='STATUS' value='1' $V_STATUS/><br /></td></tr>
 
 <tr bgcolor="#F0F0F0" class="ftr"><td colspan="2">
-<input type="submit" name="event" value="Добавить" class="gbt badd" />
+<input type="submit" name="event" value="Добавить" class="gbt badd" /> 
 <input type="submit" name="event" value="Отменить" class="gbt bcancel" />
 </td></tr>
 </form>
@@ -398,7 +400,7 @@ if($visible)
 $parhash=array('0'=>'1');
 $ANOTHER_PAGES_ID=$_REQUEST['id'];
 $O_ANOTHER_PAGES_ID=$ANOTHER_PAGES_ID;
-do
+do 
 {
   $PARENTID=$cmf->selectrow_array('select PARENT_ID from ANOTHER_PAGES where ANOTHER_PAGES_ID=?',$ANOTHER_PAGES_ID);
   $parhash[$ANOTHER_PAGES_ID]=1;
@@ -441,7 +443,7 @@ while ( list($V_ANOTHER_PAGES_ID,$V_NAME,$V_CATNAME,$V_URL,$V_STATUS,$V_REALSTAT
 
 
   $ICONS=<<<EOF
-
+  
 EOF;
   $V_REALSTATUS=$V_REALSTATUS?'b':'d';
   $V_STATUS=$V_STATUS?0:1;
@@ -468,9 +470,9 @@ EOF;
  }
 
  $V_NAME=<<<EOF
-$folder
+$folder 
 EOF;
-
+ 
   $ret.=<<<EOF
 <tr bgcolor="#ffffff">
 <td>$V_ANOTHER_PAGES_ID</td><td style="padding-left:{$width}px">$V_NAME</td><td>$V_CATNAME</td><td>$V_URL</td><td nowrap="">
