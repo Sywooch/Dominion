@@ -40,11 +40,16 @@ class models_ElasticSearch extends ZendDBEntity
     /**
      * Get all data from database about item or products
      *
+     * @param bool $count Get count of this query
+     *
      * @return array
      */
-    public function getAllData()
+    public function getAllData($count = false)
     {
-        $sql = "SELECT I.ITEM_ID,
+
+        $sql = "SELECT ";
+
+        $sql .= $count ? "count(*)" : "I.ITEM_ID,
                   I.CATALOGUE_ID
                   ,I.NAME AS NAME_PRODUCT
                   ,I.CATNAME
@@ -53,13 +58,15 @@ class models_ElasticSearch extends ZendDBEntity
                   ,I.IMAGE0
                   ,B.NAME AS BRAND
                   ,C.REALCATNAME
-                  ,C.NAME AS CATALOGUE_NAME
-            FROM ITEM I
-            LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
-            LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)";
+                  ,C.NAME AS CATALOGUE_NAME";
+
+        $sql .= ' FROM ITEM I
+                    LEFT JOIN BRAND B ON (B.BRAND_ID = I.BRAND_ID)
+                    LEFT JOIN CATALOGUE C ON (C.CATALOGUE_ID = I.CATALOGUE_ID)';
 
         return $sql;
     }
+
 
     /**
      * get data for format in search
@@ -130,7 +137,8 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllItemID()
     {
-        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM ITEM i WHERE i.STATUS = 1 AND i.PRICE > 0";
+        // FIXME: Убрать and i.ITEM_ID = 82970  - это надо только для отладки
+        return "SELECT i.ITEM_ID, i.CATALOGUE_ID, i.PRICE, i.BRAND_ID FROM ITEM i WHERE i.STATUS = 1 AND i.PRICE > 0 and i.ITEM_ID = 82970";
     }
 
     /**
@@ -165,36 +173,47 @@ class models_ElasticSearch extends ZendDBEntity
                 AND (a.IS_RANGE_VIEW = 0 OR a.IS_RANGE_VIEW IS NULL)
                   UNION
                   SELECT
-                    a.ATTRIBUT_ID,
-                    a.IS_RANGE_VIEW,
-                    a.NAME,
-                    a.TYPE,
-                    al.NAME AS VALUE
-                  FROM ATTRIBUT a
-                    JOIN ITEM0 i USING (ATTRIBUT_ID)
-                    LEFT JOIN ATTRIBUT_LIST al
-                      ON (i.VALUE = al.ATTRIBUT_LIST_ID)
-                  WHERE i.ITEM_ID = ?
-                  AND a.IS_RANGE_VIEW = 1";
+                      a.ATTRIBUT_ID,
+                      a.IS_RANGE_VIEW,
+                      a.NAME,
+                      a.TYPE,
+                      i.VALUE
+                    FROM ATTRIBUT a
+                      JOIN ITEM0 i USING (ATTRIBUT_ID)
+                    WHERE i.ITEM_ID = ?
+                    AND a.IS_RANGE_VIEW = 1
+                    UNION
+                    SELECT
+                      a.ATTRIBUT_ID,
+                      a.IS_RANGE_VIEW,
+                      a.NAME,
+                      a.TYPE,
+                      i.VALUE
+                    FROM ATTRIBUT a
+                      JOIN ITEM1 i USING (ATTRIBUT_ID)
+                    WHERE i.ITEM_ID = ?
+                    AND a.IS_RANGE_VIEW = 1;
+                  ";
 
         return array_map(function ($result) {
-            $el['ATTRIBUT_ID'] = (int)$result['ATTRIBUT_ID'];
-            $el['NAME'] = $result['NAME'];
-            $el['TYPE'] = (int)$result['TYPE'];
-            $el["VALUE"] = $result['VALUE'];
-            $el['IS_RANGE_VIEW'] = (bool)$result['IS_RANGE_VIEW'];
+                $el['ATTRIBUT_ID'] = (int)$result['ATTRIBUT_ID'];
+                $el['NAME'] = $result['NAME'];
+                $el['TYPE'] = (int)$result['TYPE'];
+                $el["VALUE"] = $result['VALUE'];
+                $el['IS_RANGE_VIEW'] = (bool)$result['IS_RANGE_VIEW'];
 
-            if ($el['TYPE'] == 1 || $el['IS_RANGE_VIEW']) {
-                $el['FLOAT_VALUE'] = $valueAttribute = (float)Format_ConvertDataElasticSelection::getInt($result['VALUE']);
-            } else {
-                $el['INT_VALUE'] = $valueAttribute = (int)$result['VALUE'];
-            }
+                if ($el['TYPE'] == 1 || $el['IS_RANGE_VIEW']) {
+                    $el['FLOAT_VALUE'] = $valueAttribute = (float)Format_ConvertDataElasticSelection::getInt($result['VALUE']);
+                } else {
+                    $el['INT_VALUE'] = $valueAttribute = (int)$result['VALUE'];
+                }
 
-            $el[$result["ATTRIBUT_ID"]] = $valueAttribute;
+                $el[$result["ATTRIBUT_ID"]] = $valueAttribute;
 
-            return $el;
+                return $el;
 
-        }, $this->_db->fetchAll($sql, array($itemID, $itemID, $itemID)));
+            }, $this->_db->fetchAll($sql, array($itemID, $itemID, $itemID, $itemID))
+        );
     }
 
     /**

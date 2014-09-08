@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Константин
- * Date: 02.10.13
- * Time: 23:41
- * To change this template use File | Settings | File Templates.
- */
-require_once __DIR__ . "/../application/configs/config.php";
-require_once "LoaderFactory.php";
+
 
 /**
  * Class CreateEnvironment
  */
-class CreateEnvironment
+class ContextSearch_CreateEnvironment
 {
     /**
      * Config object from Zend application
@@ -71,7 +63,7 @@ class CreateEnvironment
      */
     public function __construct()
     {
-        $this->loaderFactory = new LoaderFactory();
+        $this->loaderFactory = new ContextSearch_LoaderFactory();
 
         $config = $this->loaderFactory->getConfig(APPLICATION_PATH . self::PATH_INI, self::PRODUCTION);
         Zend_Registry::set("config", $config);

@@ -1,34 +1,25 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Константин
- * Date: 03.10.13
- * Time: 1:38
- * To change this template use File | Settings | File Templates.
- */
-
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 /**
  * Class LoaderFactory
  */
-class LoaderFactory
+class ContextSearch_LoaderFactory
 {
     /**
      * Initialize
      */
     public function __construct()
     {
-        $loader = new UniversalClassLoader();
-        $loader->registerPrefixes(
-            array(
-                'ContextSearch_' => LIBRARY_PATH,
-                "Helpers_" => APPLICATION_PATH,
-                "models_" => APPLICATION_PATH,
-                "Format_" => LIBRARY_PATH
-            )
-        );
-        $loader->register();
+//        $loader = new UniversalClassLoader();
+//        $loader->registerPrefixes(
+//            array(
+//                'ContextSearch_' => LIBRARY_PATH,
+//                "Helpers_" => APPLICATION_PATH,
+//                "models_" => APPLICATION_PATH,
+//                "Format_" => LIBRARY_PATH
+//            )
+//        );
+//        $loader->register();
     }
 
     /**
@@ -46,6 +37,7 @@ class LoaderFactory
      *
      * @param string $path
      * @param string $nameSection
+     *
      * @return Zend_Config_Ini
      */
     public function getConfig($path, $nameSection)
@@ -57,6 +49,7 @@ class LoaderFactory
      * Parameters
      *
      * @param array $parameters
+     *
      * @return ContextSearch_ElasticSearch_Connect
      */
     public function getSearchEngineConnect(array $parameters)

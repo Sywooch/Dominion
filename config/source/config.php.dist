@@ -55,3 +55,14 @@ if (DEBUG_MODE) {
 
 require_once APPLICATION_PATH . '/models/ZendDBEntity.php';
 require ROOT_PATH . '/vendor/autoload.php';
+
+$loader = new UniversalClassLoader();
+$loader->registerPrefixes(
+    array(
+        'ContextSearch_' => LIBRARY_PATH,
+        "Helpers_" => APPLICATION_PATH,
+        "models_" => APPLICATION_PATH,
+        "Format_" => LIBRARY_PATH
+    )
+);
+$loader->register();
