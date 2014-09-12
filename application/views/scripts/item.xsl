@@ -137,7 +137,7 @@
 				<span class="price"><xsl:value-of select="format-number(@price, '### ##0', 'european')"/>&#160;<xsl:value-of select="sname"/></span> | <xsl:value-of select="format-number(@real_price, '### ##0', 'european')"/>&#160;<xsl:value-of select="nat_sname"/>
 			</xsl:otherwise>
 		</xsl:choose>
-		<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас"><span>Купить сейчас</span></a>
+		<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить"><span>Купить</span></a>
 	</div>
 </xsl:template>
 
@@ -479,7 +479,7 @@ $().ready(function() {
 					<a href="/item/reserve/id/{@item_id}/" id="{@item_id}" class="product_button noitem_reserve"><span>Сообщить о наличии</span></a>
 				</xsl:when>
 				<xsl:otherwise>
-					<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас"><span>Купить сейчас</span></a>
+					<a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить"><span>Купить</span></a>
 					<xsl:if test="//banner_item_pay/description!=''">
 						<div class="payvar">
 							<xsl:apply-templates select="//banner_item_pay/description"/>
