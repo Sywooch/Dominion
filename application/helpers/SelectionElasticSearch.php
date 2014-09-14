@@ -181,9 +181,14 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
 
         $formatAggregation = array();
         foreach ($resultAggregation as $value) {
-            if (empty($value["int_value"]["buckets"])) continue;
+            if (empty($value["int_value"]["buckets"])) {
+                $formatAggregation[$value["key"]]["min"] = $value["range_value"]["min_value"]["value"];
+                $formatAggregation[$value["key"]]["max"] = $value["range_value"]["max_value"]["value"];
+            }
 
             foreach ($value["int_value"]["buckets"] as $val) {
+                if (!$val["key"]) continue;
+
                 $formatAggregation[$value["key"]][] = $val["key"];
             }
         }

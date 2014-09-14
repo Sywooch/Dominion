@@ -170,7 +170,7 @@ class CatController extends App_Controller_Frontend_Action
             $params['at'] = $at;
             $params['items'] = $_items;
 
-            $attr = $Attributs->getAllAttrForSelection($params);
+//            $attr = $Attributs->getAllAttrForSelection($params);
 
             unset($params);
             unset($_catalogue_id);
@@ -213,60 +213,63 @@ class CatController extends App_Controller_Frontend_Action
         $is_params['nat_pmax'] = $pmax;
         $is_params['currency_id'] = $this->currency;
 
-        if ($is_sel_item) {
-            $params = $this->getRequest()->getQuery();
 
-            $parameters = Zend_Registry::get("config")->toArray();
-            $readerIni = new Zend_Config_Json(__DIR__ . "/../configs/aggregation.json", "aggregation");
-            $aggregation = $readerIni->toArray();
+        $params = $this->getRequest()->getQuery();
 
-            /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
-            $objectValueSelection = $this->_helper->helperLoader(
-                "ObjectValue_ObjectValueSelection"
-            );
+        $parameters = Zend_Registry::get("config")->toArray();
+        $readerIni = new Zend_Config_Json(__DIR__ . "/../configs/aggregation_reload.json", "aggregation");
+        $aggregation = $readerIni->toArray();
 
-            $objectValueSelection->setColumns($parameters["columns"]);
-            $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
-            $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
-            $objectValueSelection->setCatalogueID((int)$this->catalogue_id);
-            $objectValueSelection->setPriceMin((int)$isp_price["min_price"]);
-            $objectValueSelection->setPriceMax((int)$isp_price["max_price"]);
-            $objectValueSelection->setCheckBrands(false);
+        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
+        $objectValueSelection = $this->_helper->helperLoader(
+            "ObjectValue_ObjectValueSelection"
+        );
 
-            $formatDataElastic = new Format_FormatDataElastic();
+        $objectValueSelection->setCatalogueID((int)$this->catalogue_id);
+        $objectValueSelection->setColumns($parameters["columns"]);
 
-            if (!empty($at) || !empty($ar)) {
-                $formatDataElastic->parseRangeAttributes($ar);
-                $formatDataElastic->parseAttributesChecked($at);
-            }
 
-            $objectValueSelection->setAttributes((array)$formatDataElastic->getAttributesFormatAggregation());
+        $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
+        $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
+        $objectValueSelection->setPriceMin((int)$isp_price["min_price"]);
+        $objectValueSelection->setPriceMax((int)$isp_price["max_price"]);
+        $objectValueSelection->setCheckBrands(false);
 
-            if (!empty($br)) $objectValueSelection->setBrands((array)$attr_brand_id);
+        $formatDataElastic = new Format_FormatDataElastic();
 
-            /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
-            $selectionElasticSearch = $this->_helper->helperLoader(
-                "SelectionElasticSearch",
-                $objectValueSelection
-            );
-
-            $selectionElasticSearch->connect($parameters['search_engine'], "selection");
-            $selectionElasticSearch->selection($objectValueSelection);
-
-            $active_items = $selectionElasticSearch->getAggregationResultItems();
-            $active_brands = (!$st_b)
-                ? $selectionElasticSearch->getAggregationResultBrands()
-                : $formatDataElastic->getBrandsFormat($Item->getAllModels(array($this->catalogue_id)));
-
-            if (!empty($sattr)) {
-                $formatAttributes = Format_ConvertDataElasticSelection::convertCriteriaQuerySelection($formatDataElastic->getAttributesFormatAggregation(), $sattr);
-
-                $objectValueSelection->setAttributes($formatAttributes);
-                $selectionElasticSearch->selection($objectValueSelection);
-            }
-
-            $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
+        if (!empty($at) || !empty($ar)) {
+            $formatDataElastic->parseRangeAttributes($ar);
+            $formatDataElastic->parseAttributesChecked($at);
         }
+
+        $objectValueSelection->setAttributes((array)$formatDataElastic->getAttributesFormatAggregation());
+
+        if (!empty($br)) $objectValueSelection->setBrands((array)$attr_brand_id);
+
+        /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
+        $selectionElasticSearch = $this->_helper->helperLoader(
+            "SelectionElasticSearch",
+            $objectValueSelection
+        );
+
+        $selectionElasticSearch->connect($parameters['search_engine'], "selection");
+        $selectionElasticSearch->selection($objectValueSelection);
+
+        $active_items = $selectionElasticSearch->getAggregationResultItems();
+        $active_brands = (!$st_b)
+            ? $selectionElasticSearch->getAggregationResultBrands()
+            : $formatDataElastic->getBrandsFormat($Item->getAllModels(array($this->catalogue_id)));
+
+        if (!empty($sattr)) {
+            $formatAttributes = $formatDataElastic->getAttributesFormatAggregation();
+
+            $objectValueSelection->setAttributes($formatAttributes);
+            $selectionElasticSearch->selection($objectValueSelection);
+        }
+
+        $attr = $formatDataElastic->getAttributesFormatAggregation();
+
+        $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
 
         $isp_params['currency_id'] = $this->currency;
         $isp_params['real_currency_id'] = 2;

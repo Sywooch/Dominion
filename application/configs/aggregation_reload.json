@@ -42,6 +42,12 @@
                         }
                     }
                 },
+                "items": {
+                    "terms": {
+                        "field": "PRODUCT_ID",
+                        "size": 10000
+                    }
+                },
                 "price_min": {
                     "min": {
                         "field": "PRICE"
@@ -54,65 +60,71 @@
                 }
             }
         },
-            "with_brands": {
-                "aggs": {
-                    "attributes":{
-                        "nested": {
-                            "path": "ATTRIBUTES"
-                        },
-                        "aggs": {
-                            "attributes_identity": {
-                                "terms": {
-                                    "field": "ATTRIBUTES.ATTRIBUT_ID",
-                                    "size": 100000
+        "with_brands": {
+            "aggs": {
+                "attributes":{
+                    "nested": {
+                        "path": "ATTRIBUTES"
+                    },
+                    "aggs": {
+                        "attributes_identity": {
+                            "terms": {
+                                "field": "ATTRIBUTES.ATTRIBUT_ID",
+                                "size": 100000
+                            },
+                            "aggs": {
+                                "int_value":{
+                                    "terms": {
+                                        "field": "ATTRIBUTES.INT_VALUE",
+                                        "size": 1001000
+                                    }
                                 },
-                                "aggs": {
-                                    "int_value":{
-                                        "terms": {
-                                            "field": "ATTRIBUTES.INT_VALUE",
-                                            "size": 1001000
+                                "range_value":{
+                                    "filter": {
+                                        "term": {
+                                            "ATTRIBUTES.IS_RANGE_VIEW": true
                                         }
                                     },
-                                    "range_value":{
-                                        "filter": {
-                                            "term": {
-                                                "ATTRIBUTES.IS_RANGE_VIEW": true
+                                    "aggs": {
+                                        "min_value": {
+                                            "min": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
                                             }
                                         },
-                                        "aggs": {
-                                            "min_value": {
-                                                "min": {
-                                                    "field": "ATTRIBUTES.FLOAT_VALUE"
-                                                }
-                                            },
-                                            "max_value":{
-                                                "max": {
-                                                    "field": "ATTRIBUTES.FLOAT_VALUE"
-                                                }
+                                        "max_value":{
+                                            "max": {
+                                                "field": "ATTRIBUTES.FLOAT_VALUE"
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                    },
-                    "price_min": {
-                        "min": {
-                            "field": "PRICE"
-                        }
-                    },
-                    "brands": {
-                        "terms": {
-                            "field": "BRAND_ID",
-                            "size": 100000
-                        }
-                    },
-                    "price_max": {
-                        "max": {
-                            "field": "PRICE"
-                        }
+                    }
+                },
+                "price_min": {
+                    "min": {
+                        "field": "PRICE"
+                    }
+                },
+                "brands": {
+                    "terms": {
+                        "field": "BRAND_ID",
+                        "size": 100000
+                    }
+                },
+                "items": {
+                    "terms": {
+                        "field": "PRODUCT_ID",
+                        "size": 10000
+                    }
+                },
+                "price_max": {
+                    "max": {
+                        "field": "PRICE"
                     }
                 }
             }
         }
+    }
 }
