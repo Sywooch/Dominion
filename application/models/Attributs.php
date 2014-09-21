@@ -46,25 +46,40 @@ class models_Attributs extends ZendDBEntity
      */
     public function getAttributesIsRangeView($catalogueId)
     {
-        $sql = "SELECT DISTINCT
-                        A.ATTRIBUT_ID,
-                        I1.VALUE
-                      FROM  ITEM I
-                        JOIN ITEM0 I1 USING (ITEM_ID)
-                        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                        WHERE 1
-                      AND I.CATALOGUE_ID = {$catalogueId}
-                      AND A.IS_RANGE_VIEW = 1
+        $sql = "SELECT
+                DISTINCT
+                  a.ATTRIBUT_ID,
+                  al.NAME AS VALUE
+                FROM item0 i
+                  LEFT JOIN attribut_list al
+                    ON (i.VALUE = al.ATTRIBUT_LIST_ID)
+                  JOIN attribut a
+                    ON (a.ATTRIBUT_ID = al.ATTRIBUT_ID)
+                  JOIN item i1 USING (ITEM_ID)
+                  LEFT JOIN catalogue c USING (CATALOGUE_ID)
+                WHERE c.CATALOGUE_ID = {$catalogueId}
+                AND a.IS_RANGE_VIEW = 1
                 UNION
-                SELECT DISTINCT
-                        A.ATTRIBUT_ID,
-                        I1.VALUE
-                      FROM  ITEM I
-                        JOIN ITEM1 I1 USING (ITEM_ID)
-                        JOIN ATTRIBUT A USING (ATTRIBUT_ID)
-                        WHERE 1
-                      AND I.CATALOGUE_ID = {$catalogueId}
-                      AND A.IS_RANGE_VIEW = 1";
+                SELECT
+                DISTINCT
+                  a.ATTRIBUT_ID,
+                  i.VALUE
+                FROM item1 i
+                  JOIN attribut a USING (ATTRIBUT_ID)
+                  JOIN item i1 USING (ITEM_ID)
+                  LEFT JOIN catalogue c USING (CATALOGUE_ID)
+                WHERE c.CATALOGUE_ID = {$catalogueId}
+                AND a.IS_RANGE_VIEW = 1
+                  UNION
+                  SELECT DISTINCT
+                    a.ATTRIBUT_ID,
+                    i.VALUE
+                  FROM item2 i
+                    JOIN attribut a USING (ATTRIBUT_ID)
+                    JOIN item i1 USING (ITEM_ID)
+                    LEFT JOIN catalogue c USING (CATALOGUE_ID)
+                  WHERE c.CATALOGUE_ID = {$catalogueId}
+                  AND a.IS_RANGE_VIEW = 1";
 
         return $this->_db->fetchAll($sql);
     }

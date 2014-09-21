@@ -14,6 +14,7 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
     public function getAttributs($catalogue_id, $at, $active_attrib)
     {
         $attr = $this->work_model->getAttributes($catalogue_id, 'ATTR_CATALOG_VIS');
+        $formatRangeAttributes = array();
         if (!empty($attr)) {
             foreach ($attr as $view) {
                 $this->domXml->create_element('attr_cat', '', 2);
@@ -26,6 +27,9 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 if (!empty($view['U_NAME'])) $this->domXml->create_element('uname', $view['U_NAME']);
 
                 if ($view['IS_RANGE_VIEW'] == 1) {
+                    $formatRangeAttributes[$view['ATTRIBUT_ID']]["min"] = $active_attrib[$view['ATTRIBUT_ID']]["min"];
+                    $formatRangeAttributes[$view['ATTRIBUT_ID']]["max"] = $active_attrib[$view['ATTRIBUT_ID']]["max"];
+
                     $this->getAttributValuesRange($catalogue_id, $view['ATTRIBUT_ID'], $at, $active_attrib);
                 } else {
                     $this->getAttributValues($catalogue_id, $view['ATTRIBUT_ID'], $at, $active_attrib);
@@ -34,6 +38,9 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 $this->domXml->go_to_parent();
             }
         }
+
+        $this->domXml->create_element("attr_range_value_json", json_encode(Format_ConvertDataElasticSelection::getAttributesLine($formatRangeAttributes)));
+        $this->domXml->create_element("attr_active_value_json", json_encode($at));
     }
 
     private function getAttributValues($catalogue_id, $attribut_id, $at, $active_attrib)
@@ -51,7 +58,7 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 $is_disabled = 0;
 
                 if (!empty($at[$attribut_id])) {
-                    if (in_array($val['id'], $at[$attribut_id])) {
+                    if (in_array($val['id'], $at[$attribut_id]["values"])) {
                         $selected = 1;
                     }
                 }
@@ -116,35 +123,29 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
             $result_attr[] = $attr[$max_key];
         }
 
-        if (!empty($result_attr)) {
-            foreach ($result_attr as $val) {
-                $selected = 0;
-                $is_disabled = 0;
+        $selected = 0;
+        $is_disabled = 0;
 
-                if (!empty($at[$attribut_id])) {
-                    if (in_array($val['id'], $at[$attribut_id])) {
-                        $selected = 1;
-                    }
-                }
+        if (!empty($at)) {
+            foreach ($at as $value) {
+                if ($attribut_id != $value["id"]) continue;
 
-                if (!empty($active_attrib[$attribut_id])) {
-                    if (!in_array($val['id'], $active_attrib[$attribut_id])) $is_disabled = 1;
-                }
+                $selected = 1;
 
-                $this->domXml->create_element('attr_value', '', 2);
-                $this->domXml->set_attribute(array(
-                        'id' => $val['id']
-                    , 'parent_id' => $attribut_id
-                    , 'selected' => $selected
-                    , 'is_disabled' => $is_disabled
-                    , "unit_name" => $unitName
-                    )
-                );
-
-                $this->domXml->create_element('name', $val['val']);
-                $this->domXml->go_to_parent();
+                break;
             }
         }
+
+        $this->domXml->create_element('attr_value', '', 2);
+        $this->domXml->set_attribute(array(
+                'parent_id' => $attribut_id
+            , 'selected' => $selected
+            , 'is_disabled' => $is_disabled
+            , "unit_name" => $unitName
+            )
+        );
+
+        $this->domXml->go_to_parent();
     }
 
 }

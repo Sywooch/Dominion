@@ -62,7 +62,11 @@ Object.defineProperties(objectValueSelection, {
                 this.attributesArr[attributeId].value = [];
             }
 
-            this.attributesArr[attributeId].value.push(attributeValue);
+            if (typeof attributeValue == "Object") {
+                this.attributesArr[attributeId].value = attributeValue;
+            } else {
+                this.attributesArr[attributeId].value.push(attributeValue);
+            }
         }
     },
     checkBrands: {

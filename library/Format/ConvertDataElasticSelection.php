@@ -154,7 +154,11 @@ class Format_ConvertDataElasticSelection
         $attributesFormat = array();
 
         foreach ($attributes as $value) {
-            $attributesFormat[$value["ATTRIBUT_ID"]][] = Format_ConvertDataElasticSelection::getInt($value["VALUE"]);
+            if (is_null($resultVal = Format_ConvertDataElasticSelection::getInt($value["VALUE"]))) {
+                continue;
+            }
+
+            $attributesFormat[$value["ATTRIBUT_ID"]][] = $resultVal;
         }
 
         return self::getAttributesLine(Format_ConvertDataElasticSelection::getMaxMinValue($attributesFormat));
@@ -185,7 +189,7 @@ class Format_ConvertDataElasticSelection
      * @param array $attributesMinMax
      * @return array
      */
-    static private function getAttributesLine(array $attributesMinMax)
+    static public function getAttributesLine(array $attributesMinMax)
     {
         if (empty($attributesMinMax)) return $attributesMinMax;
 
@@ -205,7 +209,7 @@ class Format_ConvertDataElasticSelection
      */
     public static function getInt($value)
     {
-        preg_match_all("/(\d+)|(\d+\.\d+)(?=\s[A-Za-zA-Яа-я]+)/", $value, $match);
+        preg_match_all("/(\d+)|(\d+\.\d+)(?=\s([A-Za-zA-Яа-я]+))/", $value, $match);
 
         return array_shift($match[0]);
     }

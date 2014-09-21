@@ -275,6 +275,16 @@ class Format_FormatDataElastic
     }
 
     /**
+     * Get attributes checked
+     *
+     * @return array
+     */
+    public function getAttributesChecked()
+    {
+        return $this->formatAttributesChecked;
+    }
+
+    /**
      * Get brands format
      *
      * @param array $brands
