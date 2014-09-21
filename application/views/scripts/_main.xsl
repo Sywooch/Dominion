@@ -581,11 +581,11 @@
                         </a>
                         <div id="copy">
                             <xsl:apply-templates select="footer_page_left"/>
-                            <span class="develop">
-                                <p>
-                                    <a href="/ajax/go/?url=http://adlabs.com.ua">Разработка сайта &mdash; AD|LABS</a>
-                                </p>
-                            </span>
+                            <!--<span class="develop">-->
+                                <!--<p>-->
+                                    <!--<a href="/ajax/go/?url=http://adlabs.com.ua">Разработка сайта &mdash; AD|LABS</a>-->
+                                <!--</p>-->
+                            <!--</span>-->
                         </div>
                         <div class="footer_big_box">
                             <xsl:apply-templates select="banner_bottom"/>

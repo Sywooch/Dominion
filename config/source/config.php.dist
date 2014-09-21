@@ -26,7 +26,7 @@ defined('HTTP_HOST') || define('HTTP_HOST', '@config.http_host@');
 
 // Define application environment
 defined('APPLICATION_ENV')|| define('APPLICATION_ENV',
-(getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+(getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : '@config.env@'));
 
 
 define('UPLOAD_XML', realpath(__DIR__ . '@config.path.upload_xml@'));
@@ -48,7 +48,7 @@ set_include_path(
 );
 
 if (DEBUG_MODE) {
-    error_reporting(E_ALL);
+    error_reporting(@config.error_type@);
     ini_set("display_errors", 1);
     ini_set("display_startup_errors", 1);
 } else {
