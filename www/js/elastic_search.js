@@ -20,12 +20,12 @@ $(document).ready(function () {
                         event: "GET"
                     },
                     dataType: "json",
-                    success: function (data) {
-                        cache[term] = data;
-                        var len = data.length;
+                    success: function (dataContextSearch) {
+                        cache[term] = dataContextSearch;
+                        var len = dataContextSearch.length;
                         $("ul.ui-autocomplete").hover("color", "#009933");
                         response(
-                            data
+                            dataContextSearch
                         );
                     }
                 })

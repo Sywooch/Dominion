@@ -103,7 +103,7 @@ Object.defineProperties(objectValueSelection, {
                 return;
             }
 
-            this.attributesArr[keyAttributes].value.splice(this.attributesArr[keyAttributes].value.indexOf(valKey), 1);
+            this.attributesArr[keyAttributes].value.splice(this.attributesArr[keyAttributes].value.indexOf(parseInt(valKey)), 1);
         },
         enumerable: false
     },

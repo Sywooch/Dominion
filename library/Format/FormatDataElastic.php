@@ -111,14 +111,21 @@ class Format_FormatDataElastic
 
             $goods[$key]['url'] = $data['URL'];
 
-            if (!empty($data['IMAGE0'])) {
-                $image = explode("#", $data['IMAGE0']);
+            if (!empty($data['IMAGE'])) {
+                $image = explode("#", $data['IMAGE']);
                 $goods[$key]['image'] = array(
                     'url' => $image[0],
                     'width' => $image[1],
                     'height' => $image[2]
                 );
+
                 $goods[$key]['image'] = $this->replaceValue($goods[$key]['image'], null, "");
+            } else{
+                $goods[$key]['image'] = array(
+                    'url' => "",
+                    'width' => "",
+                    'height' => ""
+                );
             }
             $goods[$key]['value'] = "{$data['TYPENAME']} {$data['BRAND']} {$data['NAME_PRODUCT']}";
             $goods[$key] = $this->replaceValue($goods[$key], null, "");

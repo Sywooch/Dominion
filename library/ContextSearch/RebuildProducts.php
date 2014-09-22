@@ -21,8 +21,6 @@ class ContextSearch_RebuildProducts
         while ($row = $query->fetch()) {
             $data[$row['ITEM_ID']] = $row;
 
-//            echo "add item element " . $row['ITEM_ID'] . " - " . $row["NAME_PRODUCT"] . "\r\n\n";
-
             if (count($data) != $createEnvironment->getLimit()) continue;
 
             /** @var $elasticSearchPUT ContextSearch_ElasticSearch_BuildExecute_PUT */

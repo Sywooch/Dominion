@@ -57,10 +57,10 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 $selected = 0;
                 $is_disabled = 0;
 
-                if (!empty($at[$attribut_id])) {
-                    if (in_array($val['id'], $at[$attribut_id]["values"])) {
-                        $selected = 1;
-                    }
+                foreach ($at as $attrValue) {
+                    if ($attrValue["is_range"] || !in_array($val["id"], $attrValue["value"])) continue;
+
+                    $selected = 1;
                 }
 
                 if (!empty($active_attrib[$attribut_id])) {

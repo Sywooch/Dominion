@@ -46,16 +46,15 @@ class models_ElasticSearch extends ZendDBEntity
      */
     public function getAllData($count = false)
     {
-
         $sql = "SELECT ";
 
-        $sql .= $count ? "count(*)" : "I.ITEM_ID,
+        $sql .= $count ? "count(*)" : " I.ITEM_ID,
                   I.CATALOGUE_ID
                   ,I.NAME AS NAME_PRODUCT
                   ,I.CATNAME
-                  ,I.TYPENAME
+                  , IF(I.TYPENAME IS NULL , 'null', I.TYPENAME) AS TYPENAME
                   ,I.ARTICLE
-                  ,I.IMAGE0
+                  , IF(I.IMAGE0 IS NULL , 'null', I.TYPENAME) AS IMAGE
                   ,B.NAME AS BRAND
                   ,C.REALCATNAME
                   ,C.NAME AS CATALOGUE_NAME";
@@ -155,9 +154,9 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   al.NAME AS VALUE
-                FROM attribut a
-                  JOIN item0 i0 USING (ATTRIBUT_ID)
-                  LEFT JOIN attribut_list al
+                FROM ATTRIBUT a
+                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
+                  LEFT JOIN ATTRIBUT_LIST al
                     ON (i0.VALUE = al.ATTRIBUT_LIST_ID)
                 WHERE i0.ITEM_ID = {$itemID}
                 AND a.IS_RANGE_VIEW = 1
@@ -168,8 +167,8 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   i0.VALUE
-                FROM attribut a
-                  JOIN item0 i0 USING (ATTRIBUT_ID)
+                FROM ATTRIBUT a
+                  JOIN ITEM0 i0 USING (ATTRIBUT_ID)
                 WHERE i0.ITEM_ID = {$itemID}
                 AND a.IS_RANGE_VIEW = 0
                 UNION
@@ -179,8 +178,8 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   i1.VALUE
-                FROM attribut a
-                  JOIN item1 i1 USING (ATTRIBUT_ID)
+                FROM ATTRIBUT a
+                  JOIN ITEM1 i1 USING (ATTRIBUT_ID)
                 WHERE i1.ITEM_ID = {$itemID}
                 UNION
                 SELECT
@@ -189,8 +188,8 @@ class models_ElasticSearch extends ZendDBEntity
                   a.NAME,
                   a.TYPE,
                   i.VALUE
-                FROM attribut a
-                  LEFT JOIN item2 i USING (ATTRIBUT_ID)
+                FROM ATTRIBUT a
+                  LEFT JOIN ITEM2 i USING (ATTRIBUT_ID)
                 WHERE i.ITEM_ID = {$itemID} AND a.IS_RANGE_VIEW = 1";
 
         return array_map(function ($result) {

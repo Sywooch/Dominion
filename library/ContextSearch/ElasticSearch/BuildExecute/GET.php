@@ -6,12 +6,13 @@
  * Time: 17:05
  * To change this template use File | Settings | File Templates.
  */
-use Elastica\Query;
-use Elastica\Search;
 use Elastica\Client;
-use Elastica\Query\Builder;
+use Elastica\Connection;
 use Elastica\Filter\Prefix;
+use Elastica\Query;
+use Elastica\Query\Builder;
 use Elastica\ResultSet;
+use Elastica\Search;
 
 /**
  * ContextSearch BuildExecuteGet
@@ -146,10 +147,12 @@ class ContextSearch_ElasticSearch_BuildExecute_GET extends ContextSearch_Elastic
     public function execute()
     {
         $client = new Client();
+
         $connection = new \Elastica\Connection();
         $connection->setHost($this->getHost());
+        $connection->setEnabled(true);
 
-        $client->addConnection($connection);
+        $client->setConnections(array($connection));
 
         $search = new Search($client);
         $search->setOption("from", $this->from);

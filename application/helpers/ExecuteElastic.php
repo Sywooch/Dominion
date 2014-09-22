@@ -107,8 +107,6 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
 
         $formatQuery->setShould();
-        $formatQuery->setFrom($from);
-        $formatQuery->setSize($size);
 
         $data = array();
         foreach ($fields as $field) {
@@ -135,8 +133,7 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
 
         $formatQuery->setBool();
         $formatQuery->setShould();
-        $formatQuery->setFrom($from);
-        $formatQuery->setSize($size);
+
         $data = array();
 
         foreach ($this->parameters['search_fields'] as $item) {
