@@ -4,3 +4,5 @@ config.path.upload_images = PATH TO UPLOAD IMAGES
 
 config.http_host = HOST NAME FOR PRICES
 config.debug_mode = DEBUG MODE
+config.error_type = WATH KIND OF ERRORS TO SHOW
+config.env = ENVIRONMENT MODE

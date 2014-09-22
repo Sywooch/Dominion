@@ -107,7 +107,7 @@ class ItemController extends App_Controller_Frontend_Action
         $shat_helper->setModel($Item);
         $shat_helper->setDomXml($this->domXml);
         $shat_helper->getShortAttributs($this->item_id, $catalogue_id);
-        $html = $shat_helper->getSimilarItem($this->item_id, $attr);
+//        $html = $shat_helper->getSimilarItem($this->item_id, $attr);
         $this->domXml = $shat_helper->getDomXml();
     }
 

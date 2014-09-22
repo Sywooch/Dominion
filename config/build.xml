@@ -56,6 +56,9 @@
 
                     <token key="config.http_host" value="${config.http_host}"/>
                     <token key="config.debug_mode" value="${config.debug_mode}"/>
+                    <token key="config.env" value="${config.env}"/>
+                    <token key="config.error_type" value="${config.error_type}"/>
+
 
                 </replacetokens>
 

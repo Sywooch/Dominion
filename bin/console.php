@@ -14,12 +14,6 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $console = new Application();
 
-$universalClassLoader = new UniversalClassLoader();
-$universalClassLoader->registerPrefix(
-    "ContextSearch_",
-    __DIR__ . "/../library"
-);
-
 $console
     ->register('elasticsearch:rebuild')
     ->setDefinition(array(new InputArgument('type', InputArgument::REQUIRED, 'Type to rebuild')))

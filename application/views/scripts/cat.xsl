@@ -363,8 +363,8 @@
                         </div>
                     </xsl:otherwise>
                 </xsl:choose>
-                <a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить сейчас">
-                    <span>Купить сейчас</span>
+                <a href="javascript:void(0);" xid="{@item_id}" class="product_button incard" title="Купить">
+                    <span>Купить</span>
                 </a>
             </div>
         </div>
