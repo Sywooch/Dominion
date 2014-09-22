@@ -53,12 +53,6 @@
             </input>
             <xsl:value-of select="name"/>
         </label>
-        <script type="text/javascript">
-            <xsl:if test="@selected = 1">
-                objectValueSelection.setAttributeArr(<xsl:value-of select="@parent_id"/>, 0, <xsl:value-of
-                    select="@id"/>);
-            </xsl:if>
-        </script>
     </xsl:template>
 
     <xsl:template match="attr_cat">
