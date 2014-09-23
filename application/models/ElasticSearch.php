@@ -52,9 +52,9 @@ class models_ElasticSearch extends ZendDBEntity
                   I.CATALOGUE_ID
                   ,I.NAME AS NAME_PRODUCT
                   ,I.CATNAME
-                  , IF(I.TYPENAME IS NULL , 'null', I.TYPENAME) AS TYPENAME
+                  ,I.TYPENAME
                   ,I.ARTICLE
-                  , IF(I.IMAGE0 IS NULL , 'null', I.TYPENAME) AS IMAGE
+                  ,I.IMAGE0 AS IMAGE
                   ,B.NAME AS BRAND
                   ,C.REALCATNAME
                   ,C.NAME AS CATALOGUE_NAME";
