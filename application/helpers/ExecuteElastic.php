@@ -158,8 +158,6 @@ class Helpers_ExecuteElastic extends App_Controller_Helper_HelperAbstract
         $formatQuery = new ContextSearch_ElasticSearch_FormatQuery();
 
         $formatQuery->setMultiMatch($this->parameters['search_fields'], $term);
-        $formatQuery->setFrom($from);
-        $formatQuery->setSize($size);
 
         return $this->elasticSearchGET->buildQuery($formatQuery)->execute();
     }
