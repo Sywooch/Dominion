@@ -19,6 +19,12 @@ class SearchController extends App_Controller_Frontend_Action
             throw new Exception("Error: configuration is not include class: " . __CLASS__ . ", line: " . __LINE__);
         }
 
+        /** @var Helpers_Catalogue $catalogueHelper */
+        $catalogueHelper = $this->_helper->helperLoader("Catalogue");
+        $catalogueHelper->setDomXml($this->domXml);
+        $catalogueHelper->setModel(new models_Catalogue());
+        $catalogueHelper->generateCatalogueMenu(0);
+
         Zend_Search_Lucene_Analysis_Analyzer::setDefault(
             new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8_CaseInsensitive());
     }
@@ -90,8 +96,8 @@ class SearchController extends App_Controller_Frontend_Action
      * Generate XML
      *
      * @param Helpers_CustomPaginator $paginator
-     * @param array                   $items
-     * @param string                  $searchText
+     * @param array $items
+     * @param string $searchText
      */
     private function generateXML(Helpers_CustomPaginator $paginator, $items, $searchText)
     {
