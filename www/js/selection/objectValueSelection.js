@@ -64,7 +64,11 @@ Object.defineProperties(objectValueSelection, {
 
             if (typeof attributeValue == "Object") {
                 this.attributesArr[attributeId].value = attributeValue;
-            } else {
+            }
+            else if (Array.isArray(attributeValue)) {
+                this.attributesArr[attributeId].value = attributeValue;
+            }
+            else {
                 this.attributesArr[attributeId].value.push(attributeValue);
             }
         }

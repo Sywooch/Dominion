@@ -26,7 +26,7 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 $this->domXml->create_element('name', $view['NAME']);
                 if (!empty($view['U_NAME'])) $this->domXml->create_element('uname', $view['U_NAME']);
 
-                if ($view['IS_RANGE_VIEW'] == 1) {
+                if ($view['IS_RANGE_VIEW'] == 1 && isset($active_attrib[$view['ATTRIBUT_ID']])) {
                     $formatRangeAttributes[$view['ATTRIBUT_ID']]["min"] = $active_attrib[$view['ATTRIBUT_ID']]["min"];
                     $formatRangeAttributes[$view['ATTRIBUT_ID']]["max"] = $active_attrib[$view['ATTRIBUT_ID']]["max"];
 

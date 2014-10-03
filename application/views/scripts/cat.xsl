@@ -4,6 +4,15 @@
     <xsl:import href="_main.xsl"/>
     <xsl:import href="inc/_catalog_menu.xsl"/>
 
+    <xsl:template name="headers">
+        <script type="text/javascript">
+            var activeAttributes = $.parseJSON('<xsl:value-of select="//attr_active_value_json"/>');
+            var jsonData = '<xsl:value-of select="//attr_range_value_json"/>';
+        </script>
+        <script type='text/javascript' src='/js/selection/initSearchData.js'></script>
+    </xsl:template>
+
+
     <xsl:template name="section_url">
         <xsl:value-of select="//data/@cat_real_url"/>
         <xsl:if test="//data/@br_page!=''">br/<xsl:value-of select="//data/@br_page"/>/
@@ -161,97 +170,7 @@
                     <xsl:apply-templates select="attr_brands"/>
                 </div>
                 <xsl:apply-templates select="attr_cat"/>
-                <script type="text/javascript">
-                    var activeAttributes = $.parseJSON('<xsl:value-of select="//attr_active_value_json"/>');
 
-                    $.each(activeAttributes, function(key, item){
-                        if(item["is_range"] == false){
-                            objectValueSelection.setAttributeArr(item["id"], item["value"]);
-                        }else {
-                            objectValueSelection.setAttributeObj(item["id"], 1, item["value"]["from"], item["value"]["to"]);
-                        }
-                    });
-
-
-                    var jsonData = '<xsl:value-of select="//attr_range_value_json"/>';
-                    var data = $.parseJSON(jsonData);
-                    $('div.fieldgroup[xid]').each(function (index) {
-                    var xid = $(this).attr('xid');
-
-                    $(".attr_range_view", $(this)).slider({
-                    range: true,
-                    min: data[xid]["left_side"],
-                    max: data[xid]["right_side"],
-                    values: [data[xid]["min"], data[xid]["max"]],
-                    step: 5,
-                    slide: function (event, ui) {
-                    $(this).parent().find("input[id^='input_min']").val(ui.values[0]);
-                    $(this).parent().find("input[id^='input_max']").val(ui.values[1]);
-                    },
-                    stop: function (event, ui) {
-                    var attributeId = $(this).parent().attr("xid");
-                    objectValueSelection.setAttributeObj(attributeId, 1, ui.values[0], ui.values[1]);
-                    objectValueSelection.attribute_id_range_active = attributeId;
-                    objectValueSelection.attributesIdChecked = attributeId;
-
-                    selection.select(objectValueSelection, event);
-                    }
-                    });
-
-                    $(this).find("input[id^='input_min']").val(data[xid]["min"]);
-                    $(this).find("input[id^='input_max']").val(data[xid]["max"]);
-
-                    $(this).find("a.ui-slider-handle").append("<span></span>");
-                    $(this).find("a.ui-slider-handle span").last().addClass("last");
-
-                    var options_attributes_range_min = {
-                    callback: function () {
-                    var event = new Object();
-                    var idAttribute = $("body").data("current_attribute_id");
-                    var min = $("input[id=input_min_" + idAttribute + "]");
-
-                    event.pageX = min.offset().left;
-                    event.pageY = min.offset().top;
-
-                    var attr_min = min.val();
-
-                    $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 0, attr_min);
-
-                    objectValueSelection.setAttributeObj(xid, 1, attr_min, $("input[id=input_max_" + idAttribute +
-                    "]").val());
-                    objectValueSelection.attribute_id_range_active = xid;
-                    selection.select(objectValueSelection, event);
-                    },
-                    wait: 1500,
-                    captureLength: 2
-                    };
-
-                    var options_attributes_range_max = {
-                    callback: function () {
-                    var event = new Object();
-                    var idAttribute = $("body").data("current_attribute_id");
-                    var max = $("input[id=input_min_" + idAttribute + "]");
-
-                    event.pageX = max.offset().left;
-                    event.pageY = max.offset().top;
-
-                    var attr_max = max.val();
-
-                    $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 1, attr_max);
-
-                    objectValueSelection.setAttributeObj(xid, 1, $("input[id=input_min_" + idAttribute + "]").val(),
-                    attr_max);
-                    objectValueSelection.attribute_id_range_active = xid;
-                    selection.select(objectValueSelection, event);
-                    },
-                    wait: 1500,
-                    captureLength: 2
-                    };
-
-                    $(this).find("input[id^='input_min']").typeWatch(options_attributes_range_min);
-                    $(this).find("input[id^='input_max']").typeWatch(options_attributes_range_max);
-                    });
-                </script>
                 <div class="applay_filters">
                     <xsl:if test="count(attr_brands[@selected = 1]) &gt; 0 or count(//attr_value[@selected = 1]) &gt; 0">
                         <xsl:attribute name="style">display: block;</xsl:attribute>
