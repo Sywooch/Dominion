@@ -156,7 +156,7 @@ class models_ElasticSearch extends ZendDBEntity
                   al.NAME AS VALUE
                 FROM ATTRIBUT a
                   JOIN ITEM0 i0 USING (ATTRIBUT_ID)
-                  LEFT JOIN ATTRIBUT_LIST al
+                   JOIN ATTRIBUT_LIST al
                     ON (i0.VALUE = al.ATTRIBUT_LIST_ID)
                 WHERE i0.ITEM_ID = {$itemID}
                 AND a.IS_RANGE_VIEW = 1
@@ -170,7 +170,6 @@ class models_ElasticSearch extends ZendDBEntity
                 FROM ATTRIBUT a
                   JOIN ITEM0 i0 USING (ATTRIBUT_ID)
                 WHERE i0.ITEM_ID = {$itemID}
-                AND a.IS_RANGE_VIEW = 0
                 UNION
                 SELECT
                   a.ATTRIBUT_ID,
@@ -189,8 +188,9 @@ class models_ElasticSearch extends ZendDBEntity
                   a.TYPE,
                   i.VALUE
                 FROM ATTRIBUT a
-                  LEFT JOIN ITEM2 i USING (ATTRIBUT_ID)
-                WHERE i.ITEM_ID = {$itemID} AND a.IS_RANGE_VIEW = 1";
+                  JOIN ITEM2 i USING (ATTRIBUT_ID)
+                WHERE i.ITEM_ID = {$itemID}
+                AND a.IS_RANGE_VIEW = 1";
 
         return array_map(function ($result) {
                 $el['ATTRIBUT_ID'] = (int)$result['ATTRIBUT_ID'];
