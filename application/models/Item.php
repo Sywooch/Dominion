@@ -49,7 +49,7 @@ class models_Item extends ZendDBEntity
     /**
      * Обновить ITEM - любое поле
      *
-     * @param array $data Данные которые сетим
+     * @param array $data  Данные которые сетим
      * @param array $where Данные для where
      */
     public function updateGlobalItem($data, $where)
@@ -227,6 +227,7 @@ class models_Item extends ZendDBEntity
 
     /**
      * Метод для получения информации о товаре
+     *
      * @access   public
      *
      * @param    integer $id
@@ -513,6 +514,7 @@ class models_Item extends ZendDBEntity
 
     /**
      * Метод для получения ИД каталога для товара
+     *
      * @access   public
      *
      * @param    integer $id
@@ -1043,9 +1045,8 @@ class models_Item extends ZendDBEntity
     public function insertZakaz($data)
     {
         $this->_db->insert('ZAKAZ', $data);
-        $this->updateSequence('ZAKAZ');
 
-        return $this->lastInsertId('ZAKAZ');
+        return $this->_db->lastInsertId();
     }
 
     public function insertOrder($data)
