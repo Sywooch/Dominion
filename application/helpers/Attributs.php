@@ -29,6 +29,8 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
                 if ($view['IS_RANGE_VIEW'] == 1 && isset($active_attrib[$view['ATTRIBUT_ID']])) {
                     $formatRangeAttributes[$view['ATTRIBUT_ID']]["min"] = $active_attrib[$view['ATTRIBUT_ID']]["min"];
                     $formatRangeAttributes[$view['ATTRIBUT_ID']]["max"] = $active_attrib[$view['ATTRIBUT_ID']]["max"];
+                    $formatRangeAttributes[$view['ATTRIBUT_ID']]["left_side"] = $active_attrib[$view['ATTRIBUT_ID']]["left_side"];
+                    $formatRangeAttributes[$view['ATTRIBUT_ID']]["right_side"] = $active_attrib[$view['ATTRIBUT_ID']]["right_side"];
 
                     $this->getAttributValuesRange($catalogue_id, $view['ATTRIBUT_ID'], $at, $active_attrib);
                 } else {
@@ -39,7 +41,7 @@ class Helpers_Attributs extends App_Controller_Helper_HelperAbstract
             }
         }
 
-        $this->domXml->create_element("attr_range_value_json", json_encode(Format_ConvertDataElasticSelection::getAttributesLine($formatRangeAttributes)));
+        $this->domXml->create_element("attr_range_value_json", json_encode($formatRangeAttributes));
         $this->domXml->create_element("attr_active_value_json", json_encode($at));
     }
 

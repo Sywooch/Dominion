@@ -125,6 +125,18 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
     }
 
     /**
+     * Get aggregation result range attributes
+     *
+     * @return array
+     */
+    public function getAggregationResultAttributesRange()
+    {
+        $attributesRange = $this->resultSet->getAggregation(self::ATTRIBUTES);
+
+        return $this->filterRangeAttributes($attributesRange["attributes_identity"]["buckets"]);
+    }
+
+    /**
      * Get aggregation result items
      *
      * @return array
@@ -184,6 +196,8 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
             if (empty($value["int_value"]["buckets"])) {
                 $formatAggregation[$value["key"]]["min"] = $value["range_value"]["min_value"]["value"];
                 $formatAggregation[$value["key"]]["max"] = $value["range_value"]["max_value"]["value"];
+
+                continue;
             }
 
             foreach ($value["int_value"]["buckets"] as $val) {
@@ -194,5 +208,28 @@ class Helpers_SelectionElasticSearch extends App_Controller_Helper_HelperAbstrac
         }
 
         return $formatAggregation;
+    }
+
+    /**
+     * Filter range attributes
+     *
+     * @param array $resultAggregationAttributes
+     *
+     * @return array
+     */
+    public function filterRangeAttributes(array $resultAggregationAttributes)
+    {
+        if (empty($resultAggregationAttributes)) return $resultAggregationAttributes;
+
+        $filterFunction = function (&$item, $key) use (&$formatAggregationResult) {
+            if (!empty($item["int_value"]["buckets"])) return false;
+
+            $formatAggregationResult[$item["key"]]["min"] = $item["range_value"]["min_value"]["value"];
+            $formatAggregationResult[$item["key"]]["max"] = $item["range_value"]["max_value"]["value"];
+        };
+
+        array_walk($resultAggregationAttributes, $filterFunction);
+
+        return $formatAggregationResult;
     }
 }
