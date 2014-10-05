@@ -12,6 +12,7 @@
 require_once __DIR__ . '../../application/configs/config.php';
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 $application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
 
@@ -20,10 +21,10 @@ $registry = Zend_Registry::getInstance();
 $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'production');
 
 $db_config = array(
-    'host' => $config->resources->db->params->host,
-    'username' => $config->resources->db->params->username,
-    'password' => $config->resources->db->params->password,
-    'dbname' => $config->resources->db->params->dbname
+  'host' => $config->resources->db->params->host,
+  'username' => $config->resources->db->params->username,
+  'password' => $config->resources->db->params->password,
+  'dbname' => $config->resources->db->params->dbname
 );
 
 $adapter = $config->resources->db->adapter;
@@ -61,45 +62,76 @@ $itemsModels = new models_Item();
 
 $stm = $itemsModels->geImagesNeedResize();
 
+/**
+ * @param        $image
+ * @param        $path
+ *
+ * @return null
+ */
+function findPictures($image, $path)
+{
+    $finder = new Finder();
+
+    $iterator = $finder->files()->name($image)->in($path);
+
+    /** @var SplFileInfo $baseImage */
+    $baseImage = iterator_to_array($iterator, false);
+
+    if (!empty($baseImage)) {
+        return $baseImage[0]->getPathname();
+    }
+    else {
+        return null;
+    }
+
+}
+
+
+//$iteratorBase = $finder->files()->in($baseImagePath);
+//
+//$g = $iteratorBase->getIterator();
+
+
 while ($row = $stm->fetch()) {
+
 
     // Проверяем наличие картинки BASE
     // Если картинка существует - конвертим из ней
     // Если нет - конвертим из IMAGE3
+    $pattern = '/(?<=\\\|\/)?[^\\\]+(?=\.)/i';
+    $baseImage = null;
 
-    $row['BASE_IMAGE'] = str_replace('\\', '', $row['BASE_IMAGE']);
-    $row['BASE_IMAGE'] = str_replace('/', '', $row['BASE_IMAGE']);
-
-    $baseImage = "{$baseImagePath}/{$row['BASE_IMAGE']}";
-
-    $bigImage = "";
-
-    if (!empty($row['IMAGE3'])) {
-        $bigImage = preg_split('/#/', $row['IMAGE3']);
-        $bigImage = "$saveImagePath/{$bigImage[0]}";
+    // Если нашили по паттеруну - значит имя базовой картинки ОК
+    if (preg_match($pattern, $row['BASE_IMAGE'], $matches)) {
+        // find file base image in directory
+        $baseImage = findPictures("{$matches[0]}.*", $baseImagePath);
+    }
+    else {
+        $baseImage = null;
     }
 
-    if (!file_exists($baseImage) && !file_exists($bigImage)) {
+    // Если базовою картинку не нашли, то пытаемся сконвертнуть из текущей IMAGE3
+    // разумеется если она есть
+    if (!$baseImage && !empty($row['IMAGE3'])) {
+        $baseImage = findPictures(preg_split('/#/', $row['IMAGE3'])[0], $saveImagePath);
+    }
+
+    if (!$baseImage) {
         // Картинок для конвертации совсем нет - следуюущая итерация
-        echo "Cant find a base picture $baseImage \n";
+        echo "Cant find any base picture {$row['BASE_IMAGE']} \n";
         continue;
     }
-    elseif (file_exists($baseImage)) {
-        // nothing to do
-    }
-    elseif (file_exists($bigImage)) {
-        $baseImage = $bigImage;
-    }
+
 
     $updateData = array();
     // Генерим самую маленькую картинку для поиска
     $params = ImageResize_PictureSizeParams::getSizes('small_icon');
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-        "small_{$row['ITEM_ID']}",
-        $baseImage,
-        $saveImagePath,
-        $params['width'],
-        $params['height']
+      "small_{$row['ITEM_ID']}",
+      $baseImage,
+      $saveImagePath,
+      $params['width'],
+      $params['height']
     );
 
     if ($pictureTransformed) {
@@ -109,18 +141,19 @@ while ($row = $stm->fetch()) {
     // Генерим самую большую картинку
     $params = ImageResize_PictureSizeParams::getSizes('big');
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-        "b_{$row['ITEM_ID']}",
-        $baseImage,
-        $saveImagePath,
-        $params['width'],
-        $params['height'],
-        10,
-        false
+      "b_{$row['ITEM_ID']}",
+      $baseImage,
+      $saveImagePath,
+      $params['width'],
+      $params['height'],
+      10,
+      false
     );
 
     if ($pictureTransformed) {
         $updateData['IMAGE3'] = "{$pictureTransformed->getName()}#{$pictureTransformed->getWidth()}#{$pictureTransformed->getHeight()}";
-    } else {
+    }
+    else {
         $updateData['IMAGE3'] = null;
     }
 
@@ -128,11 +161,11 @@ while ($row = $stm->fetch()) {
     // Генерим среднюю картинку
     $params = ImageResize_PictureSizeParams::getSizes('medium');
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-        "{$row['ITEM_ID']}",
-        $baseImage,
-        $saveImagePath,
-        $params['width'],
-        $params['height']
+      "{$row['ITEM_ID']}",
+      $baseImage,
+      $saveImagePath,
+      $params['width'],
+      $params['height']
     );
 
     if ($pictureTransformed) {
@@ -142,11 +175,11 @@ while ($row = $stm->fetch()) {
     // Генерим среднюю картинку
     $params = ImageResize_PictureSizeParams::getSizes('small');
     $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-        "s_{$row['ITEM_ID']}",
-        $baseImage,
-        $saveImagePath,
-        $params['width'],
-        $params['height']
+      "s_{$row['ITEM_ID']}",
+      $baseImage,
+      $saveImagePath,
+      $params['width'],
+      $params['height']
     );
 
     if ($pictureTransformed) {
@@ -158,8 +191,8 @@ while ($row = $stm->fetch()) {
         $updateData['NEED_RESIZE'] = null;
 
         $itemsModels->updateGlobalItem(
-            $updateData,
-            "ITEM_ID = {$row['ITEM_ID']}");
+          $updateData,
+          "ITEM_ID = {$row['ITEM_ID']}");
 
         echo "Saved data for item ID {$row['ITEM_ID']} has been successfully\n";
     }
@@ -176,26 +209,26 @@ while ($row = $stm->fetch()) {
     //TODO: Надо заполучить ITEM_ITEM_ID в таблице ITEM_PHOTO из сиквенцов
     $itemItemId = 0;
 
-    /**@var \Symfony\Component\Finder\SplFileInfo $file */
+    /**@var SplFileInfo $file */
     foreach ($iterator as $file) {
         // Генерим превью картинку доп фото
         $params = ImageResize_PictureSizeParams::getSizes('additional_small');
         $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-            "{$row['ITEM_ID']}_{$itemItemId}_img_sm",
-            $file->getRealpath(),
-            $saveImagePath,
-            $params['width'],
-            $params['height']
+          "{$row['ITEM_ID']}_{$itemItemId}_img_sm",
+          $file->getRealpath(),
+          $saveImagePath,
+          $params['width'],
+          $params['height']
         );
 
         // Генерим большую картинку доп фото
         $params = ImageResize_PictureSizeParams::getSizes('additional_big');
         $pictureTransformed = ImageResize_FacadeResize::resizeOrSave(
-            "{$row['ITEM_ID']}_{$itemItemId}_img_lrg",
-            $file->getRealpath(),
-            $saveImagePath,
-            $params['width'],
-            $params['height']
+          "{$row['ITEM_ID']}_{$itemItemId}_img_lrg",
+          $file->getRealpath(),
+          $saveImagePath,
+          $params['width'],
+          $params['height']
         );
 
     }
