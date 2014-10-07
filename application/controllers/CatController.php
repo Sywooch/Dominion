@@ -228,7 +228,6 @@ class CatController extends App_Controller_Frontend_Action
         $objectValueSelection->setCatalogueID((int)$this->catalogue_id);
         $objectValueSelection->setColumns($parameters["columns"]);
 
-
         $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
         $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
         $objectValueSelection->setPriceMin((int)$isp_price["min_price"]);
@@ -270,6 +269,10 @@ class CatController extends App_Controller_Frontend_Action
         $attr = $formatDataElastic->getAttributesFormatAggregation();
 
         $active_attrib = $selectionElasticSearch->getAggregationResultAttributes();
+
+        $attributesRealRange = $this->getDataItemsByCatalogueId();
+
+        $active_attrib = Format_ConvertDataElasticSelection::formatAttributesRangeReal($active_attrib, $attributesRealRange);
 
         $isp_params['currency_id'] = $this->currency;
         $isp_params['real_currency_id'] = 2;
@@ -389,6 +392,42 @@ class CatController extends App_Controller_Frontend_Action
             $this->domXml = $at_helper->getDomXml();
             $xml = $at_helper->getDomXml()->getXML();
         }
+    }
+
+    /**
+     * Get data items by catalogue id
+     *
+     * @throws Zend_Exception
+     */
+    private function getDataItemsByCatalogueId()
+    {
+        $parameters = Zend_Registry::get("config")->toArray();
+        $readerIni = new Zend_Config_Json(__DIR__ . "/../configs/aggregation_reload.json", "aggregation");
+        $aggregation = $readerIni->toArray();
+
+        /** @var $objectValueSelection Helpers_ObjectValue_ObjectValueSelection */
+        $objectValueSelection = $this->_helper->helperLoader(
+            "ObjectValue_ObjectValueSelection"
+        );
+
+        $objectValueSelection->setCatalogueID((int)$this->catalogue_id);
+        $objectValueSelection->setColumns($parameters["columns"]);
+        $objectValueSelection->setCheckBrands(false);
+        $objectValueSelection->setAggregationWithBrands($aggregation["with_brands"]);
+        $objectValueSelection->setAggregationWithoutBrands($aggregation["without_brands"]);
+
+        /** @var $selectionElasticSearch Helpers_SelectionElasticSearch */
+        $selectionElasticSearch = $this->_helper->helperLoader(
+            "SelectionElasticSearch",
+            $objectValueSelection
+        );
+
+        $selectionElasticSearch->connect($parameters['search_engine'], "selection");
+        $selectionElasticSearch->selection($objectValueSelection);
+
+        return Format_ConvertDataElasticSelection::getAttributesLine(
+            $selectionElasticSearch->getAggregationResultAttributesRange()
+        );
     }
 
     /**

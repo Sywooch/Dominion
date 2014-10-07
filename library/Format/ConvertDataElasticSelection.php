@@ -202,6 +202,28 @@ class Format_ConvertDataElasticSelection
     }
 
     /**
+     * Format attributes range real
+     *
+     * @param array $sourceAttributes
+     * @param array $attributesRangeReal
+     *
+     * @return array
+     */
+    static public function formatAttributesRangeReal(array $sourceAttributes, array $attributesRangeReal)
+    {
+        $formatFunc = function (&$item, $key) use ($attributesRangeReal) {
+            if (!isset($attributesRangeReal[$key])) return false;
+
+            $item["left_side"] = $attributesRangeReal[$key]["left_side"];
+            $item["right_side"] = $attributesRangeReal[$key]["right_side"];
+        };
+
+        array_walk($sourceAttributes, $formatFunc);
+
+        return $sourceAttributes;
+    }
+
+    /**
      * Get integer
      *
      * @param string $value
