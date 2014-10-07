@@ -223,6 +223,11 @@ ul.pager li {
     padding: 0 6px;
 }
 
+ul.pager li.first{
+    border-left: none;
+
+}
+
 ul.pager li.prev + li {
     border: 0;
 }

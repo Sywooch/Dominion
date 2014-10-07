@@ -275,7 +275,7 @@ class App_Controller_Router_Bootstrap
     private function _initAliasingCatAttrib()
     {
         $routed = new Zend_Controller_Router_Route_Regex(
-            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/page/([^/]+))?(?:/stb/([^/]+))?(?:/sattr/([^/]+))?(?:/filter/([^/]+))?(?:/order/([^/]+))?',
+            'cat/([^/]\d*)(?:/br/([^/]+))?(?:/at/([^/]+))?(?:/ar/([^/]+))?(?:/pmin/([^/]+))?(?:/pmax/([^/]+))?(?:/stb/([^/]+))?(?:/sattr/([^/]+))?(?:/filter/([^/]+))?(?:/order/([^/]+))?(?:/page/([^/]+))?',
 //            'cat/([^/]+)(?:/all/([^/]+))?(?:/br/([^/]+))?(?:/group/(\w+))?(?:/price/(\d+))?(?:/collect/(\d+))?(?:/at/(\w+))?(?:/sort/(\w+)/mode/(\w+))?(?:/page/(\d+))?(.*)?',
             array(
                 'controller' => 'cat',
@@ -288,11 +288,11 @@ class App_Controller_Router_Bootstrap
                 4 => 'ar',
                 5 => 'pmin',
                 6 => 'pmax',
-                7 => 'page',
-                8 => 'stb',
-                9 => 'sattr',
-                10 => 'filter',
-                11 => 'order'
+                7 => 'stb',
+                8 => 'sattr',
+                9 => 'filter',
+                10 => 'order',
+                11 => 'page',
             )
         );
 

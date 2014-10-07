@@ -310,6 +310,10 @@ class CatController extends App_Controller_Frontend_Action
         $o_data['br_page'] = $br;
         $o_data['at_page'] = $at;
         $o_data['ar_page'] = $ar;
+        $o_data['st_b'] = $st_b;
+        $o_data['sattr'] = $sattr;
+
+
         $o_data['cname'] = $Item->getCurrencyName($this->currency);
         $o_data['attr_gr_id'] = $attr_gr_id;
 

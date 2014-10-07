@@ -25,6 +25,11 @@
         </xsl:if>
         <xsl:if test="//data/@show_price_max &gt; 0">pmax/<xsl:value-of select="//data/@show_price_max"/>/
         </xsl:if>
+        <xsl:if test="//data/@st_b &gt; 0">stb/<xsl:value-of select="//data/@st_b"/>/
+        </xsl:if>
+        <xsl:if test="//data/@sattr &gt; 0">sattr/<xsl:value-of select="//data/@sattr"/>/
+        </xsl:if>
+
     </xsl:template>
 
     <xsl:template match="attr_brands">
