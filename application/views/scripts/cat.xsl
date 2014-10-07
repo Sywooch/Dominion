@@ -8,6 +8,8 @@
         <script type="text/javascript">
             var activeAttributes = $.parseJSON('<xsl:value-of select="//attr_active_value_json"/>');
             var jsonData = '<xsl:value-of select="//attr_range_value_json"/>';
+            var brand_state = <xsl:value-of select="//data/@st_b"/>;
+            var attribute_state_id = <xsl:value-of select="//data/@sattr"/>;
         </script>
         <script type='text/javascript' src='/js/selection/initSearchData.js'></script>
     </xsl:template>

@@ -5,6 +5,20 @@
  */
 const TIME_OUT = 6000;
 
+$.generateUrl = function () {
+    var resultUrlAttributes = buildUrl.mergeUrl(
+        objectValueSelection.brands_id,
+        objectValueSelection.attributes_id,
+        objectValueSelection.price_min,
+        objectValueSelection.price_max,
+        $.data(document.body, "status_brand"),
+        $.data(document.body, "status_attribute")
+    );
+
+    return resultUrlAttributes;
+};
+
+
 function selection() {
     this.page_url = $('#page_url').val();
     this.catalogue_id = $('#catalogue_id').val();
@@ -130,7 +144,7 @@ selection.select = function (dataObject, currentElement) {
             podbor_popup(resultData["count_items"] > 0 ? 'Найдено моделей:' + resultData["count_items"] + ' <a href="#" id="show_models">показать</a>' : 'Ничего не найдено', currentElement);
 
             var mainSelector = null;
-            if (idAttribute == undefined || idAttribute == null) {
+            if (idAttribute == undefined || idAttribute == null || idAttribute == 0) {
                 mainSelector = $("input[rel=attr_value]:not(:checked)");
             } else {
                 mainSelector = $("div.fieldgroup input[type=checkbox]:not(:checked, [atg=" + idAttribute + "]), div.fieldgroup input[type=checkbox][rel=attr_brand_id]:not(:checked)");
@@ -274,7 +288,7 @@ $(document).ready(function (evnt) {
     $('input[rel=attr_brand_id]').click(function (event) {
         if ($(this).is(":checked")) {
             objectValueSelection.brands_id = $(this).val();
-            objectValueSelection.checkBrands = 1;
+            objectValueSelection.check_brands = 1;
         } else {
             objectValueSelection.unsetBrand($(this).val());
         }
@@ -290,11 +304,10 @@ $(document).ready(function (evnt) {
         var attrValue = $(this).attr("atid");
         if ($(this).is(":checked")) {
             objectValueSelection.setAttributeArr(attrId, 0, attrValue);
-            objectValueSelection.attributesIdChecked = attrId;
         } else {
             objectValueSelection.unsetAttributeArr(attrId, attrValue);
-            objectValueSelection.attributesIdChecked = attrId;
         }
+        objectValueSelection.attribute_id_checked = attrId;
 
         selection.select(objectValueSelection, evnt);
     });
@@ -313,6 +326,7 @@ $(document).ready(function (evnt) {
 
             objectValueSelection.price_min = price_min;
             objectValueSelection.price_min = $("#price_input_max").val();
+
             objectValueSelection.price_range_check = 1;
             selection.select(objectValueSelection, event);
         },
@@ -334,7 +348,9 @@ $(document).ready(function (evnt) {
 
             objectValueSelection.price_max = price_max;
             objectValueSelection.price_min = $("#price_input_min").val();
+
             objectValueSelection.price_range_check = 1;
+
             selection.select(objectValueSelection, event);
         },
         wait: 1500,
@@ -365,17 +381,8 @@ $(document).ready(function (evnt) {
         ev.preventDefault();
     });
     $('#show_models').live('click', function () {
-        var resultUrlAttributes = buildUrl.mergeUrl(
-            objectValueSelection.brands_id,
-            objectValueSelection.attributes_id,
-            objectValueSelection.price_min,
-            objectValueSelection.price_max,
-            $.data(document.body, "status_brand"),
-            $.data(document.body, "status_attribute")
-        );
+        var action = $('#catalog_compare_products_form').attr("action");
 
-        var action = $('#page_url').attr("value");
-
-        window.location.href = action + resultUrlAttributes;
+        window.location.href = action + $.generateUrl();
     });
 });

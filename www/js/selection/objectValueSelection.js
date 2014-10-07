@@ -145,6 +145,11 @@ Object.defineProperty(objectValueSelection, "attributes_id", {
  * Define check brands
  */
 Object.defineProperty(objectValueSelection, "check_brands", {
+    set: function(status){
+        this.checkBrands = status;
+        this.attributesIdChecked = 0;
+        this.attributesRangeIdActive = 0;
+    },
     get: function () {
         var check = this.checkBrands;
         this.checkBrands = 0;
@@ -153,10 +158,18 @@ Object.defineProperty(objectValueSelection, "check_brands", {
     }
 });
 
+/**
+ * Define check attributes
+ */
 Object.defineProperty(objectValueSelection, "attribute_id_checked", {
+    set: function(status){
+        this.attributesIdChecked = status;
+        this.attributesRangeIdActive = 0;
+        this.checkBrands = 0;
+    },
     get: function () {
         var check = this.attributesIdChecked;
-        this.attributesIdChecked = null;
+        this.attributesIdChecked = 0;
 
         return check;
     }
@@ -168,12 +181,14 @@ Object.defineProperty(objectValueSelection, "attribute_id_checked", {
 Object.defineProperty(objectValueSelection, "attribute_id_range_active", {
     get: function () {
         var check = this.attributesRangeIdActive;
-        this.attributesRangeIdActive = null;
+        this.attributesRangeIdActive = 0;
 
         return check;
     },
     set: function (attributeId) {
         this.attributesRangeIdActive = attributeId;
+        this.attributesIdChecked = 0;
+        this.checkBrands = 0;
     }
 });
 

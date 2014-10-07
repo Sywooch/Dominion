@@ -1,4 +1,20 @@
 $(document).ready(function () {
+    /**
+     * Init attributes and brands state for save state object of filters
+     */
+    objectValueSelection.attribute_id_checked = attribute_state_id;
+    objectValueSelection.check_brands = brand_state;
+
+    /**
+     * Init attributes and brands in DOM model object for execute this in far situation like a submit form
+     */
+    $.data(
+        document.body,
+        "status_attribute",
+        attribute_state_id
+    );
+
+    $.data(document.body, "status_brand", brand_state);
 
     $.each(activeAttributes, function (key, item) {
         if (item["is_range"] == false) {
@@ -8,10 +24,11 @@ $(document).ready(function () {
         }
     });
 
-
     var data = $.parseJSON(jsonData);
     $('div.fieldgroup[xid]').each(function (index) {
         var xid = $(this).attr('xid');
+
+        if(!data.hasOwnProperty(xid)) return true;
 
         $(".attr_range_view", $(this)).slider({
             range: true,
@@ -27,6 +44,7 @@ $(document).ready(function () {
                 var attributeId = $(this).parent().attr("xid");
                 objectValueSelection.setAttributeObj(attributeId, 1, ui.values[0], ui.values[1]);
                 objectValueSelection.attribute_id_range_active = attributeId;
+
                 objectValueSelection.attributesIdChecked = attributeId;
 
                 selection.select(objectValueSelection, event);
@@ -52,8 +70,7 @@ $(document).ready(function () {
 
                 $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 0, attr_min);
 
-                objectValueSelection.setAttributeObj(xid, 1, attr_min, $("input[id=input_max_" + idAttribute +
-                "]").val());
+                objectValueSelection.setAttributeObj(xid, 1, attr_min, $("input[id=input_max_" + idAttribute + "]").val());
                 objectValueSelection.attribute_id_range_active = xid;
                 selection.select(objectValueSelection, event);
             },
@@ -74,8 +91,7 @@ $(document).ready(function () {
 
                 $("div.fieldgroup[xid=" + xid + "] div.attr_range_view").slider("values", 1, attr_max);
 
-                objectValueSelection.setAttributeObj(xid, 1, $("input[id=input_min_" + idAttribute + "]").val(),
-                    attr_max);
+                objectValueSelection.setAttributeObj(xid, 1, $("input[id=input_min_" + idAttribute + "]").val(), attr_max);
                 objectValueSelection.attribute_id_range_active = xid;
                 selection.select(objectValueSelection, event);
             },
