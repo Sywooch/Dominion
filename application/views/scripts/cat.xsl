@@ -95,7 +95,7 @@
             </a>
         </h3>
         <div class="fieldgroup" xid="{@id}">
-            <xsl:if test="attr_value/@selected = 1">
+            <xsl:if test="attr_value/@selected = 1 or @expand = 1">
                 <xsl:attribute name="style">display: block;</xsl:attribute>
             </xsl:if>
             <input type="hidden" name="attr_range_view_url_{@id}" id="attr_range_view_url_{@id}"
